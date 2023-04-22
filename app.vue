@@ -92,7 +92,7 @@ interface Reason {
     content: "";
   };
 }
-
+const route = useRoute();
 const form = reactive({
   ip: "",
   city: "",
@@ -102,8 +102,8 @@ const form = reactive({
   regionName: "",
   locationLoading: false,
   // OpenAI
-  apiKey: "",
-  message: "你好",
+  apiKey: (route.query.k as string) || "",
+  message: "你好，ChatGPT",
   submitLoading: false,
   reasons: [] as Reason[],
 });
