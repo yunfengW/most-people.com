@@ -14,6 +14,14 @@
       >
         获取 IP 地址
       </el-button>
+      <el-link
+        style="margin-left: auto"
+        type="info"
+        href="http://ip111.cn/"
+        target="_blank"
+      >
+        自助查询 IP 地址
+      </el-link>
     </div>
 
     <div class="api-key">
@@ -22,7 +30,7 @@
         <el-link
           href="https://platform.openai.com/account/api-keys"
           target="_blank"
-          type="primary"
+          type="info"
         >
           https://platform.openai.com/account/api-keys
         </el-link>
@@ -113,7 +121,7 @@ const getLocation = () => {
       }
     })
     .catch((err) => {
-      ElMessage.info("OpenAI 暂不支持 中国大陆和香港");
+      ElMessage.info("请求失败");
     })
     .finally(() => {
       form.locationLoading = false;
