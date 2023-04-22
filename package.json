@@ -2,11 +2,12 @@
   "name": "nuxt-app",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev -open",
+    "start": "nuxt dev -open",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "build": "nuxt build",
     "postinstall": "nuxt prepare",
+    "vercel": "nuxt generate && cd .output/public && vercel --prod",
     "yarn": "yarn install"
   },
   "devDependencies": {
