@@ -2,4 +2,7 @@
 export default defineNuxtConfig({
   modules: ["@element-plus/nuxt"],
   elementPlus: { importStyle: "scss" },
+  experimental: {
+    payloadExtraction: false,
+  },
 });
