@@ -2,7 +2,8 @@
   <div id="app">
     <div class="ip-address">
       <h4>
-        IP 地址： {{ form.country }} {{ form.regionName }} {{ form.city }}
+        IP 地址：{{ form.continent }} {{ form.country }} {{ form.regionName }}
+        {{ form.city }}
       </h4>
 
       <el-button
@@ -70,13 +71,15 @@ interface Reason {
 }
 
 const form = reactive({
+  ip: "",
   city: "",
+  continent: "",
   country: "",
   countryCode: "",
   regionName: "",
   locationLoading: false,
   // OpenAI
-  apiKey: "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",
+  apiKey: "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",
   message: "你好",
   submitLoading: false,
   reasons: [] as Reason[],
@@ -98,26 +101,33 @@ const submit = async () => {
     return;
   }
   form.submitLoading = true;
-  const res = await chatWithGPT3(form.apiKey, form.message);
+  try {
+    const res = await chatWithGPT3(form.apiKey, form.message);
+    form.reasons = res.data.choices;
+  } catch (error: any) {
+    ElMessageBox.alert(error.response.data.error.message);
+  }
   form.submitLoading = false;
-  form.reasons = res.data.choices;
 };
 
 const getLocation = () => {
   form.locationLoading = true;
   axios({
     timeout: 5000,
-    url: "http://ip-api.com/json",
+    url: "http://api.ipapi.com/api/check",
     params: {
-      lang: "zh-CN",
+      access_key: "7a0ec2ec028b200a9d94a7ace32fdec9",
+      language: "zh",
     },
   })
     .then((res) => {
-      if (res.data.status === "success") {
+      if (res.data.ip) {
+        form.ip = res.data.ip;
         form.city = res.data.city;
-        form.country = res.data.country;
-        form.countryCode = res.data.countryCode;
-        form.regionName = res.data.regionName;
+        form.continent = res.data.continent_name;
+        form.country = res.data.country_name;
+        form.countryCode = res.data.country_code;
+        form.regionName = res.data.region_name;
       }
     })
     .catch((err) => {
