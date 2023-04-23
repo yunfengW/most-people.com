@@ -10,24 +10,48 @@
     >
     </el-input>
     <div class="tools">
-      <el-link
-        type="primary"
-        class="tool"
-        href="https://www.wolframalpha.com/examples"
-        target="_blank"
-      >
-        <el-image src="/logo/WolframAlpha.ico" />
-        <span>沃尔夫勒姆</span>
-      </el-link>
+      <template v-for="tool in tools">
+        <el-link type="info" class="tool" :href="tool.url" target="_blank">
+          <el-image :src="tool.logo" fit="contain" />
+          <span>{{ tool.name }}</span>
+        </el-link>
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 const form = reactive({
-  message: "",
-  placeholder: "夜里挑灯看剑",
-});
+  message: '',
+  placeholder: '夜里挑灯看剑',
+})
+const tools = [
+  {
+    name: '沃尔夫勒姆',
+    logo: '/logo/WolframAlpha.ico',
+    url: 'https://www.wolframalpha.com/examples',
+  },
+  {
+    name: '微软计算器',
+    logo: '/logo/MathSolver.ico',
+    url: 'https://mathsolver.microsoft.com/zh',
+  },
+  {
+    name: '搜狗翻译',
+    logo: '/logo/SogouTranslate.png',
+    url: 'https://fanyi.sogou.com/text',
+  },
+  {
+    name: 'ChatGPT',
+    logo: '/logo/ChatGPT.svg',
+    url: 'https://chat.openai.com',
+  },
+  {
+    name: 'Midjourney',
+    logo: '/logo/Midjourney.png',
+    url: 'https://www.midjourney.com/showcase/recent/',
+  },
+]
 </script>
 
 <style lang="scss">
@@ -54,8 +78,14 @@ const form = reactive({
 
   .tools {
     width: 100%;
+    padding: 10px 0;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px); /* 列宽度 100px */
+    grid-gap: 10px; /* 设置网格间距 */
+    justify-content: space-between;
+
     .tool {
-      margin-top: 20px;
       .el-link__inner {
         display: flex;
         flex-direction: column;
@@ -63,13 +93,17 @@ const form = reactive({
         .el-image {
           height: 40px;
         }
+
+        span {
+          margin-top: 4px;
+        }
       }
     }
   }
 }
 
 // PC端 横屏
-@media (orientation: landscape) {
+@media (orientation: landscape) and (min-width: 980px) {
   #page-index {
     max-width: 61.8%;
   }

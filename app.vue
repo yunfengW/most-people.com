@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div class="uid">UID 000 000 001</div>
+    <div class="mp-uid">UID 000 000 001</div>
     <nuxt-page />
   </div>
 </template>
@@ -15,9 +15,9 @@ body {
 }
 
 #app {
-  > .uid {
+  > .mp-uid {
     position: fixed;
-    right: 20px;
+    right: 10px;
     bottom: 10px;
   }
 }
