@@ -2,12 +2,24 @@
   <div id="page-index">
     <img class="logo" src="~/public/logo/ChatGPT.svg" />
     <el-input
+      class="search"
       v-model="form.message"
       :placeholder="form.placeholder"
       autofocus
       size="large"
     >
     </el-input>
+    <div class="tools">
+      <el-link
+        type="primary"
+        class="tool"
+        href="https://www.wolframalpha.com/examples"
+        target="_blank"
+      >
+        <el-image src="/logo/WolframAlpha.ico" />
+        <span>沃尔夫勒姆</span>
+      </el-link>
+    </div>
   </div>
 </template>
 
@@ -24,28 +36,42 @@ const form = reactive({
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 0 20px;
+  margin: 0 auto;
 
   img.logo {
     margin: 20px 0;
     height: 80px;
   }
 
-  .el-input {
-    margin: 0 20px;
+  .search.el-input {
     .el-input__wrapper {
       .el-input__inner {
         text-align: center;
       }
     }
   }
+
+  .tools {
+    width: 100%;
+    .tool {
+      margin-top: 20px;
+      .el-link__inner {
+        display: flex;
+        flex-direction: column;
+
+        .el-image {
+          height: 40px;
+        }
+      }
+    }
+  }
 }
 
-// pc 横屏
+// PC端 横屏
 @media (orientation: landscape) {
   #page-index {
-    .el-input {
-      width: 61.8%;
-    }
+    max-width: 61.8%;
   }
 }
 </style>

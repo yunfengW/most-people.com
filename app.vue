@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <nuxt-page />
     <div class="uid">UID 000 000 001</div>
+    <nuxt-page />
   </div>
 </template>
 
