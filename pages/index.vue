@@ -51,6 +51,21 @@ const tools = [
     logo: '/logo/Midjourney.png',
     url: 'https://www.midjourney.com/showcase/recent/',
   },
+  {
+    name: 'Bing',
+    logo: '/logo/Bing.svg',
+    url: 'https://www.bing.com/search?form=MY0291&OCID=MY0291&q=Bing+AI&showconv=1',
+  },
+  {
+    name: 'Bard',
+    logo: '/logo/Bard.svg',
+    url: 'https://bard.google.com/',
+  },
+  {
+    name: '文心一言',
+    logo: '/logo/Yiyan.ico',
+    url: 'https://yiyan.baidu.com/',
+  },
 ]
 </script>
 
