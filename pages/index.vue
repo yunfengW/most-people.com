@@ -1,31 +1,34 @@
 <template>
   <div id="page-index">
+    <img class="logo" src="~/public/logo/ChatGPT.svg" />
     <el-input
-      autofocus
       v-model="form.message"
       :placeholder="form.placeholder"
-    ></el-input>
+      autofocus
+      size="large"
+    >
+    </el-input>
   </div>
 </template>
 
 <script lang="ts" setup>
 const form = reactive({
   message: "",
-  placeholder: "为什么人类总是不想上班",
+  placeholder: "夜里挑灯看剑",
 });
 </script>
 
 <style lang="scss">
 #page-index {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
+
+  img.logo {
+    margin: 20px 0;
+    height: 80px;
+  }
 
   .el-input {
     margin: 0 20px;
