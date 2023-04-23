@@ -7,11 +7,33 @@
       :placeholder="form.placeholder"
       autofocus
       size="large"
+      @keyup.enter="send"
     >
+      <template #prefix>
+        <div class="button send" @click.stop="microphone">
+          <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill="currentColor"
+              d="M512 128a128 128 0 0 0-128 128v256a128 128 0 1 0 256 0V256a128 128 0 0 0-128-128zm0-64a192 192 0 0 1 192 192v256a192 192 0 1 1-384 0V256A192 192 0 0 1 512 64zm-32 832v-64a288 288 0 0 1-288-288v-32a32 32 0 0 1 64 0v32a224 224 0 0 0 224 224h64a224 224 0 0 0 224-224v-32a32 32 0 1 1 64 0v32a288 288 0 0 1-288 288v64h64a32 32 0 1 1 0 64H416a32 32 0 1 1 0-64h64z"
+            ></path>
+          </svg>
+        </div>
+      </template>
+      <template #suffix>
+        <div class="button microphone" :class="{ disabled: !form.message }" @click.stop="send">
+          <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fill="currentColor"
+              d="m64 448 832-320-128 704-446.08-243.328L832 192 242.816 545.472 64 448zm256 512V657.024L512 768 320 960z"
+            ></path>
+          </svg>
+        </div>
+      </template>
     </el-input>
+
     <div class="tools">
       <template v-for="tool in tools">
-        <el-link type="info" class="tool" :href="tool.url" target="_blank">
+        <el-link :underline="false" type="info" class="tool" :href="tool.url" target="_blank">
           <el-image :src="tool.logo" fit="contain" />
           <span>{{ tool.name }}</span>
         </el-link>
@@ -72,6 +94,13 @@ const tools = [
     url: 'https://slack.com/apps/A04KGS7N9A8-claude',
   },
 ]
+
+const send = () => {
+  console.log('🌊', 213)
+}
+const microphone = () => {
+  console.log('🌊', 123)
+}
 </script>
 
 <style lang="scss">
@@ -89,9 +118,27 @@ const tools = [
   }
 
   .search.el-input {
+    position: relative;
     .el-input__wrapper {
+      padding-left: 0;
+      padding-right: 0;
       .el-input__inner {
         text-align: center;
+      }
+    }
+    .button {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 15px;
+
+      &.disabled {
+        opacity: 0.6;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
       }
     }
   }
