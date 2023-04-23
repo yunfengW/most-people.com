@@ -179,6 +179,9 @@ const chatWithGPT3 = (apiKey: string, message: string) => {
 
 <style lang="scss">
 #page-chat {
+  margin: 0 auto;
+  max-width: 500px;
+
   .ip-address {
     display: flex;
     align-items: center;
