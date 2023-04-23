@@ -1,6 +1,6 @@
 <template>
   <div id="page-index">
-    <img class="logo" src="~/public/logo/ChatGPT.svg" />
+    <img class="logo" src="/logo/ChatGPT.svg" />
     <el-input
       class="search"
       v-model="form.message"
@@ -65,6 +65,11 @@ const tools = [
     name: '文心一言',
     logo: '/logo/Yiyan.ico',
     url: 'https://yiyan.baidu.com/',
+  },
+  {
+    name: 'Claude',
+    logo: '/logo/Claude.png',
+    url: 'https://slack.com/apps/A04KGS7N9A8-claude',
   },
 ]
 </script>
