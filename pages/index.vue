@@ -60,7 +60,7 @@ const send = () => {
   window.open('https://www.bing.com/search?q=' + keyword)
 }
 const microphone = () => {
-  console.log('🌊', 'microphone')
+  ElMessage.info('语音输入 正在开发')
 }
 </script>
 
