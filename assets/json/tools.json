@@ -53,5 +53,10 @@
         "name": "Shell",
         "logo": "/logo/MyShell.png",
         "url": "https://app.myshell.ai"
+    },
+    {
+        "name": "Poe",
+        "logo": "/logo/Poe.svg",
+        "url": "https://poe.com/ChatGPT"
     }
 ]

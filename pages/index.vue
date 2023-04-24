@@ -4,7 +4,7 @@
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
 
-    <img class="logo" src="/logo/ChatGPT.svg" />
+    <img class="logo" src="/logo/Bing.svg" />
     <el-input
       class="search"
       v-model="form.message"
@@ -52,11 +52,12 @@ import tools from '~/assets/json/tools.json'
 
 const form = reactive({
   message: '',
-  placeholder: '夜里挑灯看剑',
+  placeholder: '醉里挑灯看剑',
 })
 
 const send = () => {
-  console.log('🌊', 'send')
+  const keyword = form.message || form.placeholder
+  window.open('https://www.bing.com/search?q=' + keyword)
 }
 const microphone = () => {
   console.log('🌊', 'microphone')
@@ -97,8 +98,11 @@ const microphone = () => {
       color: rgb(142, 142, 160);
 
       &.disabled {
-        cursor: default;
         opacity: 0.4;
+
+        &:hover {
+          opacity: 1;
+        }
       }
 
       svg {
