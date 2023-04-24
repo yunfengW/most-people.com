@@ -1,5 +1,9 @@
 <template>
   <div id="page-index">
+    <nuxt-link class="mp-join-us" to="/join-us">
+      <el-button link type="info">Join Us</el-button>
+    </nuxt-link>
+
     <img class="logo" src="/logo/ChatGPT.svg" />
     <el-input
       class="search"
@@ -43,6 +47,7 @@
 </template>
 
 <script lang="ts" setup>
+// JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
 
 const form = reactive({
@@ -51,21 +56,23 @@ const form = reactive({
 })
 
 const send = () => {
-  console.log('🌊', 213)
+  console.log('🌊', 'send')
 }
 const microphone = () => {
-  console.log('🌊', 123)
+  console.log('🌊', 'microphone')
 }
 </script>
 
 <style lang="scss">
 #page-index {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0 20px;
   margin: 0 auto;
+  padding: 0 20px;
+
+  > .mp-join-us {
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+  }
 
   img.logo {
     margin: 20px 0;
@@ -82,13 +89,16 @@ const microphone = () => {
       }
     }
     .button {
+      cursor: pointer;
       display: flex;
       align-items: center;
       height: 100%;
       padding: 0 15px;
+      color: rgb(142, 142, 160);
 
       &.disabled {
-        opacity: 0.6;
+        cursor: default;
+        opacity: 0.4;
       }
 
       svg {

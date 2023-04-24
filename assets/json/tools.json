@@ -22,7 +22,7 @@
     {
         "name": "Midjourney",
         "logo": "/logo/Midjourney.png",
-        "url": "https://www.midjourney.com/showcase/recent/"
+        "url": "https://www.midjourney.com/showcase/recent"
     },
     {
         "name": "Bing",
@@ -32,12 +32,12 @@
     {
         "name": "Bard",
         "logo": "/logo/Bard.svg",
-        "url": "https://bard.google.com/"
+        "url": "https://bard.google.com"
     },
     {
         "name": "文心一言",
         "logo": "/logo/Yiyan.ico",
-        "url": "https://yiyan.baidu.com/"
+        "url": "https://yiyan.baidu.com"
     },
     {
         "name": "Claude",
@@ -48,5 +48,10 @@
         "name": "Bito",
         "logo": "/logo/Bito.svg",
         "url": "https://bito.ai"
+    },
+    {
+        "name": "Shell",
+        "logo": "/logo/MyShell.png",
+        "url": "https://app.myshell.ai"
     }
 ]
