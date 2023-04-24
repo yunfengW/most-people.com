@@ -6,13 +6,7 @@
 </template>
 
 <style lang="scss">
-html {
-  background: rgb(241, 241, 241);
-}
-
-body {
-  margin: 0;
-}
+@import url('~/assets/css/global.scss');
 
 #app {
   > .mp-uid {
