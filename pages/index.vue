@@ -43,62 +43,12 @@
 </template>
 
 <script lang="ts" setup>
+import tools from '~/assets/json/tools.json'
+
 const form = reactive({
   message: '',
   placeholder: '夜里挑灯看剑',
 })
-const tools = [
-  {
-    name: '沃尔夫勒姆',
-    logo: '/logo/WolframAlpha.ico',
-    url: 'https://www.wolframalpha.com/examples',
-  },
-  {
-    name: '微软计算器',
-    logo: '/logo/MathSolver.ico',
-    url: 'https://mathsolver.microsoft.com/zh',
-  },
-  {
-    name: '搜狗翻译',
-    logo: '/logo/SogouTranslate.png',
-    url: 'https://fanyi.sogou.com/text',
-  },
-  {
-    name: 'ChatGPT',
-    logo: '/logo/ChatGPT.svg',
-    url: 'https://chat.openai.com',
-  },
-  {
-    name: 'Midjourney',
-    logo: '/logo/Midjourney.png',
-    url: 'https://www.midjourney.com/showcase/recent/',
-  },
-  {
-    name: 'Bing',
-    logo: '/logo/Bing.svg',
-    url: 'https://www.bing.com/search?form=MY0291&OCID=MY0291&q=Bing+AI&showconv=1',
-  },
-  {
-    name: 'Bard',
-    logo: '/logo/Bard.svg',
-    url: 'https://bard.google.com/',
-  },
-  {
-    name: '文心一言',
-    logo: '/logo/Yiyan.ico',
-    url: 'https://yiyan.baidu.com/',
-  },
-  {
-    name: 'Claude',
-    logo: '/logo/Claude.png',
-    url: 'https://slack.com/apps/A04KGS7N9A8-claude',
-  },
-  {
-    name: 'Bito',
-    logo: '/logo/Bito.svg',
-    url: 'https://bito.ai',
-  },
-]
 
 const send = () => {
   console.log('🌊', 213)
