@@ -93,6 +93,11 @@ const tools = [
     logo: '/logo/Claude.png',
     url: 'https://slack.com/apps/A04KGS7N9A8-claude',
   },
+  {
+    name: 'Bito',
+    logo: '/logo/Bito.svg',
+    url: 'https://bito.ai',
+  },
 ]
 
 const send = () => {
