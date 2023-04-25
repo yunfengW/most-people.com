@@ -3,7 +3,6 @@
     <nuxt-link class="mp-join-us" to="/join-us">
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
-
     <img class="logo" src="/logo/Bing.svg" />
     <el-input
       class="search"
@@ -14,7 +13,7 @@
       @keyup.enter="send"
     >
       <template #prefix>
-        <div class="button send" @click.stop="microphone">
+        <div class="button microphone" @click.stop="microphone">
           <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
             <path
               fill="currentColor"
@@ -24,7 +23,7 @@
         </div>
       </template>
       <template #suffix>
-        <div class="button microphone" :class="{ disabled: !form.message }" @click.stop="send">
+        <div class="button send" :class="{ disabled: !form.message }" @click.stop="send">
           <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
             <path
               fill="currentColor"
@@ -76,6 +75,7 @@ const microphone = () => {
   }
 
   img.logo {
+    // cursor: pointer;
     margin: 20px 0;
     height: 80px;
   }
