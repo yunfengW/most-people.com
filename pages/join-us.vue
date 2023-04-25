@@ -1,6 +1,6 @@
 <template>
   <div id="page-join-us">
-    <h4>加入我们</h4>
+    <mp-header content="加入我们" />
     <el-image class="join-us" src="/img/join-us.jpg" />
   </div>
 </template>

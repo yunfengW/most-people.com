@@ -9,6 +9,11 @@
 
 <style lang="scss">
 // global
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
 html {
   background: rgb(241, 241, 241);
 }
