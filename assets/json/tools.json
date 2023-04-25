@@ -58,5 +58,10 @@
         "name": "Poe",
         "logo": "/logo/Poe.svg",
         "url": "https://poe.com/ChatGPT"
+    },
+    {
+        "name": "即时 AI",
+        "logo": "/logo/JsDesign.png",
+        "url": "https://js.design/ai"
     }
 ]
