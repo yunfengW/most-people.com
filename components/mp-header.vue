@@ -1,5 +1,5 @@
 <template>
-  <el-page-header @back="$router.back()" v-bind="$attrs">
+  <el-page-header @back="back" v-bind="$attrs">
     <template #title>
       <span></span>
     </template>
@@ -14,6 +14,20 @@
     <template v-for="(index, name) in $slots" #[name]><slot :name="name" /></template>
   </el-page-header>
 </template>
+
+<script setup lang="ts">
+import { useUserStore } from '~/stores/user'
+const route = useRoute()
+const router = useRouter()
+const back = () => {
+  const userStore = useUserStore()
+  if (userStore.firstPath === route.path) {
+    router.replace('/')
+  } else {
+    router.back()
+  }
+}
+</script>
 
 <style lang="scss">
 .el-page-header {

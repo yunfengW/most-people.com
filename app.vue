@@ -32,6 +32,7 @@ body {
     position: fixed;
     right: 10px;
     bottom: 10px;
+    z-index: 10;
   }
 }
 </style>
