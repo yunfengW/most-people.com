@@ -60,8 +60,13 @@
         "url": "https://poe.com/ChatGPT"
     },
     {
-        "name": "即时 AI",
-        "logo": "/logo/JsDesign.png",
+        "name": "即时设计 AI",
+        "logo": "/logo/JsDesign.svg",
         "url": "https://js.design/ai"
+    },
+    {
+        "name": "Canva",
+        "logo": "/logo/Canva.png",
+        "url": "https://www.canva.com"
     }
 ]
