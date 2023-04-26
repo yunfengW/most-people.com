@@ -11,8 +11,8 @@
     },
     {
         "name": "搜狗翻译",
-        "logo": "/logo/SogouTranslate.png",
-        "url": "https://fanyi.sogou.com/text"
+        "logo": "/logo/Sogou.png",
+        "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
     },
     {
         "name": "ChatGPT",
@@ -27,7 +27,7 @@
     {
         "name": "Bing",
         "logo": "/logo/Bing.svg",
-        "url": "https://www.bing.com/search?form=MY0291&OCID=MY0291&q=Bing+AI&showconv=1"
+        "url": "https://www.bing.com/search?q=「most-people」"
     },
     {
         "name": "Bard",
@@ -73,5 +73,25 @@
         "name": "微信文件传输",
         "logo": "/logo/Filehelper.jpg",
         "url": "https://filehelper.weixin.qq.com"
+    },
+    {
+        "name": "抖音",
+        "logo": "/logo/Douyin.svg",
+        "url": "https://www.douyin.com/search/「most-people」"
+    },
+    {
+        "name": "Google",
+        "logo": "/logo/Google.svg",
+        "url": "https://www.google.com/search?q=「most-people」"
+    },
+    {
+        "name": "Github",
+        "logo": "/logo/Github.svg",
+        "url": "https://github.com/search?utf8=✓&q=「most-people」"
+    },
+    {
+        "name": "Notion AI",
+        "logo": "/logo/Notion.svg",
+        "url": "https://www.notion.so"
     }
 ]
