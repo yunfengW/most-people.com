@@ -1,11 +1,17 @@
 <template>
   <div id="app">
     <nuxt-link class="mp-uid" to="/me">
-      <el-button link type="info">UID 000 000 001</el-button>
+      <el-button link type="info">{{ userStore.getUID }}</el-button>
     </nuxt-link>
     <nuxt-page class="page" />
   </div>
 </template>
+
+<script setup lang="ts">
+import { useUserStore } from './stores/user'
+
+const userStore = useUserStore()
+</script>
 
 <style lang="scss">
 // global

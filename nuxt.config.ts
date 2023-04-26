@@ -5,6 +5,14 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: '动员群众，解决难题',
+      script: ['/js/iconpark.js'],
+    },
+  },
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => {
+        return tag === 'iconpark-icon'
+      },
     },
   },
   // generate
