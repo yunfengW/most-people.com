@@ -32,7 +32,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    // margin: 0 auto;
+    padding-bottom: 30px;
   }
   > .mp-uid {
     position: fixed;

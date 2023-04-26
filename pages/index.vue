@@ -51,7 +51,7 @@ import tools from '~/assets/json/tools.json'
 
 const form = reactive({
   message: '',
-  placeholder: '醉里挑灯看剑',
+  placeholder: '没有调查，就没有发言权',
 })
 
 const send = () => {
@@ -128,6 +128,7 @@ const microphone = () => {
 
         .el-image {
           height: 40px;
+          padding: 2px;
         }
 
         span {

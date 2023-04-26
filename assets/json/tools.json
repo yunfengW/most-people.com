@@ -1,11 +1,11 @@
 [
     {
-        "name": "沃尔夫勒姆",
+        "name": "WolframAlpha",
         "logo": "/logo/WolframAlpha.ico",
         "url": "https://www.wolframalpha.com/examples"
     },
     {
-        "name": "微软计算器",
+        "name": "数学计算器",
         "logo": "/logo/MathSolver.ico",
         "url": "https://mathsolver.microsoft.com/zh"
     },
