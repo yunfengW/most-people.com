@@ -68,5 +68,10 @@
         "name": "Canva",
         "logo": "/logo/Canva.png",
         "url": "https://www.canva.com"
+    },
+    {
+        "name": "微信文件传输",
+        "logo": "/logo/Filehelper.jpg",
+        "url": "https://filehelper.weixin.qq.com"
     }
 ]
