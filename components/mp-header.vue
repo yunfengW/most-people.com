@@ -29,6 +29,10 @@ const back = () => {
 <style lang="scss">
 .el-page-header {
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
 
   .el-page-header__left {
     .el-divider--vertical {

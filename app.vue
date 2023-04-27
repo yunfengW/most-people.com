@@ -35,13 +35,24 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-bottom: 30px;
+
+    margin: 0 auto;
+    padding: 56px 20px 30px;
   }
   > .mp-uid {
     position: absolute;
     right: 10px;
     bottom: 10px;
     z-index: 10;
+  }
+}
+
+// PC端 横屏
+@media (orientation: landscape) and (min-width: 980px) {
+  #app {
+    > .page {
+      max-width: 61.8%;
+    }
   }
 }
 </style>

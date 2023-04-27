@@ -65,9 +65,6 @@ const microphone = () => {
 
 <style lang="scss">
 #page-index {
-  margin: 0 auto;
-  padding: 0 20px;
-
   > .mp-join-us {
     position: absolute;
     left: 10px;
@@ -137,13 +134,6 @@ const microphone = () => {
         }
       }
     }
-  }
-}
-
-// PC端 横屏
-@media (orientation: landscape) and (min-width: 980px) {
-  #page-index {
-    max-width: 61.8%;
   }
 }
 </style>
