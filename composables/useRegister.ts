@@ -1,4 +1,4 @@
-import { errorCode } from '@/plugins/api'
+import { errorCode } from '~/utils/api'
 import { ElMessageBox, type FormInstance } from 'element-plus'
 
 export const useRegister = () => {
@@ -17,7 +17,7 @@ export const useRegister = () => {
     if (!formElement.value) return
     formElement.value.validate(async (ok) => {
       if (ok) {
-        ElMessageBox.prompt('请牢记您的密码，本站数据库全网公开加密，忘记密码将失去账号。', {
+        ElMessageBox.prompt('请牢记您的密码，本站数据加密公开，忘记密码将失去账号。', {
           closeOnClickModal: false,
           closeOnPressEscape: false,
           showCancelButton: true,
@@ -39,59 +39,58 @@ export const useRegister = () => {
             await submit(form.username, form.password)
             form.loading = false
           })
-          .catch(() => {
-            //
-          })
+          .catch(() => {})
       }
     })
   }
   // submit
   const submit = async (username: string, password: string) => {
-    // const key = await mp.passwordKey(username, password)
-    // const password_hash = await mp.encrypt(username, key)
-    // const ok = await api.register(username, password_hash)
-    // if (ok) {
-    //   router.replace('/login')
-    // } else {
-    //   mp.error('注册失败')
-    // }
+    const key = await mp.key(username, password)
+    const password_hash = await mp.encrypt(username, key)
+    const ok = await api.register(username, password_hash)
+    if (ok) {
+      router.replace('/login')
+      mp.success('注册成功')
+    } else {
+      mp.error('注册失败')
+    }
   }
 
   // check
   const checkUsername = (_rule: any, v: string, callback: (err?: Error) => void) => {
     const username = v
     if (!username) {
-      return callback(new Error('UsernameEmpty'))
+      return callback(new Error('请输入用户名'))
     }
     form.usernameLoading = true
-    // api.checkUserName(username).then((ok) => {
-    //   form.usernameLoading = false
-    //   if (ok) {
-    //     callback()
-    //   } else if (ok === null) {
-    //     callback(new Error(errorCode[404]))
-    //   } else {
-    //     callback(new Error(errorCode[1001]))
-    //   }
-    // })
+    api.checkUserName(username).then((ok) => {
+      form.usernameLoading = false
+      if (ok) {
+        callback()
+      } else if (ok === null) {
+        callback(new Error(errorCode[404]))
+      } else {
+        callback(new Error(errorCode[1001]))
+      }
+    })
   }
   const checkPassword = (_rule: any, v: string, callback: (err?: Error) => void) => {
     const password = v
     if (!password) {
-      return callback(new Error('PasswordEmpty'))
+      return callback(new Error('请输入密码'))
     }
     if (/^\S{4,32}$/.test(password) === false) {
-      return callback(new Error('PasswordRule1'))
+      return callback(new Error('密码长度为 4-32 位'))
     }
-    // if (/(?=.*[A-Z])(?=.*\S)[^]/.test(password) === false) {
-    //   return callback(new Error($t('PasswordRule2')))
-    // }
-    // if (/(?=[a-z])[^]/.test(password) === false) {
-    //   return callback(new Error($t('PasswordRule3')))
-    // }
-    // if (/(?=[\d]+)/.test(password) === false) {
-    //   return callback(new Error($t('PasswordRule4')))
-    // }
+    if (/(?=.*[A-Z])(?=.*\S)[^]/.test(password) === false) {
+      return callback(new Error('至少1个大写字母'))
+    }
+    if (/(?=[a-z])[^]/.test(password) === false) {
+      return callback(new Error('至少1个小写字母'))
+    }
+    if (/(?=[\d]+)/.test(password) === false) {
+      return callback(new Error('至少1个数字'))
+    }
     callback()
   }
   const checkConfirmPassword = (_rule: any, v: string, callback: (err?: Error) => void) => {
@@ -100,7 +99,7 @@ export const useRegister = () => {
       return callback()
     }
     if (form.password !== password) {
-      return callback(new Error('PasswordsNotMatch'))
+      return callback(new Error('两次密码不一致，请重新输入'))
     }
     callback()
   }
