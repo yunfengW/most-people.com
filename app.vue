@@ -27,6 +27,9 @@ body {
   margin: 0;
 }
 #app {
+  position: relative;
+  min-height: 100vh;
+
   > .page {
     display: flex;
     justify-content: center;
@@ -35,7 +38,7 @@ body {
     padding-bottom: 30px;
   }
   > .mp-uid {
-    position: fixed;
+    position: absolute;
     right: 10px;
     bottom: 10px;
     z-index: 10;

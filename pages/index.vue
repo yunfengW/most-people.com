@@ -69,9 +69,10 @@ const microphone = () => {
   padding: 0 20px;
 
   > .mp-join-us {
-    position: fixed;
+    position: absolute;
     left: 10px;
     bottom: 10px;
+    z-index: 10;
   }
 
   img.logo {

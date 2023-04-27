@@ -20,7 +20,7 @@ export const useUserStore = defineStore({
         }
         result += s.charAt(i)
       }
-      return result
+      return 'UID ' + result
     },
   },
 })
