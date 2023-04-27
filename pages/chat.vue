@@ -2,18 +2,13 @@
   <div id="page-chat">
     <el-form @submit.prevent ref="formElement" :model="form">
       <div class="ip-address">
-        <h4>
-          IP 地址：{{ form.continent }} {{ form.country }} {{ form.regionName }}
-          {{ form.city }}
-        </h4>
-
+        <h4>IP 地址：{{ form.regionName }} {{ form.city }}</h4>
         <el-button
           v-if="!form.countryCode"
           type="primary"
           @click="getLocation"
           :loading="form.locationLoading"
           link
-          disabled
         >
           获取 IP 地址
         </el-button>
@@ -21,6 +16,7 @@
           自助查询 IP 地址
         </el-link>
       </div>
+      <span>{{ form.address }}</span>
       <div class="api-key">
         <h4>
           OpenAI API 密钥
@@ -84,10 +80,9 @@ interface Reason {
 const route = useRoute()
 const form = reactive({
   ip: '',
-  city: '',
-  continent: '',
-  country: '',
   countryCode: '',
+  city: '',
+  address: '',
   regionName: '',
   locationLoading: false,
   // OpenAI
@@ -102,14 +97,14 @@ const submit = () => {
   if (!formElement.value) return
   formElement.value.validate(async (ok) => {
     if (ok) {
-      // if (!form.countryCode) {
-      //   ElMessage.warning("请先获取 IP 地址");
-      //   return;
-      // }
-      // if (["HK", "CN"].includes(form.countryCode)) {
-      //   ElMessage.info("OpenAI 暂不支持 中国大陆和香港");
-      //   return;
-      // }
+      if (!form.countryCode) {
+        ElMessage.warning('请先获取 IP 地址')
+        return
+      }
+      if (['HK', 'CN'].includes(form.countryCode)) {
+        ElMessage.info('OpenAI 暂不支持 中国大陆和香港')
+        return
+      }
       form.submitLoading = true
       try {
         const res = await chatWithGPT3(form.apiKey, form.message)
@@ -122,32 +117,23 @@ const submit = () => {
   })
 }
 
-const getLocation = () => {
+const getLocation = async () => {
   form.locationLoading = true
-  axios({
-    timeout: 5000,
-    url: 'http://api.ipapi.com/api/check',
-    params: {
-      access_key: '7a0ec2ec028b200a9d94a7ace32fdec9',
-      language: 'zh',
-    },
-  })
-    .then((res) => {
-      if (res.data.ip) {
-        form.ip = res.data.ip
-        form.city = res.data.city
-        form.continent = res.data.continent_name
-        form.country = res.data.country_name
-        form.countryCode = res.data.country_code
-        form.regionName = res.data.region_name
-      }
-    })
-    .catch((err) => {
-      ElMessage.info('请求失败')
-    })
-    .finally(() => {
-      form.locationLoading = false
-    })
+  try {
+    const res = await fetch('https://ipinfo.io/json?token=b7d3aff0162a2d')
+    const data = await res.json()
+    if (data.ip) {
+      form.ip = data.ip
+      form.city = data.city
+      form.address = data.abuse.address
+      form.countryCode = data.country
+      form.regionName = data.region
+    }
+  } catch (error) {
+    ElMessage.info('请求失败')
+  } finally {
+    form.locationLoading = false
+  }
 }
 
 const chatWithGPT3 = (apiKey: string, message: string) => {
@@ -170,6 +156,7 @@ const chatWithGPT3 = (apiKey: string, message: string) => {
 #page-chat {
   margin: 0 auto;
   max-width: 500px;
+  padding: 0 20px;
 
   .ip-address {
     display: flex;
