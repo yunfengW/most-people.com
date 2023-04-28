@@ -49,5 +49,8 @@ const back = () => {
       }
     }
   }
+  .el-page-header__extra {
+    padding: 0 20px;
+  }
 }
 </style>

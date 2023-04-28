@@ -13,7 +13,9 @@ import { useUserStore } from '~/stores/user'
 const userStore = useUserStore()
 
 onMounted(() => {
-  indexDB.init()
+  indexDB.init().then(() => {
+    userStore.init()
+  })
 })
 </script>
 
