@@ -3,7 +3,7 @@
     <nuxt-link class="mp-join-us" to="/join-us">
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
-    <img class="logo" src="/logo/Bing.svg" />
+    <img class="logo" :src="form.tool.logo" />
     <el-input
       class="search"
       v-model="form.message"
@@ -25,17 +25,17 @@
     </el-input>
 
     <div class="tools">
-      <template v-for="tool in tools">
+      <template v-for="item in tools">
         <el-link
           :underline="false"
           type="info"
           class="tool"
-          :href="tool.url"
+          :href="item.url"
           target="_blank"
-          @click="bindTool($event, tool)"
+          @click="bindTool($event, item)"
         >
-          <el-image :src="tool.logo" fit="contain" />
-          <span>{{ tool.zh }}</span>
+          <el-image :src="item.logo" fit="contain" />
+          <span>{{ item.zh }}</span>
         </el-link>
       </template>
     </div>
@@ -56,21 +56,32 @@ interface Tool {
 const form = reactive({
   message: '',
   placeholder: '没有调查，就没有发言权',
-  tool: tools[2],
+  tool: {
+    id: 'Bing',
+    zh: 'Bing',
+    logo: '/logo/Bing.svg',
+    url: 'https://www.bing.com/search?q=「most-people」',
+  },
 })
 
 const send = () => {
-  const keyword = form.message || form.placeholder
-  window.open('https://www.bing.com/search?q=' + keyword)
+  const keyword = encodeURIComponent(form.message || form.placeholder)
+  const url = form.tool.url.replace('「most-people」', keyword)
+  window.open(url)
 }
 const microphone = () => {
   ElMessage.info('语音输入 正在开发')
 }
 
 const bindTool = (event: MouseEvent, tool: Tool) => {
+  event.preventDefault()
   if (tool.url.includes('「most-people」')) {
-    console.log('🌊', tool)
-    event.preventDefault()
+    form.tool = tool
+  } else {
+    const url = new URL(tool.url)
+    const keyword = form.message || form.placeholder
+    url.searchParams.set('mp-keyword', keyword)
+    window.open(url.href)
   }
 }
 </script>

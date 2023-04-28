@@ -3,13 +3,13 @@
         "id": "WolframAlpha",
         "zh": "WolframAlpha",
         "logo": "/logo/WolframAlpha.ico",
-        "url": "https://www.wolframalpha.com/examples"
+        "url": "https://www.wolframalpha.com/input?i=「most-people」"
     },
     {
         "id": "MathSolver",
         "zh": "数学计算器",
         "logo": "/logo/MathSolver.ico",
-        "url": "https://mathsolver.microsoft.com/zh"
+        "url": "https://mathsolver.microsoft.com/zh/solve-problem/「most-people」"
     },
     {
         "id": "SogouTranslate",
@@ -81,7 +81,7 @@
         "id": "Canva",
         "zh": "Canva",
         "logo": "/logo/Canva.png",
-        "url": "https://www.canva.com"
+        "url": "https://www.canva.com/templates/?query=「most-people」"
     },
     {
         "id": "Filehelper",
