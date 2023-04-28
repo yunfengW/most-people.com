@@ -1,5 +1,5 @@
 <template>
-  <div id="page-me">
+  <div id="page-mine">
     <mp-header content="个人中心" />
     <div class="not-logged-in">
       <nuxt-link to="/register">
@@ -14,7 +14,7 @@
 </template>
 
 <style lang="scss">
-#page-me {
+#page-mine {
   .not-logged-in {
     .el-button {
       margin-top: 20px;

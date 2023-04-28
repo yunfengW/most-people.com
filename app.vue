@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nuxt-link class="mp-uid" to="/me">
+    <nuxt-link class="mp-uid" to="/mine">
       <el-button link type="info">{{ userStore.getUID }}</el-button>
     </nuxt-link>
     <nuxt-page class="page" />
@@ -8,9 +8,13 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from './stores/user'
+import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()
+
+onMounted(() => {
+  indexDB.init()
+})
 </script>
 
 <style lang="scss">

@@ -50,6 +50,7 @@ const { form, formElement, register, checkUsername, checkPassword, checkConfirmP
     width: 100%;
   }
   .el-button {
+    margin-top: 20px;
     width: 100%;
   }
 }
