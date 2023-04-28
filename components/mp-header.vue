@@ -4,7 +4,7 @@
       <span></span>
     </template>
     <template #icon>
-      <mp-icon :icon-id="userStore.firstPath === route.path ? 'home' : 'back'" />
+      <mp-icon :name="userStore.firstPath === route.path ? 'home' : 'back'" />
     </template>
     <template v-for="(index, name) in $slots" #[name]><slot :name="name" /></template>
   </el-page-header>

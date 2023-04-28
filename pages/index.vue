@@ -26,9 +26,16 @@
 
     <div class="tools">
       <template v-for="tool in tools">
-        <el-link :underline="false" type="info" class="tool" :href="tool.url" target="_blank">
+        <el-link
+          :underline="false"
+          type="info"
+          class="tool"
+          :href="tool.url"
+          target="_blank"
+          @click="bindTool($event, tool)"
+        >
           <el-image :src="tool.logo" fit="contain" />
-          <span>{{ tool.name }}</span>
+          <span>{{ tool.zh }}</span>
         </el-link>
       </template>
     </div>
@@ -39,9 +46,17 @@
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
 
+interface Tool {
+  id: string
+  zh: string
+  logo: string
+  url: string
+}
+
 const form = reactive({
   message: '',
   placeholder: '没有调查，就没有发言权',
+  tool: tools[2],
 })
 
 const send = () => {
@@ -50,6 +65,13 @@ const send = () => {
 }
 const microphone = () => {
   ElMessage.info('语音输入 正在开发')
+}
+
+const bindTool = (event: MouseEvent, tool: Tool) => {
+  if (tool.url.includes('「most-people」')) {
+    console.log('🌊', tool)
+    event.preventDefault()
+  }
 }
 </script>
 

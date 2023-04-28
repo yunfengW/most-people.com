@@ -1,96 +1,115 @@
 [
     {
-        "name": "WolframAlpha",
+        "id": "WolframAlpha",
+        "zh": "WolframAlpha",
         "logo": "/logo/WolframAlpha.ico",
         "url": "https://www.wolframalpha.com/examples"
     },
     {
-        "name": "数学计算器",
+        "id": "MathSolver",
+        "zh": "数学计算器",
         "logo": "/logo/MathSolver.ico",
         "url": "https://mathsolver.microsoft.com/zh"
     },
     {
-        "name": "搜狗翻译",
+        "id": "SogouTranslate",
+        "zh": "搜狗翻译",
         "logo": "/logo/Sogou.png",
         "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
     },
     {
-        "name": "ChatGPT",
+        "id": "ChatGPT",
+        "zh": "ChatGPT",
         "logo": "/logo/ChatGPT.svg",
         "url": "https://chat.openai.com"
     },
     {
-        "name": "Midjourney",
+        "id": "Midjourney",
+        "zh": "Midjourney",
         "logo": "/logo/Midjourney.png",
-        "url": "https://www.midjourney.com/showcase/recent"
+        "url": "https://discord.com/invite/midjourney"
     },
     {
-        "name": "Bing",
+        "id": "Bing",
+        "zh": "Bing",
         "logo": "/logo/Bing.svg",
         "url": "https://www.bing.com/search?q=「most-people」"
     },
     {
-        "name": "Bard",
+        "id": "Bard",
+        "zh": "Bard",
         "logo": "/logo/Bard.svg",
         "url": "https://bard.google.com"
     },
     {
-        "name": "文心一言",
+        "id": "Yiyan",
+        "zh": "文心一言",
         "logo": "/logo/Yiyan.ico",
         "url": "https://yiyan.baidu.com"
     },
     {
-        "name": "Claude",
+        "id": "Claude",
+        "zh": "Claude",
         "logo": "/logo/Claude.png",
         "url": "https://slack.com/apps/A04KGS7N9A8-claude"
     },
     {
-        "name": "Bito",
+        "id": "Bito",
+        "zh": "Bito",
         "logo": "/logo/Bito.svg",
         "url": "https://bito.ai"
     },
     {
-        "name": "Shell",
+        "id": "MyShell",
+        "zh": "Shell",
         "logo": "/logo/MyShell.png",
         "url": "https://app.myshell.ai"
     },
     {
-        "name": "Poe",
+        "id": "Poe",
+        "zh": "Poe",
         "logo": "/logo/Poe.svg",
         "url": "https://poe.com/ChatGPT"
     },
     {
-        "name": "即时设计 AI",
+        "id": "JsDesign",
+        "zh": "即时设计 AI",
         "logo": "/logo/JsDesign.svg",
         "url": "https://js.design/ai"
     },
     {
-        "name": "Canva",
+        "id": "Canva",
+        "zh": "Canva",
         "logo": "/logo/Canva.png",
         "url": "https://www.canva.com"
     },
     {
-        "name": "微信文件传输",
+        "id": "Filehelper",
+        "zh": "微信文件传输",
         "logo": "/logo/Filehelper.jpg",
         "url": "https://filehelper.weixin.qq.com"
     },
     {
-        "name": "抖音",
+        "id": "Douyin",
+        "zh": "抖音",
         "logo": "/logo/Douyin.svg",
         "url": "https://www.douyin.com/search/「most-people」"
     },
     {
-        "name": "Google",
+        "id": "Google",
+        "zh": "Google",
         "logo": "/logo/Google.svg",
         "url": "https://www.google.com/search?q=「most-people」"
     },
     {
-        "name": "GitHub",
+        "id": "GitHub",
+        "zh": "GitHub",
         "logo": "/logo/GitHub.svg",
         "url": "https://github.com/search?utf8=✓&q=「most-people」"
     },
     {
-        "name": "Notion AI",
+        "id": "Notion",
+        "zh": "Notion AI",
         "logo": "/logo/Notion.svg",
         "url": "https://www.notion.so"
     }
