@@ -4,7 +4,7 @@
       <span></span>
     </template>
     <template #icon>
-      <iconpark-icon class="back" :icon-id="userStore.firstPath === route.path ? 'home' : 'back'" />
+      <mp-icon :icon-id="userStore.firstPath === route.path ? 'home' : 'back'" />
     </template>
     <template v-for="(index, name) in $slots" #[name]><slot :name="name" /></template>
   </el-page-header>
@@ -42,9 +42,8 @@ const back = () => {
       padding: 20px;
       .el-page-header__icon {
         margin-right: 0;
-        .back {
-          width: 16px;
-          height: 16px;
+        .mp-icon {
+          font-size: 16px;
         }
       }
     }
