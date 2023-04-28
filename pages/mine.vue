@@ -3,7 +3,12 @@
     <mp-header content="个人中心" />
     <template v-if="userStore.inited">
       <div class="mine" v-if="userStore.user">
-        <div>{{ userStore.user.name }}</div>
+        <el-image
+          class="avatar"
+          :src="'https://robohash.org/' + userStore.user.name"
+          fit="cover"
+        ></el-image>
+        <h4>{{ userStore.user.name }}</h4>
         <el-button plain class="exit" @click="exit">退出登录</el-button>
       </div>
       <div v-else class="not-logged-in">
@@ -28,6 +33,7 @@ const exit = () => {
   if (userStore.user) {
     indexDB.delUser(userStore.user.name)
     userStore.$reset()
+    userStore.init()
   }
 }
 </script>
@@ -39,6 +45,16 @@ const exit = () => {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    .avatar {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+
+      background-color: #fff;
+      border: 1px solid var(--el-text-color-primary);
+    }
 
     .el-button {
       margin-top: 20px;

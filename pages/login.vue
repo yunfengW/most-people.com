@@ -13,14 +13,19 @@
         prop="username"
         :rules="[{ validator: checkUsername, trigger: 'blur' }]"
       >
-        <el-input v-model.trim="form.username"></el-input>
+        <el-input
+          v-model.trim="form.username"
+          :disabled="form.usernameLoading"
+          clearable
+          @keyup.enter="login"
+        />
       </el-form-item>
       <el-form-item
         label="输入密码"
         prop="password"
         :rules="[{ validator: checkPassword, trigger: 'blur' }]"
       >
-        <el-input v-model.trim="form.password" show-password clearable></el-input>
+        <el-input v-model.trim="form.password" show-password clearable @keyup.enter="login" />
       </el-form-item>
       <el-button @click="login" type="primary" :loading="form.loading">登录</el-button>
     </el-form>

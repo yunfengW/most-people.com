@@ -18,7 +18,8 @@
           v-model.trim="form.username"
           clearable
           :disabled="form.usernameLoading"
-        ></el-input>
+          @keyup.enter="register"
+        />
       </el-form-item>
       <el-form-item
         label="输入密码"
@@ -32,7 +33,12 @@
         prop="confirmPassword"
         :rules="[{ validator: checkConfirmPassword, trigger: 'blur' }]"
       >
-        <el-input v-model.trim="form.confirmPassword" show-password clearable></el-input>
+        <el-input
+          v-model.trim="form.confirmPassword"
+          show-password
+          clearable
+          @keyup.enter="register"
+        />
       </el-form-item>
       <el-button type="primary" @click="register" :loading="form.loading">注册</el-button>
     </el-form>
