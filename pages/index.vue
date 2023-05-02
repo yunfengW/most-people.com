@@ -4,34 +4,36 @@
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
     <div class="current-tool">
-      <a class="left">
+      <nuxt-link class="left" :to="'/tool/' + userStore.tool.id">
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
-      </a>
+      </nuxt-link>
       <el-image class="logo" :src="userStore.tool.logo" />
       <div class="right">
         <span>{{ userStore.tool.zh }}</span>
       </div>
     </div>
-    <el-input
-      class="search"
-      v-model="form.message"
-      :placeholder="form.placeholder"
-      autofocus
-      size="large"
-      @keyup.enter="send"
-    >
-      <template #prefix>
-        <div class="button microphone" @click.stop="microphone">
-          <mp-icon name="microphone" />
-        </div>
-      </template>
-      <template #suffix>
-        <div class="button send" :class="{ disabled: !form.message }" @click.stop="send">
-          <mp-icon name="send" />
-        </div>
-      </template>
-    </el-input>
+
+    <div class="search">
+      <el-input
+        v-model="form.message"
+        :placeholder="form.placeholder"
+        autofocus
+        size="large"
+        @keyup.enter="send"
+      >
+        <template #prefix>
+          <div class="button microphone" @click.stop="microphone">
+            <mp-icon name="microphone" />
+          </div>
+        </template>
+        <template #suffix>
+          <div class="button send" :class="{ disabled: !form.message }" @click.stop="send">
+            <mp-icon name="send" />
+          </div>
+        </template>
+      </el-input>
+    </div>
 
     <div class="tools">
       <template v-for="item in tools">
@@ -64,9 +66,16 @@ const form = reactive({
 const userStore = useUserStore()
 
 const send = () => {
-  const keyword = encodeURIComponent(form.message || form.placeholder)
-  const url = userStore.tool.url.replace('「most-people」', keyword)
-  window.open(url)
+  if (userStore.tool.url.includes('「most-people」')) {
+    const keyword = encodeURIComponent(form.message || form.placeholder)
+    const url = userStore.tool.url.replace('「most-people」', keyword)
+    window.open(url)
+  } else {
+    const url = new URL(userStore.tool.url)
+    const keyword = form.message || form.placeholder
+    url.searchParams.set('mp-keyword', keyword)
+    window.open(url.href)
+  }
 }
 const microphone = () => {
   ElMessage.info('语音输入 正在开发')
@@ -74,14 +83,7 @@ const microphone = () => {
 
 const bindTool = (event: MouseEvent, tool: Tool) => {
   event.preventDefault()
-  if (tool.url.includes('「most-people」')) {
-    userStore.tool = tool
-  } else {
-    const url = new URL(tool.url)
-    const keyword = form.message || form.placeholder
-    url.searchParams.set('mp-keyword', keyword)
-    window.open(url.href)
-  }
+  userStore.tool = tool
 }
 </script>
 
@@ -120,6 +122,7 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
         opacity: 1;
       }
     }
+
     .logo {
       flex-shrink: 0;
       // cursor: pointer;
@@ -129,33 +132,37 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
     }
   }
 
-  .search.el-input {
-    position: relative;
-    .el-input__wrapper {
-      padding-left: 0;
-      padding-right: 0;
-      .el-input__inner {
-        text-align: center;
-      }
-    }
-    .button {
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      height: 100%;
-      padding: 0 15px;
-      color: rgb(142, 142, 160);
+  .search {
+    width: 100%;
 
-      &.disabled {
-        opacity: 0.4;
-
-        &:hover {
-          opacity: 1;
+    .el-input {
+      position: relative;
+      .el-input__wrapper {
+        padding-left: 0;
+        padding-right: 0;
+        .el-input__inner {
+          text-align: center;
         }
       }
+      .button {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        height: 100%;
+        padding: 0 15px;
+        color: rgb(142, 142, 160);
 
-      .mp-icon {
-        font-size: 20px;
+        &.disabled {
+          opacity: 0.4;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+
+        .mp-icon {
+          font-size: 20px;
+        }
       }
     }
   }
@@ -176,6 +183,7 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
 
         .el-image {
           height: 40px;
+          width: 40px;
           padding: 2px;
         }
 
@@ -188,7 +196,7 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
 }
 
 // PC端 横屏
-@media (orientation: landscape) and (min-width: 980px) {
+@media (orientation: landscape) and (min-width: 375px) {
   #page-index {
     .current-tool {
       .logo {

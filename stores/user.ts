@@ -25,7 +25,7 @@ export const useUserStore = defineStore({
       // current tool
       tool: {
         id: 'Bing',
-        zh: 'Bing',
+        zh: '必应',
         logo: '/logo/Bing.svg',
         url: 'https://www.bing.com/search?q=「most-people」',
       },
