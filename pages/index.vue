@@ -3,7 +3,16 @@
     <nuxt-link class="mp-join-us" to="/join-us">
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
-    <img class="logo" :src="form.tool.logo" />
+    <div class="current-tool">
+      <a class="left">
+        <mp-icon name="how-to-use" />
+        <span>使用指南</span>
+      </a>
+      <el-image class="logo" :src="userStore.tool.logo" />
+      <div class="right">
+        <span>{{ userStore.tool.zh }}</span>
+      </div>
+    </div>
     <el-input
       class="search"
       v-model="form.message"
@@ -45,28 +54,18 @@
 <script lang="ts" setup>
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
-
-interface Tool {
-  id: string
-  zh: string
-  logo: string
-  url: string
-}
+import { useUserStore, Tool } from '~/stores/user'
 
 const form = reactive({
   message: '',
   placeholder: '没有调查，就没有发言权',
-  tool: {
-    id: 'Bing',
-    zh: 'Bing',
-    logo: '/logo/Bing.svg',
-    url: 'https://www.bing.com/search?q=「most-people」',
-  },
 })
+
+const userStore = useUserStore()
 
 const send = () => {
   const keyword = encodeURIComponent(form.message || form.placeholder)
-  const url = form.tool.url.replace('「most-people」', keyword)
+  const url = userStore.tool.url.replace('「most-people」', keyword)
   window.open(url)
 }
 const microphone = () => {
@@ -76,7 +75,7 @@ const microphone = () => {
 const bindTool = (event: MouseEvent, tool: Tool) => {
   event.preventDefault()
   if (tool.url.includes('「most-people」')) {
-    form.tool = tool
+    userStore.tool = tool
   } else {
     const url = new URL(tool.url)
     const keyword = form.message || form.placeholder
@@ -95,10 +94,39 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
     z-index: 10;
   }
 
-  img.logo {
-    // cursor: pointer;
-    margin: 20px 0;
-    height: 80px;
+  .current-tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .left,
+    .right {
+      width: 96px;
+    }
+
+    .left {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      cursor: pointer;
+
+      .mp-icon {
+        opacity: 0.8;
+        font-size: 24px;
+        margin-right: 8px;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .logo {
+      flex-shrink: 0;
+      // cursor: pointer;
+      margin: 20px 22px;
+      height: 80px;
+      width: 80px;
+    }
   }
 
   .search.el-input {
@@ -154,6 +182,18 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
         span {
           margin-top: 4px;
         }
+      }
+    }
+  }
+}
+
+// PC端 横屏
+@media (orientation: landscape) and (min-width: 980px) {
+  #page-index {
+    .current-tool {
+      .logo {
+        margin-left: 42px;
+        margin-right: 42px;
       }
     }
   }

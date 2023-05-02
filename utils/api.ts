@@ -1,7 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const axios = Axios.create({
-  baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
+  // baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
+  baseURL: 'https://43.139.26.30:1976',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors

@@ -1,10 +1,17 @@
 import { defineStore } from 'pinia'
 import { User } from '~/utils/api'
 
+export interface Tool {
+  id: string
+  zh: string
+  logo: string
+  url: string
+}
 interface UserStore {
   firstPath: string
   user: User | null
   inited: boolean
+  tool: Tool
 }
 
 export const useUserStore = defineStore({
@@ -15,6 +22,13 @@ export const useUserStore = defineStore({
       firstPath: route.path,
       user: null,
       inited: false,
+      // current tool
+      tool: {
+        id: 'Bing',
+        zh: 'Bing',
+        logo: '/logo/Bing.svg',
+        url: 'https://www.bing.com/search?q=「most-people」',
+      },
     }
   },
   getters: {

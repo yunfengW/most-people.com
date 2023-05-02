@@ -13,7 +13,7 @@
     },
     {
         "id": "Bing",
-        "zh": "Bing",
+        "zh": "必应",
         "logo": "/logo/Bing.svg",
         "url": "https://www.bing.com/search?q=「most-people」"
     },
@@ -43,7 +43,7 @@
     },
     {
         "id": "MyShell",
-        "zh": "Shell",
+        "zh": "My Shell",
         "logo": "/logo/MyShell.png",
         "url": "https://app.myshell.ai"
     },
@@ -103,7 +103,7 @@
     },
     {
         "id": "WolframAlpha",
-        "zh": "WolframAlpha",
+        "zh": "沃尔夫勒姆",
         "logo": "/logo/WolframAlpha.ico",
         "url": "https://www.wolframalpha.com/input?i=「most-people」"
     },
@@ -127,7 +127,7 @@
     },
     {
         "id": "Google",
-        "zh": "Google",
+        "zh": "谷歌",
         "logo": "/logo/Google.svg",
         "url": "https://www.google.com/search?q=「most-people」"
     },
