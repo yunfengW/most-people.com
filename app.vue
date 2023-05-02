@@ -32,6 +32,11 @@ html {
 body {
   margin: 0;
 }
+a {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  text-decoration: none;
+}
 #app {
   position: relative;
   min-height: 100vh;

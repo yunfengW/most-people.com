@@ -131,7 +131,7 @@ const getLocation = async () => {
       form.regionName = data.region
     }
   } catch (error) {
-    ElMessage.info('请求失败')
+    ElMessage.info('IP 地址请求失败')
   } finally {
     form.locationLoading = false
   }

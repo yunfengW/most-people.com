@@ -1,23 +1,5 @@
 [
     {
-        "id": "WolframAlpha",
-        "zh": "WolframAlpha",
-        "logo": "/logo/WolframAlpha.ico",
-        "url": "https://www.wolframalpha.com/input?i=「most-people」"
-    },
-    {
-        "id": "MathSolver",
-        "zh": "数学计算器",
-        "logo": "/logo/MathSolver.ico",
-        "url": "https://mathsolver.microsoft.com/zh/solve-problem/「most-people」"
-    },
-    {
-        "id": "SogouTranslate",
-        "zh": "搜狗翻译",
-        "logo": "/logo/Sogou.png",
-        "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
-    },
-    {
         "id": "ChatGPT",
         "zh": "ChatGPT",
         "logo": "/logo/ChatGPT.svg",
@@ -78,16 +60,64 @@
         "url": "https://js.design/ai"
     },
     {
+        "id": "Notion",
+        "zh": "Notion AI",
+        "logo": "/logo/Notion.svg",
+        "url": "https://www.notion.so"
+    },
+    {
+        "id": "Tome",
+        "zh": "Tome",
+        "logo": "/logo/Tome.svg",
+        "url": "https://tome.app"
+    },
+    {
+        "id": "Clipdrop",
+        "zh": "Clipdrop AI",
+        "logo": "/logo/Clipdrop.svg",
+        "url": "https://clipdrop.co/tools"
+    },
+    {
+        "id": "RunwayML",
+        "zh": "RunwayML",
+        "logo": "/logo/RunwayML.png",
+        "url": "https://runwayml.com/ai-magic-tools"
+    },
+    {
+        "id": "MiniGPT",
+        "zh": "MiniGPT-4",
+        "logo": "/logo/MiniGPT.svg",
+        "url": "https://minigpt-4.github.io"
+    },
+    {
+        "id": "HuggingChat",
+        "zh": "HuggingChat",
+        "logo": "/logo/HuggingFace.ico",
+        "url": "https://huggingface.co/chat/"
+    },
+    {
         "id": "Canva",
         "zh": "Canva",
         "logo": "/logo/Canva.png",
         "url": "https://www.canva.com/templates/?query=「most-people」"
     },
     {
-        "id": "Filehelper",
-        "zh": "微信文件传输",
-        "logo": "/logo/Filehelper.jpg",
-        "url": "https://filehelper.weixin.qq.com"
+        "id": "WolframAlpha",
+        "zh": "WolframAlpha",
+        "logo": "/logo/WolframAlpha.ico",
+        "url": "https://www.wolframalpha.com/input?i=「most-people」"
+    },
+    {
+        "id": "MathSolver",
+        "zh": "数学计算器",
+        "logo": "/logo/MathSolver.ico",
+        "url": "https://mathsolver.microsoft.com/zh/solve-problem/「most-people」"
+    },
+    {
+        "id": "SogouTranslate",
+        "zh": "搜狗翻译",
+        "logo": "/logo/Sogou.png",
+        "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
     },
     {
         "id": "Douyin",
@@ -108,9 +138,21 @@
         "url": "https://github.com/search?utf8=✓&q=「most-people」"
     },
     {
-        "id": "Notion",
-        "zh": "Notion AI",
-        "logo": "/logo/Notion.svg",
-        "url": "https://www.notion.so"
+        "id": "ZhiHu",
+        "zh": "知乎",
+        "logo": "/logo/ZhiHu.svg",
+        "url": "https://www.zhihu.com/search?type=content&q=「most-people」"
+    },
+    {
+        "id": "Filehelper",
+        "zh": "微信文件传输",
+        "logo": "/logo/Filehelper.jpg",
+        "url": "https://filehelper.weixin.qq.com"
+    },
+    {
+        "id": "Gartic",
+        "zh": "你画我猜",
+        "logo": "/logo/Gartic.png",
+        "url": "https://gartic.io"
     }
 ]
