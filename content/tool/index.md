@@ -1,1 +1,5 @@
-# 首页
+# Home
+
+[Bing](/tool/bing)
+[Google](/tool/google)
+[ChatGPT](/tool/chat-gpt)

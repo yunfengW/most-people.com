@@ -8,7 +8,9 @@
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
       </nuxt-link>
-      <el-image class="logo" :src="userStore.tool.logo" />
+      <nuxt-link class="logo" to="/tool">
+        <el-image :src="userStore.tool.logo" />
+      </nuxt-link>
       <div class="right">
         <span>{{ userStore.tool.zh }}</span>
       </div>

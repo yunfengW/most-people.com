@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "start": "nuxt dev -open",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "generate": "nuxt generate && nuxt preview",
     "build": "nuxt build",
     "postinstall": "nuxt prepare",
     "vercel": "nuxt generate && cd .output/public && vercel --prod",
