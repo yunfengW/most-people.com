@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <ContentRenderer :value="data" />
+  <div id="page-join-us">
+    <mp-header content="加入我们" />
+    <el-image class="join-us" src="/img/join-us.jpg" />
   </div>
 </template>
 
-<script setup>
-const { data } = await useAsyncData('hello', () => queryContent('/hello').findOne())
-</script>
+<script setup lang="ts"></script>
 
-<style>
-div {
+<style lang="scss">
+#page-join-us {
+  .join-us {
+    max-width: 375px;
+  }
 }
 </style>
