@@ -1,5 +1,4 @@
-import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256 } from 'ethers'
-import { arrayify } from '@ethersproject/bytes'
+import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes } from 'ethers'
 
 const mp = {
   // 本地私钥
@@ -56,7 +55,7 @@ const mp = {
           tagLength: 32,
         },
         key,
-        arrayify('0x' + data),
+        getBytes('0x' + data),
       )
       const decrypted = toUtf8String(new Uint8Array(decryptedBytes))
       return decrypted
