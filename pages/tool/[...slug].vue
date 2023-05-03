@@ -1,7 +1,7 @@
 <template>
   <div id="page-tool">
     <mp-header :content="userStore.tool.zh" />
-    <ContentDoc>
+    <ContentDoc class="markdown-box">
       <template #not-found>
         <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的操作指南</h4>
         <div>如果你有兴趣的话，加入我们吧</div>
@@ -33,6 +33,9 @@ useHead({
 
 <style lang="scss">
 #page-tool {
+  .markdown-box {
+    width: 100%;
+  }
   .join-us {
     max-width: 375px;
   }

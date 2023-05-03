@@ -37,6 +37,9 @@ a {
   color: var(--el-color-primary);
   text-decoration: none;
 }
+a:hover {
+  color: var(--el-color-primary-dark-2);
+}
 #app {
   position: relative;
   min-height: 100vh;
