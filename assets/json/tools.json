@@ -154,5 +154,11 @@
         "zh": "你画我猜",
         "logo": "/logo/Gartic.png",
         "url": "https://gartic.io"
+    },
+    {
+        "id": "DALL·E",
+        "zh": "DALL·E",
+        "logo": "/logo/OpenAI.svg",
+        "url": "https://labs.openai.com"
     }
 ]
