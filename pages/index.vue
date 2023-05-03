@@ -127,10 +127,11 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
 
     .logo {
       flex-shrink: 0;
-      // cursor: pointer;
       margin: 20px 22px;
-      height: 80px;
-      width: 80px;
+      .el-image {
+        height: 80px;
+        width: 80px;
+      }
     }
   }
 
