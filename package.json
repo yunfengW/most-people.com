@@ -11,17 +11,16 @@
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@types/node": "^18.16.2",
-    "nuxt": "^3.4.2"
+    "@types/node": "^18.16.3",
+    "nuxt": "^3.4.3"
   },
   "dependencies": {
+    "@nuxt/content": "^2.6.0",
     "@element-plus/nuxt": "^1.0.4",
-    "@ethersproject/pbkdf2": "^5.7.0",
     "@pinia/nuxt": "^0.4.9",
     "axios": "^1.4.0",
     "element-plus": "^2.3.4",
     "ethers": "^6.3.0",
-    "js-sha3": "^0.8.0",
     "sass": "^1.62.1",
     "simplemde": "^1.11.2"
   }
