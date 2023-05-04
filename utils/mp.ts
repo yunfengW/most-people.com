@@ -63,6 +63,10 @@ const mp = {
       return ''
     }
   },
+  // 驼峰命名法（camelCase）转 短横线分隔命名法（kebab-case）
+  hyphenate(camelCase: string) {
+    return camelCase.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+  },
   // 错误提示
   error(message: string) {
     ElMessage({

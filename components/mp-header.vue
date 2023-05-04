@@ -47,6 +47,9 @@ const back = () => {
         }
       }
     }
+    .el-page-header__content {
+      color: inherit;
+    }
   }
   .el-page-header__extra {
     padding: 0 20px;

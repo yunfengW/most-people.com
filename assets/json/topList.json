@@ -1,0 +1,99 @@
+[
+    {
+        "zh": "大语言模型",
+        "top": [
+            "ChatGPT",
+            "Bing",
+            "Poe",
+            "Bito",
+            "Claude",
+            "Bard",
+            "HuggingChat",
+            "Yiyan"
+        ]
+    },
+    {
+        "zh": "游戏",
+        "top": [
+            "Gartic"
+        ]
+    },
+    {
+        "zh": "工具",
+        "top": [
+            "Filehelper"
+        ]
+    },
+    {
+        "zh": "编程",
+        "top": [
+            "GitHub"
+        ]
+    },
+    {
+        "zh": "综合",
+        "top": [
+            "Google",
+            "Douyin",
+            "ZhiHu"
+        ]
+    },
+    {
+        "zh": "AI 识图",
+        "top": [
+            "MiniGPT"
+        ]
+    },
+    {
+        "zh": "AI 绘画",
+        "top": [
+            "Midjourney",
+            "DallE"
+        ]
+    },
+    {
+        "zh": "AI 设计",
+        "top": [
+            "JsDesign",
+            "Canva"
+        ]
+    },
+    {
+        "zh": "翻译",
+        "top": [
+            "SogouTranslate"
+        ]
+    },
+    {
+        "zh": "AI 修图",
+        "top": [
+            "Clipdrop",
+            "RunwayML"
+        ]
+    },
+    {
+        "zh": "数学计算",
+        "top": [
+            "WolframAlpha",
+            "MathSolver"
+        ]
+    },
+    {
+        "zh": "AI PPT",
+        "top": [
+            "Tome"
+        ]
+    },
+    {
+        "zh": "口语练习",
+        "top": [
+            "MyShell"
+        ]
+    },
+    {
+        "zh": "AI 写作",
+        "top": [
+            "Notion"
+        ]
+    }
+]

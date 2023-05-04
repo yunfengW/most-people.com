@@ -4,7 +4,7 @@
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
     <div class="current-tool">
-      <nuxt-link class="left" :to="'/tool/' + userStore.tool.id">
+      <nuxt-link class="left" :to="'/tool/' + mp.hyphenate(userStore.tool.id)">
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
       </nuxt-link>
@@ -38,7 +38,7 @@
     </div>
 
     <div class="tools">
-      <template v-for="item in tools">
+      <template v-for="item in Object.values(tools)">
         <el-link
           :underline="false"
           type="info"

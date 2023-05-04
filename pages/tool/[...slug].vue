@@ -31,11 +31,10 @@ import { useUserStore } from '~/stores/user'
 const userStore = useUserStore()
 
 const route = useRoute()
-for (const tool of tools) {
-  if (route.params.slug[0] === tool.id) {
-    userStore.tool = tool
-    break
-  }
+
+const tool = tools[route.params.slug[0] as 'Bing']
+if (tool) {
+  userStore.tool = tool
 }
 
 const { page } = useContent()
