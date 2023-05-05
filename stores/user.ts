@@ -27,7 +27,7 @@ export const useUserStore = defineStore({
       inited: false,
       // current tool
       tool: Bing,
-      tools: [],
+      tools: ['ChatGPT', 'Bing', 'Google', 'Douyin', 'ZhiHu', 'Bilibili', 'Notion'],
       message: '',
     }
   },

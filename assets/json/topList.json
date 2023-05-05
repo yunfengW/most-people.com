@@ -13,35 +13,12 @@
         ]
     },
     {
-        "zh": "游戏",
-        "top": [
-            "Gartic"
-        ]
-    },
-    {
-        "zh": "工具",
-        "top": [
-            "Filehelper"
-        ]
-    },
-    {
-        "zh": "编程",
-        "top": [
-            "GitHub"
-        ]
-    },
-    {
         "zh": "综合",
         "top": [
             "Google",
             "Douyin",
+            "Bilibili",
             "ZhiHu"
-        ]
-    },
-    {
-        "zh": "AI 识图",
-        "top": [
-            "MiniGPT"
         ]
     },
     {
@@ -95,6 +72,30 @@
         "zh": "AI 写作",
         "top": [
             "Notion"
+        ]
+    },
+    {
+        "zh": "游戏",
+        "top": [
+            "Gartic"
+        ]
+    },
+    {
+        "zh": "工具",
+        "top": [
+            "Filehelper"
+        ]
+    },
+    {
+        "zh": "编程",
+        "top": [
+            "GitHub"
+        ]
+    },
+    {
+        "zh": "AI 识图",
+        "top": [
+            "MiniGPT"
         ]
     }
 ]

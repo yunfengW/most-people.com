@@ -125,6 +125,12 @@
         "logo": "/logo/Douyin.svg",
         "url": "https://www.douyin.com/search/「most-people」"
     },
+    "Bilibili": {
+        "id": "Bilibili",
+        "zh": "哔哩哔哩",
+        "logo": "/logo/Bilibili.svg",
+        "url": "https://search.bilibili.com/all?keyword=「most-people」&search_source=1"
+    },
     "Google": {
         "id": "Google",
         "zh": "谷歌",

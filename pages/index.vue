@@ -10,7 +10,7 @@
       </nuxt-link>
       <el-image class="logo" :src="userStore.tool.logo" />
       <div class="right">
-        <span>{{ userStore.tool.zh }}</span>
+        <a :href="formatURL(userStore.tool.url)" target="_blank">{{ userStore.tool.zh }}</a>
       </div>
     </div>
 
@@ -41,12 +41,12 @@
           :underline="false"
           type="info"
           class="tool"
-          :href="tools[key as 'Bing'].url"
+          :href="tools[key as 'Bing']?.url"
           target="_blank"
-          @click.prevent="userStore.tool = tools[key as 'Bing']"
+          @click.prevent="bindTool(key)"
         >
-          <el-image :src="tools[key as 'Bing'].logo" fit="contain" />
-          <span>{{ tools[key as 'Bing'].zh }}</span>
+          <el-image :src="tools[key as 'Bing']?.logo" fit="contain" />
+          <span>{{ tools[key as 'Bing']?.zh }}</span>
         </el-link>
       </template>
       <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
@@ -68,20 +68,28 @@ const form = reactive({
 
 const userStore = useUserStore()
 
-const send = () => {
-  if (userStore.tool.url.includes('「most-people」')) {
+const formatURL = (url: string) => {
+  if (url.includes('「most-people」')) {
     const keyword = encodeURIComponent(userStore.message || form.placeholder)
-    const url = userStore.tool.url.replace('「most-people」', keyword)
-    window.open(url)
-  } else {
-    const url = new URL(userStore.tool.url)
-    const keyword = userStore.message || form.placeholder
-    url.searchParams.set('mp-keyword', keyword)
-    window.open(url.href)
+    return url.replace('「most-people」', keyword)
   }
+  const urlObject = new URL(url)
+  const keyword = userStore.message || form.placeholder
+  urlObject.searchParams.set('mp-keyword', keyword)
+  return urlObject.href
+}
+const send = () => {
+  const url = formatURL(userStore.tool.url)
+  window.open(url)
 }
 const microphone = () => {
   ElMessage.info('语音输入 正在开发')
+}
+const bindTool = (key: string) => {
+  const tool = tools[key as 'Bing']
+  if (tool) {
+    userStore.tool = tool
+  }
 }
 </script>
 
