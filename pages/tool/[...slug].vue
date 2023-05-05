@@ -30,21 +30,25 @@ import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()
 
-const route = useRoute()
-
-const tool = tools[route.params.slug[0] as 'Bing']
-if (tool) {
-  userStore.tool = tool
-}
-
 const { page } = useContent()
 const editURL = (id: string) => {
+  id = mp.hyphenate(id)
   if (page.value?.title) {
     return `https://github.com/most-people/most-people.com/blob/main/content/tool/${id}.md`
   } else {
     return `https://github.com/most-people/most-people.com/new/main/content/tool?filename=${id}.md`
   }
 }
+
+const route = useRoute()
+const init = () => {
+  const id = mp.camelize(route.params.slug[0])
+  const tool = tools[id as 'Bing']
+  if (tool) {
+    userStore.tool = tool
+  }
+}
+init()
 
 useHead({
   title: userStore.tool.zh,

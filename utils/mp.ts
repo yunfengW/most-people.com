@@ -64,8 +64,14 @@ const mp = {
     }
   },
   // 驼峰命名法（camelCase）转 短横线分隔命名法（kebab-case）
-  hyphenate(camelCase: string) {
-    return camelCase.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+  hyphenate(str: string) {
+    return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+  },
+  // 短横线分隔命名法（kebab-case）转 驼峰命名法（camelCase）
+  camelize(str: string) {
+    const result = str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
+    // 首字母大写
+    return result.charAt(0).toUpperCase() + result.slice(1)
   },
   // 错误提示
   error(message: string) {
