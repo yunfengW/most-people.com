@@ -16,7 +16,7 @@
 
     <div class="search">
       <el-input
-        v-model="form.message"
+        v-model="userStore.message"
         :placeholder="form.placeholder"
         autofocus
         size="large"
@@ -28,7 +28,7 @@
           </div>
         </template>
         <template #suffix>
-          <div class="button send" :class="{ disabled: !form.message }" @click.stop="send">
+          <div class="button send" :class="{ disabled: !userStore.message }" @click.stop="send">
             <mp-icon name="send" />
           </div>
         </template>
@@ -36,26 +36,22 @@
     </div>
 
     <div class="tools">
-      <template v-for="item in Object.values(tools)">
+      <template v-for="key in userStore.tools">
         <el-link
           :underline="false"
           type="info"
           class="tool"
-          :href="item.url"
+          :href="tools[key as 'Bing'].url"
           target="_blank"
-          @click.prevent="userStore.tool = item"
+          @click.prevent="userStore.tool = tools[key as 'Bing']"
         >
-          <el-image :src="item.logo" fit="contain" />
-          <span>{{ item.zh }}</span>
+          <el-image :src="tools[key as 'Bing'].logo" fit="contain" />
+          <span>{{ tools[key as 'Bing'].zh }}</span>
         </el-link>
       </template>
       <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
         <el-image src="/img/add.svg" fit="contain" />
         <span>添加</span>
-      </el-link>
-      <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
-        <el-image src="/img/del.svg" fit="contain" />
-        <span>删除</span>
       </el-link>
     </div>
   </div>
@@ -64,10 +60,9 @@
 <script lang="ts" setup>
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
-import { useUserStore, Tool } from '~/stores/user'
+import { useUserStore } from '~/stores/user'
 
 const form = reactive({
-  message: '',
   placeholder: '没有调查，就没有发言权',
 })
 
@@ -75,12 +70,12 @@ const userStore = useUserStore()
 
 const send = () => {
   if (userStore.tool.url.includes('「most-people」')) {
-    const keyword = encodeURIComponent(form.message || form.placeholder)
+    const keyword = encodeURIComponent(userStore.message || form.placeholder)
     const url = userStore.tool.url.replace('「most-people」', keyword)
     window.open(url)
   } else {
     const url = new URL(userStore.tool.url)
-    const keyword = form.message || form.placeholder
+    const keyword = userStore.message || form.placeholder
     url.searchParams.set('mp-keyword', keyword)
     window.open(url.href)
   }

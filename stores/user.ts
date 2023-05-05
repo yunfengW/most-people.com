@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { User } from '~/utils/api'
+import { Bing } from '~/assets/json/tools.json'
 
 export interface Tool {
   id: string
@@ -12,6 +13,8 @@ interface UserStore {
   user: User | null
   inited: boolean
   tool: Tool
+  tools: string[]
+  message: string
 }
 
 export const useUserStore = defineStore({
@@ -23,12 +26,9 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      tool: {
-        id: 'bing',
-        zh: '必应',
-        logo: '/logo/Bing.svg',
-        url: 'https://www.bing.com/search?q=「most-people」',
-      },
+      tool: Bing,
+      tools: [],
+      message: '',
     }
   },
   getters: {
