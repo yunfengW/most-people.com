@@ -1,10 +1,12 @@
 <template>
   <div id="page-utils">
     <mp-header content="工具函数" />
-    <h4>hyphenate：自动把驼峰命名法（camelCase）转换为短横线分隔命名法（kebab-case）</h4>
+    <h4>hyphenate:</h4>
+    <p>驼峰命名法（camelCase）转换为短横线分隔命名法（kebab-case）</p>
     <el-input v-model="form.hyphenate" />
     <p>{{ mp.hyphenate(form.hyphenate) }}</p>
-    <h4>camelize：自动把短横线分隔命名法（kebab-case）转换为驼峰命名法（camelCase）</h4>
+    <h4>camelize:</h4>
+    <p>短横线分隔命名法（kebab-case）转换为驼峰命名法（camelCase）+ 首字母大写</p>
     <el-input v-model="form.camelize" />
     <p>{{ mp.camelize(form.camelize) }}</p>
   </div>
@@ -18,13 +20,7 @@ const form = reactive({
 </script>
 
 <style lang="scss">
-#page-utils {
-  .el-input {
-    .el-input__wrapper {
-      .el-input__inner {
-        text-align: center;
-      }
-    }
-  }
+#page-utils.page {
+  align-items: flex-start;
 }
 </style>

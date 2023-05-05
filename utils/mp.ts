@@ -37,11 +37,7 @@ const mp = {
     return encrypted.join('.')
   },
   // 解密
-  async decrypt(encrypted: string, key?: CryptoKey) {
-    if (!key) {
-      console.error('not found key')
-      return ''
-    }
+  async decrypt(encrypted: string, key: CryptoKey) {
     const [version, iv, data] = encrypted.split('.')
     if (version !== 'mp://1') {
       console.error('version error')
@@ -60,6 +56,7 @@ const mp = {
       const decrypted = toUtf8String(new Uint8Array(decryptedBytes))
       return decrypted
     } catch (error) {
+      console.error('decrypt error')
       return ''
     }
   },

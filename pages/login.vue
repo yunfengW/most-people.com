@@ -27,7 +27,14 @@
       >
         <el-input v-model.trim="form.password" show-password clearable @keyup.enter="login" />
       </el-form-item>
-      <el-button @click="login" type="primary" :loading="form.loading">登录</el-button>
+      <el-button
+        @click="login"
+        type="primary"
+        :loading="form.loading"
+        :disabled="form.usernameLoading"
+      >
+        登录
+      </el-button>
     </el-form>
   </div>
 </template>

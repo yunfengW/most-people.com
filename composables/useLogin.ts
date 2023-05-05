@@ -34,7 +34,7 @@ export const useLogin = () => {
               }
             })
           } else {
-            mp.error('用户名或密码错误')
+            mp.error('密码错误')
           }
         } else {
           mp.error('用户名不存在')

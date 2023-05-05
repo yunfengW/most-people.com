@@ -40,7 +40,14 @@
           @keyup.enter="register"
         />
       </el-form-item>
-      <el-button type="primary" @click="register" :loading="form.loading">注册</el-button>
+      <el-button
+        type="primary"
+        @click="register"
+        :loading="form.loading"
+        :disabled="form.usernameLoading"
+      >
+        注册
+      </el-button>
     </el-form>
   </div>
 </template>
