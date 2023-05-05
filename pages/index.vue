@@ -8,9 +8,7 @@
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
       </nuxt-link>
-      <nuxt-link class="logo" to="/tool">
-        <el-image :src="userStore.tool.logo" />
-      </nuxt-link>
+      <el-image class="logo" :src="userStore.tool.logo" />
       <div class="right">
         <span>{{ userStore.tool.zh }}</span>
       </div>
@@ -45,12 +43,20 @@
           class="tool"
           :href="item.url"
           target="_blank"
-          @click="bindTool($event, item)"
+          @click.prevent="userStore.tool = item"
         >
           <el-image :src="item.logo" fit="contain" />
           <span>{{ item.zh }}</span>
         </el-link>
       </template>
+      <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
+        <el-image src="/img/add.svg" fit="contain" />
+        <span>添加</span>
+      </el-link>
+      <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
+        <el-image src="/img/del.svg" fit="contain" />
+        <span>删除</span>
+      </el-link>
     </div>
   </div>
 </template>
@@ -81,11 +87,6 @@ const send = () => {
 }
 const microphone = () => {
   ElMessage.info('语音输入 正在开发')
-}
-
-const bindTool = (event: MouseEvent, tool: Tool) => {
-  event.preventDefault()
-  userStore.tool = tool
 }
 </script>
 
@@ -128,10 +129,8 @@ const bindTool = (event: MouseEvent, tool: Tool) => {
     .logo {
       flex-shrink: 0;
       margin: 20px 22px;
-      .el-image {
-        height: 80px;
-        width: 80px;
-      }
+      height: 80px;
+      width: 80px;
     }
   }
 
