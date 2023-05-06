@@ -129,6 +129,12 @@ const bindTool = (key: string) => {
       }
     }
 
+    .right {
+      white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+    }
+
     .logo {
       flex-shrink: 0;
       margin: 20px 22px;

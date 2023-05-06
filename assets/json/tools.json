@@ -143,11 +143,17 @@
         "logo": "/logo/GitHub.svg",
         "url": "https://github.com/search?utf8=✓&q=「most-people」"
     },
+    "AliyunLogo": {
+        "id": "AliyunLogo",
+        "zh": "阿里云 Logo",
+        "logo": "/logo/Aliyun.svg",
+        "url": "https://logo.aliyun.com/logo#/name"
+    },
     "ZhiHu": {
         "id": "ZhiHu",
         "zh": "知乎",
         "logo": "/logo/ZhiHu.svg",
-        "url": "https://www.zhihu.com/search?type=content&q=「most-people」"
+        "url": "https://logo.aliyun.com/logo#/aigc"
     },
     "Filehelper": {
         "id": "Filehelper",

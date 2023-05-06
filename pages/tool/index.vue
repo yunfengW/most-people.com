@@ -1,8 +1,8 @@
 <template>
-  <div id="page-tools">
+  <div id="page-top">
     <mp-header content="万能工具箱" />
     <div class="top-box">
-      <div class="top" v-for="list in topList">
+      <div class="top" v-for="list in toolTopList">
         <h4>{{ list.zh }}</h4>
         <div class="li" v-for="key in list.top" @click="bindTool(key)">
           <img :src=" tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
@@ -10,13 +10,14 @@
         </div>
       </div>
     </div>
+    <nuxt-link to="/tools"></nuxt-link>
   </div>
 </template>
 
 <script setup lang="ts">
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
-import topList from '~/assets/json/topList.json'
+import toolTopList from '~/assets/json/toolTopList.json'
 import { useUserStore } from '~/stores/user'
 
 useHead({
@@ -26,16 +27,16 @@ useHead({
 const userStore = useUserStore()
 const router = useRouter()
 const bindTool = (key: string) => {
-  const tool = tools[key as 'Bing']?.id
-  if (tool) {
-    userStore.tools.push(tool)
+  const id = tools[key as 'Bing']?.id
+  if (id) {
+    userStore.tools.push(id)
     router.replace('/')
   }
 }
 </script>
 
 <style lang="scss">
-#page-tools.page {
+#page-top.page {
   background-color: #0e4d8a;
   max-width: 100%;
   color: #fff;
@@ -65,6 +66,11 @@ const bindTool = (key: string) => {
           width: 20px;
           height: 20px;
           margin-right: 4px;
+        }
+        a {
+          white-space: nowrap;
+          // overflow: hidden;
+          // text-overflow: ellipsis;
         }
       }
     }
