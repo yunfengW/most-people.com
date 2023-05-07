@@ -12,7 +12,7 @@
         </a>
       </template>
     </mp-header>
-    <ContentDoc class="markdown-box prose">
+    <ContentDoc class="markdown-box">
       <template #not-found>
         <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的操作指南</h4>
         <div>如果你有兴趣的话，加入我们吧</div>
