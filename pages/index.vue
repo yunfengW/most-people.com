@@ -70,6 +70,9 @@ const form = reactive({
 const userStore = useUserStore()
 
 const formatURL = (url: string) => {
+  if (url.startsWith('/')) {
+    return url
+  }
   if (url.includes('「most-people」')) {
     const keyword = encodeURIComponent(userStore.message || form.placeholder)
     return url.replace('「most-people」', keyword)

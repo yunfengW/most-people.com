@@ -59,6 +59,12 @@
         "logo": "/logo/BingTranslate.svg",
         "url": "https://www.bing.com/translator/?text=「most-people」"
     },
+    "Firewall": {
+        "id": "Firewall",
+        "zh": "防火墙",
+        "logo": "/logo/Firewall.svg",
+        "url": "/firewall"
+    },
     "Bito": {
         "id": "Bito",
         "zh": "Bito",
