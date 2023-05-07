@@ -10,12 +10,12 @@
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@types/node": "^18.16.3",
+    "@types/node": "^20.1.0",
     "nuxt": "^3.4.3"
   },
   "dependencies": {
-    "@nuxt/content": "^2.6.0",
     "@element-plus/nuxt": "^1.0.4",
+    "@nuxt/content": "^2.6.0",
     "@pinia/nuxt": "^0.4.9",
     "axios": "^1.4.0",
     "element-plus": "^2.3.4",

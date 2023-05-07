@@ -35,18 +35,22 @@
       </el-input>
     </div>
 
-    <div class="tools">
+    <div class="tools" :class="{ remove: form.remove }">
       <template v-for="key in userStore.tools">
-        <el-link :underline="false" type="info" class="tool" @click.prevent="bindTool(key)">
+        <div class="tool" @click="bindTool(key)">
           <el-image :src="tools[key as 'Bing']?.logo" fit="contain" />
           <span>{{ tools[key as 'Bing']?.zh }}</span>
           <mp-icon name="remove" @click.stop="bindRemove(key)" />
-        </el-link>
+        </div>
       </template>
-      <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
+      <div class="tool add" @click="$router.push('/tool')">
         <el-image src="/img/add.svg" fit="contain" />
         <span>添加</span>
-      </el-link>
+      </div>
+      <!-- <div v-show="userStore.tools.length > 0" class="tool del" @click="form.remove = !form.remove">
+        <el-image src="/img/remove.svg" fit="contain" />
+        <span>移除</span>
+      </div> -->
     </div>
   </div>
 </template>
@@ -58,6 +62,7 @@ import { useUserStore } from '~/stores/user'
 
 const form = reactive({
   placeholder: '没有调查，就没有发言权',
+  remove: false,
 })
 
 const userStore = useUserStore()
@@ -86,8 +91,10 @@ const bindTool = (key: string) => {
   }
 }
 const bindRemove = (key: string) => {
-  const tool = tools[key as 'Bing']
-  console.log('🌊', tool)
+  const i = userStore.tools.findIndex((e) => e === key)
+  if (i >= 0) {
+    userStore.tools.splice(i, 1)
+  }
 }
 </script>
 
@@ -185,31 +192,42 @@ const bindRemove = (key: string) => {
     grid-gap: 10px; /* 设置网格间距 */
     justify-content: space-between;
 
+    font-size: 14px;
+    color: var(--el-color-info);
+
     .tool {
+      cursor: pointer;
       position: relative;
-      .el-link__inner {
-        display: flex;
-        flex-direction: column;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
-        .el-image {
-          height: 40px;
-          width: 40px;
-          padding: 2px;
-        }
-
-        span {
-          margin-top: 4px;
-        }
+      .el-image {
+        height: 40px;
+        width: 40px;
+        padding: 2px;
       }
+
+      span {
+        margin-top: 4px;
+      }
+
       .mp-icon-remove {
-        // display: none;
+        visibility: hidden;
         position: absolute;
         top: 0;
         right: 0;
       }
+
       &:hover {
+        color: var(--el-color-info-light-3);
+      }
+    }
+
+    &.remove {
+      .tool {
         .mp-icon-remove {
-          display: block;
+          visibility: initial;
         }
       }
     }
