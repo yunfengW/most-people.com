@@ -26,10 +26,11 @@ useHead({
 
 const userStore = useUserStore()
 const router = useRouter()
+const route = useRoute()
 const bindTool = (key: string) => {
   const tool = tools[key as 'Bing']
   if (tool) {
-    if (userStore.tools.includes(tool.id) === false) {
+    if (route.query.type === 'add' && userStore.tools.includes(tool.id) === false) {
       userStore.tools.push(tool.id)
     }
     userStore.tool = tool

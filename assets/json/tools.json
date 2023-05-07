@@ -26,7 +26,7 @@
     "Yiyan": {
         "id": "Yiyan",
         "zh": "文心一言",
-        "logo": "/logo/Yiyan.ico",
+        "logo": "/logo/Yiyan.png",
         "url": "https://yiyan.baidu.com"
     },
     "Claude": {
@@ -34,6 +34,12 @@
         "zh": "Claude",
         "logo": "/logo/Claude.png",
         "url": "https://slack.com/apps/A04KGS7N9A8-claude"
+    },
+    "Vectorizer": {
+        "id": "Vectorizer",
+        "zh": "Vectorizer AI",
+        "logo": "/logo/Vectorizer.svg",
+        "url": "https://vectorizer.ai"
     },
     "Bito": {
         "id": "Bito",

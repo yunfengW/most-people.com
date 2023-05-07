@@ -8,7 +8,9 @@
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
       </nuxt-link>
-      <el-image class="logo" :src="userStore.tool.logo" />
+      <nuxt-link class="logo" to="/tool">
+        <el-image :src="userStore.tool.logo" />
+      </nuxt-link>
       <div class="right">
         <a :href="formatURL(userStore.tool.url)" target="_blank">{{ userStore.tool.zh }}</a>
       </div>
@@ -43,7 +45,7 @@
           <mp-icon name="remove" @click.stop="bindRemove(key)" />
         </div>
       </template>
-      <div class="tool add" @click="$router.push('/tool')">
+      <div class="tool add" @click="bindAdd">
         <el-image src="/img/add.svg" fit="contain" />
         <span>添加</span>
       </div>
@@ -89,6 +91,15 @@ const bindTool = (key: string) => {
   if (tool) {
     userStore.tool = tool
   }
+}
+const router = useRouter()
+const bindAdd = () => {
+  router.push({
+    path: '/tool',
+    query: {
+      type: 'add',
+    },
+  })
 }
 const bindRemove = (key: string) => {
   const i = userStore.tools.findIndex((e) => e === key)
@@ -145,6 +156,10 @@ const bindRemove = (key: string) => {
       margin: 20px 22px;
       height: 80px;
       width: 80px;
+      .el-image {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 
