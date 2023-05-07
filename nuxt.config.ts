@@ -1,10 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@element-plus/nuxt', '@pinia/nuxt', '@nuxt/content'],
-  content: {
-    documentDriven: true,
-  },
-  elementPlus: { importStyle: 'scss' },
   app: {
     head: {
       title: '动员群众，解决难题',
@@ -22,4 +17,11 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false,
   },
+  // modules
+  modules: ['@element-plus/nuxt', '@pinia/nuxt', '@nuxt/content'],
+  // https://content.nuxtjs.org/api/configuration#documentdriven
+  content: { documentDriven: true },
+  // https://content.nuxtjs.org/examples/mdc/nested-components
+  components: [{ path: '~/components', global: true }],
+  elementPlus: { importStyle: 'scss' },
 })
