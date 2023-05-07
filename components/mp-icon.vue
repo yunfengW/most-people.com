@@ -1,5 +1,5 @@
 <template>
-  <iconpark-icon :icon-id="props.name" class="mp-icon" :class="props.name" />
+  <iconpark-icon :icon-id="props.name" class="mp-icon" :class="`mp-icon-${props.name}`" />
 </template>
 
 <script setup lang="ts">

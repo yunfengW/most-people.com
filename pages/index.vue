@@ -37,16 +37,10 @@
 
     <div class="tools">
       <template v-for="key in userStore.tools">
-        <el-link
-          :underline="false"
-          type="info"
-          class="tool"
-          :href="tools[key as 'Bing']?.url"
-          target="_blank"
-          @click.prevent="bindTool(key)"
-        >
+        <el-link :underline="false" type="info" class="tool" @click.prevent="bindTool(key)">
           <el-image :src="tools[key as 'Bing']?.logo" fit="contain" />
           <span>{{ tools[key as 'Bing']?.zh }}</span>
+          <mp-icon name="remove" @click.stop="bindRemove(key)" />
         </el-link>
       </template>
       <el-link :underline="false" type="info" class="tool" @click="$router.push('/tool')">
@@ -90,6 +84,10 @@ const bindTool = (key: string) => {
   if (tool) {
     userStore.tool = tool
   }
+}
+const bindRemove = (key: string) => {
+  const tool = tools[key as 'Bing']
+  console.log('🌊', tool)
 }
 </script>
 
@@ -188,6 +186,7 @@ const bindTool = (key: string) => {
     justify-content: space-between;
 
     .tool {
+      position: relative;
       .el-link__inner {
         display: flex;
         flex-direction: column;
@@ -200,6 +199,17 @@ const bindTool = (key: string) => {
 
         span {
           margin-top: 4px;
+        }
+      }
+      .mp-icon-remove {
+        // display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+      &:hover {
+        .mp-icon-remove {
+          display: block;
         }
       }
     }
