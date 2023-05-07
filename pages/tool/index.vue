@@ -27,9 +27,12 @@ useHead({
 const userStore = useUserStore()
 const router = useRouter()
 const bindTool = (key: string) => {
-  const id = tools[key as 'Bing']?.id
-  if (id) {
-    userStore.tools.push(id)
+  const tool = tools[key as 'Bing']
+  if (tool) {
+    if (userStore.tools.includes(tool.id) === false) {
+      userStore.tools.push(tool.id)
+    }
+    userStore.tool = tool
     router.replace('/')
   }
 }
