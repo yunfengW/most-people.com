@@ -40,7 +40,10 @@
     {
         "zh": "翻译",
         "top": [
-            "SogouTranslate"
+            "SogouTranslate",
+            "GoogleTranslate",
+            "BingTranslate",
+            "YouDao"
         ]
     },
     {

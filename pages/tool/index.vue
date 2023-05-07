@@ -48,18 +48,17 @@ const bindTool = (key: string) => {
 
   .top-box {
     color: #000;
-    display: flex;
-    flex-wrap: wrap;
-    margin-right: -8px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 8px;
+    justify-content: space-between;
     .top {
       box-shadow: 0 3px 6px 0 rgba(14, 30, 62, 0.08);
       background-color: #fff;
       will-change: background;
       list-style: auto;
       border-radius: 5px;
-      margin-right: 8px;
-      margin-bottom: 8px;
-      width: 163px;
       padding: 0 20px 20px;
       .li {
         margin: 4px 0;

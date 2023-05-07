@@ -41,6 +41,24 @@
         "logo": "/logo/Vectorizer.svg",
         "url": "https://vectorizer.ai"
     },
+    "YouDao": {
+        "id": "YouDao",
+        "zh": "有道词典",
+        "logo": "/logo/YouDao.png",
+        "url": "https://dict.youdao.com/result?word=「most-people」&lang=en"
+    },
+    "GoogleTranslate": {
+        "id": "GoogleTranslate",
+        "zh": "谷歌翻译",
+        "logo": "/logo/GoogleTranslate.png",
+        "url": "https://translate.google.com/?hl=zh-CN&sl=auto&tl=zh-CN&text=「most-people」&op=translate"
+    },
+    "BingTranslate": {
+        "id": "BingTranslate",
+        "zh": "微软翻译",
+        "logo": "/logo/BingTranslate.svg",
+        "url": "https://www.bing.com/translator/?text=「most-people」"
+    },
     "Bito": {
         "id": "Bito",
         "zh": "Bito",
