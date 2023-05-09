@@ -175,7 +175,7 @@
     },
     "AliyunLogo": {
         "id": "AliyunLogo",
-        "zh": "阿里云 Logo",
+        "zh": "阿里云 logo AI",
         "logo": "/logo/Aliyun.svg",
         "url": "https://logo.aliyun.com/logo#/name"
     },
@@ -183,7 +183,7 @@
         "id": "ZhiHu",
         "zh": "知乎",
         "logo": "/logo/ZhiHu.svg",
-        "url": "https://logo.aliyun.com/logo#/aigc"
+        "url": "https://www.zhihu.com/search?type=content&q=「most-people」"
     },
     "Filehelper": {
         "id": "Filehelper",

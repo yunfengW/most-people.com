@@ -14,7 +14,7 @@
     </mp-header>
     <ContentDoc class="markdown-box">
       <template #not-found>
-        <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的操作指南</h4>
+        <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的使用指南</h4>
         <div>如果你有兴趣的话，加入我们吧</div>
         <br />
         <el-image class="join-us" src="/img/join-us.jpg" />
