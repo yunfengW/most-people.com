@@ -39,7 +39,7 @@
 
     <div class="tools" :class="{ remove: form.remove }">
       <template v-for="key in userStore.tools">
-        <div class="tool" @click="bindTool(key)" @dblclick="send($event, key)">
+        <div class="tool" @click="bindTool(key)">
           <el-image :src="tools[key as 'Bing']?.logo" fit="contain" />
           <span>{{ tools[key as 'Bing']?.zh }}</span>
           <mp-icon name="remove" @click.stop="bindRemove(key)" />

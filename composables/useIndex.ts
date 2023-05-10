@@ -24,15 +24,8 @@ export const useIndex = () => {
     urlObject.searchParams.set('mp-keyword', keyword)
     return urlObject.href
   }
-  const send = (event: MouseEvent, key?: string) => {
-    let url = userStore.tool.url
-    if (key) {
-      const tool = tools[key as 'Bing']
-      if (tool) {
-        url = tool.url
-      }
-    }
-    url = formatURL(url)
+  const send = () => {
+    const url = formatURL(userStore.tool.url)
     window.open(url)
   }
   const microphone = () => {
