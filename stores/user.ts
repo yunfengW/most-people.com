@@ -32,10 +32,11 @@ export const useUserStore = defineStore({
         'Bing',
         'Google',
         'Douyin',
-        'ZhiHu',
         'Bilibili',
         'Notion',
         'SogouTranslate',
+        'Filehelper',
+        'MathSolver',
       ],
       message: '',
     }
@@ -58,11 +59,14 @@ export const useUserStore = defineStore({
     update(user: User, token: string) {
       this.user = user
       window.sessionStorage.setItem('token', token)
+
+      if (user.tools) {
+        this.tools = user.tools
+      }
     },
     updateTools() {
       const tools = JSON.parse(JSON.stringify(this.tools))
-      console.log('tools', tools)
-      // api.updateUser({ tools })
+      api.updateUser({ tools })
     },
     async init() {
       const username = window.localStorage.getItem('username')

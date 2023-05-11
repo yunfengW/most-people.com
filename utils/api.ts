@@ -87,7 +87,7 @@ const api = {
   checkUserName(name: string): Promise<boolean> {
     return axios({ method: 'post', url: '/user/check.name', data: { name } })
   },
-  updateUser(data: Object): Promise<boolean> {
+  updateUser(data: object): Promise<boolean> {
     return axios({ method: 'post', url: '/user/update', data: data })
   },
   register(name: string, password_hash: string, address: string): Promise<User | null> {
