@@ -185,6 +185,24 @@
         "logo": "/logo/ZhiHu.svg",
         "url": "https://www.zhihu.com/search?type=content&q=「most-people」"
     },
+    "XiaoMi": {
+        "id": "XiaoMi",
+        "zh": "小米商城",
+        "logo": "/logo/XiaoMi.png",
+        "url": "https://www.mi.com/shop/search?keyword=「most-people」"
+    },
+    "JingDong": {
+        "id": "JingDong",
+        "zh": "京东",
+        "logo": "/logo/JingDong.svg",
+        "url": "https://search.jd.com/Search?keyword=「most-people」"
+    },
+    "PinDuoDuo": {
+        "id": "PinDuoDuo",
+        "zh": "拼多多",
+        "logo": "/logo/PinDuoDuo.svg",
+        "url": "https://m.pinduoduo.com/m_goods-list?keyword=「most-people」「mobile」"
+    },
     "Filehelper": {
         "id": "Filehelper",
         "zh": "微信文件传输",

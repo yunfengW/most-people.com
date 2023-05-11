@@ -103,5 +103,13 @@
         "top": [
             "MiniGPT"
         ]
+    },
+    {
+        "zh": "购物",
+        "top": [
+            "XiaoMi",
+            "JingDong",
+            "PinDuoDuo"
+        ]
     }
 ]
