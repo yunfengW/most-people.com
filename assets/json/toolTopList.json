@@ -50,6 +50,7 @@
         "zh": "翻译",
         "top": [
             "SogouTranslate",
+            "DeepL",
             "GoogleTranslate",
             "BingTranslate",
             "YouDao"

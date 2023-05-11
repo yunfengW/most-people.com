@@ -29,6 +29,12 @@
         "logo": "/logo/StableDiffusion.png",
         "url": "https://stablediffusionweb.com/#demo"
     },
+    "DeepL": {
+        "id": "DeepL",
+        "zh": "DeepL",
+        "logo": "/logo/DeepL.svg",
+        "url": "https://www.deepl.com/translator#zh/en/「most-people」"
+    },
     "Bard": {
         "id": "Bard",
         "zh": "Bard",

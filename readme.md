@@ -40,3 +40,25 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+TODO:
+
+[AI 语音](https://murf.ai/)
+[AI 视频](https://www.heygen.com/)
+
+```json
+{
+  "TencentTranslator": {
+    "id": "TencentTranslator",
+    "zh": "腾讯翻译君",
+    "logo": "/logo/TencentTranslator.svg",
+    "url": "https://fanyi.qq.com/"
+  },
+  "AliTranslate": {
+    "id": "AliTranslate",
+    "zh": "阿里翻译",
+    "logo": "/logo/AliTranslate.svg",
+    "url": "https://translate.alibaba.com/"
+  }
+}
+```
