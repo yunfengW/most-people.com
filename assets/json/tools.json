@@ -134,7 +134,7 @@
     "WolframAlpha": {
         "id": "WolframAlpha",
         "zh": "沃尔夫勒姆",
-        "logo": "/logo/WolframAlpha.ico",
+        "logo": "/logo/WolframAlpha.svg",
         "url": "https://www.wolframalpha.com/input?i=「most-people」"
     },
     "MathSolver": {
