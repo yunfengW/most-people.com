@@ -40,6 +40,11 @@ export const useIndex = () => {
   }
 
   const bindAdd = () => {
+    if (userStore.user === null) {
+      mp.info('请先登录，登录后即可使用')
+      router.push('/mine')
+      return
+    }
     router.push({
       path: '/tool',
       query: {
@@ -54,6 +59,14 @@ export const useIndex = () => {
       userStore.updateTools()
     }
   }
+  const toggleRemove = () => {
+    if (userStore.user === null) {
+      mp.info('请先登录，登录后即可使用')
+      router.push('/mine')
+      return
+    }
+    form.remove = !form.remove
+  }
   return {
     tools,
     userStore,
@@ -63,6 +76,7 @@ export const useIndex = () => {
     bindTool,
     bindAdd,
     bindRemove,
+    toggleRemove,
     formatURL,
   }
 }

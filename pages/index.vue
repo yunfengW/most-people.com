@@ -3,7 +3,7 @@
     <nuxt-link class="mp-join-us" to="/join-us">
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
-    <mp-icon name="setting" @click="form.remove = !form.remove" />
+    <mp-icon name="setting" @click="toggleRemove" />
     <div class="current-tool">
       <nuxt-link class="left" :to="'/tool/' + mp.hyphenate(userStore.tool.id)">
         <mp-icon name="how-to-use" />
@@ -67,6 +67,7 @@ const {
   bindTool,
   bindAdd,
   bindRemove,
+  toggleRemove,
   //
   formatURL,
 } = useIndex()
