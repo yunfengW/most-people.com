@@ -45,7 +45,7 @@ export const useRegister = () => {
   }
   // submit
   const submit = async (username: string, password: string) => {
-    const key = await mp.key(username, password)
+    const { key } = await mp.key(username, password)
     const password_hash = await mp.encrypt(username, key)
     const ok = await api.register(username, password_hash)
     if (ok) {

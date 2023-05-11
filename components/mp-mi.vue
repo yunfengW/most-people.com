@@ -29,7 +29,7 @@ const form = reactive({
   decrypted: '',
 })
 const encrypt = async () => {
-  const key = await mp.key('most-people', form.password)
+  const { key } = await mp.key('most-people', form.password)
   const decrypted = await mp.decrypt(props.mi, key)
   if (decrypted) {
     form.decrypted = decrypted

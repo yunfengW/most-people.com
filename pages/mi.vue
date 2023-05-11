@@ -83,7 +83,7 @@ const encrypt = () => {
   formElement.value.validateField(['password', 'decrypted'], async (ok) => {
     if (ok) {
       form.encryptedLoading = true
-      const key = await mp.key('most-people', form.password)
+      const { key } = await mp.key('most-people', form.password)
       form.encrypted = await mp.encrypt(form.decrypted, key)
       form.encryptedLoading = false
     }
@@ -94,7 +94,7 @@ const decrypt = () => {
   formElement.value.validateField(['password', 'encrypted'], async (ok) => {
     if (ok) {
       form.decryptedLoading = true
-      const key = await mp.key('most-people', form.password)
+      const { key } = await mp.key('most-people', form.password)
       form.decrypted = await mp.decrypt(form.encrypted, key)
       form.decryptedLoading = false
     }

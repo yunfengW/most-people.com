@@ -21,7 +21,7 @@ export const useLogin = () => {
         form.loading = true
         const user = await api.getUser(form.username)
         if (user) {
-          const key = await mp.key(form.username, form.password)
+          const { key, token } = await mp.key(form.username, form.password)
           const username = await mp.decrypt(user.password_hash, key)
           if (username === form.username) {
             // login success

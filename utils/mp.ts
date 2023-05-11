@@ -1,4 +1,5 @@
-import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes } from 'ethers'
+import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes, Wallet } from 'ethers'
+import dayjs from 'dayjs'
 
 const mp = {
   // 本地私钥
@@ -6,14 +7,24 @@ const mp = {
     const p = toUtf8Bytes(password)
     const salt = toUtf8Bytes('/mp/' + username)
     const kdf = pbkdf2(p, salt, 1, 256 / 8, 'sha512')
-    const array = toUtf8Bytes(sha256(kdf))
+    const privateKey = sha256(kdf)
+
+    // address
+    const wallet = new Wallet(privateKey)
+
+    const message = `login time: ${dayjs().endOf('week').unix()}`
+    const token = await wallet.signMessage(message)
+
+    const array = toUtf8Bytes(privateKey)
     const keydata = array.slice(-32)
     // https://gist.github.com/pedrouid/b4056fd1f754918ddae86b32cf7d803e#aes-gcm
     const key = await window.crypto.subtle.importKey('raw', keydata, { name: 'AES-GCM' }, false, [
       'encrypt',
       'decrypt',
     ])
-    return key
+
+    const address = wallet.address
+    return { key, address, token }
   },
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
