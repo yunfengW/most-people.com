@@ -51,6 +51,7 @@ export const useIndex = () => {
     const i = userStore.tools.findIndex((e) => e === key)
     if (i >= 0) {
       userStore.tools.splice(i, 1)
+      userStore.updateTools()
     }
   }
   return {

@@ -1,8 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const axios = Axios.create({
-  // baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
-  baseURL: 'https://43.139.26.30:1976',
+  baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
+  // baseURL: 'https://43.139.26.30:1976',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors
@@ -73,13 +73,7 @@ export interface User {
   password_hash: string
   sign_time: string
 
-  engines?: number[]
-  notes?: NoteList[]
-  avatar?: string
-  phone?: string
-  task_list?: string[]
-  task_history?: string[]
-  motto?: string
+  tools?: string[]
 }
 
 const api = {
@@ -91,6 +85,9 @@ const api = {
   },
   checkUserName(name: string): Promise<boolean> {
     return axios({ method: 'post', url: '/user/check.name', data: { name } })
+  },
+  updateUser(data: Object): Promise<boolean> {
+    return axios({ method: 'post', url: '/user/update', data: data })
   },
   register(name: string, password_hash: string): Promise<User | null> {
     return axios({ method: 'post', url: '/user/register', data: { name, password_hash } })

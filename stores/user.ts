@@ -27,7 +27,16 @@ export const useUserStore = defineStore({
       inited: false,
       // current tool
       tool: Bing,
-      tools: ['ChatGPT', 'Bing', 'Google', 'Douyin', 'ZhiHu', 'Bilibili', 'Notion'],
+      tools: [
+        'ChatGPT',
+        'Bing',
+        'Google',
+        'Douyin',
+        'ZhiHu',
+        'Bilibili',
+        'Notion',
+        'SogouTranslate',
+      ],
       message: '',
     }
   },
@@ -48,6 +57,11 @@ export const useUserStore = defineStore({
   actions: {
     update(user: User) {
       this.user = user
+    },
+    updateTools() {
+      const tools = JSON.parse(JSON.stringify(this.tools))
+      console.log('tools', tools)
+      // api.updateUser({ tools })
     },
     async init() {
       const username = localStorage.getItem('username')

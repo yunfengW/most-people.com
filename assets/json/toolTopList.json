@@ -39,20 +39,20 @@
         ]
     },
     {
+        "zh": "AI 修图",
+        "top": [
+            "Clipdrop",
+            "Vectorizer",
+            "RunwayML"
+        ]
+    },
+    {
         "zh": "翻译",
         "top": [
             "SogouTranslate",
             "GoogleTranslate",
             "BingTranslate",
             "YouDao"
-        ]
-    },
-    {
-        "zh": "AI 修图",
-        "top": [
-            "Clipdrop",
-            "Vectorizer",
-            "RunwayML"
         ]
     },
     {

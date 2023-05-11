@@ -35,6 +35,7 @@ const bindTool = (key: string) => {
   if (tool) {
     if (route.query.type === 'add' && userStore.tools.includes(tool.id) === false) {
       userStore.tools.push(tool.id)
+      userStore.updateTools()
     }
     userStore.tool = tool
     router.replace('/')
