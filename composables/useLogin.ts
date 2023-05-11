@@ -28,7 +28,6 @@ export const useLogin = () => {
             indexDB.setUser(username, key).then((ok) => {
               if (ok) {
                 userStore.update(user)
-                mp.setCookie('token', token)
                 router.back()
               } else {
                 mp.error('indexDB 写入失败')

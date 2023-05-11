@@ -1,9 +1,6 @@
 import { defineStore } from 'pinia'
 import { User } from '~/utils/api'
 import { Bing } from '~/assets/json/tools.json'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-dayjs.extend(utc)
 
 export interface Tool {
   id: string
