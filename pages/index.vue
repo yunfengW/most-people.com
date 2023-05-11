@@ -3,6 +3,7 @@
     <nuxt-link class="mp-join-us" to="/join-us">
       <el-button link type="info">Join Us</el-button>
     </nuxt-link>
+    <mp-icon name="setting" @click="form.remove = !form.remove" />
     <div class="current-tool">
       <nuxt-link class="left" :to="'/tool/' + mp.hyphenate(userStore.tool.id)">
         <mp-icon name="how-to-use" />
@@ -78,6 +79,22 @@ const {
     left: 10px;
     bottom: 10px;
     z-index: 10;
+  }
+
+  > .mp-icon-setting {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+
+    padding: 10px;
+    cursor: pointer;
+    color: var(--el-color-info);
+    font-size: 20px;
+
+    &:hover {
+      color: var(--el-color-info-light-5);
+    }
   }
 
   .current-tool {

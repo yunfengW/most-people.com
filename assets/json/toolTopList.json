@@ -18,7 +18,8 @@
             "Google",
             "Douyin",
             "Bilibili",
-            "ZhiHu"
+            "ZhiHu",
+            "BaiduBaiKe"
         ]
     },
     {
@@ -96,12 +97,6 @@
         "zh": "编程",
         "top": [
             "GitHub"
-        ]
-    },
-    {
-        "zh": "AI 识图",
-        "top": [
-            "MiniGPT"
         ]
     },
     {

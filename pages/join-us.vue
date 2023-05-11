@@ -1,7 +1,8 @@
 <template>
   <div id="page-join-us">
     <mp-header content="加入我们" />
-    Most People 官方微信:
+    <div>Most People 官方微信:</div>
+    <br />
     <el-image class="join-us" src="/img/join-us.jpg" />
     <br />
     Slack:

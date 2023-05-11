@@ -113,12 +113,6 @@
         "logo": "/logo/RunwayML.png",
         "url": "https://runwayml.com/ai-magic-tools"
     },
-    "MiniGPT": {
-        "id": "MiniGPT",
-        "zh": "MiniGPT-4",
-        "logo": "/logo/MiniGPT.svg",
-        "url": "https://minigpt-4.github.io"
-    },
     "HuggingChat": {
         "id": "HuggingChat",
         "zh": "HuggingChat",
@@ -166,6 +160,12 @@
         "zh": "谷歌",
         "logo": "/logo/Google.svg",
         "url": "https://www.google.com/search?q=「most-people」"
+    },
+    "BaiduBaiKe": {
+        "id": "BaiduBaiKe",
+        "zh": "百度百科",
+        "logo": "/logo/Baidu.svg",
+        "url": "https://baike.baidu.com/item/「most-people」"
     },
     "GitHub": {
         "id": "GitHub",
