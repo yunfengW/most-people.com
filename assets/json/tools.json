@@ -17,6 +17,18 @@
         "logo": "/logo/Bing.svg",
         "url": "https://www.bing.com/search?q=「most-people」"
     },
+    "BingCreate": {
+        "id": "BingCreate",
+        "zh": "必应 DALL·E",
+        "logo": "/logo/Bing.svg",
+        "url": "https://www.bing.com/images/create"
+    },
+    "StableDiffusion": {
+        "id": "StableDiffusion",
+        "zh": "Stable Diffusion",
+        "logo": "/logo/StableDiffusion.png",
+        "url": "https://stablediffusionweb.com/#demo"
+    },
     "Bard": {
         "id": "Bard",
         "zh": "Bard",
@@ -214,11 +226,5 @@
         "zh": "你画我猜",
         "logo": "/logo/Gartic.png",
         "url": "https://gartic.io"
-    },
-    "DallE": {
-        "id": "DallE",
-        "zh": "DALL·E",
-        "logo": "/logo/OpenAI.svg",
-        "url": "https://labs.openai.com"
     }
 }

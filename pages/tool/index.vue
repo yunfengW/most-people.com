@@ -4,9 +4,12 @@
     <div class="top-box">
       <div class="top" v-for="list in toolTopList">
         <h4>{{ list.zh }}</h4>
-        <div class="li" v-for="key in list.top" @click="bindTool(key)">
-          <img :src=" tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
-          <a>{{ tools[key as 'Bing']?.zh }}</a>
+        <div class="ul">
+          <div class="li" v-for="(key, i) in list.top" @click="bindTool(key)">
+            <span class="No">{{ i + 1 }}</span>
+            <img class="logo" :src=" tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
+            <a>{{ tools[key as 'Bing']?.zh }}</a>
+          </div>
         </div>
       </div>
     </div>
@@ -60,20 +63,28 @@ const bindTool = (key: string) => {
       list-style: auto;
       border-radius: 5px;
       padding: 0 20px 20px;
-      .li {
-        margin: 4px 0;
-        display: flex;
-        align-items: center;
+      .ul {
+        height: 96px;
+        overflow-y: auto;
 
-        img {
-          width: 20px;
-          height: 20px;
-          margin-right: 4px;
-        }
-        a {
-          white-space: nowrap;
-          // overflow: hidden;
-          // text-overflow: ellipsis;
+        .li {
+          display: flex;
+          align-items: center;
+          height: 24px;
+
+          .No {
+            margin-right: 4px;
+          }
+          img.logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 4px;
+          }
+          a {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
     }
