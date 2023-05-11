@@ -33,7 +33,6 @@ export const useUserStore = defineStore({
         'Google',
         'Douyin',
         'Bilibili',
-        'Notion',
         'SogouTranslate',
         'Filehelper',
         'MathSolver',

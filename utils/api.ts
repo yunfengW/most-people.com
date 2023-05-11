@@ -73,6 +73,7 @@ export interface User {
   name: string
   password_hash: string
   sign_time: string
+  address: string
 
   tools?: string[]
 }

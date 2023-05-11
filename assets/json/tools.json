@@ -35,6 +35,18 @@
         "logo": "/logo/Bard.svg",
         "url": "https://bard.google.com"
     },
+    "QQMusic": {
+        "id": "QQMusic",
+        "zh": "QQ 音乐",
+        "logo": "/logo/QQMusic.png",
+        "url": "https://y.qq.com/n/ryqq/search?w=「most-people」"
+    },
+    "NeteaseMusic": {
+        "id": "NeteaseMusic",
+        "zh": "网易云音乐",
+        "logo": "/logo/NeteaseMusic.png",
+        "url": "https://music.163.com/#/search/m/?s=「most-people」"
+    },
     "Yiyan": {
         "id": "Yiyan",
         "zh": "文心一言",
