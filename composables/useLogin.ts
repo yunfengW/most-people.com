@@ -25,9 +25,9 @@ export const useLogin = () => {
           const username = await mp.decrypt(user.password_hash, key)
           if (username === form.username) {
             // login success
-            indexDB.setUser(username, key).then((ok) => {
+            indexDB.setUser(username, key, token).then((ok) => {
               if (ok) {
-                userStore.update(user)
+                userStore.update(user, token)
                 router.back()
               } else {
                 mp.error('indexDB 写入失败')

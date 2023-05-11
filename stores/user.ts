@@ -55,8 +55,9 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    update(user: User) {
+    update(user: User, token: string) {
       this.user = user
+      window.sessionStorage.setItem('token', token)
     },
     updateTools() {
       const tools = JSON.parse(JSON.stringify(this.tools))
@@ -64,7 +65,7 @@ export const useUserStore = defineStore({
       // api.updateUser({ tools })
     },
     async init() {
-      const username = localStorage.getItem('username')
+      const username = window.localStorage.getItem('username')
       if (username) {
         const userDB = await indexDB.getUser(username)
         if (userDB) {
@@ -72,9 +73,12 @@ export const useUserStore = defineStore({
           if (user) {
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
             if (username === decrypt_username) {
-              this.update(user)
+              this.update(user, userDB.token)
             }
           }
+        } else {
+          window.sessionStorage.removeItem('token')
+          window.localStorage.removeItem('username')
         }
       }
       this.inited = true

@@ -12,8 +12,9 @@ const mp = {
     // address
     const wallet = new Wallet(privateKey)
 
-    const message = `login time: ${dayjs().endOf('week').unix()}`
-    const token = await wallet.signMessage(message)
+    const message = String(dayjs().unix())
+    const sig = await wallet.signMessage(message)
+    const token = [message, sig].join()
 
     const array = toUtf8Bytes(privateKey)
     const keydata = array.slice(-32)

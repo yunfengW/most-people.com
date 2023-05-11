@@ -8,6 +8,7 @@ const axios = Axios.create({
 // interceptors https://axios-http.com/zh/docs/interceptors
 axios.interceptors.request.use(
   function (config) {
+    config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('token') || ''
     return config
   },
   function (error) {

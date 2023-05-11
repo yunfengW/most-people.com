@@ -4,6 +4,7 @@
 export interface UserDB {
   name: string
   key: CryptoKey
+  token: string
 }
 
 let db: IDBDatabase | undefined
@@ -55,14 +56,14 @@ export const indexDB = {
   },
 
   // 设置用户
-  setUser(name: string, key: CryptoKey): Promise<boolean> {
+  setUser(name: string, key: CryptoKey, token: string): Promise<boolean> {
     return new Promise((resolve) => {
       if (!db) {
         resolve(false)
         return
       }
       const store = db.transaction(['user'], 'readwrite').objectStore('user')
-      const request = store.put({ name, key })
+      const request = store.put({ name, key, token })
       request.onsuccess = () => {
         window.localStorage.setItem('username', name)
         resolve(true)
