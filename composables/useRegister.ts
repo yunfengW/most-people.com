@@ -45,9 +45,9 @@ export const useRegister = () => {
   }
   // submit
   const submit = async (username: string, password: string) => {
-    const { key } = await mp.key(username, password)
+    const { key, address } = await mp.key(username, password)
     const password_hash = await mp.encrypt(username, key)
-    const ok = await api.register(username, password_hash)
+    const ok = await api.register(username, password_hash, address)
     if (ok) {
       router.replace('/login')
       mp.success('注册成功')
@@ -81,6 +81,9 @@ export const useRegister = () => {
     }
     if (/^\S{4,32}$/.test(password) === false) {
       return callback(new Error('密码长度为 4-32 位'))
+    }
+    if (/[^a-zA-Z0-9]/.test(password) === true) {
+      return callback()
     }
     if (/(?=.*[A-Z])(?=.*\S)[^]/.test(password) === false) {
       return callback(new Error('至少1个大写字母'))

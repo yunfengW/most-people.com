@@ -89,8 +89,8 @@ const api = {
   updateUser(data: Object): Promise<boolean> {
     return axios({ method: 'post', url: '/user/update', data: data })
   },
-  register(name: string, password_hash: string): Promise<User | null> {
-    return axios({ method: 'post', url: '/user/register', data: { name, password_hash } })
+  register(name: string, password_hash: string, address: string): Promise<User | null> {
+    return axios({ method: 'post', url: '/user/register', data: { name, password_hash, address } })
   },
 }
 
