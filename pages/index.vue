@@ -204,6 +204,9 @@ const {
 
       span {
         margin-top: 4px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .mp-icon-remove {
