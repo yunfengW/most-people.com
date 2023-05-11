@@ -71,6 +71,7 @@ const mp = {
       return ''
     }
   },
+
   // 驼峰命名法（camelCase）转 短横线分隔命名法（kebab-case）
   hyphenate(str: string) {
     return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
@@ -81,6 +82,7 @@ const mp = {
     // 首字母大写
     return result.charAt(0).toUpperCase() + result.slice(1)
   },
+
   // 错误提示
   error(message: string) {
     ElMessage({
@@ -110,6 +112,31 @@ const mp = {
       customClass: 'mp-message-info',
       grouping: true,
     })
+  },
+
+  // 创建 cookie
+  setCookie(name: string, value: string) {
+    const weekend = dayjs().endOf('week') // 获取本周末的日期
+    document.cookie = name + '=' + (value || '') + '; expires=' + weekend.utc() + '; path=/'
+  },
+  // 读取 cookie
+  getCookie(name: string) {
+    const nameEQ = name + '='
+    const ca = document.cookie.split(';')
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i]
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1, c.length)
+      }
+      if (c.indexOf(nameEQ) == 0) {
+        return c.substring(nameEQ.length, c.length)
+      }
+    }
+    return null
+  },
+  // 删除 cookie
+  deleteCookie(name: string) {
+    document.cookie = name + '=; Max-Age=-99999999;'
   },
 }
 

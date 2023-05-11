@@ -81,7 +81,7 @@ const api = {
     return axios({ url: '/note', params: { id } })
   },
   getUser(name: string): Promise<User | null> {
-    return axios({ url: '/user', params: { name } })
+    return axios({ url: '/user/get', params: { name } })
   },
   checkUserName(name: string): Promise<boolean> {
     return axios({ method: 'post', url: '/user/check.name', data: { name } })
