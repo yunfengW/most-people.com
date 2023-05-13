@@ -107,6 +107,7 @@
         "zh": "工具",
         "top": [
             "Filehelper",
+            "ImageExif",
             "Firewall"
         ]
     },

@@ -275,6 +275,12 @@
         "logo": "/logo/Filehelper.jpg",
         "url": "https://filehelper.weixin.qq.com"
     },
+    "ImageExif": {
+        "id": "ImageExif",
+        "zh": "图片定位信息",
+        "logo": "/logo/Strerr.svg",
+        "url": "https://www.strerr.com/cn/exif.html"
+    },
     "Gartic": {
         "id": "Gartic",
         "zh": "你画我猜",
