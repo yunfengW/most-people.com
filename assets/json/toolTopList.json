@@ -19,6 +19,7 @@
             "Douyin",
             "Bilibili",
             "ZhiHu",
+            "Sogou",
             "BaiduBaiKe"
         ]
     },
@@ -50,10 +51,13 @@
         "zh": "翻译",
         "top": [
             "SogouTranslate",
-            "DeepL",
             "GoogleTranslate",
+            "YouDao",
+            "DeepL",
             "BingTranslate",
-            "YouDao"
+            "BaiduTranslate",
+            "TencentTranslator",
+            "AliTranslate"
         ]
     },
     {
@@ -70,15 +74,27 @@
         ]
     },
     {
-        "zh": "口语练习",
-        "top": [
-            "MyShell"
-        ]
-    },
-    {
         "zh": "AI 写作",
         "top": [
             "Notion"
+        ]
+    },
+    {
+        "zh": "AI 数字人",
+        "top": [
+            "HeyGen"
+        ]
+    },
+    {
+        "zh": "AI 配音",
+        "top": [
+            "Murf"
+        ]
+    },
+    {
+        "zh": "AI 对话",
+        "top": [
+            "MyShell"
         ]
     },
     {

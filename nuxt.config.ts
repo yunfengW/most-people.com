@@ -3,6 +3,12 @@ export default defineNuxtConfig({
   app: {
     head: {
       title: '动员群众，解决难题',
+      meta: [
+        {
+          name: 'description',
+          content: 'AI 时代的万能工具箱',
+        },
+      ],
       script: ['/js/iconpark.js'],
     },
   },

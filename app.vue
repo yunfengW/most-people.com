@@ -20,7 +20,7 @@ const initZoom = () => {
     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 
   // 计算缩放比例
-  const scaleRatio = Math.min(1920 / screenWidth, 1080 / screenHeight) // 假设参考分辨率为 1920x1080
+  const scaleRatio = Math.min(1440 / screenWidth, 900 / screenHeight) // 假设参考分辨率为 1920x1080
 
   // 计算缩放级别
   const zoomLevel = 1 / scaleRatio
@@ -54,6 +54,7 @@ html {
 body {
   margin: 0;
 }
+
 a {
   cursor: pointer;
   color: var(--el-color-primary);
@@ -62,9 +63,16 @@ a {
 a:hover {
   color: var(--el-color-primary-dark-2);
 }
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+}
+
 #app {
   position: relative;
-  min-height: 100vh;
+  min-height: 100%;
 
   > .page {
     display: flex;

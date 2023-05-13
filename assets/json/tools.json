@@ -11,6 +11,24 @@
         "logo": "/logo/Midjourney.png",
         "url": "https://discord.com/invite/midjourney"
     },
+    "AliTranslate": {
+        "id": "AliTranslate",
+        "zh": "阿里翻译",
+        "logo": "/logo/AliTranslate.ico",
+        "url": "https://translate.alibaba.com/"
+    },
+    "BaiduTranslate": {
+        "id": "BaiduTranslate",
+        "zh": "百度翻译",
+        "logo": "/logo/BaiduTranslate.ico",
+        "url": "https://fanyi.baidu.com/#zh/en/「most-people」"
+    },
+    "TencentTranslator": {
+        "id": "TencentTranslator",
+        "zh": "腾讯翻译君",
+        "logo": "/logo/TencentTranslator.png",
+        "url": "https://fanyi.qq.com/"
+    },
     "Bing": {
         "id": "Bing",
         "zh": "必应",
@@ -34,6 +52,12 @@
         "zh": "DeepL",
         "logo": "/logo/DeepL.svg",
         "url": "https://www.deepl.com/translator#zh/en/「most-people」"
+    },
+    "Murf": {
+        "id": "Murf",
+        "zh": "Murf AI",
+        "logo": "/logo/Murf.svg",
+        "url": "https://murf.ai/"
     },
     "Bard": {
         "id": "Bard",
@@ -173,6 +197,12 @@
         "logo": "/logo/Sogou.png",
         "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
     },
+    "Sogou": {
+        "id": "Sogou",
+        "zh": "搜狗",
+        "logo": "/logo/Sogou.png",
+        "url": "https://sogou.com/web?query=「most-people」"
+    },
     "Douyin": {
         "id": "Douyin",
         "zh": "抖音",
@@ -184,6 +214,12 @@
         "zh": "哔哩哔哩",
         "logo": "/logo/Bilibili.svg",
         "url": "https://search.bilibili.com/all?keyword=「most-people」&search_source=1"
+    },
+    "HeyGen": {
+        "id": "HeyGen",
+        "zh": "HeyGen",
+        "logo": "/logo/HeyGen.svg",
+        "url": "https://www.heygen.com/"
     },
     "Google": {
         "id": "Google",
