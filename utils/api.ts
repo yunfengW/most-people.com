@@ -1,8 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const axios = Axios.create({
-  // baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
-  baseURL: 'https://43.139.26.30:1976',
+  baseURL: import.meta.env.PROD ? 'https://43.139.26.30:1976' : 'http://localhost:8001',
+  // baseURL: 'https://43.139.26.30:1976',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors
@@ -82,6 +82,7 @@ const api = {
   getNote(id: string): Promise<Note | null> {
     return axios({ url: '/note', params: { id } })
   },
+  // user
   getUser(name: string): Promise<User | null> {
     return axios({ url: '/user', params: { name } })
   },
@@ -93,6 +94,10 @@ const api = {
   },
   register(name: string, password_hash: string, address: string): Promise<User | null> {
     return axios({ method: 'post', url: '/user/register', data: { name, password_hash, address } })
+  },
+  // file
+  getFiles(): Promise<string[]> {
+    return axios({ method: 'post', url: '/file/get' })
   },
 }
 
