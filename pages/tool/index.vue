@@ -37,7 +37,7 @@ const bindTool = (key: string) => {
       userStore.tools.push(tool.id)
       userStore.updateTools()
     }
-    userStore.toolKey = tool.id
+    userStore.updateTool(tool.id)
     router.replace('/')
   }
 }
@@ -94,4 +94,5 @@ const bindTool = (key: string) => {
       }
     }
   }
-}</style>
+}
+</style>

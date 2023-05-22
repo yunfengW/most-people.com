@@ -33,7 +33,7 @@ export const useIndex = () => {
     ElMessage.info('语音输入 正在开发')
   }
   const bindTool = (key: string) => {
-    userStore.toolKey = key
+    userStore.updateTool(key)
   }
 
   const bindAdd = () => {

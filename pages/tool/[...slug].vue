@@ -45,7 +45,7 @@ const init = () => {
   const id = mp.camelize(route.params.slug[0])
   const tool = tools[id as 'Bing']
   if (tool) {
-    userStore.toolKey = tool.id
+    userStore.updateTool(tool.id)
   }
 }
 init()
