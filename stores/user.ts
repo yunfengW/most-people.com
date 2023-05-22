@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { User } from '~/utils/api'
-import { Bing } from '~/assets/json/tools.json'
+import tools from '~/assets/json/tools.json'
 
 export interface Tool {
   id: string
@@ -12,7 +12,7 @@ interface UserStore {
   firstPath: string
   user: User | null
   inited: boolean
-  tool: Tool
+  toolKey: string
   tools: string[]
   message: string
 }
@@ -26,7 +26,7 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      tool: Bing,
+      toolKey: 'Bing',
       tools: [
         'ChatGPT',
         'Bing',
@@ -41,6 +41,14 @@ export const useUserStore = defineStore({
     }
   },
   getters: {
+    tool(): Tool {
+      const key = this.toolKey as 'Bing'
+      if (tools[key]) {
+        return tools[key]
+      } else {
+        return tools['Bing']
+      }
+    },
     getUID() {
       const n = this.user?.id || 1
       let result = ''
@@ -66,6 +74,9 @@ export const useUserStore = defineStore({
     updateTools() {
       const tools = JSON.parse(JSON.stringify(this.tools))
       api.updateUser({ tools })
+    },
+    updateTool(key: string) {
+      this.toolKey = key
     },
     async init() {
       const username = window.localStorage.getItem('username')

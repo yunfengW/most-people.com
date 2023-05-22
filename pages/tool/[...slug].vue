@@ -45,7 +45,7 @@ const init = () => {
   const id = mp.camelize(route.params.slug[0])
   const tool = tools[id as 'Bing']
   if (tool) {
-    userStore.tool = tool
+    userStore.toolKey = tool.id
   }
 }
 init()
@@ -60,6 +60,7 @@ useHead({
   .markdown-box {
     width: 100%;
   }
+
   .join-us {
     max-width: 375px;
   }

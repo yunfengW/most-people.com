@@ -7,7 +7,7 @@
         <div class="ul">
           <div class="li" v-for="(key, i) in list.top" @click="bindTool(key)">
             <span class="No">{{ i + 1 }}</span>
-            <img class="logo" :src=" tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
+            <img class="logo" :src="tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
             <a>{{ tools[key as 'Bing']?.zh }}</a>
           </div>
         </div>
@@ -37,7 +37,7 @@ const bindTool = (key: string) => {
       userStore.tools.push(tool.id)
       userStore.updateTools()
     }
-    userStore.tool = tool
+    userStore.toolKey = tool.id
     router.replace('/')
   }
 }
@@ -57,6 +57,7 @@ const bindTool = (key: string) => {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 8px;
     justify-content: space-between;
+
     .top {
       box-shadow: 0 3px 6px 0 rgba(14, 30, 62, 0.08);
       background-color: #fff;
@@ -64,6 +65,7 @@ const bindTool = (key: string) => {
       list-style: auto;
       border-radius: 5px;
       padding: 0 20px 20px;
+
       .ul {
         height: 96px;
         overflow-y: auto;
@@ -76,11 +78,13 @@ const bindTool = (key: string) => {
           .No {
             margin-right: 4px;
           }
+
           img.logo {
             width: 20px;
             height: 20px;
             margin-right: 4px;
           }
+
           a {
             white-space: nowrap;
             overflow: hidden;
@@ -90,5 +94,4 @@ const bindTool = (key: string) => {
       }
     }
   }
-}
-</style>
+}</style>
