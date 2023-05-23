@@ -11,6 +11,12 @@
         "logo": "/logo/Midjourney.png",
         "url": "https://discord.com/invite/midjourney"
     },
+    "Replicate": {
+        "id": "Replicate",
+        "zh": "Replicate",
+        "logo": "/logo/Replicate.svg",
+        "url": "https://replicate.com/explore"
+    },
     "AliTranslate": {
         "id": "AliTranslate",
         "zh": "阿里翻译",
