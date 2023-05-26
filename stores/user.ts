@@ -76,8 +76,9 @@ export const useUserStore = defineStore({
       api.updateUser({ tools })
     },
     updateTool(key: string) {
-      window.sessionStorage.setItem('token', key)
-
+      if (process.client) {
+        window.sessionStorage.setItem('toolKey', key)
+      }
       this.toolKey = key
     },
     async init() {
