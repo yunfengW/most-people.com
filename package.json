@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.1.0",
-    "nuxt": "^3.4.3"
+    "nuxt": "^3.5.1"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.4",
