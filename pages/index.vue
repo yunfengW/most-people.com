@@ -1,8 +1,13 @@
 <template>
   <div id="page-index">
-    <nuxt-link class="mp-join-us" to="/join-us">
-      <el-button link type="info">Join Us</el-button>
-    </nuxt-link>
+    <div class="mp-join-us">
+      <nuxt-link to="/join-us">
+        <el-button link type="info">Join Us</el-button>
+      </nuxt-link>
+      <a href="https://beian.miit.gov.cn/" target="_blank">
+        <el-button link type="info">粤ICP备2020105439号</el-button>
+      </a>
+    </div>
     <mp-icon name="setting" @click="toggleRemove" />
     <div class="current-tool">
       <nuxt-link class="left" :to="'/tool/' + mp.hyphenate(userStore.tool.id)">
