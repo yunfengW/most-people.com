@@ -2,23 +2,24 @@
   "name": "nuxt-app",
   "private": true,
   "scripts": {
-    "start": "nuxt dev -open",
-    "generate": "nuxt generate && nuxt preview",
+    "start": "nuxt dev -open --port 2023",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
     "build": "nuxt build",
     "postinstall": "nuxt prepare",
     "vercel": "nuxt generate && cd .output/public && vercel --prod",
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@types/node": "^20.1.0",
-    "nuxt": "^3.5.1"
+    "@types/node": "^20.2.5",
+    "nuxt": "^3.5.2"
   },
   "dependencies": {
-    "@element-plus/nuxt": "^1.0.4",
+    "@element-plus/nuxt": "^1.0.5",
     "@nuxt/content": "^2.6.0",
-    "@pinia/nuxt": "^0.4.9",
+    "@pinia/nuxt": "^0.4.11",
     "axios": "^1.4.0",
-    "element-plus": "^2.3.4",
+    "element-plus": "^2.3.6",
     "ethers": "^6.3.0",
     "sass": "^1.62.1",
     "simplemde": "^1.11.2"
