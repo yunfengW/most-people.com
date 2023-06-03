@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
-import { User } from '~/utils/api'
+import api, { User } from '~/api/api'
+import { indexDB } from '~/api/indexdb'
 import tools from '~/assets/json/tools.json'
 
 export interface Tool {
