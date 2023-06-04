@@ -1,6 +1,6 @@
 import type { FormInstance } from 'element-plus'
-import api, { errorCode } from '~/api/api'
-import { indexDB } from '~/api/indexdb'
+import api, { errorCode } from '~/utils/api/api'
+import { indexDB } from '~/utils/api/indexdb'
 import { useUserStore } from '~/stores/user'
 
 export const useLogin = () => {

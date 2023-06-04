@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import api from '~/api/api'
+import api from '~/utils/api/api'
 
 const files = await api.getFiles()
 

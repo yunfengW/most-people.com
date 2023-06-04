@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
-import { indexDB } from '~/api/indexdb'
+import { indexDB } from '~/utils/api/indexdb'
 
 const userStore = useUserStore()
 
