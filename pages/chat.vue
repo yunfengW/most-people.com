@@ -98,14 +98,14 @@ const submit = () => {
   if (!formElement.value) return
   formElement.value.validate(async (ok) => {
     if (ok) {
-      if (!form.countryCode) {
-        ElMessage.warning('请先获取 IP 地址')
-        return
-      }
-      if (['HK', 'CN'].includes(form.countryCode)) {
-        ElMessage.info('OpenAI 暂不支持 中国大陆和香港')
-        return
-      }
+      // if (!form.countryCode) {
+      //   ElMessage.warning('请先获取 IP 地址')
+      //   return
+      // }
+      // if (['HK', 'CN'].includes(form.countryCode)) {
+      //   ElMessage.info('OpenAI 暂不支持 中国大陆和香港')
+      //   return
+      // }
       form.submitLoading = true
       try {
         const res = await chatWithGPT3(form.apiKey, form.message)
