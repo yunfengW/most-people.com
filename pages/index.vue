@@ -78,7 +78,13 @@ const {
 } = useIndex()
 
 const showBeian = computed(() => {
-  return ['sea.team', 'most-people.cn'].includes(location.host)
+  if (process.client) {
+    const host = window.location.host
+    if (host) {
+      return ['sea.team', 'most-people.cn'].includes(host)
+    }
+  }
+  return false
 })
 </script>
 
