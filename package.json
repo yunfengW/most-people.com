@@ -12,16 +12,16 @@
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@types/node": "^20.2.5",
+    "@types/node": "^20.3.1",
     "nuxt": "^3.5.2"
   },
   "dependencies": {
     "@element-plus/nuxt": "^1.0.5",
-    "@nuxt/content": "^2.6.0",
+    "@nuxt/content": "^2.7.0",
     "@pinia/nuxt": "^0.4.11",
     "axios": "^1.4.0",
-    "element-plus": "^2.3.6",
-    "ethers": "^6.3.0",
-    "sass": "^1.62.1"
+    "element-plus": "^2.3.7",
+    "ethers": "^6.6.1",
+    "sass": "^1.63.6"
   }
 }
