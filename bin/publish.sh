@@ -1,6 +1,6 @@
 endpoint=https://oss-rg-china-mainland.aliyuncs.com
-accessKeyID=LTAI5tGNLAhk7knuBZYxzEK1
-accessKeySecret=Qkv1LcRHi9GYPR3huN1u2AvNCTYJqJ
+# accessKeyID=
+# accessKeySecret=
 
 Bucket=most-people-com
 
@@ -13,4 +13,9 @@ Bucket=most-people-com
 # 上传本地文件夹
 local_folder_name=.output/public
 remote_folder_name=
-./bin/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp -r $local_folder_name oss://$Bucket/$remote_folder_name
+# ./bin/ossutil64 -e $endpoint -i $accessKeyID -k $accessKeySecret cp -r $local_folder_name oss://$Bucket/$remote_folder_name
+
+
+# https://help.aliyun.com/document_detail/120075.html
+# 使用本地的 .ossutilconfig
+./bin/ossutil64 cp -r $local_folder_name oss://$Bucket/$remote_folder_name
