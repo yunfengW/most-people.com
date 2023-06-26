@@ -6,6 +6,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "build": "nuxt build",
+    "publish": "sh bin/publish.sh",
     "postinstall": "nuxt prepare",
     "vercel": "nuxt generate && cd .output/public && vercel --prod",
     "yarn": "yarn install"
@@ -21,7 +22,6 @@
     "axios": "^1.4.0",
     "element-plus": "^2.3.6",
     "ethers": "^6.3.0",
-    "sass": "^1.62.1",
-    "simplemde": "^1.11.2"
+    "sass": "^1.62.1"
   }
 }
