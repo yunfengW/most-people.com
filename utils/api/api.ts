@@ -106,7 +106,7 @@ const api = {
     return axios({ method: 'get', url: '/file' })
   },
   fileDelete(filename: string): Promise<boolean> {
-    return axios({ method: 'delete', url: '/file/' + filename })
+    return axios({ method: 'delete', url: '/file', params: { filename } })
   },
   fileUpload(file: File): Promise<string | null> {
     // 创建FormData对象

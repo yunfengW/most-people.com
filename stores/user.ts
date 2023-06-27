@@ -51,7 +51,7 @@ export const useUserStore = defineStore({
       }
     },
     getUID() {
-      const n = this.user?.id || 1
+      const n = this.user?.id || 0
       let result = ''
       const s = n.toString().padStart(9, '0')
       for (let i = 0; i < s.length; i++) {

@@ -12,7 +12,7 @@
 
     <div class="upload">
       <input type="file" ref="fileElement" />
-      <el-button @click="upload">上传文件</el-button>
+      <el-button @click="uploadFile">上传文件</el-button>
     </div>
   </div>
 </template>
@@ -21,7 +21,7 @@
 import api from '~/utils/api/api'
 
 const fileElement = ref<HTMLInputElement>()
-const upload = async () => {
+const uploadFile = async () => {
   const file = fileElement.value?.files?.[0]
   if (!file) {
     mp.info('请选择文件')

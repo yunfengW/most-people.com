@@ -1,3 +1,5 @@
+npm run generate
+
 endpoint=https://oss-rg-china-mainland.aliyuncs.com
 # accessKeyID=
 # accessKeySecret=
