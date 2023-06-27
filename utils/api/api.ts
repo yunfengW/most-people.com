@@ -108,7 +108,7 @@ const api = {
   fileDelete(filename: string): Promise<boolean> {
     return axios({ method: 'delete', url: '/file/' + filename })
   },
-  fileUpload(file: File): Promise<string> {
+  fileUpload(file: File): Promise<string | null> {
     // 创建FormData对象
     const formData = new FormData()
     // 'file'是要上传的文件字段名，file是要上传的文件对象

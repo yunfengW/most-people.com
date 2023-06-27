@@ -28,13 +28,19 @@ const upload = async () => {
     return
   }
   const filename = await api.fileUpload(file)
-  files.value.push(filename)
+  if (filename) {
+    files.value.push(filename)
+  }
 }
 
 const deleteFile = async (i: number) => {
   const filename = files.value[i]
-  await api.fileDelete(filename)
-  files.value.splice(i, 1)
+  const ok = await api.fileDelete(filename)
+  if (ok) {
+    files.value.splice(i, 1)
+  } else {
+    mp.error('删除失败')
+  }
 }
 
 const files = ref<string[]>([])
