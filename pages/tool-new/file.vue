@@ -50,7 +50,9 @@ const deleteFile = (i: number) => {
 const files = ref<string[]>([])
 const init = async () => {
   const res = await api.fileGet()
-  files.value = res.files
+  if (res) {
+    files.value = res.files
+  }
 }
 init()
 </script>

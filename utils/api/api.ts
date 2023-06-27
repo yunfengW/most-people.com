@@ -117,6 +117,9 @@ const api = {
       method: 'put',
       url: '/file',
       data: formData,
+      params: {
+        filename: file.name,
+      },
       headers: {
         'Content-Type': 'multipart/form-data',
       },
