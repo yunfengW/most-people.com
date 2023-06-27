@@ -33,14 +33,18 @@ const uploadFile = async () => {
   }
 }
 
-const deleteFile = async (i: number) => {
-  const filename = files.value[i]
-  const ok = await api.fileDelete(filename)
-  if (ok) {
-    files.value.splice(i, 1)
-  } else {
-    mp.error('删除失败')
-  }
+const deleteFile = (i: number) => {
+  ElMessageBox.confirm('确定删除？', '你好')
+    .then(async () => {
+      const filename = files.value[i]
+      const ok = await api.fileDelete(filename)
+      if (ok) {
+        files.value.splice(i, 1)
+      } else {
+        mp.error('删除失败')
+      }
+    })
+    .catch(() => {})
 }
 
 const files = ref<string[]>([])
