@@ -4,7 +4,7 @@
       <nuxt-link to="/join-us">
         <el-button link type="info">Join Us</el-button>
       </nuxt-link>
-      <a v-if="showBeian" href="https://beian.miit.gov.cn/" target="_blank">
+      <a href="https://beian.miit.gov.cn/" target="_blank">
         <el-button link type="info">粤ICP备2020105439号</el-button>
       </a>
     </div>
@@ -76,16 +76,6 @@ const {
   //
   formatURL,
 } = useIndex()
-
-const showBeian = computed(() => {
-  if (process.client) {
-    const host = window.location.host
-    if (host) {
-      return ['sea.team', 'most-people.cn'].includes(host)
-    }
-  }
-  return false
-})
 </script>
 
 <style lang="scss">

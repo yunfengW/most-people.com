@@ -37,6 +37,7 @@ onMounted(() => {
     userStore.init()
   })
 
+  // 屏幕缩放
   initZoom()
   window.addEventListener('resize', initZoom)
 })
