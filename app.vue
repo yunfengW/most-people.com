@@ -21,7 +21,7 @@ const initZoom = () => {
     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 
   // 计算缩放比例
-  const scaleRatio = Math.min(1440 / screenWidth, 900 / screenHeight) // 假设参考分辨率为 1920x1080
+  const scaleRatio = Math.min(1920 / screenWidth, 1080 / screenHeight) // 假设参考分辨率为 1920x1080
 
   // 计算缩放级别
   const zoomLevel = 1 / scaleRatio

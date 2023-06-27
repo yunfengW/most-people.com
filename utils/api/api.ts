@@ -1,8 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const axios = Axios.create({
-  // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  baseURL: 'https://api.most-people.cn',
+  baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
+  // baseURL: 'https://api.most-people.cn',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors
@@ -78,6 +78,12 @@ export interface User {
   tools?: string[]
 }
 
+interface FileGet {
+  files: string[]
+  isTruncated: boolean
+  nextMarker: null
+}
+
 const api = {
   getNote(id: string): Promise<Note | null> {
     return axios({ url: '/note', params: { id } })
@@ -96,8 +102,25 @@ const api = {
     return axios({ method: 'post', url: '/user/register', data: { name, password_hash, address } })
   },
   // file
-  getFiles(): Promise<string[]> {
-    return axios({ method: 'post', url: '/file/get' })
+  fileGet(): Promise<FileGet> {
+    return axios({ method: 'get', url: '/file' })
+  },
+  fileDelete(filename: string): Promise<boolean> {
+    return axios({ method: 'delete', url: '/file/' + filename })
+  },
+  fileUpload(file: File): Promise<string> {
+    // 创建FormData对象
+    const formData = new FormData()
+    // 'file'是要上传的文件字段名，file是要上传的文件对象
+    formData.append('file', file)
+    return axios({
+      method: 'put',
+      url: '/file',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   },
 }
 
