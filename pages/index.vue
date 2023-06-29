@@ -10,7 +10,7 @@
     </div>
     <mp-icon name="setting" @click="toggleRemove" />
     <div class="current-tool">
-      <nuxt-link class="left" :to="'/tool/' + mp.hyphenate(userStore.tool.id)">
+      <nuxt-link class="left" :to="'/tool/' + userStore.tool.id">
         <mp-icon name="how-to-use" />
         <span>使用指南</span>
       </nuxt-link>

@@ -5,7 +5,7 @@
     <div class="tools">
       <nuxt-link
         v-for="tool in Object.values(tools)"
-        :to="'/tool/' + mp.hyphenate(tool.id)"
+        :to="'/tool/' + tool.id"
         class="tool"
         @click="userStore.toolKey = tool.id"
       >

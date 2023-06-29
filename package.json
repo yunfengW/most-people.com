@@ -12,16 +12,23 @@
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@types/node": "^20.3.1",
-    "nuxt": "^3.5.2"
-  },
-  "dependencies": {
     "@element-plus/nuxt": "^1.0.5",
-    "@nuxt/content": "^2.7.0",
     "@pinia/nuxt": "^0.4.11",
+    "@types/node": "^20.3.2",
     "axios": "^1.4.0",
     "element-plus": "^2.3.7",
-    "ethers": "^6.6.1",
+    "ethers": "^6.6.2",
+    "nuxt": "^3.6.1",
     "sass": "^1.63.6"
+  },
+  "dependencies": {
+    "@nuxt/content": "^2.7.0",
+    "@types/dompurify": "^3.0.2",
+    "dompurify": "^3.0.3",
+    "rehype-raw": "^6.1.1",
+    "rehype-stringify": "^9.0.3",
+    "remark-parse": "^10.0.2",
+    "remark-rehype": "^10.1.0",
+    "unified": "^10.1.2"
   }
 }

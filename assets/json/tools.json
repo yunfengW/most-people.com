@@ -123,7 +123,7 @@
         "id": "Firewall",
         "zh": "防火墙",
         "logo": "/logo/Firewall.svg",
-        "url": "/tool/firewall"
+        "url": "/tool/Firewall"
     },
     "Bito": {
         "id": "Bito",
