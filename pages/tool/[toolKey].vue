@@ -27,7 +27,7 @@ import remarkParse from 'remark-parse'
 import rehypeRaw from 'rehype-raw'
 import rehypeStringify from 'rehype-stringify'
 import remarkRehype from 'remark-rehype'
-// import DOMPurify from 'dompurify'
+import DOMPurify from 'dompurify'
 import { useUserStore } from '~/stores/user'
 
 // https://github.com/remarkjs/remark
@@ -44,9 +44,8 @@ const userStore = useUserStore()
 
 const render = async (md: string) => {
   const file = await process(md)
-  // const clean = DOMPurify.sanitize(file.toString())
-  html.value = file.toString()
-
+  const clean = DOMPurify.sanitize(file.toString(), { ADD_TAGS: ['mp-mi'] })
+  html.value = clean
   // mp-mi
   nextTick(() => {
     if (!markdownElement.value) return
@@ -76,9 +75,9 @@ const render = async (md: string) => {
 
 const route = useRoute()
 const init = () => {
-  const key = route.params.key
+  const toolKey = route.params.toolKey
   axios({
-    url: `https://cdn.most-people.cn/tool/${key}.md`,
+    url: `https://cdn.most-people.cn/tool/${toolKey}.md`,
   })
     .then((res) => {
       const md = res.data as string
