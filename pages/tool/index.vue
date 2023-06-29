@@ -21,7 +21,7 @@
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
 import toolTopList from '~/assets/json/toolTopList.json'
-import { useUserStore } from '~/stores/user'
+import { Tool, useUserStore } from '~/stores/user'
 
 useHead({
   title: '万能工具箱',
@@ -33,13 +33,29 @@ const route = useRoute()
 const bindTool = (key: string) => {
   const tool = tools[key as 'Bing']
   if (tool) {
-    if (route.query.type === 'add' && userStore.tools.includes(tool.id) === false) {
-      userStore.tools.push(tool.id)
-      userStore.updateTools()
+    // 添加
+    if (route.query.type === 'add') {
+      addTool(tool)
+      return
     }
-    userStore.updateTool(tool.id)
-    router.replace('/')
+    // 支持搜索
+    if (tool.url.includes('「most-people」')) {
+      userStore.updateTool(tool.id)
+      router.replace('/')
+      return
+    }
+    // 不支持搜索
+    window.open(tool.url)
   }
+}
+
+const addTool = (tool: Tool) => {
+  if (userStore.tools.includes(tool.id) === false) {
+    userStore.tools.push(tool.id)
+    userStore.updateTools()
+  }
+  userStore.updateTool(tool.id)
+  router.replace('/')
 }
 </script>
 

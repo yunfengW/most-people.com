@@ -2,7 +2,7 @@
   <div id="page-tool">
     <mp-header :content="userStore.tool.zh">
       <template #extra>
-        <el-button round disabled>
+        <el-button round @click="mp.info('正在开发中，请加入我们吧')">
           <template #icon>
             <mp-icon name="edit" />
           </template>
@@ -10,8 +10,8 @@
       </template>
     </mp-header>
 
-    <div v-if="html" ref="markdownElement" class="markdown-box" v-html="html"></div>
-    <div v-else class="empty">
+    <div v-show="html" ref="markdownElement" class="markdown-box" v-html="html"></div>
+    <div v-if="inited && !html" class="empty">
       <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
       <br />
@@ -38,6 +38,7 @@ const process = unified()
   .use(rehypeStringify).process
 
 const html = ref('')
+const inited = ref(false)
 const markdownElement = ref<HTMLDivElement>()
 const userStore = useUserStore()
 
@@ -46,6 +47,7 @@ const render = async (md: string) => {
   // const clean = DOMPurify.sanitize(file.toString())
   html.value = file.toString()
 
+  // mp-mi
   nextTick(() => {
     if (!markdownElement.value) return
     const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
@@ -67,7 +69,7 @@ const render = async (md: string) => {
           }
         }
       })
-      mi.innerHTML = `<span>${mi.innerText}</span><input placeholder="输入密码解密！" /><a>解密</a>`
+      mi.innerHTML = `<span>${mi.innerText}</span><input placeholder="输入密码" /><a>解密</a>`
     }
   })
 }
@@ -86,6 +88,9 @@ const init = () => {
     })
     .catch((err) => {
       // mp.error(err.message)
+    })
+    .finally(() => {
+      inited.value = true
     })
 }
 

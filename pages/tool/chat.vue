@@ -121,17 +121,18 @@ const submit = () => {
 const getLocation = async () => {
   form.locationLoading = true
   try {
-    const res = await fetch('https://ipinfo.io/json?token=b7d3aff0162a2d')
-    const data = await res.json()
-    if (data.ip) {
-      form.ip = data.ip
-      form.city = data.city
-      form.address = data.abuse.address
-      form.countryCode = data.country
-      form.regionName = data.region
+    const res = await axios('https://ipinfo.io/json?token=b7d3aff0162a2d')
+    if (res.data.ip) {
+      const { ip, city, org, country, region } = res.data
+      form.ip = ip
+      form.city = city
+      form.address = org
+      form.countryCode = country
+      form.regionName = region
     }
   } catch (error) {
-    ElMessage.info('IP 地址请求失败')
+    console.log('error', error)
+    mp.info('IP 地址请求失败')
   } finally {
     form.locationLoading = false
   }
