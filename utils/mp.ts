@@ -25,7 +25,7 @@ const mp = {
     ])
 
     const address = wallet.address
-    return { key, address, token }
+    return { key, address, token, privateKey }
   },
   // 加密
   async encrypt(text: string, key?: CryptoKey) {

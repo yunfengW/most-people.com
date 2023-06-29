@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <nuxt-link to="/tool-new/list"></nuxt-link>
+    <nuxt-link to="/tool/list"></nuxt-link>
   </div>
 </template>
 
