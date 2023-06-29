@@ -2,14 +2,11 @@
   <div id="page-tool">
     <mp-header :content="userStore.tool.zh">
       <template #extra>
-        <a>
-          <el-button type="primary" round disabled>
-            <template #icon>
-              <mp-icon name="edit" />
-            </template>
-            <span>我要修改</span>
-          </el-button>
-        </a>
+        <el-button round disabled>
+          <template #icon>
+            <mp-icon name="edit" />
+          </template>
+        </el-button>
       </template>
     </mp-header>
 

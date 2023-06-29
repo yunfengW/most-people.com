@@ -22,7 +22,6 @@
     "sass": "^1.63.6"
   },
   "dependencies": {
-    "@nuxt/content": "^2.7.0",
     "@types/dompurify": "^3.0.2",
     "dompurify": "^3.0.3",
     "rehype-raw": "^6.1.1",

@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   // modules
-  modules: ['@element-plus/nuxt', '@pinia/nuxt', '@nuxt/content'],
+  modules: ['@element-plus/nuxt', '@pinia/nuxt'],
   // https://content.nuxtjs.org/api/configuration
   content: {
     documentDriven: true,
