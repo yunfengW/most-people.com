@@ -1,6 +1,6 @@
 <template>
   <div id="page-tool">
-    <mp-header :content="userStore.tool.zh">
+    <mp-header :content="toolName">
       <template #extra>
         <el-button round @click="mp.info('正在开发中，请加入我们吧')">
           <template #icon>
@@ -12,7 +12,7 @@
 
     <div v-show="html" ref="markdownElement" class="markdown-box" v-html="html"></div>
     <div v-if="inited && !html" class="empty">
-      <h4>抱歉，暂时还没有「{{ userStore.tool.zh }}」的使用指南</h4>
+      <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
       <br />
       <el-image class="join-us" src="/img/join-us.jpg" />
@@ -29,9 +29,10 @@ import rehypeStringify from 'rehype-stringify'
 import remarkRehype from 'remark-rehype'
 import DOMPurify from 'dompurify'
 import { useUserStore } from '~/stores/user'
+import tools from '~/assets/json/tools.json'
 
 // https://github.com/remarkjs/remark
-const process = unified()
+const processor = unified()
   .use(remarkParse)
   .use(remarkRehype, { allowDangerousHtml: true })
   .use(rehypeRaw)
@@ -43,7 +44,7 @@ const markdownElement = ref<HTMLDivElement>()
 const userStore = useUserStore()
 
 const render = async (md: string) => {
-  const file = await process(md)
+  const file = await processor(md)
   const clean = DOMPurify.sanitize(file.toString(), { ADD_TAGS: ['mp-mi'] })
   html.value = clean
   // mp-mi
@@ -74,8 +75,15 @@ const render = async (md: string) => {
 }
 
 const route = useRoute()
+const toolKey = route.params.toolKey
+const toolName = computed(() => {
+  const tool = tools[toolKey as 'Bing']
+  if (tool) {
+    return tool.zh
+  }
+  return toolKey
+})
 const init = () => {
-  const toolKey = route.params.toolKey
   axios({
     url: `https://cdn.most-people.cn/tool/${toolKey}.md`,
   })
@@ -92,8 +100,9 @@ const init = () => {
       inited.value = true
     })
 }
-
-init()
+if (process.client) {
+  init()
+}
 </script>
 
 <style lang="scss">
