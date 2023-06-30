@@ -24,6 +24,7 @@
   "dependencies": {
     "@types/dompurify": "^3.0.2",
     "dompurify": "^3.0.4",
+    "monaco-editor": "^0.39.0",
     "rehype-raw": "^6.1.1",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.2",
