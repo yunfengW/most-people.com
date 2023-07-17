@@ -1,13 +1,11 @@
 <template>
   <div id="page-tool">
     <mp-header :content="toolName">
-      <template #extra>
+      <!-- <template #extra>
         <el-button round @click="mp.info('正在开发中，请加入我们吧')">
-          <template #icon>
-            <mp-icon name="edit" />
-          </template>
+          <mp-icon name="edit" />
         </el-button>
-      </template>
+      </template> -->
     </mp-header>
 
     <div class="markdown-box" ref="markdownElement" v-html="html"></div>
@@ -19,7 +17,7 @@
       <el-image class="join-us" src="/img/join-us.jpg" />
     </div>
 
-    <div class="markdown-editor" ref="editorElement"></div>
+    <!-- <div class="markdown-editor" ref="editorElement"></div> -->
   </div>
 </template>
 

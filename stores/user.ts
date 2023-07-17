@@ -74,7 +74,15 @@ export const useUserStore = defineStore({
     },
     updateTools() {
       const tools = JSON.parse(JSON.stringify(this.tools))
-      api({ method: 'post', url: '/user/update', data: tools })
+      api({
+        method: 'post',
+        url: '/user/update',
+        data: { tools },
+      }).then((ok) => {
+        if (!ok) {
+          mp.error('保存出错，请联系管理员')
+        }
+      })
     },
     updateTool(key: string) {
       if (process.client) {

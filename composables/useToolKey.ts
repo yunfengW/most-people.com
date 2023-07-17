@@ -85,6 +85,7 @@ export const useToolKey = () => {
   }
 
   const editorElement = ref<HTMLDivElement>()
+
   onMounted(async () => {
     const { editor } = await import('monaco-editor')
     if (!editorElement.value) {
@@ -98,6 +99,8 @@ export const useToolKey = () => {
         enabled: false,
       },
     })
+
+    console.log('🌊', markdownEditor)
   })
 
   return {
