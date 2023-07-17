@@ -74,7 +74,7 @@ export const useUserStore = defineStore({
     },
     updateTools() {
       const tools = JSON.parse(JSON.stringify(this.tools))
-      api.updateUser({ tools })
+      api({ method: 'post', url: '/user/update', data: tools })
     },
     updateTool(key: string) {
       if (process.client) {
@@ -87,7 +87,10 @@ export const useUserStore = defineStore({
       if (username) {
         const userDB = await indexDB.getUser(username)
         if (userDB) {
-          const user = await api.getUser(username)
+          const user: User | null = await api({
+            url: '/user',
+            params: { name: username },
+          })
           if (user) {
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
             if (username === decrypt_username) {

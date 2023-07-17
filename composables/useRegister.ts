@@ -1,4 +1,4 @@
-import api, { errorCode } from '~/utils/api/api'
+import api, { apiErrorCode } from '~/utils/api/api'
 import { ElMessageBox, type FormInstance } from 'element-plus'
 
 export const useRegister = () => {
@@ -15,7 +15,7 @@ export const useRegister = () => {
   // click
   const register = () => {
     if (!formElement.value) return
-    formElement.value.validate(async (ok) => {
+    formElement.value.validate(async (ok: boolean) => {
       if (ok) {
         ElMessageBox.prompt('请牢记您的密码，本站数据加密公开，忘记密码将失去账号。', {
           closeOnClickModal: false,
@@ -47,7 +47,11 @@ export const useRegister = () => {
   const submit = async (username: string, password: string) => {
     const { key, address } = await mp.key(username, password)
     const password_hash = await mp.encrypt(username, key)
-    const ok = await api.register(username, password_hash, address)
+    const ok = await api({
+      method: 'post',
+      url: '/user/register',
+      data: { name: username, password_hash, address },
+    })
     if (ok) {
       router.replace('/login')
       mp.success('注册成功')
@@ -63,14 +67,18 @@ export const useRegister = () => {
       return callback(new Error('请输入用户名'))
     }
     form.usernameLoading = true
-    api.checkUserName(username).then((ok) => {
+    api({
+      method: 'post',
+      url: '/user/check.name',
+      data: { name: username },
+    }).then((ok) => {
       form.usernameLoading = false
       if (ok) {
         callback()
       } else if (ok === null) {
-        callback(new Error(errorCode[404]))
+        callback(new Error(apiErrorCode[404]))
       } else {
-        callback(new Error(errorCode[1001]))
+        callback(new Error(apiErrorCode[1001]))
       }
     })
   }

@@ -1,5 +1,5 @@
 import type { FormInstance } from 'element-plus'
-import api, { errorCode } from '~/utils/api/api'
+import api, { User, apiErrorCode } from '~/utils/api/api'
 import { indexDB } from '~/utils/api/indexdb'
 import { useUserStore } from '~/stores/user'
 
@@ -18,10 +18,13 @@ export const useLogin = () => {
 
   const login = async () => {
     if (!formElement.value) return
-    formElement.value.validate(async (ok) => {
+    formElement.value.validate(async (ok: boolean) => {
       if (ok) {
         form.loading = true
-        const user = await api.getUser(form.username)
+        const user: User | null = await api({
+          url: '/user',
+          params: { name: form.username },
+        })
         if (user) {
           const { key, token } = await mp.key(form.username, form.password)
           const username = await mp.decrypt(user.password_hash, key)
@@ -52,14 +55,18 @@ export const useLogin = () => {
       return callback(new Error('请输入用户名'))
     }
     form.usernameLoading = true
-    api.checkUserName(username).then((ok) => {
+    api({
+      method: 'post',
+      url: '/user/check.name',
+      data: { name: username },
+    }).then((ok) => {
       form.usernameLoading = false
       if (ok) {
-        callback(new Error('用户名不存在'))
-      } else if (ok === null) {
-        callback(new Error(errorCode[404]))
-      } else {
         callback()
+      } else if (ok === null) {
+        callback(new Error(apiErrorCode[404]))
+      } else {
+        callback(new Error(apiErrorCode[1001]))
       }
     })
   }

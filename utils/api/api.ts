@@ -1,12 +1,12 @@
 import Axios, { type AxiosResponse } from 'axios'
 
-const axios = Axios.create({
-  // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  baseURL: 'https://api.most-people.cn',
+const api = Axios.create({
+  baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
+  // baseURL: 'https://api.most-people.cn',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors
-axios.interceptors.request.use(
+api.interceptors.request.use(
   function (config) {
     config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('token') || ''
     return config
@@ -16,15 +16,15 @@ axios.interceptors.request.use(
   },
 )
 
-export const errorCode: { [key: string]: string } = {
+export const apiErrorCode: { [key: string]: string } = {
   404: '请求失败，请检查网络',
   1001: '用户名已存在',
 }
 
-const initError = (status: number) => {
+const showError = (status: number) => {
   const code = String(status)
-  if (errorCode[code]) {
-    mp.error(errorCode[code])
+  if (apiErrorCode[code]) {
+    mp.error(apiErrorCode[code])
   } else {
     mp.error(`未知错误，错误码：${code}`)
   }
@@ -35,12 +35,12 @@ const initResponse = (response: AxiosResponse) => {
   if (status >= 200 && status < 300) {
     return response.data
   } else {
-    initError(status)
+    showError(status)
     return null
   }
 }
 
-axios.interceptors.response.use(
+api.interceptors.response.use(
   function (response) {
     return initResponse(response)
   },
@@ -78,53 +78,10 @@ export interface User {
   tools?: string[]
 }
 
-interface FileGet {
+export interface FileGet {
   files: string[]
   isTruncated: boolean
   nextMarker: null
-}
-
-const api = {
-  getNote(id: string): Promise<Note | null> {
-    return axios({ url: '/note', params: { id } })
-  },
-  // user
-  getUser(name: string): Promise<User | null> {
-    return axios({ url: '/user', params: { name } })
-  },
-  checkUserName(name: string): Promise<boolean> {
-    return axios({ method: 'post', url: '/user/check.name', data: { name } })
-  },
-  updateUser(data: object): Promise<boolean> {
-    return axios({ method: 'post', url: '/user/update', data: data })
-  },
-  register(name: string, password_hash: string, address: string): Promise<User | null> {
-    return axios({ method: 'post', url: '/user/register', data: { name, password_hash, address } })
-  },
-  // file
-  fileGet(): Promise<FileGet> {
-    return axios({ method: 'get', url: '/file' })
-  },
-  fileDelete(filename: string): Promise<boolean> {
-    return axios({ method: 'delete', url: '/file', params: { filename } })
-  },
-  fileUpload(file: File): Promise<string | null> {
-    // 创建FormData对象
-    const formData = new FormData()
-    // 'file'是要上传的文件字段名，file是要上传的文件对象
-    formData.append('file', file)
-    return axios({
-      method: 'put',
-      url: '/file',
-      data: formData,
-      params: {
-        filename: file.name,
-      },
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-  },
 }
 
 export default api
