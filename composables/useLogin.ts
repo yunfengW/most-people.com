@@ -62,11 +62,13 @@ export const useLogin = () => {
     }).then((ok) => {
       form.usernameLoading = false
       if (ok) {
-        callback()
-      } else if (ok === null) {
-        callback(new Error(apiErrorCode[404]))
+        callback(new Error('用户名不存在'))
       } else {
-        callback(new Error(apiErrorCode[1001]))
+        if (ok === null) {
+          callback(new Error(apiErrorCode[404]))
+        } else {
+          callback()
+        }
       }
     })
   }

@@ -1,8 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const api = Axios.create({
-  baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  // baseURL: 'https://api.most-people.cn',
+  // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
+  baseURL: 'https://api.most-people.cn',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors
@@ -26,7 +26,7 @@ const showError = (status: number) => {
   if (apiErrorCode[code]) {
     mp.error(apiErrorCode[code])
   } else {
-    mp.error(`未知错误，错误码：${code}`)
+    mp.error(`未知错误 error code：${code}`)
   }
 }
 
@@ -49,24 +49,25 @@ api.interceptors.response.use(
   },
 )
 
-export interface Note {
-  id: number
-  user_id: number
-  title: string
-  list: string[]
-  is_public: boolean
+export default api
 
-  updated_time?: string
-  author?: number[]
-}
+// export interface Note {
+//   id: number
+//   user_id: number
+//   title: string
+//   list: string[]
+//   is_public: boolean
+//   updated_time?: string
+//   author?: number[]
+// }
 
-export interface NoteList {
-  name: ''
-  arr: {
-    id: number
-    title: string
-  }[]
-}
+// export interface NoteList {
+//   name: string
+//   arr: {
+//     id: number
+//     title: string
+//   }[]
+// }
 
 export interface User {
   id: number
@@ -74,14 +75,10 @@ export interface User {
   password_hash: string
   sign_time: string
   address: string
-
   tools?: string[]
 }
-
 export interface FileGet {
   files: string[]
   isTruncated: boolean
   nextMarker: null
 }
-
-export default api
