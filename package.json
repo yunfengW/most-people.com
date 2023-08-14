@@ -8,7 +8,6 @@
     "build": "nuxt build",
     "publish": "sh bin/publish.sh",
     "postinstall": "nuxt prepare",
-    "vercel": "nuxt generate && cd .output/public && vercel --prod",
     "yarn": "yarn install"
   },
   "devDependencies": {

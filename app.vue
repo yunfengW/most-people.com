@@ -44,7 +44,6 @@ onBeforeMount(() => {
   // 搜狗 jsonp 提示
   window.sogou = {
     sug(data) {
-      console.log('🌊', data)
       userStore.sugList = data[1]
       userStore.sugIndex = -1
     },
