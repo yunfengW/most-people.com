@@ -17,7 +17,7 @@
       <el-image class="join-us" src="/img/join-us.jpg" />
     </div>
 
-    <!-- <div class="markdown-editor" ref="editorElement"></div> -->
+    <div class="markdown-editor" ref="editorElement"></div>
   </div>
 </template>
 

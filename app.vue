@@ -32,7 +32,7 @@ const initZoom = () => {
   document.body.style.setProperty('zoom', zoom)
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   indexDB.init().then(() => {
     userStore.init()
   })
@@ -40,6 +40,15 @@ onMounted(() => {
   // 屏幕缩放
   initZoom()
   window.addEventListener('resize', initZoom)
+
+  // 搜狗 jsonp 提示
+  window.sogou = {
+    sug(data) {
+      console.log('🌊', data)
+      userStore.sugList = data[1]
+      userStore.sugIndex = -1
+    },
+  }
 })
 </script>
 

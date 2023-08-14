@@ -76,6 +76,7 @@ export interface User {
   sign_time: string
   address: string
   tools?: string[]
+  // tool: string
 }
 export interface FileGet {
   files: string[]

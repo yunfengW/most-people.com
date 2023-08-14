@@ -11,12 +11,12 @@ export const useIndex = () => {
     remove: false,
   })
 
-  const formatURL = (url: string) => {
+  const formatURL = (url: string, sug?: string) => {
     if (url.startsWith('/')) {
       return url
     }
     if (url.includes('「most-people」')) {
-      const keyword = encodeURIComponent(userStore.message || form.placeholder)
+      const keyword = encodeURIComponent(sug || userStore.message || form.placeholder)
       return url.replace('「most-people」', keyword)
     }
     const urlObject = new URL(url)
@@ -24,9 +24,8 @@ export const useIndex = () => {
     urlObject.searchParams.set('mp-keyword', keyword)
     return urlObject.href
   }
-  const send = () => {
-    const url = formatURL(userStore.tool.url)
-
+  const send = (sug?: string) => {
+    const url = formatURL(userStore.tool.url, sug)
     window.open(url)
   }
   const microphone = () => {

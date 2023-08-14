@@ -16,6 +16,8 @@ interface UserStore {
   toolKey: string
   tools: string[]
   message: string
+  sugList: string[]
+  sugIndex: number
 }
 
 export const useUserStore = defineStore({
@@ -39,6 +41,8 @@ export const useUserStore = defineStore({
         'MathSolver',
       ],
       message: '',
+      sugList: [],
+      sugIndex: -1,
     }
   },
   getters: {

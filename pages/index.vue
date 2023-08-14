@@ -22,13 +22,39 @@
       </div>
     </div>
 
-    <div class="search">
+    <div
+      class="search"
+      :class="{ 'show-sug': userStore.sugList.length > 0 && inputFocus, 'is-focus': inputFocus }"
+    >
+      <div ref="sugElement"></div>
+
+      <div
+        class="intelligence"
+        v-show="userStore.sugList.length > 0 && inputFocus"
+        @mouseout="userStore.sugIndex = -1"
+      >
+        <div
+          class="one"
+          v-for="(sug, i) in userStore.sugList"
+          @mouseover="userStore.sugIndex = i"
+          :class="{ active: userStore.sugIndex === i }"
+          @mousedown.prevent="send(sug)"
+        >
+          {{ sug }}
+        </div>
+      </div>
+
       <el-input
         v-model="userStore.message"
         :placeholder="form.placeholder"
         autofocus
         size="large"
-        @keyup.enter="send"
+        @keyup.enter="send()"
+        @input="inputEvent"
+        @focus="inputFocus = true"
+        @blur="inputFocus = false"
+        @keydown="keyDownEvent($event as KeyboardEvent)"
+        @keyup="keyUpEvent"
       >
         <template #prefix>
           <div class="button microphone" @click.stop="microphone">
@@ -36,7 +62,7 @@
           </div>
         </template>
         <template #suffix>
-          <div class="button send" :class="{ disabled: !userStore.message }" @click.stop="send">
+          <div class="button send" :class="{ disabled: !userStore.message }" @click.stop="send()">
             <mp-icon name="send" />
           </div>
         </template>
@@ -76,6 +102,53 @@ const {
   //
   formatURL,
 } = useIndex()
+
+const inputFocus = ref(true)
+
+const sugElement = ref<HTMLDivElement>()
+
+const inputEvent = () => {
+  const v = userStore.message
+  if (!v) {
+    userStore.sugList = []
+    userStore.sugIndex = -1
+    return
+  }
+  // 缓存关键字
+  const url = 'https://sor.html5.qq.com/api/getsug?key=' + encodeURI(v)
+  const script = document.createElement('script')
+  script.src = url
+
+  const sug = sugElement.value
+  if (sug) {
+    for (const e of sug.children) {
+      e.remove()
+    }
+    sug.appendChild(script)
+  }
+}
+
+const keyDownEvent = (event: KeyboardEvent) => {
+  // 解决光标 bug
+  if (event.key === 'ArrowUp') {
+    event.preventDefault()
+  }
+}
+const keyUpEvent = (event: KeyboardEvent) => {
+  const k = event.key
+  const index = userStore.sugIndex
+  const length = userStore.sugList.length
+  if (k === 'Enter') {
+    send()
+  } else if (k === 'ArrowUp') {
+    userStore.sugIndex = (index + length - 1) % length
+    userStore.message = userStore.sugList[userStore.sugIndex]
+    // 下
+  } else if (k === 'ArrowDown') {
+    userStore.sugIndex = (index + length + 1) % length
+    userStore.message = userStore.sugList[userStore.sugIndex]
+  }
+}
 </script>
 
 <style lang="scss">
@@ -150,14 +223,36 @@ const {
 
   .search {
     width: 100%;
+    position: relative;
+
+    &.is-focus {
+      .el-input {
+        .el-input__wrapper {
+          border-color: #e30002;
+        }
+      }
+      &.show-sug {
+        .el-input {
+          .el-input__wrapper {
+            border-radius: 4px 4px 0 0;
+          }
+        }
+      }
+    }
 
     .el-input {
       position: relative;
       .el-input__wrapper {
         padding-left: 0;
         padding-right: 0;
+        box-shadow: none;
+        border: 1px solid transparent;
+        z-index: 1;
+
         .el-input__inner {
+          // font-weight: bolder;
           text-align: center;
+          letter-spacing: 1px;
         }
       }
       .button {
@@ -178,6 +273,33 @@ const {
 
         .mp-icon {
           font-size: 20px;
+        }
+      }
+    }
+
+    .intelligence {
+      position: absolute;
+      top: 41px;
+      left: 0;
+      right: 0;
+      background: white;
+      z-index: 1;
+      padding: 5px 0;
+
+      transition: box-shadow 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transform: translate3d(0, 0, 0);
+      border: 1px solid #e30002;
+      border-top: 0;
+
+      border-radius: 0 0 4px 4px;
+
+      .one {
+        cursor: pointer;
+        padding: 4px 10px;
+
+        &.active {
+          background: rgb(241, 241, 241);
+          color: #e30002;
         }
       }
     }

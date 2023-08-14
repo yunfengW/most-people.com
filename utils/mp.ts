@@ -1,6 +1,14 @@
 import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes, Wallet } from 'ethers'
 import dayjs from 'dayjs'
 
+declare global {
+  interface Window {
+    sogou: {
+      sug: (data: any[]) => void
+    }
+  }
+}
+
 const mp = {
   // 本地私钥
   async key(username: string, password: string) {

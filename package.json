@@ -14,17 +14,17 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.5",
     "@pinia/nuxt": "^0.4.11",
-    "@types/node": "^20.4.2",
+    "@types/node": "^20.5.0",
     "axios": "^1.4.0",
-    "element-plus": "^2.3.8",
-    "ethers": "^6.6.4",
-    "nuxt": "^3.6.3",
-    "sass": "^1.63.6"
+    "element-plus": "^2.3.9",
+    "ethers": "^6.7.0",
+    "nuxt": "^3.6.5",
+    "sass": "^1.65.1"
   },
   "dependencies": {
     "@types/dompurify": "^3.0.2",
     "dompurify": "^3.0.5",
-    "monaco-editor": "^0.40.0",
+    "monaco-editor": "^0.41.0",
     "rehype-raw": "^6.1.1",
     "rehype-stringify": "^9.0.3",
     "remark-parse": "^10.0.2",

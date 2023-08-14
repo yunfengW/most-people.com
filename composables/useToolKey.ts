@@ -87,20 +87,19 @@ export const useToolKey = () => {
   const editorElement = ref<HTMLDivElement>()
 
   onMounted(async () => {
-    const { editor } = await import('monaco-editor')
-    if (!editorElement.value) {
-      return
-    }
-    const markdownEditor = editor.create(editorElement.value, {
-      value: markdown.value,
-      language: 'markdown',
-      tabSize: 2,
-      minimap: {
-        enabled: false,
-      },
-    })
-
-    console.log('🌊', markdownEditor)
+    // const { editor } = await import('monaco-editor')
+    // if (!editorElement.value) {
+    //   return
+    // }
+    // const markdownEditor = editor.create(editorElement.value, {
+    //   value: markdown.value,
+    //   language: 'markdown',
+    //   tabSize: 2,
+    //   minimap: {
+    //     enabled: false,
+    //   },
+    // })
+    // console.log('markdownEditor', markdownEditor)
   })
 
   return {
