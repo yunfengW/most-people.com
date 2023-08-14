@@ -41,4 +41,5 @@ npm run preview
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
-TODO:
+cdn 缓存刷新
+https://api.aliyun.com/api/Cdn/2018-05-10/RefreshObjectCaches?params={%22ObjectPath%22:%22https%3A%2F%2Fmost-people.cn%2F%22}
