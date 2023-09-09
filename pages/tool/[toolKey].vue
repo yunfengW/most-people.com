@@ -1,12 +1,6 @@
 <template>
   <div id="page-tool">
-    <mp-header :title="toolName">
-      <!-- <template #extra>
-        <el-button round @click="mp.info('正在开发中，请加入我们吧')">
-          <mp-icon name="edit" />
-        </el-button>
-      </template> -->
-    </mp-header>
+    <mp-header :title="toolName" />
 
     <div class="markdown-box" v-if="renderHTML" ref="markdownElement" v-html="renderHTML"></div>
     <div class="markdown-empty" v-else-if="inited">

@@ -4,13 +4,6 @@ import tools from '~/assets/json/tools.json'
 import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
-  // https://github.com/remarkjs/remark
-  // const processor = unified()
-  //   .use(remarkParse)
-  //   .use(remarkRehype, { allowDangerousHtml: true })
-  //   .use(rehypeRaw)
-  //   .use(rehypeStringify).process
-
   const renderHTML = ref('')
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
@@ -27,8 +20,10 @@ export const useToolKey = () => {
 
   const render = async (md: string) => {
     const html = marked.parse(md)
-    const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
-    renderHTML.value = clean
+    renderHTML.value = html
+
+    // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
+    // renderHTML.value = clean
     // // mp-mi
     nextTick(() => {
       if (!markdownElement.value) return
@@ -58,6 +53,8 @@ export const useToolKey = () => {
 
   const markdown = ref('')
   const init = () => {
+    initMarked()
+
     axios({
       url: `https://cdn.most-people.cn/tool/${toolKey}.md`,
     })
@@ -76,6 +73,29 @@ export const useToolKey = () => {
       })
   }
 
+  const initMarked = () => {
+    marked.use({
+      breaks: true,
+    })
+
+    const renderer = new marked.Renderer()
+    renderer.link = function (href, title, text) {
+      const div = document.createElement('div')
+      const a = document.createElement('a')
+      a.href = href
+      a.target = '_blank'
+      if (title) {
+        a.title = title
+      }
+      a.textContent = text
+      div.appendChild(a)
+      return div.innerHTML
+    }
+    marked.setOptions({
+      renderer: renderer,
+    })
+  }
+
   if (process.client) {
     init()
   }
@@ -84,9 +104,6 @@ export const useToolKey = () => {
 
   onMounted(async () => {
     // const { editor } = await import('monaco-editor')
-    // if (!editorElement.value) {
-    //   return
-    // }
     // const markdownEditor = editor.create(editorElement.value, {
     //   value: markdown.value,
     //   language: 'markdown',

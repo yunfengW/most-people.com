@@ -33,13 +33,14 @@ const initZoom = () => {
 }
 
 onBeforeMount(() => {
-  indexDB.init().then(() => {
-    userStore.init()
-  })
-
   // 屏幕缩放
   initZoom()
   window.addEventListener('resize', initZoom)
+
+  // indexDB
+  indexDB.init().then(() => {
+    userStore.init()
+  })
 
   // 搜狗 jsonp 提示
   window.sogou = {
