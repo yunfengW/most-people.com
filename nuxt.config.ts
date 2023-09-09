@@ -25,10 +25,6 @@ export default defineNuxtConfig({
   },
   // modules
   modules: ['@element-plus/nuxt', '@pinia/nuxt'],
-  // https://content.nuxtjs.org/api/configuration
-  content: {
-    documentDriven: true,
-  },
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },

@@ -1,21 +1,17 @@
 import axios from 'axios'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import rehypeRaw from 'rehype-raw'
-import rehypeStringify from 'rehype-stringify'
-import remarkRehype from 'remark-rehype'
-import DOMPurify from 'dompurify'
+import { marked } from 'marked'
 import tools from '~/assets/json/tools.json'
+import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
   // https://github.com/remarkjs/remark
-  const processor = unified()
-    .use(remarkParse)
-    .use(remarkRehype, { allowDangerousHtml: true })
-    .use(rehypeRaw)
-    .use(rehypeStringify).process
+  // const processor = unified()
+  //   .use(remarkParse)
+  //   .use(remarkRehype, { allowDangerousHtml: true })
+  //   .use(rehypeRaw)
+  //   .use(rehypeStringify).process
 
-  const html = ref('')
+  const renderHTML = ref('')
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
   const route = useRoute()
@@ -30,10 +26,10 @@ export const useToolKey = () => {
   })
 
   const render = async (md: string) => {
-    const file = await processor(md)
-    const clean = DOMPurify.sanitize(file.toString(), { ADD_TAGS: ['mp-mi'] })
-    html.value = clean
-    // mp-mi
+    const html = marked.parse(md)
+    const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
+    renderHTML.value = clean
+    // // mp-mi
     nextTick(() => {
       if (!markdownElement.value) return
       const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
@@ -104,8 +100,9 @@ export const useToolKey = () => {
 
   return {
     inited,
-    html,
+    renderHTML,
     toolName,
     editorElement,
+    markdownElement,
   }
 }
