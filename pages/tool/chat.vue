@@ -99,11 +99,11 @@ const submit = () => {
   formElement.value.validate(async (ok) => {
     if (ok) {
       // if (!form.countryCode) {
-      //   ElMessage.warning('请先获取 IP 地址')
+      //   mp.warning('请先获取 IP 地址')
       //   return
       // }
       // if (['HK', 'CN'].includes(form.countryCode)) {
-      //   ElMessage.info('OpenAI 暂不支持 中国大陆和香港')
+      //   mp.info('OpenAI 暂不支持 中国大陆和香港')
       //   return
       // }
       form.submitLoading = true

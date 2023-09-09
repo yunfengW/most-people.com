@@ -28,8 +28,51 @@ export const useIndex = () => {
     const url = formatURL(userStore.tool.url, sug)
     window.open(url)
   }
+
+  const recognition = ref()
+  onBeforeMount(() => {
+    // 检查浏览器是否支持 SpeechRecognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (SpeechRecognition) {
+      recognition.value = new SpeechRecognition()
+      recognition.value.lang = 'zh-CN' // 设置语言
+      recognition.value.interimResults = true // 设置是否返回临时结果
+      recognition.value.maxAlternatives = 1 // 设置返回的最大备选词数量
+      recognition.value.onstart = function () {
+        // console.log('语音识别开始')
+        userStore.message = ''
+        form.placeholder = '请说中文'
+      }
+      recognition.value.onresult = function (event: any) {
+        const transcript = event.results[0][0].transcript
+        userStore.message = transcript.replace(/[\.。]$/, '')
+        // console.log('语音识别结果:', transcript)
+      }
+      recognition.value.onerror = function (event: any) {
+        // console.error('语音识别错误:', event.error)
+      }
+      recognition.value.onend = function () {
+        // console.log('语音识别结束')
+      }
+    }
+  })
+
+  const messageElement = ref<HTMLInputElement>()
+
   const microphone = () => {
-    ElMessage.info('语音输入 正在开发')
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        if (recognition) {
+          recognition.value.start()
+          messageElement.value?.focus()
+        } else {
+          mp.info('您的浏览器不支持语音识别，请尝试使用最新版的 Edge 浏览器')
+        }
+      })
+      .catch((error) => {
+        mp.error('浏览器设置禁止了麦克风访问')
+      })
   }
   const bindTool = (key: string) => {
     userStore.updateTool(key)
@@ -67,7 +110,9 @@ export const useIndex = () => {
     tools,
     userStore,
     form,
+    messageElement,
     microphone,
+    recognition,
     send,
     bindTool,
     bindAdd,

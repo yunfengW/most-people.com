@@ -45,6 +45,7 @@
       </div>
 
       <el-input
+        ref="messageElement"
         v-model="userStore.message"
         :placeholder="form.placeholder"
         autofocus
@@ -90,6 +91,7 @@ const {
   tools,
   userStore,
   form,
+  messageElement,
   // 麦克风
   microphone,
   // 发送
@@ -261,14 +263,10 @@ const keyUpEvent = (event: KeyboardEvent) => {
         align-items: center;
         height: 100%;
         padding: 0 15px;
-        color: rgb(142, 142, 160);
+        color: #909399;
 
-        &.disabled {
-          opacity: 0.4;
-
-          &:hover {
-            opacity: 1;
-          }
+        &:hover {
+          color: #b1b3b8;
         }
 
         .mp-icon {

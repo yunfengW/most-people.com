@@ -2,7 +2,7 @@
   <div id="page-top">
     <mp-header content="万能工具箱" />
     <div class="top-box">
-      <div class="top" v-for="list in toolTopList">
+      <div class="top" v-for="list in toolsTop">
         <h4>{{ list.zh }}</h4>
         <div class="ul">
           <div class="li" v-for="(key, i) in list.top" @click="bindTool(key)">
@@ -20,7 +20,7 @@
 <script setup lang="ts">
 // JSON 可视化编辑器 https://jsoneditoronline.org
 import tools from '~/assets/json/tools.json'
-import toolTopList from '~/assets/json/toolTopList.json'
+import toolsTop from '~/assets/json/toolsTop.json'
 import { Tool, useUserStore } from '~/stores/user'
 
 useHead({
@@ -38,14 +38,18 @@ const bindTool = (key: string) => {
       addTool(tool)
       return
     }
-    // 支持搜索
-    if (tool.url.includes('「most-people」')) {
-      userStore.updateTool(tool.id)
-      router.replace('/')
-      return
-    }
-    // 不支持搜索
-    window.open(tool.url)
+
+    userStore.updateTool(tool.id)
+    router.replace('/')
+
+    // // 支持搜索
+    // if (tool.url.includes('「most-people」')) {
+    //   userStore.updateTool(tool.id)
+    //   router.replace('/')
+    //   return
+    // }
+    // // 不支持搜索
+    // window.open(tool.url)
   }
 }
 

@@ -4,8 +4,10 @@ import dayjs from 'dayjs'
 declare global {
   interface Window {
     sogou: {
-      sug: (data: any[]) => void
+      sug: (data: string[][]) => void
     }
+    SpeechRecognition: any
+    webkitSpeechRecognition: any
   }
 }
 
