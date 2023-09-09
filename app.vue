@@ -54,6 +54,10 @@ onBeforeMount(() => {
 
 <style lang="scss">
 // global
+:root {
+  --red: #e30002;
+}
+
 *,
 ::after,
 ::before {

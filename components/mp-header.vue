@@ -8,7 +8,9 @@
 
     <div class="center"></div>
 
-    <div class="right"></div>
+    <div class="right">
+      <slot name="right" />
+    </div>
   </div>
 </template>
 

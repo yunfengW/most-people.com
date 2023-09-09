@@ -1,6 +1,13 @@
 <template>
   <div id="page-tool">
-    <mp-header :title="toolName" />
+    <mp-header :title="toolName">
+      <template #right v-if="renderHTML">
+        <div class="edit" @click="edit">
+          <span>编辑</span>
+          <mp-icon name="edit"></mp-icon>
+        </div>
+      </template>
+    </mp-header>
 
     <div class="markdown-box" v-if="renderHTML" ref="markdownElement" v-html="renderHTML"></div>
     <div class="markdown-empty" v-else-if="inited">
@@ -20,12 +27,32 @@
 <script setup lang="ts">
 import { useToolKey } from '~/composables/useToolKey'
 
-const { inited, renderHTML, toolName, editorElement, markdownElement } = useToolKey()
+const { inited, edit, renderHTML, toolName, editorElement, markdownElement } = useToolKey()
 </script>
 
 <style lang="scss">
 #page-tool.page {
   // max-width: 100%;
+  .mp-header {
+    .right {
+      .edit {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        color: #909399;
+        &:hover {
+          color: #b1b3b8;
+        }
+
+        .mp-icon {
+          margin-top: 2px;
+          margin-left: 8px;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+
   .markdown-box {
     word-break: break-word;
     width: 100%;

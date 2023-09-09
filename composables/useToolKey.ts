@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { marked } from 'marked'
+import { editor } from 'monaco-editor'
 import tools from '~/assets/json/tools.json'
-import DOMPurify from 'dompurify'
+// import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
   const renderHTML = ref('')
@@ -103,20 +104,28 @@ export const useToolKey = () => {
   const editorElement = ref<HTMLDivElement>()
 
   onMounted(async () => {
-    // const { editor } = await import('monaco-editor')
-    // const markdownEditor = editor.create(editorElement.value, {
-    //   value: markdown.value,
-    //   language: 'markdown',
-    //   tabSize: 2,
-    //   minimap: {
-    //     enabled: false,
-    //   },
-    // })
-    // console.log('markdownEditor', markdownEditor)
+    if (!editorElement.value) {
+      return
+    }
+    const { editor } = await import('monaco-editor')
+    const markdownEditor = editor.create(editorElement.value, {
+      value: markdown.value,
+      language: 'markdown',
+      tabSize: 2,
+      minimap: {
+        enabled: false,
+      },
+    })
+    console.log('markdownEditor', markdownEditor)
   })
+
+  const edit = async () => {
+    console.log('🌊', 'edit')
+  }
 
   return {
     inited,
+    edit,
     renderHTML,
     toolName,
     editorElement,
