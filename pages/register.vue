@@ -1,6 +1,6 @@
 <template>
   <div id="page-register">
-    <mp-header content="注册" />
+    <mp-header title="注册" />
 
     <el-form
       @submit.prevent

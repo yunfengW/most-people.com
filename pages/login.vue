@@ -1,6 +1,6 @@
 <template>
   <div id="page-login">
-    <mp-header content="登录" />
+    <mp-header title="登录" />
     <el-form
       @submit.prevent
       ref="formElement"

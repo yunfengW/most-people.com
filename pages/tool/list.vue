@@ -1,6 +1,6 @@
 <template>
   <div id="page-tools">
-    <mp-header content="全部工具" />
+    <mp-header title="全部工具" />
 
     <div class="tools">
       <nuxt-link

@@ -1,6 +1,6 @@
 <template>
   <div id="page-top">
-    <mp-header content="万能工具箱" />
+    <mp-header title="万能工具箱" />
     <div class="top-box">
       <div class="top" v-for="list in toolsTop">
         <h4>{{ list.zh }}</h4>
@@ -65,10 +65,7 @@ const addTool = (tool: Tool) => {
 
 <style lang="scss">
 #page-top.page {
-  background-color: #0e4d8a;
   max-width: 100%;
-  color: #fff;
-  min-height: 100vh;
 
   .top-box {
     color: #000;

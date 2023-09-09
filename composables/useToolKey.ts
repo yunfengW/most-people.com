@@ -22,7 +22,7 @@ export const useToolKey = () => {
     if (tool) {
       return tool.zh
     }
-    return toolKey
+    return toolKey as string
   })
 
   const render = async (md: string) => {

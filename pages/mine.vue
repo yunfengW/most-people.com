@@ -1,6 +1,6 @@
 <template>
   <div id="page-mine">
-    <mp-header content="个人中心" />
+    <mp-header title="个人中心" />
     <template v-if="userStore.inited">
       <div class="mine" v-if="userStore.user">
         <el-image

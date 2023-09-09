@@ -1,6 +1,6 @@
 <template>
   <div id="page-utils">
-    <mp-header content="Web3" />
+    <mp-header title="Web3" />
     <el-input v-model="form.username" placeholder="username" />
     <br />
     <el-input v-model="form.password" placeholder="password" show-password />

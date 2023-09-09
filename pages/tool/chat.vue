@@ -1,6 +1,6 @@
 <template>
   <div id="page-chat">
-    <mp-header content="ChatGPT 3.5" />
+    <mp-header title="ChatGPT 3.5" />
     <el-form @submit.prevent ref="formElement" :model="form">
       <div class="ip-address">
         <h4>IP 地址：{{ form.regionName }} {{ form.city }}</h4>

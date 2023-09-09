@@ -1,6 +1,6 @@
 <template>
   <div id="page-join-us">
-    <mp-header content="加入我们" />
+    <mp-header title="加入我们" />
     <div>客服微信</div>
     <br />
     <el-image class="join-us" src="/img/join-us.jpg" />

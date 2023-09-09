@@ -90,7 +90,7 @@ body,
     flex-direction: column;
 
     margin: 0 auto;
-    padding: 56px 20px 30px;
+    padding: 20px;
   }
   > .mp-uid {
     position: absolute;

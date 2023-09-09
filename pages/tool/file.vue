@@ -1,6 +1,6 @@
 <template>
   <div id="page-files">
-    <mp-header content="文件管理" />
+    <mp-header title="文件管理" />
     <div class="files">
       <div class="file" v-for="(filename, i) in files">
         <a target="_blank" :href="`https://cdn.most-people.cn/${filename}`">

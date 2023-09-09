@@ -1,13 +1,15 @@
 <template>
-  <el-page-header @back="back" v-bind="$attrs">
-    <template #title>
-      <span></span>
-    </template>
-    <template #icon>
-      <mp-icon :name="userStore.firstPath === route.path ? 'home' : 'back'" />
-    </template>
-    <template v-for="(index, name) in $slots" #[name]><slot :name="name" /></template>
-  </el-page-header>
+  <div class="mp-header">
+    <div class="left">
+      <mp-icon @click="back" :name="userStore.firstPath === route.path ? 'home' : 'back'" />
+      <div class="line"></div>
+      <div class="title">{{ props.title }}</div>
+    </div>
+
+    <div class="center"></div>
+
+    <div class="right"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -15,6 +17,15 @@ import { useUserStore } from '~/stores/user'
 const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
+
+interface Props {
+  title: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  title: '',
+})
+
 const back = () => {
   if (userStore.firstPath === route.path) {
     router.replace('/').then(() => {
@@ -27,32 +38,30 @@ const back = () => {
 </script>
 
 <style lang="scss">
-.el-page-header {
+.mp-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  padding-bottom: 20px;
+  > .left {
+    display: flex;
+    align-items: center;
 
-  .el-page-header__left {
-    .el-divider--vertical {
-      margin-left: 0;
-    }
-    .el-page-header__back {
-      padding: 20px;
-      .el-page-header__icon {
-        margin-right: 0;
-        .mp-icon {
-          font-size: 16px;
-        }
+    > .mp-icon {
+      cursor: pointer;
+      font-size: 22px;
+      padding-right: 10px;
+      &:hover {
+        color: #e30002;
       }
     }
-    .el-page-header__content {
-      color: inherit;
+    > .line {
+      margin: 0 16px 0 6px;
+      background: #dcdfe6;
+      width: 1px;
+      height: 22px;
     }
-  }
-  .el-page-header__extra {
-    padding: 0 20px;
   }
 }
 </style>

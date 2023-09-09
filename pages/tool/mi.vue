@@ -1,6 +1,6 @@
 <template>
   <div id="page-mi">
-    <mp-header content="加密 / 解密" />
+    <mp-header title="加密 / 解密" />
     <el-form @submit.prevent ref="formElement" :model="form">
       <div class="api-key">
         <h4>密钥</h4>
