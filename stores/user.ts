@@ -29,7 +29,7 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      toolKey: 'Bing',
+      toolKey: 'Sogou',
       tools: [
         'ChatGPT',
         'Bing',
@@ -51,7 +51,7 @@ export const useUserStore = defineStore({
       if (tools[key]) {
         return tools[key]
       } else {
-        return tools['Bing']
+        return tools['Sogou']
       }
     },
     getUID() {
