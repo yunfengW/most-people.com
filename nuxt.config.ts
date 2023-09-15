@@ -9,7 +9,8 @@ export default defineNuxtConfig({
           content: 'AI 时代的万能工具箱',
         },
       ],
-      script: ['/js/iconpark.js'],
+      // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
+      script: [{ defer: true, src: '/js/iconpark.js' }],
     },
   },
   vue: {
@@ -24,7 +25,7 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   // modules
-  modules: ['@element-plus/nuxt', '@pinia/nuxt'],
+  modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor'],
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },

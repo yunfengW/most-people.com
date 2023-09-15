@@ -50,7 +50,6 @@
         :placeholder="form.placeholder"
         autofocus
         size="large"
-        @keyup.enter="send()"
         @input="inputEvent"
         @focus="inputFocus = true"
         @blur="inputFocus = false"

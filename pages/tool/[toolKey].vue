@@ -2,7 +2,7 @@
   <div id="page-tool">
     <mp-header :title="toolName">
       <template #right v-if="renderHTML">
-        <div class="edit" @click="edit">
+        <div class="edit" @click="edit = !edit">
           <span>编辑</span>
           <mp-icon name="edit"></mp-icon>
         </div>
@@ -20,14 +20,30 @@
       <mp-icon name="loading" />
     </div>
 
-    <div class="markdown-editor" ref="editorElement"></div>
+    <div class="markdown-editor" v-show="edit">
+      <div class="show" v-html="render(markdown)"></div>
+      <div class="edit">
+        <monaco-editor v-model="markdown" lang="markdown" :options="options" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { useToolKey } from '~/composables/useToolKey'
 
-const { inited, edit, renderHTML, toolName, editorElement, markdownElement } = useToolKey()
+const options: any = {
+  language: 'markdown',
+  tabSize: 2,
+  minimap: {
+    enabled: false,
+  },
+  formatOnType: true,
+  wordWrap: 'on',
+  theme: 'vs-dark',
+}
+const edit = ref(false)
+const { inited, renderHTML, toolName, markdown, render, markdownElement } = useToolKey()
 </script>
 
 <style lang="scss">
@@ -114,8 +130,27 @@ const { inited, edit, renderHTML, toolName, editorElement, markdownElement } = u
     }
   }
   .markdown-editor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: flex-start;
     width: 100%;
-    height: 800px;
+    height: 100%;
+    background: #f1f1f1;
+
+    .show {
+      width: 38.2%;
+      height: 100%;
+      padding: 0 20px;
+    }
+    .edit {
+      width: 61.8%;
+      height: 100%;
+      background: #1e1e1e;
+    }
   }
 }
 </style>

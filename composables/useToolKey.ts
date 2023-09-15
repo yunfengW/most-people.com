@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { marked } from 'marked'
-import { editor } from 'monaco-editor'
 import tools from '~/assets/json/tools.json'
 // import DOMPurify from 'dompurify'
 
@@ -19,14 +18,10 @@ export const useToolKey = () => {
     return toolKey as string
   })
 
-  const render = async (md: string) => {
+  const render = (md: string) => {
     const html = marked.parse(md)
-    renderHTML.value = html
-
-    // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
-    // renderHTML.value = clean
-    // // mp-mi
-    nextTick(() => {
+    // mp-mi
+    nextTick(async () => {
       if (!markdownElement.value) return
       const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
       for (const mi of miList) {
@@ -50,6 +45,9 @@ export const useToolKey = () => {
         mi.innerHTML = `<span>${mi.innerText}</span><input placeholder="输入密码" /><a>解密</a>`
       }
     })
+
+    // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
+    return html
   }
 
   const markdown = ref('')
@@ -63,7 +61,6 @@ export const useToolKey = () => {
         const md = res.data as string
         if (md) {
           markdown.value = md
-          render(md)
         }
       })
       .catch((err) => {
@@ -101,34 +98,13 @@ export const useToolKey = () => {
     init()
   }
 
-  const editorElement = ref<HTMLDivElement>()
-
-  onMounted(async () => {
-    if (!editorElement.value) {
-      return
-    }
-    const { editor } = await import('monaco-editor')
-    const markdownEditor = editor.create(editorElement.value, {
-      value: markdown.value,
-      language: 'markdown',
-      tabSize: 2,
-      minimap: {
-        enabled: false,
-      },
-    })
-    console.log('markdownEditor', markdownEditor)
-  })
-
-  const edit = async () => {
-    console.log('🌊', 'edit')
-  }
-
   return {
     inited,
-    edit,
+
     renderHTML,
     toolName,
-    editorElement,
     markdownElement,
+    markdown,
+    render,
   }
 }

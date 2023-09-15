@@ -2,28 +2,27 @@
   "name": "nuxt-app",
   "private": true,
   "scripts": {
-    "start": "nuxt dev --port 2023 --host 0.0.0.0",
+    "start": "nuxt dev --port 2023 --open",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
     "build": "nuxt build",
+    "preview": "nuxt preview",
     "publish": "sh bin/publish.sh",
     "postinstall": "nuxt prepare",
     "yarn": "yarn install"
   },
   "devDependencies": {
-    "@element-plus/nuxt": "^1.0.5",
+    "@element-plus/nuxt": "^1.0.6",
     "@pinia/nuxt": "^0.4.11",
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.6.1",
     "axios": "^1.5.0",
-    "element-plus": "^2.3.12",
+    "element-plus": "^2.3.14",
     "ethers": "^6.7.1",
-    "nuxt": "^3.7.1",
-    "sass": "^1.66.1"
+    "nuxt": "^3.7.3",
+    "sass": "^1.67.0"
   },
   "dependencies": {
-    "@types/dompurify": "^3.0.2",
-    "dompurify": "^3.0.5",
-    "marked": "^8.0.1",
-    "monaco-editor": "^0.41.0"
+    "marked": "^9.0.0",
+    "monaco-editor": "^0.43.0",
+    "nuxt-monaco-editor": "^1.2.3"
   }
 }
