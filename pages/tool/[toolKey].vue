@@ -1,7 +1,7 @@
 <template>
   <div id="page-tool">
     <mp-header :title="toolName">
-      <template #right v-if="renderHTML">
+      <template #right v-if="markdown">
         <div class="edit" @click="edit = !edit">
           <span>编辑</span>
           <mp-icon name="edit"></mp-icon>
@@ -9,7 +9,7 @@
       </template>
     </mp-header>
 
-    <div class="markdown-box" v-if="renderHTML" ref="markdownElement" v-html="renderHTML"></div>
+    <div class="markdown-box" v-if="markdown" ref="markdownElement" v-html="render(markdown)"></div>
     <div class="markdown-empty" v-else-if="inited">
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>

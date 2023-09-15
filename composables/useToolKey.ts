@@ -58,9 +58,8 @@ export const useToolKey = () => {
       url: `https://cdn.most-people.cn/tool/${toolKey}.md`,
     })
       .then((res) => {
-        const md = res.data as string
-        if (md) {
-          markdown.value = md
+        if (res.data) {
+          markdown.value = res.data
         }
       })
       .catch((err) => {
