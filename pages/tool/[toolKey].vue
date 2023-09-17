@@ -1,15 +1,15 @@
 <template>
-  <div id="page-tool">
+  <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right v-if="markdown">
-        <div class="edit" @click="edit = !edit">
+        <div class="edit" @click="showEdit = true">
           <span>编辑</span>
           <mp-icon name="edit"></mp-icon>
         </div>
       </template>
     </mp-header>
 
-    <div class="markdown-box" v-if="markdown" ref="markdownElement" v-html="render(markdown)"></div>
+    <div v-if="markdown" v-show="!showEdit" class="markdown-box" v-html="render(markdown)"></div>
     <div class="markdown-empty" v-else-if="inited">
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
@@ -20,11 +20,13 @@
       <mp-icon name="loading" />
     </div>
 
-    <div class="markdown-editor" v-show="edit">
-      <div class="show" v-html="render(markdown)"></div>
-      <div class="edit">
-        <monaco-editor v-model="markdown" lang="markdown" :options="options" />
+    <div class="markdown-editor" :class="{ 'show-edit': showEdit }">
+      <div class="close" @click="showEdit = false">
+        <mp-icon name="close" />
       </div>
+
+      <div class="preview markdown-box" ref="markdownElement" v-html="render(markdown)"></div>
+      <monaco-editor class="editor" v-model="markdown" lang="markdown" :options="options" />
     </div>
   </div>
 </template>
@@ -42,8 +44,9 @@ const options: any = {
   wordWrap: 'on',
   theme: 'vs-dark',
 }
-const edit = ref(false)
-const { inited, renderHTML, toolName, markdown, render, markdownElement } = useToolKey()
+const showEdit = ref(false)
+
+const { inited, toolName, markdown, render, markdownElement } = useToolKey()
 </script>
 
 <style lang="scss">
@@ -69,10 +72,15 @@ const { inited, renderHTML, toolName, markdown, render, markdownElement } = useT
     }
   }
 
+  .markdown-empty {
+    text-align: center;
+    .join-us {
+      max-width: 375px;
+    }
+  }
   .markdown-box {
-    word-break: break-word;
     width: 100%;
-
+    word-break: break-word;
     mp-mi {
       display: flex;
       flex-direction: column;
@@ -123,12 +131,7 @@ const { inited, renderHTML, toolName, markdown, render, markdownElement } = useT
       }
     }
   }
-  .markdown-empty {
-    text-align: center;
-    .join-us {
-      max-width: 375px;
-    }
-  }
+
   .markdown-editor {
     position: fixed;
     top: 0;
@@ -140,16 +143,36 @@ const { inited, renderHTML, toolName, markdown, render, markdownElement } = useT
     width: 100%;
     height: 100%;
     background: #f1f1f1;
+    // 默认隐藏
+    opacity: 0;
+    pointer-events: none;
 
-    .show {
+    .close {
+      cursor: pointer;
+      position: absolute;
+      top: 6px;
+      right: 20px;
+      z-index: 1;
+      font-size: 32px;
+      color: #909399;
+    }
+
+    .preview {
       width: 38.2%;
       height: 100%;
       padding: 0 20px;
+      overflow-y: auto;
     }
-    .edit {
+
+    .editor {
       width: 61.8%;
       height: 100%;
       background: #1e1e1e;
+    }
+
+    &.show-edit {
+      opacity: 1;
+      pointer-events: auto;
     }
   }
 }

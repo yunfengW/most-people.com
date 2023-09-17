@@ -4,7 +4,6 @@ import tools from '~/assets/json/tools.json'
 // import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
-  const renderHTML = ref('')
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
   const route = useRoute()
@@ -25,24 +24,8 @@ export const useToolKey = () => {
       if (!markdownElement.value) return
       const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
       for (const mi of miList) {
-        mi.addEventListener('click', async (event: any) => {
-          const tagName = event?.target?.tagName
-          if (tagName === 'A') {
-            const input = event.target.previousSibling
-            if (input.tagName === 'INPUT') {
-              const password = input.value as string
-              const text = mi.querySelector('span')?.innerText || ''
-              const { key } = await mp.key('most-people', password)
-              const decrypted = await mp.decrypt(text, key)
-              if (decrypted) {
-                mi.innerHTML = `<div>${decrypted.replaceAll('\n', '<br />')}</div>`
-              } else {
-                mp.error('密码错误')
-              }
-            }
-          }
-        })
-        mi.innerHTML = `<span>${mi.innerText}</span><input placeholder="输入密码" /><a>解密</a>`
+        const encrypted = mi.querySelector('span')?.innerText || mi.innerText
+        mi.innerHTML = `<span>${encrypted}</span><input placeholder="输入密码" /><a>解密</a>`
       }
     })
 
@@ -99,8 +82,6 @@ export const useToolKey = () => {
 
   return {
     inited,
-
-    renderHTML,
     toolName,
     markdownElement,
     markdown,

@@ -50,6 +50,31 @@ onBeforeMount(() => {
     },
   }
 })
+
+onMounted(() => {
+  // mp-mi
+  document.body.addEventListener('click', async (event: any) => {
+    const mi = event?.target?.parentElement as HTMLDivElement
+    const tagName = mi.tagName
+    if (tagName === 'MP-MI') {
+      if (event?.target?.tagName === 'A') {
+        const input = event.target.previousSibling
+        if (input.tagName === 'INPUT') {
+          const password = input.value as string
+          const text = mi.querySelector('span')?.innerText || ''
+          const { key } = await mp.key('most-people', password)
+          const decrypted = await mp.decrypt(text, key)
+          if (decrypted) {
+            mi.innerHTML = `<div>${decrypted.replaceAll('\n', '<br />')}</div>`
+          } else {
+            mp.error('密码错误')
+            input.select()
+          }
+        }
+      }
+    }
+  })
+})
 </script>
 
 <style lang="scss">
@@ -99,7 +124,7 @@ body,
   }
   > .mp-uid {
     position: absolute;
-    right: 10px;
+    right: 14px;
     bottom: 10px;
     z-index: 10;
   }
