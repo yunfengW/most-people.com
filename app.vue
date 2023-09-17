@@ -53,7 +53,7 @@ onBeforeMount(() => {
 
 onMounted(() => {
   // mp-mi
-  document.body.addEventListener('click', async (event: any) => {
+  document.addEventListener('click', async (event: any) => {
     const mi = event?.target?.parentElement as HTMLDivElement
     const tagName = mi.tagName
     if (tagName === 'MP-MI') {
@@ -72,6 +72,11 @@ onMounted(() => {
           }
         }
       }
+    }
+  })
+  document.addEventListener('keydown', function (event) {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault()
     }
   })
 })
