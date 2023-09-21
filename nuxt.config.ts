@@ -1,12 +1,20 @@
+const { execSync } = require('child_process')
+let branch = ''
+if (process.env.VERCEL_GIT_COMMIT_REF) {
+  branch = process.env.VERCEL_GIT_COMMIT_REF
+} else {
+  branch = execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
+}
+console.log('The branch is:', branch)
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
     head: {
-      title: '动员群众，解决难题',
+      title: 'Most People | 大多数人',
       meta: [
         {
           name: 'description',
-          content: 'AI 时代的万能工具箱',
+          content: '全世界无产者，联合起来！',
         },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
