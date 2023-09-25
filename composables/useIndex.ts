@@ -100,20 +100,17 @@ export const useIndex = () => {
     })
   }
   const bindRemove = (key: string) => {
+    if (userStore.user === null) {
+      mp.info('请先登录，登录后即可使用')
+      return
+    }
     const i = userStore.tools.findIndex((e) => e === key)
     if (i >= 0) {
       userStore.tools.splice(i, 1)
       userStore.updateTools()
     }
   }
-  const toggleRemove = () => {
-    if (userStore.user === null) {
-      mp.info('请先登录，登录后即可使用')
-      router.push('/mine')
-      return
-    }
-    form.remove = !form.remove
-  }
+
   return {
     tools,
     userStore,
@@ -126,7 +123,6 @@ export const useIndex = () => {
     bindTool,
     bindAdd,
     bindRemove,
-    toggleRemove,
     formatURL,
   }
 }

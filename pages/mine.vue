@@ -9,7 +9,6 @@
           fit="cover"
         ></el-image>
         <h4>{{ userStore.user.name }}</h4>
-        <el-button plain class="exit" @click="exit">退出登录</el-button>
       </div>
       <div v-else class="not-logged-in">
         <nuxt-link to="/register">
@@ -25,18 +24,9 @@
 </template>
 
 <script lang="ts" setup>
-import { indexDB } from '~/utils/api/indexdb'
 import { useUserStore } from '~/stores/user'
 
 const userStore = useUserStore()
-
-const exit = () => {
-  if (userStore.user) {
-    indexDB.delUser(userStore.user.name)
-    userStore.$reset()
-    userStore.init()
-  }
-}
 </script>
 
 <style lang="scss">

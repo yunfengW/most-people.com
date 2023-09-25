@@ -8,7 +8,25 @@
         <el-button link type="info">粤ICP备2020105439号</el-button>
       </a>
     </div>
-    <mp-icon name="setting" @click="toggleRemove" />
+
+    <div class="setting-box">
+      <div class="mask" @click="showSetting = false" v-show="showSetting"></div>
+      <mp-icon name="setting" @click="showSetting = true" />
+      <main v-show="showSetting">
+        <span class="button-box" v-if="!userStore.user">
+          <nuxt-link to="/login">
+            <el-button type="primary">登录</el-button>
+          </nuxt-link>
+        </span>
+        <span @click="form.remove = !form.remove">
+          开启删除<el-switch :value="form.remove" />
+        </span>
+        <span class="button-box" v-if="userStore.user" @click="userStore.exit">
+          <el-button type="danger">退出</el-button>
+        </span>
+      </main>
+    </div>
+
     <div class="current-tool">
       <nuxt-link class="left" :to="'/tool/' + userStore.tool.id">
         <mp-icon name="how-to-use" />
@@ -87,6 +105,8 @@
 </template>
 
 <script lang="ts" setup>
+const showSetting = ref(false)
+
 const {
   tools,
   userStore,
@@ -101,7 +121,6 @@ const {
   bindTool,
   bindAdd,
   bindRemove,
-  toggleRemove,
   //
   formatURL,
 } = useIndex()
@@ -163,19 +182,66 @@ const keyUpEvent = (event: KeyboardEvent) => {
     z-index: 10;
   }
 
-  > .mp-icon-setting {
+  > .setting-box {
+    user-select: none;
     position: absolute;
     top: 10px;
     right: 10px;
     z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    > .mp-icon-setting {
+      padding: 10px;
+      cursor: pointer;
+      color: var(--el-color-info);
+      font-size: 20px;
 
-    padding: 10px;
-    cursor: pointer;
-    color: var(--el-color-info);
-    font-size: 20px;
+      &:hover {
+        color: var(--el-color-info-light-5);
+      }
+    }
+    > main {
+      border-radius: 12px;
+      box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
+      width: 240px;
+      height: 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      padding: 12px 0;
+      background: rgb(241, 241, 241);
+      z-index: 11;
 
-    &:hover {
-      color: var(--el-color-info-light-5);
+      > span {
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 8px;
+
+        &.button-box {
+          justify-content: center;
+          a,
+          .el-button {
+            width: 100%;
+          }
+        }
+      }
+    }
+    > .mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.04);
     }
   }
 

@@ -13,12 +13,12 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
     "@pinia/nuxt": "^0.4.11",
-    "@types/node": "^20.6.2",
+    "@types/node": "^20.6.5",
     "axios": "^1.5.0",
     "element-plus": "^2.3.14",
     "ethers": "^6.7.1",
     "nuxt": "^3.7.3",
-    "sass": "^1.67.0"
+    "sass": "^1.68.0"
   },
   "dependencies": {
     "marked": "^9.0.3",
