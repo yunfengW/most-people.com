@@ -42,6 +42,7 @@ export const useIndex = () => {
         // console.log('语音识别开始')
         userStore.message = ''
         form.placeholder = '请说中文'
+        isListening.value = true
       }
       recognition.value.onresult = function (event: any) {
         const transcript = event.results[0][0].transcript
@@ -53,13 +54,20 @@ export const useIndex = () => {
       }
       recognition.value.onend = function () {
         // console.log('语音识别结束')
+        isListening.value = false
+        form.placeholder = '没有调查，就没有发言权'
       }
     }
   })
 
   const messageElement = ref<HTMLInputElement>()
-
+  const isListening = ref(false)
   const microphone = () => {
+    if (isListening.value) {
+      mp.info('请说中文')
+      return
+    }
+
     navigator.mediaDevices
       .getUserMedia({ audio: true })
       .then((stream) => {
@@ -112,6 +120,7 @@ export const useIndex = () => {
     form,
     messageElement,
     microphone,
+    isListening,
     recognition,
     send,
     bindTool,

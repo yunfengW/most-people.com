@@ -58,7 +58,8 @@
       >
         <template #prefix>
           <div class="button microphone" @click.stop="microphone">
-            <mp-icon name="microphone" />
+            <mp-icon v-if="isListening" class="el-icon is-loading" name="loading" />
+            <mp-icon v-else name="microphone" />
           </div>
         </template>
         <template #suffix>
@@ -93,6 +94,7 @@ const {
   messageElement,
   // 麦克风
   microphone,
+  isListening,
   // 发送
   send,
   //
