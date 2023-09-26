@@ -10,7 +10,7 @@ console.log('The branch is:', branch)
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Most People | 大多数人',
+      title: 'Most People | 动员群众，解决难题',
       meta: [
         {
           name: 'description',
