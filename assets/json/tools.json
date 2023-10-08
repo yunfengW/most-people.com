@@ -287,6 +287,18 @@
         "logo": "/logo/Strerr.svg",
         "url": "https://www.strerr.com/cn/exif.html"
     },
+    "IP125": {
+        "id": "IP125",
+        "zh": "全方位查询 IP 地址",
+        "logo": "/logo/IP111.svg",
+        "url": "http://ip111.cn"
+    },
+    "IP111": {
+        "id": "IP111",
+        "zh": "查询我的 IP 地址",
+        "logo": "/logo/IP125.svg",
+        "url": "https://ip125.com"
+    },
     "Gartic": {
         "id": "Gartic",
         "zh": "你画我猜",
