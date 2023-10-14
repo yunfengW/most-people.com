@@ -12,17 +12,17 @@
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
-    "@pinia/nuxt": "^0.4.11",
-    "@types/node": "^20.6.5",
-    "axios": "^1.5.0",
-    "element-plus": "^2.3.14",
-    "ethers": "^6.7.1",
-    "nuxt": "^3.7.3",
-    "sass": "^1.68.0"
+    "@pinia/nuxt": "^0.5.0",
+    "@types/node": "^20.8.6",
+    "axios": "^1.5.1",
+    "element-plus": "^2.4.0",
+    "ethers": "^6.8.0",
+    "nuxt": "^3.7.4",
+    "sass": "^1.69.3"
   },
   "dependencies": {
-    "marked": "^9.0.3",
-    "monaco-editor": "^0.43.0",
+    "marked": "^9.1.2",
+    "monaco-editor": "^0.44.0",
     "nuxt-monaco-editor": "^1.2.3"
   }
 }
