@@ -13,16 +13,21 @@
       <div class="mask" @click="showSetting = false" v-show="showSetting"></div>
       <mp-icon name="setting" @click="showSetting = true" />
       <main v-show="showSetting">
-        <span class="button-box" v-if="!userStore.user">
+        <div class="mine">
+          <el-image
+            class="avatar"
+            :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
+            fit="cover"
+          ></el-image>
+          <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
+        </div>
+        <span class="button-box" v-if="userStore.user" @click="userStore.exit">
+          <el-button type="danger">退出</el-button>
+        </span>
+        <span class="button-box" v-else>
           <nuxt-link to="/login">
             <el-button type="primary">登录</el-button>
           </nuxt-link>
-        </span>
-        <span @click="form.remove = !form.remove">
-          开启删除<el-switch :value="form.remove" />
-        </span>
-        <span class="button-box" v-if="userStore.user" @click="userStore.exit">
-          <el-button type="danger">退出</el-button>
         </span>
       </main>
     </div>
@@ -99,6 +104,10 @@
       <div class="tool add" @click="bindAdd">
         <el-image src="/img/add.svg" fit="contain" />
         <span>添加</span>
+      </div>
+      <div class="tool del" @click="form.remove = !form.remove">
+        <el-image src="/img/del.svg" fit="contain" />
+        <span>{{ form.remove ? '关闭删除' : '删除' }}</span>
       </div>
     </div>
   </div>
@@ -210,7 +219,7 @@ const keyUpEvent = (event: KeyboardEvent) => {
       flex-direction: column;
       align-items: center;
       overflow: hidden;
-      padding: 12px 0;
+      padding: 8px 0;
       background: rgb(241, 241, 241);
       z-index: 11;
 
@@ -220,7 +229,7 @@ const keyUpEvent = (event: KeyboardEvent) => {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 4px 8px;
+        padding: 0 8px;
 
         &.button-box {
           justify-content: center;
@@ -228,6 +237,24 @@ const keyUpEvent = (event: KeyboardEvent) => {
           .el-button {
             width: 100%;
           }
+        }
+      }
+
+      .mine {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: auto;
+
+        .avatar {
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          background-color: #fff;
+          border: 1px solid var(--el-text-color-primary);
         }
       }
     }
@@ -390,6 +417,7 @@ const keyUpEvent = (event: KeyboardEvent) => {
       align-items: center;
 
       .el-image {
+        user-select: none;
         height: 40px;
         width: 40px;
         padding: 2px;

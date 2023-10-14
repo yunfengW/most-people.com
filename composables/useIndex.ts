@@ -102,6 +102,7 @@ export const useIndex = () => {
   const bindRemove = (key: string) => {
     if (userStore.user === null) {
       mp.info('请先登录，登录后即可使用')
+      router.push('/mine')
       return
     }
     const i = userStore.tools.findIndex((e) => e === key)
