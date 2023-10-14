@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: windows-latest
+
+    env:
+      ENDPOINT: ${{ secrets.ENDPOINT }}
+      ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY_ID }}
+      ACCESS_KEY_SECRET: ${{ secrets.ACCESS_KEY_SECRET }}
+      BUCKET: ${{ secrets.BUCKET }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run Publish Command
+        run: yarn run publish
