@@ -41,22 +41,17 @@ const bindTool = (key: string) => {
 
     userStore.updateTool(tool.id)
     router.replace('/')
-
-    // // 支持搜索
-    // if (tool.url.includes('「most-people」')) {
-    //   userStore.updateTool(tool.id)
-    //   router.replace('/')
-    //   return
-    // }
-    // // 不支持搜索
-    // window.open(tool.url)
   }
 }
 
 const addTool = (tool: Tool) => {
-  if (userStore.tools.includes(tool.id) === false) {
-    userStore.tools.push(tool.id)
-    userStore.updateTools()
+  if (userStore.user === null) {
+    mp.info('请先登录，登录后即可添加')
+  } else {
+    if (userStore.tools.includes(tool.id) === false) {
+      userStore.tools.push(tool.id)
+      userStore.updateTools()
+    }
   }
   userStore.updateTool(tool.id)
   router.replace('/')

@@ -87,11 +87,6 @@ export const useIndex = () => {
   }
 
   const bindAdd = () => {
-    if (userStore.user === null) {
-      mp.info('请先登录，登录后即可使用')
-      router.push('/mine')
-      return
-    }
     router.push({
       path: '/tool',
       query: {
