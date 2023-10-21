@@ -49,6 +49,10 @@
         注册
       </el-button>
     </el-form>
+    <br />
+    <router-link to="/login" replace>
+      <el-link>已有账号？去登录</el-link>
+    </router-link>
   </div>
 </template>
 

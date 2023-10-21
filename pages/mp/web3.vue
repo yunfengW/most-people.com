@@ -15,9 +15,6 @@
 <script setup lang="ts">
 const form = reactive({
   hyphenate: 'ChatGPT',
-  camelize: 'git-hub',
-
-  // temp
   username: '',
   password: '',
   address: '',

@@ -82,15 +82,11 @@ const mp = {
       return ''
     }
   },
-  // 驼峰命名法（camelCase）转 短横线分隔命名法（kebab-case）
-  hyphenate(str: string) {
-    return str.replace(/\B([A-Z])/g, '-$1').toLowerCase()
+  deBase64(s: string) {
+    return decodeURIComponent(atob(s))
   },
-  // 短横线分隔命名法（kebab-case）转 驼峰命名法（camelCase）
-  camelize(str: string) {
-    const result = str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
-    // 首字母大写
-    return result.charAt(0).toUpperCase() + result.slice(1)
+  enBase64(s: string) {
+    return btoa(encodeURIComponent(s))
   },
   // 错误提示
   error(message: string) {

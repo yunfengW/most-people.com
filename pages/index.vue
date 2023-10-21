@@ -26,7 +26,7 @@
         </span>
         <span class="button-box" v-else>
           <nuxt-link to="/login">
-            <el-button type="primary">登录</el-button>
+            <el-button type="primary">登录 / 注册</el-button>
           </nuxt-link>
         </span>
       </main>
