@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import api, { FileGet } from '~/utils/api/api'
+import api, { FileGet } from '~/utils/api'
 
 const fileElement = ref<HTMLInputElement>()
 const uploadFile = async () => {

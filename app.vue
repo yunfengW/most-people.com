@@ -10,8 +10,17 @@
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
 import { indexDB } from '~/utils/api/indexdb'
+// import api from '~/utils/api'
 
 const userStore = useUserStore()
+
+// const initTools = async () => {
+//   const res = await api('https://data.most-people.cn/tools.json')
+//   console.log('🌊', res)
+// }
+// if (process.client) {
+//   initTools()
+// }
 
 const initZoom = () => {
   // 获取屏幕宽度和高度

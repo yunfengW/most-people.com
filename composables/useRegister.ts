@@ -1,4 +1,4 @@
-import api, { apiErrorCode } from '~/utils/api/api'
+import api, { apiErrorCode } from '~/utils/api'
 import { ElMessageBox, type FormInstance } from 'element-plus'
 
 export const useRegister = () => {
