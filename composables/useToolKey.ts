@@ -1,16 +1,18 @@
 import axios from 'axios'
 import { marked } from 'marked'
-import tools from '~/assets/json/tools.json'
+import { useToolStore } from '~/stores/tool'
 // import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
   const route = useRoute()
-  const toolKey = route.params.toolKey
+  const toolKey = (route.params.toolKey || '') as string
+
+  const toolStore = useToolStore()
 
   const toolName = computed(() => {
-    const tool = tools[toolKey as 'Bing']
+    const tool = toolStore.tools[toolKey]
     if (tool) {
       return tool.zh
     }

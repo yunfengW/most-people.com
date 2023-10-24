@@ -1,14 +1,8 @@
 import { defineStore } from 'pinia'
 import api, { User } from '~/utils/api'
+import { Tool, useToolStore } from '~/stores/tool'
 import { indexDB } from '~/utils/api/indexdb'
-import tools from '~/assets/json/tools.json'
 
-export interface Tool {
-  id: string
-  zh: string
-  logo: string
-  url: string
-}
 interface UserStore {
   firstPath: string
   user: User | null
@@ -47,11 +41,12 @@ export const useUserStore = defineStore({
   },
   getters: {
     tool(): Tool {
+      const toolStore = useToolStore()
       const key = this.toolKey as 'Bing'
-      if (tools[key]) {
-        return tools[key]
+      if (toolStore.tools[key]) {
+        return toolStore.tools[key]
       } else {
-        return tools['Sogou']
+        return toolStore.tools['Sogou']
       }
     },
     getUID() {

@@ -1,5 +1,3 @@
-// JSON 可视化编辑器 https://jsoneditoronline.org
-import tools from '~/assets/json/tools.json'
 import { useUserStore } from '~/stores/user'
 
 export const useIndex = () => {
@@ -108,7 +106,6 @@ export const useIndex = () => {
   }
 
   return {
-    tools,
     userStore,
     form,
     messageElement,

@@ -4,7 +4,7 @@
 
     <div class="tools">
       <nuxt-link
-        v-for="tool in Object.values(tools)"
+        v-for="tool in Object.values(toolStore.tools)"
         :to="'/tool/' + tool.id"
         class="tool"
         @click="userStore.toolKey = tool.id"
@@ -16,10 +16,11 @@
 </template>
 
 <script setup lang="ts">
-import tools from '~/assets/json/tools.json'
 import { useUserStore } from '~/stores/user'
+import { useToolStore } from '~/stores/tool'
 
 const userStore = useUserStore()
+const toolStore = useToolStore()
 </script>
 
 <style lang="scss">

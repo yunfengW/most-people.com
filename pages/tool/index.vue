@@ -2,13 +2,17 @@
   <div id="page-top">
     <mp-header title="万能工具箱" />
     <div class="top-box">
-      <div class="top" v-for="list in toolsTop">
+      <div class="top" v-for="list in toolStore.toolsTop">
         <h4>{{ list.zh }}</h4>
         <div class="ul">
           <div class="li" v-for="(key, i) in list.top" @click="bindTool(key)">
             <span class="No">{{ i + 1 }}</span>
-            <img class="logo" :src="tools[key as 'Bing']?.logo" :alt="tools[key as 'Bing']?.zh" />
-            <a>{{ tools[key as 'Bing']?.zh }}</a>
+            <img
+              class="logo"
+              :src="toolStore.tools[key as 'Bing']?.logo"
+              :alt="toolStore.tools[key as 'Bing']?.zh"
+            />
+            <a>{{ toolStore.tools[key as 'Bing']?.zh }}</a>
           </div>
         </div>
       </div>
@@ -19,19 +23,20 @@
 
 <script setup lang="ts">
 // JSON 可视化编辑器 https://jsoneditoronline.org
-import tools from '~/assets/json/tools.json'
-import toolsTop from '~/assets/json/toolsTop.json'
-import { Tool, useUserStore } from '~/stores/user'
+import { useUserStore } from '~/stores/user'
+import { useToolStore } from '~/stores/tool'
+import { Tool } from '~/stores/tool'
 
 useHead({
   title: '万能工具箱',
 })
 
 const userStore = useUserStore()
+const toolStore = useToolStore()
 const router = useRouter()
 const route = useRoute()
 const bindTool = (key: string) => {
-  const tool = tools[key as 'Bing']
+  const tool = toolStore.tools[key]
   if (tool) {
     // 添加
     if (route.query.type === 'add') {

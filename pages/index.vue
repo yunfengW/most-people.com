@@ -96,8 +96,8 @@
     <div class="tools" :class="{ remove: form.remove }">
       <template v-for="key in userStore.tools">
         <div class="tool" @click="bindTool(key)">
-          <el-image :src="tools[key as 'Bing']?.logo" fit="contain" />
-          <span>{{ tools[key as 'Bing']?.zh }}</span>
+          <el-image :src="toolStore.tools[key as 'Bing']?.logo" fit="contain" />
+          <span>{{ toolStore.tools[key as 'Bing']?.zh }}</span>
           <mp-icon name="remove" @click.stop="bindRemove(key)" />
         </div>
       </template>
@@ -114,10 +114,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useToolStore } from '~/stores/tool'
 const showSetting = ref(false)
 
+const toolStore = useToolStore()
+
 const {
-  tools,
   userStore,
   form,
   messageElement,

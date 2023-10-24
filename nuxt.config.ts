@@ -37,4 +37,8 @@ export default defineNuxtConfig({
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },
+  devServer: {
+    // host: '127.0.0.1',
+    port: 2023,
+  },
 })

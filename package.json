@@ -2,7 +2,7 @@
   "name": "nuxt-app",
   "private": true,
   "scripts": {
-    "start": "nuxt dev --port 2023 --open",
+    "start": "nuxt dev --open",
     "generate": "nuxt generate",
     "build": "nuxt build",
     "preview": "nuxt preview",

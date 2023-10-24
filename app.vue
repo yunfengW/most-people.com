@@ -9,18 +9,24 @@
 
 <script setup lang="ts">
 import { useUserStore } from '~/stores/user'
+import { useToolStore, ToolTop, Tools } from '~/stores/tool'
 import { indexDB } from '~/utils/api/indexdb'
-// import api from '~/utils/api'
+import apiData from './utils/api/data'
 
 const userStore = useUserStore()
+const toolStore = useToolStore()
 
-// const initTools = async () => {
-//   const res = await api('https://data.most-people.cn/tools.json')
-//   console.log('🌊', res)
-// }
-// if (process.client) {
-//   initTools()
-// }
+const initTools = async () => {
+  apiData('/toolsTop.json').then((res) => {
+    toolStore.toolsTop = res.data as ToolTop[]
+  })
+  apiData('/tools.json').then((res) => {
+    toolStore.tools = res.data as Tools
+  })
+}
+if (process.client) {
+  initTools()
+}
 
 const initZoom = () => {
   // 获取屏幕宽度和高度
