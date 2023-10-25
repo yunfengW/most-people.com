@@ -13,7 +13,7 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.6",
     "@pinia/nuxt": "^0.5.1",
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.8.8",
     "axios": "^1.5.1",
     "element-plus": "^2.4.1",
     "ethers": "^6.8.0",

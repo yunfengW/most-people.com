@@ -16,16 +16,33 @@
           </div>
         </div>
       </div>
+      <div class="top add">
+        <el-image src="/img/add.svg" fit="contain" @click="showTopAdd = true" />
+        <span @click="showTopAdd = true">添加</span>
+      </div>
     </div>
     <nuxt-link to="/tool/list"></nuxt-link>
+    <mp-dialog class="mp-dialog-category" title="添加类别" v-model="showTopAdd">
+      <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
+        <el-form-item prop="category" :rules="[{ validator: checkCategory, trigger: 'blur' }]">
+          <el-input v-model.trim="form.category" clearable />
+        </el-form-item>
+        <el-button type="primary" @click="topAdd"> 添加 </el-button>
+      </el-form>
+    </mp-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-// JSON 可视化编辑器 https://jsoneditoronline.org
 import { useUserStore } from '~/stores/user'
 import { useToolStore } from '~/stores/tool'
 import { Tool } from '~/stores/tool'
+import { FormInstance } from 'element-plus'
+
+const showTopAdd = ref(false)
+
+const formElement = ref<FormInstance>()
+const form = reactive({ category: '' })
 
 useHead({
   title: '万能工具箱',
@@ -61,6 +78,30 @@ const addTool = (tool: Tool) => {
   userStore.updateTool(tool.id)
   router.replace('/')
 }
+
+const topAdd = () => {
+  if (!formElement.value) return
+  formElement.value.validate(async (ok: boolean) => {
+    if (ok) {
+      toolStore.toolsTop.push({
+        zh: form.category,
+        top: [],
+      })
+      form.category = ''
+      showTopAdd.value = false
+    }
+  })
+}
+
+// check
+const checkCategory = (_rule: any, v: string, callback: (err?: Error) => void) => {
+  const category = v
+  if (!category) {
+    return callback(new Error('请输入类别'))
+  }
+  // const categories = toolStore.toolsTop.map((e) => e.zh)
+  callback()
+}
 </script>
 
 <style lang="scss">
@@ -81,7 +122,8 @@ const addTool = (tool: Tool) => {
       will-change: background;
       list-style: auto;
       border-radius: 5px;
-      padding: 0 20px 20px;
+      padding: 0 20px;
+      height: 180px;
 
       .ul {
         height: 96px;
@@ -109,7 +151,30 @@ const addTool = (tool: Tool) => {
           }
         }
       }
+
+      &.add {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        .el-image {
+          cursor: pointer;
+          width: 36px;
+          height: 36px;
+        }
+        span {
+          cursor: pointer;
+        }
+      }
     }
+  }
+}
+
+.mp-dialog-category {
+  .el-button {
+    margin-top: 12px;
+    width: 100%;
   }
 }
 </style>
