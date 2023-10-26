@@ -1,5 +1,5 @@
 <template>
-  <mp-dialog class="mp-dialog-top-edit" title="编辑类别" destroy-on-close>
+  <mp-dialog class="mp-dialog-top-edit" title="编辑分类" destroy-on-close>
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item prop="zh" :rules="[{ required: true, trigger: 'blur', message: '请输入类别' }]">
         <el-input class="zh" v-model.trim="form.zh" clearable />
@@ -8,7 +8,7 @@
 
     <div class="ul">
       <div class="li" v-for="(key, i) in form.list">
-        <span class="No">{{ i + 1 }}</span>
+        <span class="number">{{ i + 1 }}</span>
         <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
         <a>{{ toolStore.tools[key]?.zh }}</a>
         <mp-icon name="delete" @click="form.list.splice(i, 1)" />
@@ -144,7 +144,7 @@ onUpdated(() => {
       align-items: center;
       height: 24px;
 
-      .No {
+      .number {
         margin-right: 4px;
       }
 

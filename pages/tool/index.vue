@@ -1,7 +1,13 @@
 <template>
   <div id="page-top">
     <mp-header title="万能工具箱" />
-    <div class="top-box">
+
+    <el-tabs v-model="tab">
+      <el-tab-pane label="分类" name="top"></el-tab-pane>
+      <el-tab-pane label="全部" name="all"></el-tab-pane>
+    </el-tabs>
+
+    <div v-show="tab === 'top'" class="top-box">
       <div class="top" v-for="(top, index) in toolStore.toolsTop">
         <h4>
           <span>{{ top.zh }}</span>
@@ -9,7 +15,7 @@
         </h4>
         <div class="ul">
           <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
-            <span class="No">{{ i + 1 }}</span>
+            <span class="number">{{ i + 1 }}</span>
             <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
             <a>{{ toolStore.tools[key]?.zh }}</a>
           </div>
@@ -20,7 +26,14 @@
         <span @click="showTopAdd = true">添加</span>
       </div>
     </div>
-    <nuxt-link to="/tool/list"></nuxt-link>
+
+    <div v-show="tab === 'all'" class="tool-box">
+      <div class="tool" v-for="tool in Object.values(toolStore.tools)">
+        <img class="logo" :src="tool.logo" :alt="tool.zh" />
+        <span>{{ tool.zh }}</span>
+        <mp-icon name="edit" />
+      </div>
+    </div>
 
     <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
     <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
@@ -71,6 +84,8 @@ const editTop = (index: number) => {
   showTopEdit.value = true
   topIndex.value = index
 }
+
+const tab = ref('top')
 </script>
 
 <style lang="scss">
@@ -100,7 +115,6 @@ const editTop = (index: number) => {
         justify-content: space-between;
         .mp-icon {
           cursor: pointer;
-          font-size: 20px;
           color: #909399;
         }
       }
@@ -115,7 +129,7 @@ const editTop = (index: number) => {
           align-items: center;
           height: 24px;
 
-          .No {
+          .number {
             margin-right: 4px;
           }
 
@@ -146,6 +160,37 @@ const editTop = (index: number) => {
         span {
           cursor: pointer;
         }
+      }
+    }
+  }
+
+  .tool-box {
+    color: #000;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 8px;
+    justify-content: space-between;
+    .tool {
+      box-shadow: 0 3px 6px 0 rgba(14, 30, 62, 0.08);
+      background-color: #fff;
+      will-change: background;
+      border-radius: 5px;
+      padding: 20px;
+
+      display: flex;
+      align-items: center;
+
+      img.logo {
+        width: 20px;
+        height: auto;
+        margin-right: 6px;
+      }
+
+      .mp-icon-edit {
+        cursor: pointer;
+        margin-left: auto;
+        color: #909399;
       }
     }
   }

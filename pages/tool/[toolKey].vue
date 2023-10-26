@@ -4,7 +4,7 @@
       <template #right v-if="markdown">
         <div class="edit" @click="showEdit = true">
           <span>编辑</span>
-          <mp-icon name="edit"></mp-icon>
+          <mp-icon name="edit" />
         </div>
       </template>
     </mp-header>
@@ -63,7 +63,7 @@ const { inited, toolName, markdown, render, markdownElement } = useToolKey()
           color: #b1b3b8;
         }
 
-        .mp-icon {
+        .mp-icon-edit {
           margin-top: 2px;
           margin-left: 8px;
           font-size: 20px;
