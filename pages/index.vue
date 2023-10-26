@@ -114,7 +114,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useToolStore } from '~/stores/tool'
 const showSetting = ref(false)
 
 const toolStore = useToolStore()

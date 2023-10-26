@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import api, { User } from '~/utils/api'
-import { Tool, useToolStore } from '~/stores/tool'
 import { indexDB } from '~/utils/api/indexdb'
 
 interface UserStore {

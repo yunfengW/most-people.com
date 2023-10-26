@@ -1,7 +1,6 @@
 import type { FormInstance } from 'element-plus'
 import api, { User, apiErrorCode } from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
-import { useUserStore } from '~/stores/user'
 
 export const useLogin = () => {
   const form = reactive({

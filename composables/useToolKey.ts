@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { marked } from 'marked'
-import { useToolStore } from '~/stores/tool'
 // import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {

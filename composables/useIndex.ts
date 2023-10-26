@@ -1,5 +1,3 @@
-import { useUserStore } from '~/stores/user'
-
 export const useIndex = () => {
   const userStore = useUserStore()
   const router = useRouter()

@@ -1,7 +1,7 @@
 [
     {
         "zh": "大语言模型",
-        "top": [
+        "list": [
             "ChatGPT",
             "Bing",
             "Poe",
@@ -14,7 +14,7 @@
     },
     {
         "zh": "综合",
-        "top": [
+        "list": [
             "Google",
             "Douyin",
             "Bilibili",
@@ -25,7 +25,7 @@
     },
     {
         "zh": "AI 绘画",
-        "top": [
+        "list": [
             "Midjourney",
             "BingCreate",
             "StableDiffusion"
@@ -33,13 +33,13 @@
     },
     {
         "zh": "AI 工具箱",
-        "top": [
+        "list": [
             "Replicate"
         ]
     },
     {
         "zh": "AI 设计",
-        "top": [
+        "list": [
             "JsDesign",
             "Canva",
             "AliyunLogo"
@@ -47,7 +47,7 @@
     },
     {
         "zh": "AI 修图",
-        "top": [
+        "list": [
             "Clipdrop",
             "Vectorizer",
             "RunwayML"
@@ -55,7 +55,7 @@
     },
     {
         "zh": "翻译",
-        "top": [
+        "list": [
             "SogouTranslate",
             "GoogleTranslate",
             "YouDao",
@@ -68,50 +68,50 @@
     },
     {
         "zh": "数学计算",
-        "top": [
+        "list": [
             "WolframAlpha",
             "MathSolver"
         ]
     },
     {
         "zh": "AI PPT",
-        "top": [
+        "list": [
             "Tome"
         ]
     },
     {
         "zh": "AI 写作",
-        "top": [
+        "list": [
             "Notion"
         ]
     },
     {
         "zh": "AI 数字人",
-        "top": [
+        "list": [
             "HeyGen"
         ]
     },
     {
         "zh": "AI 配音",
-        "top": [
+        "list": [
             "Murf"
         ]
     },
     {
         "zh": "AI 对话",
-        "top": [
+        "list": [
             "MyShell"
         ]
     },
     {
         "zh": "游戏",
-        "top": [
+        "list": [
             "Gartic"
         ]
     },
     {
         "zh": "工具",
-        "top": [
+        "list": [
             "Filehelper",
             "ImageExif",
             "IP111",
@@ -121,20 +121,20 @@
     },
     {
         "zh": "编程",
-        "top": [
+        "list": [
             "GitHub"
         ]
     },
     {
         "zh": "音乐",
-        "top": [
+        "list": [
             "QQMusic",
             "NeteaseMusic"
         ]
     },
     {
         "zh": "购物",
-        "top": [
+        "list": [
             "XiaoMi",
             "JingDong",
             "PinDuoDuo"

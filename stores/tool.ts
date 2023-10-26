@@ -12,7 +12,7 @@ export interface Tools {
 }
 export interface ToolTop {
   zh: string
-  top: string[]
+  list: string[]
 }
 
 interface ToolStore {

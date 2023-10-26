@@ -2,10 +2,13 @@
   <div id="page-top">
     <mp-header title="万能工具箱" />
     <div class="top-box">
-      <div class="top" v-for="list in toolStore.toolsTop">
-        <h4>{{ list.zh }}</h4>
+      <div class="top" v-for="(top, index) in toolStore.toolsTop">
+        <h4>
+          <span>{{ top.zh }}</span>
+          <mp-icon name="edit" @click="editTop(index)" />
+        </h4>
         <div class="ul">
-          <div class="li" v-for="(key, i) in list.top" @click="bindTool(key)">
+          <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
             <span class="No">{{ i + 1 }}</span>
             <img
               class="logo"
@@ -22,27 +25,16 @@
       </div>
     </div>
     <nuxt-link to="/tool/list"></nuxt-link>
-    <mp-dialog class="mp-dialog-category" title="添加类别" v-model="showTopAdd">
-      <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
-        <el-form-item prop="category" :rules="[{ validator: checkCategory, trigger: 'blur' }]">
-          <el-input v-model.trim="form.category" clearable />
-        </el-form-item>
-        <el-button type="primary" @click="topAdd"> 添加 </el-button>
-      </el-form>
-    </mp-dialog>
+
+    <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
+    <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/stores/user'
-import { useToolStore } from '~/stores/tool'
-import { Tool } from '~/stores/tool'
-import { FormInstance } from 'element-plus'
-
 const showTopAdd = ref(false)
-
-const formElement = ref<FormInstance>()
-const form = reactive({ category: '' })
+const showTopEdit = ref(false)
+const topIndex = ref(-1)
 
 useHead({
   title: '万能工具箱',
@@ -79,28 +71,9 @@ const addTool = (tool: Tool) => {
   router.replace('/')
 }
 
-const topAdd = () => {
-  if (!formElement.value) return
-  formElement.value.validate(async (ok: boolean) => {
-    if (ok) {
-      toolStore.toolsTop.push({
-        zh: form.category,
-        top: [],
-      })
-      form.category = ''
-      showTopAdd.value = false
-    }
-  })
-}
-
-// check
-const checkCategory = (_rule: any, v: string, callback: (err?: Error) => void) => {
-  const category = v
-  if (!category) {
-    return callback(new Error('请输入类别'))
-  }
-  // const categories = toolStore.toolsTop.map((e) => e.zh)
-  callback()
+const editTop = (index: number) => {
+  showTopEdit.value = true
+  topIndex.value = index
 }
 </script>
 
@@ -125,11 +98,23 @@ const checkCategory = (_rule: any, v: string, callback: (err?: Error) => void) =
       padding: 0 20px;
       height: 180px;
 
+      h4 {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .mp-icon {
+          cursor: pointer;
+          font-size: 20px;
+          color: #909399;
+        }
+      }
+
       .ul {
         height: 96px;
         overflow-y: auto;
 
         .li {
+          cursor: pointer;
           display: flex;
           align-items: center;
           height: 24px;
@@ -168,13 +153,6 @@ const checkCategory = (_rule: any, v: string, callback: (err?: Error) => void) =
         }
       }
     }
-  }
-}
-
-.mp-dialog-category {
-  .el-button {
-    margin-top: 12px;
-    width: 100%;
   }
 }
 </style>

@@ -16,9 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUserStore } from '~/stores/user'
-import { useToolStore } from '~/stores/tool'
-
 const userStore = useUserStore()
 const toolStore = useToolStore()
 </script>
