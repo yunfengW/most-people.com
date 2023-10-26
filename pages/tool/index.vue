@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="top add">
-        <el-image src="/img/add.svg" fit="contain" @click="showTopAdd = true" />
+        <mp-icon name="add" @click="showTopAdd = true" />
         <span @click="showTopAdd = true">添加</span>
       </div>
     </div>
@@ -143,10 +143,9 @@ const editTop = (index: number) => {
         justify-content: center;
         flex-direction: column;
         align-items: center;
-        .el-image {
+        .mp-icon {
           cursor: pointer;
-          width: 36px;
-          height: 36px;
+          font-size: 36px;
         }
         span {
           cursor: pointer;

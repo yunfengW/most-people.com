@@ -102,11 +102,11 @@
         </div>
       </template>
       <div class="tool add" @click="bindAdd">
-        <el-image src="/img/add.svg" fit="contain" />
+        <mp-icon name="add" />
         <span>添加</span>
       </div>
       <div class="tool del" @click="form.remove = !form.remove">
-        <el-image src="/img/del.svg" fit="contain" />
+        <mp-icon name="del" />
         <span>{{ form.remove ? '关闭删除' : '删除' }}</span>
       </div>
     </div>
@@ -422,6 +422,12 @@ const keyUpEvent = (event: KeyboardEvent) => {
         height: 40px;
         width: 40px;
         padding: 2px;
+      }
+      // add del
+      .mp-icon-add,
+      .mp-icon-del {
+        color: initial;
+        font-size: 40px;
       }
 
       span {

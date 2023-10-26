@@ -1,16 +1,46 @@
 <template>
-  <mp-dialog class="mp-dialog-top-edit" title="编辑类别">
+  <mp-dialog class="mp-dialog-top-edit" title="编辑类别" destroy-on-close>
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item prop="zh" :rules="[{ required: true, trigger: 'blur', message: '请输入类别' }]">
         <el-input class="zh" v-model.trim="form.zh" clearable />
       </el-form-item>
-      <div>{{ form.list }}</div>
-
-      <div class="button-box">
-        <el-button type="primary" @click="topSave">确认</el-button>
-        <el-button type="danger" @click="topDel">删除</el-button>
-      </div>
     </el-form>
+
+    <div class="ul">
+      <div class="li" v-for="(key, i) in form.list">
+        <span class="No">{{ i + 1 }}</span>
+        <img
+          class="logo"
+          :src="toolStore.tools[key as 'Bing']?.logo"
+          :alt="toolStore.tools[key as 'Bing']?.zh"
+        />
+        <a>{{ toolStore.tools[key as 'Bing']?.zh }}</a>
+        <mp-icon name="delete" @click="form.list.splice(i, 1)" />
+      </div>
+    </div>
+
+    <el-form @submit.prevent ref="formToolElement" :model="formTool" label-position="top">
+      <el-form-item
+        class="add-tool"
+        prop="tool"
+        :rules="[{ required: true, trigger: 'blur', message: '请选择工具' }]"
+      >
+        <el-select v-model="formTool.tool" filterable placeholder="请选择工具" clearable>
+          <el-option
+            v-for="tool in Object.values(toolStore.tools)"
+            :key="tool.id"
+            :label="tool.zh"
+            :value="tool.id"
+          />
+        </el-select>
+        <el-button @click="addTool">添加</el-button>
+      </el-form-item>
+    </el-form>
+
+    <div class="button-box">
+      <el-button type="primary" @click="topSave">确认</el-button>
+      <el-button type="danger" @click="topDel">删除</el-button>
+    </div>
   </mp-dialog>
 </template>
 
@@ -26,9 +56,14 @@ const $emit = defineEmits(['close'])
 const toolStore = useToolStore()
 
 const formElement = ref<FormInstance>()
+const formToolElement = ref<FormInstance>()
 const form = reactive({
   zh: '',
   list: [] as string[],
+})
+
+const formTool = reactive({
+  tool: '',
 })
 
 const topDel = () => {
@@ -47,7 +82,22 @@ const topSave = () => {
     if (ok) {
       const top = toolStore.toolsTop[$props.topIndex]
       top.zh = form.zh
+      top.list = form.list
       $emit('close')
+    }
+  })
+}
+
+const addTool = () => {
+  if (!formToolElement.value) return
+  formToolElement.value.validate(async (ok: boolean) => {
+    if (ok) {
+      if (form.list.includes(formTool.tool)) {
+        mp.info('已存在')
+        return
+      }
+      form.list.push(formTool.tool)
+      formTool.tool = ''
     }
   })
 }
@@ -55,7 +105,7 @@ const topSave = () => {
 onUpdated(() => {
   const top = toolStore.toolsTop[$props.topIndex]
   form.zh = top.zh
-  form.list = top.list
+  form.list = JSON.parse(JSON.stringify(top.list))
 })
 </script>
 
@@ -64,6 +114,55 @@ onUpdated(() => {
   .el-input.zh {
     input {
       font-weight: bold;
+    }
+  }
+
+  .el-form-item.add-tool {
+    .el-form-item__content {
+      margin-top: 20px;
+      justify-content: space-between;
+      .el-select {
+        width: 78%;
+      }
+      .el-button {
+        width: 20%;
+      }
+    }
+  }
+
+  .ul {
+    height: 96px;
+    overflow-y: auto;
+
+    .li {
+      display: flex;
+      align-items: center;
+      height: 24px;
+
+      .No {
+        margin-right: 4px;
+      }
+
+      img.logo {
+        width: 20px;
+        height: 20px;
+        margin-right: 4px;
+      }
+
+      a {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .mp-icon-delete {
+        cursor: pointer;
+        margin-left: auto;
+
+        &:hover {
+          color: #000;
+        }
+      }
     }
   }
 
