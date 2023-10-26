@@ -41,7 +41,7 @@ export const useUserStore = defineStore({
   getters: {
     tool(): Tool {
       const toolStore = useToolStore()
-      const key = this.toolKey as 'Bing'
+      const key = this.toolKey
       if (toolStore.tools[key]) {
         return toolStore.tools[key]
       } else {

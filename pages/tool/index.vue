@@ -10,12 +10,8 @@
         <div class="ul">
           <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
             <span class="No">{{ i + 1 }}</span>
-            <img
-              class="logo"
-              :src="toolStore.tools[key as 'Bing']?.logo"
-              :alt="toolStore.tools[key as 'Bing']?.zh"
-            />
-            <a>{{ toolStore.tools[key as 'Bing']?.zh }}</a>
+            <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
+            <a>{{ toolStore.tools[key]?.zh }}</a>
           </div>
         </div>
       </div>

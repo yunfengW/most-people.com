@@ -9,12 +9,8 @@
     <div class="ul">
       <div class="li" v-for="(key, i) in form.list">
         <span class="No">{{ i + 1 }}</span>
-        <img
-          class="logo"
-          :src="toolStore.tools[key as 'Bing']?.logo"
-          :alt="toolStore.tools[key as 'Bing']?.zh"
-        />
-        <a>{{ toolStore.tools[key as 'Bing']?.zh }}</a>
+        <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
+        <a>{{ toolStore.tools[key]?.zh }}</a>
         <mp-icon name="delete" @click="form.list.splice(i, 1)" />
       </div>
     </div>
@@ -39,7 +35,14 @@
 
     <div class="button-box">
       <el-button type="primary" @click="topSave">确认</el-button>
-      <el-button type="danger" @click="topDel">删除</el-button>
+      <el-button
+        v-if="toolStore.toolsTop[$props.topIndex]?.list.length === 0"
+        type="danger"
+        @click="topDel"
+      >
+        删除
+      </el-button>
+      <el-button v-else @click="$emit('close')">取消</el-button>
     </div>
   </mp-dialog>
 </template>
@@ -104,8 +107,10 @@ const addTool = () => {
 
 onUpdated(() => {
   const top = toolStore.toolsTop[$props.topIndex]
-  form.zh = top.zh
-  form.list = JSON.parse(JSON.stringify(top.list))
+  if (top) {
+    form.zh = top.zh
+    form.list = JSON.parse(JSON.stringify(top.list))
+  }
 })
 </script>
 
