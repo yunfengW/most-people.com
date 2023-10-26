@@ -18,6 +18,7 @@ export interface ToolTop {
 interface ToolStore {
   tools: Tools
   toolsTop: ToolTop[]
+  tab: 'top' | 'all'
 }
 
 export const useToolStore = defineStore({
@@ -26,6 +27,7 @@ export const useToolStore = defineStore({
     return {
       tools,
       toolsTop,
+      tab: 'top',
     }
   },
   getters: {},

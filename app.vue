@@ -143,7 +143,7 @@ body,
   > .mp-uid {
     position: absolute;
     right: 14px;
-    bottom: 10px;
+    bottom: 0;
     z-index: 10;
   }
 }

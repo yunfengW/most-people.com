@@ -188,7 +188,7 @@ const keyUpEvent = (event: KeyboardEvent) => {
   > .mp-join-us {
     position: absolute;
     left: 10px;
-    bottom: 10px;
+    bottom: 0;
     z-index: 10;
   }
 

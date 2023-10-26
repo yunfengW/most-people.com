@@ -2,12 +2,12 @@
   <div id="page-top">
     <mp-header title="万能工具箱" />
 
-    <el-tabs v-model="tab">
+    <el-tabs v-model="toolStore.tab">
       <el-tab-pane label="分类" name="top"></el-tab-pane>
       <el-tab-pane label="全部" name="all"></el-tab-pane>
     </el-tabs>
 
-    <div v-show="tab === 'top'" class="top-box">
+    <div v-show="toolStore.tab === 'top'" class="top-box">
       <div class="top" v-for="(top, index) in toolStore.toolsTop">
         <h4>
           <span>{{ top.zh }}</span>
@@ -17,7 +17,7 @@
           <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
             <span class="number">{{ i + 1 }}</span>
             <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
-            <a>{{ toolStore.tools[key]?.zh }}</a>
+            <a class="name">{{ toolStore.tools[key]?.zh }}</a>
           </div>
         </div>
       </div>
@@ -27,10 +27,10 @@
       </div>
     </div>
 
-    <div v-show="tab === 'all'" class="tool-box">
+    <div v-show="toolStore.tab === 'all'" class="tool-box">
       <div class="tool" v-for="tool in Object.values(toolStore.tools)">
         <img class="logo" :src="tool.logo" :alt="tool.zh" />
-        <span>{{ tool.zh }}</span>
+        <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
         <mp-icon name="edit" />
       </div>
     </div>
@@ -84,8 +84,6 @@ const editTop = (index: number) => {
   showTopEdit.value = true
   topIndex.value = index
 }
-
-const tab = ref('top')
 </script>
 
 <style lang="scss">
@@ -139,7 +137,7 @@ const tab = ref('top')
             margin-right: 4px;
           }
 
-          a {
+          .name {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -185,6 +183,16 @@ const tab = ref('top')
         width: 20px;
         height: auto;
         margin-right: 6px;
+      }
+
+      .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:hover {
+          cursor: pointer;
+          color: var(--el-color-primary);
+        }
       }
 
       .mp-icon-edit {
