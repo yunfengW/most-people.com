@@ -28,61 +28,37 @@
     </div>
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
-      <div class="tool" v-for="tool in Object.values(toolStore.tools)">
+      <div class="tool" v-for="(tool, index) in Object.values(toolStore.tools)">
         <img class="logo" :src="tool.logo" :alt="tool.zh" />
         <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
-        <mp-icon name="edit" />
+        <mp-icon name="edit" @click="editTool(index)" />
+      </div>
+      <div class="tool add">
+        <mp-icon name="add" @click="showToolAdd = true" />
+        <span @click="showToolAdd = true">添加</span>
       </div>
     </div>
 
     <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
     <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
+
+    <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" />
+    <mp-dialog-tool-add v-model="showToolAdd" @close="showToolAdd = false" />
   </div>
 </template>
 
 <script setup lang="ts">
-const showTopAdd = ref(false)
-const showTopEdit = ref(false)
-const topIndex = ref(-1)
-
 useHead({
   title: '万能工具箱',
 })
+const { toolStore, showTopAdd, showTopEdit, topIndex, bindTool, editTop } = useToolTop()
 
-const userStore = useUserStore()
-const toolStore = useToolStore()
-const router = useRouter()
-const route = useRoute()
-const bindTool = (key: string) => {
-  const tool = toolStore.tools[key]
-  if (tool) {
-    // 添加
-    if (route.query.type === 'add') {
-      addTool(tool)
-      return
-    }
+const showToolAdd = ref(false)
+const showToolEdit = ref(false)
 
-    userStore.updateTool(tool.id)
-    router.replace('/')
-  }
-}
-
-const addTool = (tool: Tool) => {
-  if (userStore.user === null) {
-    mp.info('请先登录，登录后即可添加')
-  } else {
-    if (userStore.tools.includes(tool.id) === false) {
-      userStore.tools.push(tool.id)
-      userStore.updateTools()
-    }
-  }
-  userStore.updateTool(tool.id)
-  router.replace('/')
-}
-
-const editTop = (index: number) => {
-  showTopEdit.value = true
-  topIndex.value = index
+const editTool = (index: number) => {
+  showToolEdit.value = true
+  console.log('🌊', index)
 }
 </script>
 
@@ -199,6 +175,19 @@ const editTop = (index: number) => {
         cursor: pointer;
         margin-left: auto;
         color: #909399;
+      }
+    }
+
+    .tool.add {
+      display: flex;
+      justify-content: center;
+      user-select: none;
+      .mp-icon {
+        cursor: pointer;
+        padding-right: 4px;
+      }
+      span {
+        cursor: pointer;
       }
     }
   }
