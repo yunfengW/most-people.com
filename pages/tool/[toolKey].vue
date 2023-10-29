@@ -51,27 +51,6 @@ const { inited, toolName, markdown, render, markdownElement } = useToolKey()
 
 <style lang="scss">
 #page-tool.page {
-  // max-width: 100%;
-  .mp-header {
-    .right {
-      .edit {
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        color: #909399;
-        &:hover {
-          color: #b1b3b8;
-        }
-
-        .mp-icon-edit {
-          margin-top: 2px;
-          margin-left: 8px;
-          font-size: 20px;
-        }
-      }
-    }
-  }
-
   .markdown-empty {
     text-align: center;
     .join-us {
