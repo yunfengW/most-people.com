@@ -1,68 +1,85 @@
 <template>
   <el-upload
-    class="avatar-uploader"
-    action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+    class="mp-upload"
+    action="https://api.most-people.cn/upload"
     :show-file-list="false"
-    :on-success="handleAvatarSuccess"
-    :before-upload="beforeAvatarUpload"
+    :on-success="uploadSuccess"
+    :on-error="uploadError"
+    :before-upload="beforeUpload"
   >
-    <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-    <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+    <img v-if="imageUrl" :src="imageUrl" />
+    <mp-icon v-else name="add" />
   </el-upload>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { ElMessage } from 'element-plus'
-import { Plus } from '@element-plus/icons-vue'
-
 import type { UploadProps } from 'element-plus'
 
-const imageUrl = ref('')
-
-const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+interface Props {
+  url: string
 }
 
-const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  if (rawFile.type !== 'image/jpeg') {
-    ElMessage.error('Avatar picture must be JPG format!')
-    return false
-  } else if (rawFile.size / 1024 / 1024 > 2) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
+const $props = withDefaults(defineProps<Props>(), {
+  url: '',
+})
+
+const imageUrl = ref($props.url)
+
+const uploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
+  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+}
+const uploadError: UploadProps['onError'] = (err, uploadFile) => {
+  mp.error('上传失败！')
+  console.error(err)
+}
+
+const beforeUpload: UploadProps['beforeUpload'] = (file) => {
+  // if (file.type !== 'image/jpeg') {
+  //   mp.error('Avatar picture must be JPG format!')
+  //   return false
+  // }
+  if (file.size / 1024 / 1024 > 1) {
+    mp.error('图片大小不能超过1MB！')
     return false
   }
   return true
 }
+
+onUpdated(() => {
+  const url = $props.url
+  if (url) {
+    imageUrl.value = url
+  }
+})
 </script>
 
-<style scoped>
-.avatar-uploader .avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
-</style>
+<style lang="scss">
+.mp-upload {
+  img {
+    width: 80px;
+    height: 80px;
+  }
 
-<style>
-.avatar-uploader .el-upload {
-  border: 1px dashed var(--el-border-color);
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: var(--el-transition-duration-fast);
-}
+  .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
 
-.avatar-uploader .el-upload:hover {
-  border-color: var(--el-color-primary);
-}
+    padding: 8px;
+    width: 88px;
+    height: 88px;
+  }
 
-.el-icon.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  text-align: center;
+  .el-upload:hover {
+    border-color: var(--el-color-primary);
+  }
+
+  .mp-icon {
+    font-size: 24px;
+    color: #8c939d;
+  }
 }
 </style>

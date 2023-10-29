@@ -25,8 +25,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入工具 logo' }]"
         label="Logo"
       >
-        <!-- <el-input v-model.trim="form.logo" clearable /> -->
-        <mp-upload />
+        <mp-upload :url="form.logo" />
       </el-form-item>
 
       <el-form-item
