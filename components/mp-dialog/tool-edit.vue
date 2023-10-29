@@ -1,52 +1,112 @@
 <template>
   <mp-dialog class="mp-dialog-tool-edit" title="编辑工具">
-    <!-- <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
-      <el-form-item prop="category" :rules="[{ validator: checkCategory, trigger: 'blur' }]">
-        <el-input v-model.trim="form.category" clearable />
+    <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
+      <el-form-item
+        prop="zh"
+        :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
+        label="中文"
+      >
+        <el-input v-model.trim="form.zh" clearable />
       </el-form-item>
-      <el-button type="primary" @click="topAdd">添加</el-button>
-    </el-form> -->
+
+      <el-form-item
+        prop="id"
+        :rules="[
+          { required: true, trigger: 'blur', message: '请输入工具 ID' },
+          { validator: checkToolKey, trigger: 'blur' },
+        ]"
+        label="工具 ID"
+      >
+        <el-input v-model.trim="form.id" clearable />
+      </el-form-item>
+
+      <el-form-item
+        prop="id"
+        :rules="[{ required: true, trigger: 'blur', message: '请输入工具 logo' }]"
+        label="Logo"
+      >
+        <el-input v-model.trim="form.logo" clearable />
+      </el-form-item>
+
+      <el-form-item
+        prop="id"
+        :rules="[{ required: true, trigger: 'blur', message: '请输入工具网址' }]"
+        label="网址「most-people」"
+      >
+        <el-input
+          v-model.trim="form.url"
+          clearable
+          type="textarea"
+          :autosize="{ minRows: 2 }"
+          resize="none"
+        />
+      </el-form-item>
+
+      <el-button type="primary" @click="toolSave">保存</el-button>
+    </el-form>
   </mp-dialog>
 </template>
 
 <script setup lang="ts">
 import { FormInstance } from 'element-plus'
 
+interface Props {
+  toolKey: string
+}
+const $props = defineProps<Props>()
 const $emit = defineEmits(['close'])
 
 const toolStore = useToolStore()
 const formElement = ref<FormInstance>()
 const form = reactive({
-  category: '',
+  id: '',
+  zh: '',
+  logo: '',
+  url: '',
 })
 
-const topAdd = () => {
+const toolSave = () => {
   if (!formElement.value) return
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
-      toolStore.toolsTop.push({
-        zh: form.category,
-        list: [],
-      })
-      form.category = ''
-      $emit('close')
+      // toolStore.toolsTop.push({
+      //   zh: form.category,
+      //   list: [],
+      // })
+      // form.category = ''
+      // $emit('close')
     }
   })
 }
 
 // check
-const checkCategory = (_rule: any, v: string, callback: (err?: Error) => void) => {
-  const category = v
-  if (!category) {
-    return callback(new Error('请输入类别'))
+const checkToolKey = (_rule: any, v: string, callback: (err?: Error) => void) => {
+  const id = v
+  if (!/^[a-zA-Z0-9]+$/.test(id)) {
+    return callback(new Error('只能包含字母和数字'))
   }
   // const categories = toolStore.toolsTop.map((e) => e.zh)
   callback()
 }
+
+onUpdated(() => {
+  const tool = toolStore.tools[$props.toolKey]
+  if (tool) {
+    form.id = tool.id
+    form.zh = tool.zh
+    form.logo = tool.logo
+    form.url = tool.url
+  }
+})
 </script>
 
 <style lang="scss">
 .mp-dialog-tool-edit {
+  input,
+  textarea {
+    font-size: 16px;
+    color: #000;
+  }
   .el-button {
     margin-top: 12px;
     width: 100%;

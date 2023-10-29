@@ -18,13 +18,13 @@
       <div class="top" v-for="(top, index) in toolStore.toolsTop">
         <h4>
           <span>{{ top.zh }}</span>
-          <mp-icon name="edit" @click="editTop(index)" />
+          <mp-icon name="edit" @click="topEdit(index)" />
         </h4>
         <div class="ul">
           <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
             <span class="number">{{ i + 1 }}</span>
             <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
-            <a class="name">{{ toolStore.tools[key]?.zh }}</a>
+            <div class="name">{{ toolStore.tools[key]?.zh }}</div>
           </div>
         </div>
       </div>
@@ -35,10 +35,10 @@
     </div>
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
-      <div class="tool" v-for="(tool, index) in Object.values(toolStore.tools)">
+      <div class="tool" v-for="tool in Object.values(toolStore.tools)">
         <img class="logo" :src="tool.logo" :alt="tool.zh" />
         <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
-        <mp-icon name="edit" @click="editTool(index)" />
+        <mp-icon name="edit" @click="toolEdit(tool.id)" />
       </div>
       <div class="tool add">
         <mp-icon name="add" @click="showToolAdd = true" />
@@ -49,7 +49,7 @@
     <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
     <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
 
-    <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" />
+    <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :toolKey="toolKey" />
     <mp-dialog-tool-add v-model="showToolAdd" @close="showToolAdd = false" />
   </div>
 </template>
@@ -58,15 +58,20 @@
 useHead({
   title: '万能工具箱',
 })
-const { toolStore, showTopAdd, showTopEdit, topIndex, bindTool, editTop } = useToolTop()
-
-const showToolAdd = ref(false)
-const showToolEdit = ref(false)
-
-const editTool = (index: number) => {
-  showToolEdit.value = true
-  console.log('🌊', index)
-}
+const {
+  toolStore,
+  bindTool,
+  // top
+  showTopAdd,
+  showTopEdit,
+  topIndex,
+  topEdit,
+  // tool
+  showToolAdd,
+  showToolEdit,
+  toolKey,
+  toolEdit,
+} = useTool()
 </script>
 
 <style lang="scss">
@@ -121,9 +126,14 @@ const editTool = (index: number) => {
           }
 
           .name {
+            cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: var(--el-color-primary);
+            &:hover {
+              color: var(--el-color-primary-dark-2);
+            }
           }
         }
       }
@@ -169,11 +179,11 @@ const editTool = (index: number) => {
       }
 
       .name {
+        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         &:hover {
-          cursor: pointer;
           color: var(--el-color-primary);
         }
       }

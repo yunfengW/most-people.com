@@ -1,4 +1,4 @@
-export const useToolTop = () => {
+export const useTool = () => {
   const showTopAdd = ref(false)
   const showTopEdit = ref(false)
   const topIndex = ref(-1)
@@ -35,17 +35,33 @@ export const useToolTop = () => {
     router.replace('/')
   }
 
-  const editTop = (index: number) => {
+  const topEdit = (index: number) => {
     showTopEdit.value = true
     topIndex.value = index
   }
 
+  // tool
+  const showToolAdd = ref(false)
+  const showToolEdit = ref(false)
+  const toolKey = ref('')
+
+  const toolEdit = (id: string) => {
+    showToolEdit.value = true
+    toolKey.value = id
+  }
+
   return {
+    toolStore,
+    bindTool,
+    // top
     showTopAdd,
     showTopEdit,
     topIndex,
-    bindTool,
-    editTop,
-    toolStore,
+    topEdit,
+    // tool
+    showToolAdd,
+    showToolEdit,
+    toolKey,
+    toolEdit,
   }
 }
