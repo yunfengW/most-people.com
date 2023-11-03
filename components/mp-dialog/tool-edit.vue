@@ -25,7 +25,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入工具 logo' }]"
         label="Logo"
       >
-        <mp-upload :url="form.logo" />
+        <mp-upload :url="form.logo" @change="(file) => (form.file = file)" />
       </el-form-item>
 
       <el-form-item
@@ -35,14 +35,13 @@
       >
         <el-input
           v-model.trim="form.url"
-          clearable
           type="textarea"
           :autosize="{ minRows: 2 }"
           resize="none"
         />
       </el-form-item>
 
-      <el-button type="primary" @click="toolSave">保存</el-button>
+      <el-button type="primary" @click="toolSave" :loading="form.loading">保存</el-button>
     </el-form>
   </mp-dialog>
 </template>
@@ -63,18 +62,24 @@ const form = reactive({
   zh: '',
   logo: '',
   url: '',
+  // upload
+  file: undefined as undefined | File,
+  loading: false,
 })
 
 const toolSave = () => {
   if (!formElement.value) return
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
-      // toolStore.toolsTop.push({
-      //   zh: form.category,
-      //   list: [],
-      // })
-      // form.category = ''
-      // $emit('close')
+      form.loading = true
+      toolStore.tools[form.id] = {
+        id: form.id,
+        zh: form.zh,
+        logo: URL.createObjectURL(form.file!),
+        url: form.url,
+        file: form.file,
+      }
+      $emit('close')
     }
   })
 }
@@ -96,6 +101,7 @@ onUpdated(() => {
     form.zh = tool.zh
     form.logo = tool.logo
     form.url = tool.url
+    form.loading = false
   }
 })
 </script>

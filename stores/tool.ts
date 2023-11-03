@@ -6,6 +6,8 @@ export interface Tool {
   zh: string
   logo: string
   url: string
+  // upload
+  file?: File
 }
 export interface Tools {
   [key: string]: Tool

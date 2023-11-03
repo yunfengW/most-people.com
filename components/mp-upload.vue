@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="mp-upload"
-    action="https://api.most-people.cn/upload"
+    action="#"
     :show-file-list="false"
     :on-success="uploadSuccess"
     :on-error="uploadError"
@@ -23,22 +23,23 @@ const $props = withDefaults(defineProps<Props>(), {
   url: '',
 })
 
+const $emit = defineEmits<{
+  (event: 'change', file: File): void
+}>()
+
 const imageUrl = ref($props.url)
 
 const uploadSuccess: UploadProps['onSuccess'] = (res, uploadFile) => {
-  imageUrl.value = URL.createObjectURL(uploadFile.raw!)
+  const file = uploadFile.raw as File
+  imageUrl.value = URL.createObjectURL(file!)
+  $emit('change', file)
 }
 const uploadError: UploadProps['onError'] = (err, uploadFile) => {
-  mp.error('上传失败！')
-  console.error(err)
+  console.error(err, uploadFile)
 }
 
-const beforeUpload: UploadProps['beforeUpload'] = (file) => {
-  // if (file.type !== 'image/jpeg') {
-  //   mp.error('Avatar picture must be JPG format!')
-  //   return false
-  // }
-  if (file.size / 1024 / 1024 > 1) {
+const beforeUpload: UploadProps['beforeUpload'] = (uploadFile) => {
+  if (uploadFile.size / 1024 / 1024 > 1) {
     mp.error('图片大小不能超过1MB！')
     return false
   }
@@ -58,6 +59,7 @@ onUpdated(() => {
   img {
     width: 80px;
     height: 80px;
+    object-fit: cover;
   }
 
   .el-upload {
@@ -68,9 +70,9 @@ onUpdated(() => {
     overflow: hidden;
     transition: var(--el-transition-duration-fast);
 
-    padding: 8px;
-    width: 88px;
-    height: 88px;
+    padding: 10px;
+    width: 90px;
+    height: 90px;
   }
 
   .el-upload:hover {
