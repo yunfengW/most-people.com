@@ -41,7 +41,6 @@ export const useTool = () => {
   }
 
   // tool
-  const showToolAdd = ref(false)
   const showToolEdit = ref(false)
   const toolKey = ref('')
 
@@ -59,7 +58,6 @@ export const useTool = () => {
     topIndex,
     topEdit,
     // tool
-    showToolAdd,
     showToolEdit,
     toolKey,
     toolEdit,

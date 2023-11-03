@@ -41,8 +41,8 @@
         <mp-icon name="edit" @click="toolEdit(tool.id)" />
       </div>
       <div class="tool add">
-        <mp-icon name="add" @click="showToolAdd = true" />
-        <span @click="showToolAdd = true">添加</span>
+        <mp-icon name="add" @click="toolEdit('')" />
+        <span @click="toolEdit('')">添加</span>
       </div>
     </div>
 
@@ -50,7 +50,6 @@
     <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
 
     <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :toolKey="toolKey" />
-    <mp-dialog-tool-add v-model="showToolAdd" @close="showToolAdd = false" />
   </div>
 </template>
 
@@ -67,7 +66,6 @@ const {
   topIndex,
   topEdit,
   // tool
-  showToolAdd,
   showToolEdit,
   toolKey,
   toolEdit,

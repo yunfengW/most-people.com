@@ -47,10 +47,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (uploadFile) => {
 }
 
 onUpdated(() => {
-  const url = $props.url
-  if (url) {
-    imageUrl.value = url
-  }
+  imageUrl.value = $props.url || ''
 })
 </script>
 

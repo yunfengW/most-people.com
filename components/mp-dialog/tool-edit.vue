@@ -1,5 +1,5 @@
 <template>
-  <mp-dialog class="mp-dialog-tool-edit" title="编辑工具">
+  <mp-dialog class="mp-dialog-tool-edit" :title="form.isAdd ? '添加工具' : '编辑工具'">
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item
         prop="zh"
@@ -41,7 +41,7 @@
         />
       </el-form-item>
 
-      <el-button type="primary" @click="toolSave" :loading="form.loading">保存</el-button>
+      <el-button type="primary" @click="toolSave" :loading="form.loading">确认</el-button>
     </el-form>
   </mp-dialog>
 </template>
@@ -62,9 +62,9 @@ const form = reactive({
   zh: '',
   logo: '',
   url: '',
-  // upload
   file: undefined as undefined | File,
   loading: false,
+  isAdd: false,
 })
 
 const toolSave = () => {
@@ -90,19 +90,34 @@ const checkToolKey = (_rule: any, v: string, callback: (err?: Error) => void) =>
   if (!/^[a-zA-Z0-9]+$/.test(id)) {
     return callback(new Error('只能包含字母和数字'))
   }
-  // const categories = toolStore.toolsTop.map((e) => e.zh)
+  if (form.isAdd && toolStore.tools[id]) {
+    return callback(new Error(`工具 ID ${id} 已存在`))
+  }
   callback()
 }
 
 onUpdated(() => {
   const tool = toolStore.tools[$props.toolKey]
   if (tool) {
+    // 编辑
+    form.isAdd = false
+
     form.id = tool.id
     form.zh = tool.zh
     form.logo = tool.logo
     form.url = tool.url
-    form.loading = false
+    form.file = tool.file
+  } else {
+    // 添加
+    form.isAdd = true
+    // 重置状态
+    form.id = ''
+    form.zh = ''
+    form.logo = ''
+    form.url = ''
+    form.file = undefined
   }
+  form.loading = false
 })
 </script>
 
