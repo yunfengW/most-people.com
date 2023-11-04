@@ -2,307 +2,307 @@
     "ChatGPT": {
         "id": "ChatGPT",
         "zh": "ChatGPT",
-        "logo": "/logo/ChatGPT.svg",
+        "logo": "https://data.most-people.cn/tool/logo/ChatGPT.svg",
         "url": "https://chat.openai.com"
     },
     "Midjourney": {
         "id": "Midjourney",
         "zh": "Midjourney",
-        "logo": "/logo/Midjourney.png",
+        "logo": "https://data.most-people.cn/tool/logo/Midjourney.png",
         "url": "https://discord.com/invite/midjourney"
     },
     "Replicate": {
         "id": "Replicate",
         "zh": "Replicate",
-        "logo": "/logo/Replicate.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Replicate.svg",
         "url": "https://replicate.com/explore"
     },
     "AliTranslate": {
         "id": "AliTranslate",
         "zh": "阿里翻译",
-        "logo": "/logo/AliTranslate.ico",
+        "logo": "https://data.most-people.cn/tool/logo/AliTranslate.ico",
         "url": "https://translate.alibaba.com/"
     },
     "BaiduTranslate": {
         "id": "BaiduTranslate",
         "zh": "百度翻译",
-        "logo": "/logo/BaiduTranslate.ico",
+        "logo": "https://data.most-people.cn/tool/logo/BaiduTranslate.ico",
         "url": "https://fanyi.baidu.com/#zh/en/「most-people」"
     },
     "TencentTranslator": {
         "id": "TencentTranslator",
         "zh": "腾讯翻译君",
-        "logo": "/logo/TencentTranslator.png",
+        "logo": "https://data.most-people.cn/tool/logo/TencentTranslator.png",
         "url": "https://fanyi.qq.com/"
     },
     "Bing": {
         "id": "Bing",
         "zh": "必应",
-        "logo": "/logo/Bing.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Bing.svg",
         "url": "https://www.bing.com/search?q=「most-people」"
     },
     "BingCreate": {
         "id": "BingCreate",
         "zh": "必应 DALL·E",
-        "logo": "/logo/Bing.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Bing.svg",
         "url": "https://www.bing.com/images/create"
     },
     "StableDiffusion": {
         "id": "StableDiffusion",
         "zh": "Stable Diffusion",
-        "logo": "/logo/StableDiffusion.png",
+        "logo": "https://data.most-people.cn/tool/logo/StableDiffusion.png",
         "url": "https://stablediffusionweb.com/#demo"
     },
     "DeepL": {
         "id": "DeepL",
         "zh": "DeepL",
-        "logo": "/logo/DeepL.svg",
+        "logo": "https://data.most-people.cn/tool/logo/DeepL.svg",
         "url": "https://www.deepl.com/translator#zh/en/「most-people」"
     },
     "Murf": {
         "id": "Murf",
         "zh": "Murf AI",
-        "logo": "/logo/Murf.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Murf.svg",
         "url": "https://murf.ai/"
     },
     "Bard": {
         "id": "Bard",
         "zh": "Bard",
-        "logo": "/logo/Bard.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Bard.svg",
         "url": "https://bard.google.com"
     },
     "QQMusic": {
         "id": "QQMusic",
         "zh": "QQ 音乐",
-        "logo": "/logo/QQMusic.png",
+        "logo": "https://data.most-people.cn/tool/logo/QQMusic.png",
         "url": "https://y.qq.com/n/ryqq/search?w=「most-people」"
     },
     "NeteaseMusic": {
         "id": "NeteaseMusic",
         "zh": "网易云音乐",
-        "logo": "/logo/NeteaseMusic.png",
+        "logo": "https://data.most-people.cn/tool/logo/NeteaseMusic.png",
         "url": "https://music.163.com/#/search/m/?s=「most-people」"
     },
     "Yiyan": {
         "id": "Yiyan",
         "zh": "文心一言",
-        "logo": "/logo/Yiyan.png",
+        "logo": "https://data.most-people.cn/tool/logo/Yiyan.png",
         "url": "https://yiyan.baidu.com"
     },
     "Claude": {
         "id": "Claude",
         "zh": "Claude",
-        "logo": "/logo/Claude.png",
+        "logo": "https://data.most-people.cn/tool/logo/Claude.png",
         "url": "https://slack.com/apps/A04KGS7N9A8-claude"
     },
     "Vectorizer": {
         "id": "Vectorizer",
         "zh": "Vectorizer AI",
-        "logo": "/logo/Vectorizer.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Vectorizer.svg",
         "url": "https://vectorizer.ai"
     },
     "YouDao": {
         "id": "YouDao",
         "zh": "有道词典",
-        "logo": "/logo/YouDao.png",
+        "logo": "https://data.most-people.cn/tool/logo/YouDao.png",
         "url": "https://dict.youdao.com/result?word=「most-people」&lang=en"
     },
     "GoogleTranslate": {
         "id": "GoogleTranslate",
         "zh": "谷歌翻译",
-        "logo": "/logo/GoogleTranslate.png",
+        "logo": "https://data.most-people.cn/tool/logo/GoogleTranslate.png",
         "url": "https://translate.google.com/?hl=zh-CN&sl=auto&tl=zh-CN&text=「most-people」&op=translate"
     },
     "BingTranslate": {
         "id": "BingTranslate",
         "zh": "微软翻译",
-        "logo": "/logo/BingTranslate.svg",
+        "logo": "https://data.most-people.cn/tool/logo/BingTranslate.svg",
         "url": "https://www.bing.com/translator/?text=「most-people」"
     },
     "Firewall": {
         "id": "Firewall",
         "zh": "防火墙",
-        "logo": "/logo/Firewall.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Firewall.svg",
         "url": "/tool/Firewall"
     },
     "Bito": {
         "id": "Bito",
         "zh": "Bito",
-        "logo": "/logo/Bito.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Bito.svg",
         "url": "https://bito.ai"
     },
     "MyShell": {
         "id": "MyShell",
         "zh": "My Shell",
-        "logo": "/logo/MyShell.png",
+        "logo": "https://data.most-people.cn/tool/logo/MyShell.png",
         "url": "https://app.myshell.ai"
     },
     "Poe": {
         "id": "Poe",
         "zh": "Poe",
-        "logo": "/logo/Poe.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Poe.svg",
         "url": "https://poe.com/ChatGPT"
     },
     "JsDesign": {
         "id": "JsDesign",
         "zh": "即时设计 AI",
-        "logo": "/logo/JsDesign.svg",
+        "logo": "https://data.most-people.cn/tool/logo/JsDesign.svg",
         "url": "https://js.design/ai"
     },
     "Notion": {
         "id": "Notion",
         "zh": "Notion AI",
-        "logo": "/logo/Notion.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Notion.svg",
         "url": "https://www.notion.so"
     },
     "Tome": {
         "id": "Tome",
         "zh": "Tome",
-        "logo": "/logo/Tome.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Tome.svg",
         "url": "https://tome.app"
     },
     "Clipdrop": {
         "id": "Clipdrop",
         "zh": "Clipdrop AI",
-        "logo": "/logo/Clipdrop.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Clipdrop.svg",
         "url": "https://clipdrop.co/tools"
     },
     "RunwayML": {
         "id": "RunwayML",
         "zh": "RunwayML",
-        "logo": "/logo/RunwayML.png",
+        "logo": "https://data.most-people.cn/tool/logo/RunwayML.png",
         "url": "https://runwayml.com/ai-magic-tools"
     },
     "HuggingChat": {
         "id": "HuggingChat",
         "zh": "HuggingChat",
-        "logo": "/logo/HuggingFace.ico",
+        "logo": "https://data.most-people.cn/tool/logo/HuggingFace.ico",
         "url": "https://huggingface.co/chat/"
     },
     "Canva": {
         "id": "Canva",
         "zh": "Canva",
-        "logo": "/logo/Canva.png",
+        "logo": "https://data.most-people.cn/tool/logo/Canva.png",
         "url": "https://www.canva.com/templates/?query=「most-people」"
     },
     "WolframAlpha": {
         "id": "WolframAlpha",
         "zh": "沃尔夫勒姆",
-        "logo": "/logo/WolframAlpha.svg",
+        "logo": "https://data.most-people.cn/tool/logo/WolframAlpha.svg",
         "url": "https://www.wolframalpha.com/input?i=「most-people」"
     },
     "MathSolver": {
         "id": "MathSolver",
         "zh": "数学计算器",
-        "logo": "/logo/MathSolver.ico",
+        "logo": "https://data.most-people.cn/tool/logo/MathSolver.ico",
         "url": "https://mathsolver.microsoft.com/zh/solve-problem/「most-people」"
     },
     "SogouTranslate": {
         "id": "SogouTranslate",
         "zh": "搜狗翻译",
-        "logo": "/logo/Sogou.png",
+        "logo": "https://data.most-people.cn/tool/logo/Sogou.png",
         "url": "https://fanyi.sogou.com/text?keyword=「most-people」"
     },
     "Sogou": {
         "id": "Sogou",
         "zh": "搜狗",
-        "logo": "/logo/Sogou.png",
+        "logo": "https://data.most-people.cn/tool/logo/Sogou.png",
         "url": "https://sogou.com/web?query=「most-people」"
     },
     "Douyin": {
         "id": "Douyin",
         "zh": "抖音",
-        "logo": "/logo/Douyin.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Douyin.svg",
         "url": "https://www.douyin.com/search/「most-people」"
     },
     "Bilibili": {
         "id": "Bilibili",
         "zh": "哔哩哔哩",
-        "logo": "/logo/Bilibili.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Bilibili.svg",
         "url": "https://search.bilibili.com/all?keyword=「most-people」&search_source=1"
     },
     "HeyGen": {
         "id": "HeyGen",
         "zh": "HeyGen",
-        "logo": "/logo/HeyGen.svg",
+        "logo": "https://data.most-people.cn/tool/logo/HeyGen.svg",
         "url": "https://www.heygen.com/"
     },
     "Google": {
         "id": "Google",
         "zh": "谷歌",
-        "logo": "/logo/Google.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Google.svg",
         "url": "https://www.google.com/search?q=「most-people」"
     },
     "BaiduBaiKe": {
         "id": "BaiduBaiKe",
         "zh": "百度百科",
-        "logo": "/logo/Baidu.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Baidu.svg",
         "url": "https://baike.baidu.com/item/「most-people」"
     },
     "GitHub": {
         "id": "GitHub",
         "zh": "GitHub",
-        "logo": "/logo/GitHub.svg",
+        "logo": "https://data.most-people.cn/tool/logo/GitHub.svg",
         "url": "https://github.com/search?utf8=✓&q=「most-people」"
     },
     "AliyunLogo": {
         "id": "AliyunLogo",
         "zh": "阿里云 logo AI",
-        "logo": "/logo/Aliyun.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Aliyun.svg",
         "url": "https://logo.aliyun.com/logo#/name"
     },
     "ZhiHu": {
         "id": "ZhiHu",
         "zh": "知乎",
-        "logo": "/logo/ZhiHu.svg",
+        "logo": "https://data.most-people.cn/tool/logo/ZhiHu.svg",
         "url": "https://www.zhihu.com/search?type=content&q=「most-people」"
     },
     "XiaoMi": {
         "id": "XiaoMi",
         "zh": "小米商城",
-        "logo": "/logo/XiaoMi.png",
+        "logo": "https://data.most-people.cn/tool/logo/XiaoMi.png",
         "url": "https://www.mi.com/shop/search?keyword=「most-people」"
     },
     "JingDong": {
         "id": "JingDong",
         "zh": "京东",
-        "logo": "/logo/JingDong.svg",
+        "logo": "https://data.most-people.cn/tool/logo/JingDong.svg",
         "url": "https://search.jd.com/Search?keyword=「most-people」"
     },
     "PinDuoDuo": {
         "id": "PinDuoDuo",
         "zh": "拼多多",
-        "logo": "/logo/PinDuoDuo.png",
+        "logo": "https://data.most-people.cn/tool/logo/PinDuoDuo.png",
         "url": "https://pinduoduo.com"
     },
     "Filehelper": {
         "id": "Filehelper",
         "zh": "微信文件传输",
-        "logo": "/logo/Filehelper.jpg",
+        "logo": "https://data.most-people.cn/tool/logo/Filehelper.jpg",
         "url": "https://filehelper.weixin.qq.com"
     },
     "ImageExif": {
         "id": "ImageExif",
         "zh": "图片定位信息",
-        "logo": "/logo/Strerr.svg",
+        "logo": "https://data.most-people.cn/tool/logo/Strerr.svg",
         "url": "https://www.strerr.com/cn/exif.html"
     },
     "IP125": {
         "id": "IP125",
         "zh": "全方位查询 IP 地址",
-        "logo": "/logo/IP111.svg",
+        "logo": "https://data.most-people.cn/tool/logo/IP111.svg",
         "url": "http://ip111.cn"
     },
     "IP111": {
         "id": "IP111",
         "zh": "查询我的 IP 地址",
-        "logo": "/logo/IP125.svg",
+        "logo": "https://data.most-people.cn/tool/logo/IP125.svg",
         "url": "https://ip125.com"
     },
     "Gartic": {
         "id": "Gartic",
         "zh": "你画我猜",
-        "logo": "/logo/Gartic.png",
+        "logo": "https://data.most-people.cn/tool/logo/Gartic.png",
         "url": "https://gartic.io"
     }
 }

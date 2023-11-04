@@ -39,7 +39,7 @@ export const useToolKey = () => {
     initMarked()
 
     axios({
-      url: `https://cdn.most-people.cn/tool/${toolKey}.md`,
+      url: `https://data.most-people.cn/tool/${toolKey}.md`,
     })
       .then((res) => {
         if (res.data) {

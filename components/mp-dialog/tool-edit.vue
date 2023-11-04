@@ -75,7 +75,7 @@ const toolSave = () => {
       toolStore.tools[form.id] = {
         id: form.id,
         zh: form.zh,
-        logo: URL.createObjectURL(form.file!),
+        logo: form.file ? URL.createObjectURL(form.file!) : form.logo,
         url: form.url,
         file: form.file,
       }
