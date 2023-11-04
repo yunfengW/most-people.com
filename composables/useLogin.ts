@@ -21,8 +21,9 @@ export const useLogin = () => {
       if (ok) {
         form.loading = true
         const user: User | null = await api({
-          url: '/user',
-          params: { name: form.username },
+          method: 'post',
+          url: '/user/login',
+          data: { name: form.username },
         })
         if (user) {
           const { key, token } = await mp.key(form.username, form.password)

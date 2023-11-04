@@ -95,7 +95,6 @@ export const useUserStore = defineStore({
         if (userDB) {
           const user: User | null = await api({
             url: '/user',
-            params: { name: username },
           })
           if (user) {
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
