@@ -2,7 +2,7 @@
   <div id="page-top">
     <mp-header title="万能工具箱">
       <template #right>
-        <div class="edit" @click="mp.info('开发中...')">
+        <div class="edit" @click="publishTools">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -69,6 +69,8 @@ const {
   showToolEdit,
   toolKey,
   toolEdit,
+  // 发布
+  publishTools,
 } = useTool()
 </script>
 

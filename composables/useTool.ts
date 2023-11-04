@@ -1,3 +1,5 @@
+import api from '~/utils/api'
+
 export const useTool = () => {
   const showTopAdd = ref(false)
   const showTopEdit = ref(false)
@@ -49,6 +51,35 @@ export const useTool = () => {
     toolKey.value = id
   }
 
+  const publishTools = async () => {
+    for (const key in toolStore.tools) {
+      const tool = toolStore.tools[key]
+      // 需要上传图片
+      if (tool.logo.startsWith('blob:')) {
+        const file = tool.logoFile
+        if (file) {
+          // 创建FormData对象
+          const formData = new FormData()
+          // 'file'是要上传的文件字段名，file是要上传的文件对象
+          formData.append('file', file)
+          const res = await api({
+            method: 'put',
+            url: '/tool/logo',
+            data: formData,
+            params: {
+              id: tool.id,
+              logoDel: tool.logoDel || '',
+            },
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          })
+          console.log('🌊', res)
+        }
+      }
+    }
+  }
+
   return {
     toolStore,
     bindTool,
@@ -61,5 +92,7 @@ export const useTool = () => {
     showToolEdit,
     toolKey,
     toolEdit,
+    // 发布
+    publishTools,
   }
 }

@@ -14,7 +14,7 @@ import apiData from './utils/api/data'
 const userStore = useUserStore()
 const toolStore = useToolStore()
 
-const initTools = async () => {
+const initTools = () => {
   apiData('/toolsTop.json').then((res) => {
     toolStore.toolsTop = res.data as ToolTop[]
   })

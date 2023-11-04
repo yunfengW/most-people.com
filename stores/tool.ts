@@ -7,7 +7,8 @@ export interface Tool {
   logo: string
   url: string
   // upload
-  file?: File
+  logoFile?: File
+  logoDel?: string
 }
 export interface Tools {
   [key: string]: Tool

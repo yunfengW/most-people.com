@@ -25,7 +25,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入工具 logo' }]"
         label="Logo"
       >
-        <mp-upload :url="form.logo" @change="(file) => (form.file = file)" />
+        <mp-upload :url="form.logo" @change="(file) => (form.logoFile = file)" />
       </el-form-item>
 
       <el-form-item
@@ -62,7 +62,7 @@ const form = reactive({
   zh: '',
   logo: '',
   url: '',
-  file: undefined as undefined | File,
+  logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
 })
@@ -75,9 +75,10 @@ const toolSave = () => {
       toolStore.tools[form.id] = {
         id: form.id,
         zh: form.zh,
-        logo: form.file ? URL.createObjectURL(form.file!) : form.logo,
+        logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
         url: form.url,
-        file: form.file,
+        logoFile: form.logoFile,
+        logoDel: form.logoFile ? form.logo : undefined,
       }
       $emit('close')
     }
@@ -106,7 +107,7 @@ onUpdated(() => {
     form.zh = tool.zh
     form.logo = tool.logo
     form.url = tool.url
-    form.file = tool.file
+    form.logoFile = tool.logoFile
   } else {
     // 添加
     form.isAdd = true
@@ -115,7 +116,7 @@ onUpdated(() => {
     form.zh = ''
     form.logo = ''
     form.url = ''
-    form.file = undefined
+    form.logoFile = undefined
   }
   form.loading = false
 })

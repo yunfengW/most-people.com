@@ -51,24 +51,6 @@ api.interceptors.response.use(
 
 export default api
 
-// export interface Note {
-//   id: number
-//   user_id: number
-//   title: string
-//   list: string[]
-//   is_public: boolean
-//   updated_time?: string
-//   author?: number[]
-// }
-
-// export interface NoteList {
-//   name: string
-//   arr: {
-//     id: number
-//     title: string
-//   }[]
-// }
-
 export interface User {
   id: number
   name: string
