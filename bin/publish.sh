@@ -1,24 +1,16 @@
-# https://help.aliyun.com/document_detail/120075.html
+# npm run generate
 
-npm run generate
+# https://support.huaweicloud.com/utiltg-obs/obs_11_0005.html
+# 配置
+# ./bin/obsutil config -i=ak -k=sk -e=$Endpoint
 
-Endpoint=https://oss-rg-china-mainland.aliyuncs.com
-# AccessKeyID=$ACCESS_KEY_ID
-# AccessKeySecret=$ACCESS_KEY_SECRET
-Bucket=most-people-com
+Bucket=mp-testnet
 
-# 查询所有文件
-# ./bin/ossutil64 -e $Endpoint -i $AccessKeyID -k $AccessKeySecret ls oss://$Bucket/
+# 删除所有对象 https://support.huaweicloud.com/utiltg-obs/obs_11_0021.html
+bin/obsutil rm obs://$Bucket -r -f
 
-# 上传本地文件夹
-LocalFolder=.output/public
-RemoteFolder=
 
-echo local
-# 使用本地的 .ossutilconfig
-# 删除所有数据
-./bin/ossutil64 rm -r -f oss://$Bucket/
-# 重新上传
-./bin/ossutil64 cp -r $LocalFolder oss://$Bucket/$RemoteFolder
+# 上传 https://support.huaweicloud.com/utiltg-obs/obs_11_0013.html
+bin/obsutil cp .output/public obs://$Bucket/ -f -r -flat
 
-echo https://most-people.cn/
+echo https://testnet.most-people.cn/
