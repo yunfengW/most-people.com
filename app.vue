@@ -10,15 +10,18 @@
 <script setup lang="ts">
 import { indexDB } from '~/utils/api/indexdb'
 import apiData from './utils/api/data'
+import api from './utils/api'
 
 const userStore = useUserStore()
 const toolStore = useToolStore()
 
-const initTools = () => {
-  apiData('/toolsTop.json').then((res) => {
+const initTools = async () => {
+  const res = await api({ url: '/data/tools.version', method: 'post' })
+  const version = res.data || ''
+  apiData('/toolsTop.json?t=' + version).then((res) => {
     toolStore.toolsTop = res.data as ToolTop[]
   })
-  apiData('/tools.json').then((res) => {
+  apiData('/tools.json?t=' + version).then((res) => {
     toolStore.tools = res.data as Tools
   })
 }
