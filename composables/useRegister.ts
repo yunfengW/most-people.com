@@ -47,12 +47,12 @@ export const useRegister = () => {
   const submit = async (username: string, password: string) => {
     const { key, address } = await mp.key(username, password)
     const password_hash = await mp.encrypt(username, key)
-    const ok = await api({
+    const res = await api({
       method: 'post',
       url: '/user/register',
       data: { name: username, password_hash, address },
     })
-    if (ok) {
+    if (res.data) {
       router.replace('/login')
       mp.success('注册成功')
     } else {
@@ -71,11 +71,11 @@ export const useRegister = () => {
       method: 'post',
       url: '/user/check.name',
       data: { name: username },
-    }).then((ok) => {
+    }).then((res) => {
       form.usernameLoading = false
-      if (ok) {
+      if (res.data) {
         callback()
-      } else if (ok === null) {
+      } else if (res.data === null) {
         callback(new Error(apiErrorCode[404]))
       } else {
         callback(new Error(apiErrorCode[1001]))

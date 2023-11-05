@@ -52,9 +52,9 @@ export const useTool = () => {
   }
 
   const publishTools = async () => {
+    // 处理需要上传的图片
     for (const key in toolStore.tools) {
       const tool = toolStore.tools[key]
-      // 需要上传图片
       if (tool.logo.startsWith('blob:')) {
         const file = tool.logoFile
         if (file) {
@@ -62,22 +62,36 @@ export const useTool = () => {
           const formData = new FormData()
           // 'file'是要上传的文件字段名，file是要上传的文件对象
           formData.append('file', file)
+          formData.append('id', tool.id)
+          formData.append('logoDel', tool.logoDel || '')
           const res = await api({
             method: 'put',
-            url: '/data/tool/logo',
+            url: '/data/tool.logo.update',
             data: formData,
-            params: {
-              id: tool.id,
-              logoDel: tool.logoDel || '',
-            },
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
+            headers: { 'Content-Type': 'multipart/form-data' },
           })
-          console.log('🌊', res)
+          if (res.data?.statusCode === 1004) {
+            router.push('/login')
+            return
+          }
+          if (res.data) {
+            tool.logo = res.data
+            delete tool.logoFile
+            delete tool.logoDel
+          }
         }
       }
     }
+    // 保存
+    const tools = JSON.parse(JSON.stringify(toolStore.tools))
+    const res = await api({
+      method: 'put',
+      url: '/data/tools.update',
+      data: {
+        tools,
+      },
+    })
+    console.log('🌊', res)
   }
 
   return {

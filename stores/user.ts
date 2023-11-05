@@ -86,8 +86,8 @@ export const useUserStore = defineStore({
         method: 'post',
         url: '/user/update',
         data: { tools },
-      }).then((ok) => {
-        if (!ok) {
+      }).then((res) => {
+        if (!res.data) {
           mp.error('保存出错，请联系管理员')
         }
       })
@@ -103,10 +103,9 @@ export const useUserStore = defineStore({
       if (username) {
         const userDB = await indexDB.getUser(username)
         if (userDB) {
-          const user: User | null = await api({
-            url: '/user',
-          })
-          if (user) {
+          const res = await api({ url: '/user' })
+          if (res.data) {
+            const user = res.data as User
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
             if (username === decrypt_username) {
               this.update(user, userDB.token)

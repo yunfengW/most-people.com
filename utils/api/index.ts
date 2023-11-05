@@ -26,17 +26,17 @@ const showError = (status: number, message?: string) => {
   if (apiErrorCode[code]) {
     mp.error(apiErrorCode[code])
   } else {
-    mp.error(message || `未知错误：${code}`)
+    mp.error(message || `未知错误 ${code}`)
   }
 }
 
 const initResponse = (response: AxiosResponse) => {
   const status = response?.data?.statusCode || response?.status || 404
   if (status >= 200 && status < 300) {
-    return response.data
+    return response
   } else {
     showError(status, response?.data?.message)
-    return null
+    return response
   }
 }
 

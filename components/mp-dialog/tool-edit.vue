@@ -72,13 +72,17 @@ const toolSave = () => {
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
       form.loading = true
+      let logoDel = toolStore.tools[form.id].logoDel
+      if (form.logoFile && !form.logo.startsWith('blob:')) {
+        logoDel = form.logo
+      }
       toolStore.tools[form.id] = {
         id: form.id,
         zh: form.zh,
         logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
         url: form.url,
         logoFile: form.logoFile,
-        logoDel: form.logoFile ? form.logo : undefined,
+        logoDel,
       }
       $emit('close')
     }

@@ -1,5 +1,5 @@
 import type { FormInstance } from 'element-plus'
-import api, { User, apiErrorCode } from '~/utils/api'
+import api, { apiErrorCode } from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
 
 export const useLogin = () => {
@@ -20,12 +20,13 @@ export const useLogin = () => {
     formElement.value.validate(async (ok: boolean) => {
       if (ok) {
         form.loading = true
-        const user: User | null = await api({
+        const res = await api({
           method: 'post',
           url: '/user/login',
           data: { name: form.username },
         })
-        if (user) {
+        if (res.data) {
+          const user = res.data as User
           const { key, token } = await mp.key(form.username, form.password)
           const username = await mp.decrypt(user.password_hash, key)
           if (username === form.username) {
@@ -59,12 +60,12 @@ export const useLogin = () => {
       method: 'post',
       url: '/user/check.name',
       data: { name: username },
-    }).then((ok) => {
+    }).then((res) => {
       form.usernameLoading = false
-      if (ok) {
+      if (res.data) {
         callback(new Error('用户名不存在'))
       } else {
-        if (ok === null) {
+        if (res.data === null) {
           callback(new Error(apiErrorCode[404]))
         } else {
           callback()
