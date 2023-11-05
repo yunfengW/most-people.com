@@ -72,7 +72,8 @@ const toolSave = () => {
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
       form.loading = true
-      let logoDel = toolStore.tools[form.id].logoDel
+
+      let logoDel = toolStore.tools[form.id]?.logoDel
       if (form.logoFile && !form.logo.startsWith('blob:')) {
         logoDel = form.logo
       }
@@ -83,6 +84,20 @@ const toolSave = () => {
         url: form.url,
         logoFile: form.logoFile,
         logoDel,
+      }
+
+      if ($props.toolKey !== form.id) {
+        // 删除旧的
+        delete toolStore.tools[$props.toolKey]
+        for (const top of toolStore.toolsTop) {
+          for (let index = 0; index < top.list.length; index++) {
+            const item = top.list[index]
+            if (item === $props.toolKey) {
+              // 修改排行榜中的 key
+              top.list[index] = form.id
+            }
+          }
+        }
       }
       $emit('close')
     }
