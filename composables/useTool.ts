@@ -51,7 +51,7 @@ export const useTool = () => {
     toolKey.value = id
   }
 
-  const publishTools = async () => {
+  const publish = async () => {
     // 处理需要上传的图片
     for (const key in toolStore.tools) {
       const tool = toolStore.tools[key]
@@ -95,11 +95,39 @@ export const useTool = () => {
         toolsTop,
       },
     })
-    if (res.data) {
-      mp.success('发布成功！')
-    } else {
-      mp.error('发布失败')
+    if (res.data?.statusCode === 1004) {
+      router.push('/login')
+      return
     }
+    if (res.data === true) {
+      mp.success('发布成功！')
+    }
+  }
+
+  const publishTools = () => {
+    ElMessageBox.prompt('', '请输入【我要发布】', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      inputValidator: (v) => {
+        if (v === '我要发布') {
+          return true
+        }
+        return '请输入【我要发布】'
+      },
+      beforeClose: async (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          instance.confirmButtonText = '发布中...'
+          await publish()
+          instance.confirmButtonLoading = false
+          done()
+        } else {
+          done()
+        }
+      },
+    })
+      .then(() => {})
+      .catch(() => {})
   }
 
   return {
