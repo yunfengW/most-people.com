@@ -21,12 +21,12 @@ export const apiErrorCode: { [key: string]: string } = {
   1001: '用户名已存在',
 }
 
-const showError = (status: number) => {
+const showError = (status: number, message?: string) => {
   const code = String(status)
   if (apiErrorCode[code]) {
     mp.error(apiErrorCode[code])
   } else {
-    mp.error(`未知错误 error code：${code}`)
+    mp.error(message || `未知错误：${code}`)
   }
 }
 
@@ -35,7 +35,7 @@ const initResponse = (response: AxiosResponse) => {
   if (status >= 200 && status < 300) {
     return response.data
   } else {
-    showError(status)
+    showError(status, response?.data?.message)
     return null
   }
 }
@@ -50,18 +50,3 @@ api.interceptors.response.use(
 )
 
 export default api
-
-export interface User {
-  id: number
-  name: string
-  password_hash: string
-  sign_time: string
-  address: string
-  tools?: string[]
-  // tool: string
-}
-export interface FileGet {
-  files: string[]
-  isTruncated: boolean
-  nextMarker: null
-}

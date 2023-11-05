@@ -68,7 +68,7 @@ onMounted(() => {
   // mp-mi
   document.addEventListener('click', async (event: any) => {
     const mi = event?.target?.parentElement as HTMLDivElement
-    const tagName = mi.tagName
+    const tagName = mi?.tagName
     if (tagName === 'MP-MI') {
       if (event?.target?.tagName === 'A') {
         const input = event.target.previousSibling

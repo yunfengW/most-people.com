@@ -1,6 +1,16 @@
 import { defineStore } from 'pinia'
-import api, { User } from '~/utils/api'
+import api from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
+
+export interface User {
+  id: number
+  name: string
+  password_hash: string
+  sign_time: string
+  address: string
+  tools?: string[]
+  // tool: string
+}
 
 interface UserStore {
   firstPath: string

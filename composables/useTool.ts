@@ -64,7 +64,7 @@ export const useTool = () => {
           formData.append('file', file)
           const res = await api({
             method: 'put',
-            url: '/tool/logo',
+            url: '/data/tool/logo',
             data: formData,
             params: {
               id: tool.id,
