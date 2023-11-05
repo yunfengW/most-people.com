@@ -75,7 +75,9 @@ export const useTool = () => {
             return
           }
           if (res.data) {
-            tool.logo = res.data
+            const url = new URL(res.data)
+            url.searchParams.set('t', String(Date.now()))
+            tool.logo = url.href
             delete tool.logoFile
             delete tool.logoDel
           }
@@ -84,14 +86,20 @@ export const useTool = () => {
     }
     // 保存
     const tools = JSON.parse(JSON.stringify(toolStore.tools))
+    const toolsTop = JSON.parse(JSON.stringify(toolStore.toolsTop))
     const res = await api({
       method: 'put',
       url: '/data/tools.update',
       data: {
         tools,
+        toolsTop,
       },
     })
-    console.log('🌊', res)
+    if (res.data) {
+      mp.success('发布成功！')
+    } else {
+      mp.error('发布失败')
+    }
   }
 
   return {
