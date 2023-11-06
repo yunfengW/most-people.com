@@ -6,6 +6,8 @@ export interface Tool {
   zh: string
   logo: string
   url: string
+  // 一句话介绍
+  intro?: string
   // upload
   logoFile?: File
   logoDel?: string

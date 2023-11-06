@@ -21,16 +21,26 @@
           <mp-icon name="edit" @click="topEdit(index)" />
         </h4>
         <div class="ul">
-          <div class="li" v-for="(key, i) in top.list">
-            <span class="number">{{ i + 1 }}</span>
-            <img
-              class="logo"
-              @click="bindTool(key)"
-              :src="toolStore.tools[key]?.logo"
-              :alt="toolStore.tools[key]?.zh"
-            />
-            <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
-          </div>
+          <client-only>
+            <template v-for="(key, i) in top.list">
+              <el-tooltip
+                :content="toolStore.tools[key]?.intro || ''"
+                effect="customized"
+                placement="top"
+              >
+                <div class="li">
+                  <span class="number">{{ i + 1 }}</span>
+                  <img
+                    class="logo"
+                    :src="toolStore.tools[key]?.logo"
+                    :alt="toolStore.tools[key]?.zh"
+                    @click="bindTool(key)"
+                  />
+                  <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
+                </div>
+              </el-tooltip>
+            </template>
+          </client-only>
         </div>
       </div>
       <div class="top add">
@@ -40,11 +50,17 @@
     </div>
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
-      <div class="tool" v-for="tool in Object.values(toolStore.tools)">
-        <img class="logo" :src="tool.logo" :alt="tool.zh" />
-        <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
-        <mp-icon name="edit" @click="toolEdit(tool.id)" />
-      </div>
+      <client-only>
+        <template v-for="tool in Object.values(toolStore.tools)">
+          <el-tooltip :content="tool.intro || ''" effect="customized" placement="top">
+            <div class="tool">
+              <img class="logo" :src="tool.logo" :alt="tool.zh" />
+              <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
+              <mp-icon name="edit" @click="toolEdit(tool.id)" />
+            </div>
+          </el-tooltip>
+        </template>
+      </client-only>
       <div class="tool add">
         <mp-icon name="add" @click="toolEdit('')" />
         <span @click="toolEdit('')">添加</span>
@@ -115,6 +131,7 @@ const {
         overflow-y: auto;
 
         .li {
+          cursor: pointer;
           display: flex;
           align-items: center;
           height: 24px;
@@ -124,14 +141,12 @@ const {
           }
 
           img.logo {
-            cursor: pointer;
             width: 20px;
             height: 20px;
             margin-right: 4px;
           }
 
           .name {
-            cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;

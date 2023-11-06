@@ -41,6 +41,15 @@
         />
       </el-form-item>
 
+      <el-form-item label="一句话介绍（选填）">
+        <el-input
+          v-model.trim="form.intro"
+          type="textarea"
+          :autosize="{ minRows: 2 }"
+          resize="none"
+        />
+      </el-form-item>
+
       <el-button type="primary" @click="toolSave" :loading="form.loading">确认</el-button>
     </el-form>
   </mp-dialog>
@@ -62,6 +71,7 @@ const form = reactive({
   zh: '',
   logo: '',
   url: '',
+  intro: '' as undefined | string,
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
@@ -82,6 +92,7 @@ const toolSave = () => {
         zh: form.zh,
         logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
         url: form.url,
+        intro: form.intro || '',
         logoFile: form.logoFile,
         logoDel,
       }
@@ -126,6 +137,7 @@ onUpdated(() => {
     form.zh = tool.zh
     form.logo = tool.logo
     form.url = tool.url
+    form.intro = tool.intro
     form.logoFile = tool.logoFile
   } else {
     // 添加
@@ -135,6 +147,7 @@ onUpdated(() => {
     form.zh = ''
     form.logo = ''
     form.url = ''
+    form.intro = ''
     form.logoFile = undefined
   }
   form.loading = false
