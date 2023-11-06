@@ -1,7 +1,7 @@
 <template>
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
-      <template #right v-if="markdown">
+      <template #right>
         <div class="edit" @click="showEdit = true">
           <span>编辑</span>
           <mp-icon name="edit" />
@@ -119,6 +119,7 @@ const { inited, toolName, markdown, render, markdownElement } = useToolKey()
     bottom: 0;
     display: flex;
     align-items: flex-start;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     background: #f1f1f1;
@@ -137,21 +138,39 @@ const { inited, toolName, markdown, render, markdownElement } = useToolKey()
     }
 
     .preview {
-      width: 38.2%;
-      height: 100%;
-      padding: 0 20px;
+      width: 100%;
+      height: 38.2%;
+      padding: 0 20px 60px;
       overflow-y: auto;
     }
 
     .editor {
-      width: 61.8%;
-      height: 100%;
+      width: 100%;
+      height: 61.8%;
       background: #1e1e1e;
     }
 
     &.show-edit {
       opacity: 1;
       pointer-events: auto;
+    }
+  }
+}
+
+// PC端 横屏
+@media (orientation: landscape) and (min-width: 980px) {
+  #page-tool.page {
+    .markdown-editor {
+      flex-direction: row;
+      .preview {
+        width: 38.2%;
+        height: 100%;
+      }
+
+      .editor {
+        width: 61.8%;
+        height: 100%;
+      }
     }
   }
 }

@@ -21,10 +21,15 @@
           <mp-icon name="edit" @click="topEdit(index)" />
         </h4>
         <div class="ul">
-          <div class="li" v-for="(key, i) in top.list" @click="bindTool(key)">
+          <div class="li" v-for="(key, i) in top.list">
             <span class="number">{{ i + 1 }}</span>
-            <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
-            <div class="name">{{ toolStore.tools[key]?.zh }}</div>
+            <img
+              class="logo"
+              @click="bindTool(key)"
+              :src="toolStore.tools[key]?.logo"
+              :alt="toolStore.tools[key]?.zh"
+            />
+            <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
           </div>
         </div>
       </div>
@@ -110,7 +115,6 @@ const {
         overflow-y: auto;
 
         .li {
-          cursor: pointer;
           display: flex;
           align-items: center;
           height: 24px;
@@ -120,6 +124,7 @@ const {
           }
 
           img.logo {
+            cursor: pointer;
             width: 20px;
             height: 20px;
             margin-right: 4px;
