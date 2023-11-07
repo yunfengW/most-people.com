@@ -26,7 +26,20 @@
       </div>
 
       <div class="preview markdown-box" ref="markdownElement" v-html="render(markdown)"></div>
-      <monaco-editor class="editor" v-model="markdown" lang="markdown" :options="options" />
+      <monaco-editor
+        class="editor"
+        v-model="markdown"
+        lang="markdown"
+        :options="{
+          tabSize: 2,
+          minimap: {
+            enabled: false,
+          },
+          formatOnType: true,
+          wordWrap: 'on',
+          theme: 'vs-dark',
+        }"
+      />
     </div>
   </div>
 </template>
@@ -34,17 +47,9 @@
 <script setup lang="ts">
 import { useToolKey } from '~/composables/useToolKey'
 
-const options: any = {
-  language: 'markdown',
-  tabSize: 2,
-  minimap: {
-    enabled: false,
-  },
-  formatOnType: true,
-  wordWrap: 'on',
-  theme: 'vs-dark',
-}
 const showEdit = ref(false)
+
+// monaco-editor
 
 const { inited, toolName, markdown, render, markdownElement } = useToolKey()
 </script>

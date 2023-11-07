@@ -34,7 +34,6 @@
     </el-form>
 
     <div class="button-box">
-      <el-button type="primary" @click="topSave">确认</el-button>
       <el-button
         v-if="toolStore.toolsTop[$props.topIndex]?.list.length === 0"
         type="danger"
@@ -43,6 +42,7 @@
         删除
       </el-button>
       <el-button v-else @click="$emit('close')">取消</el-button>
+      <el-button type="primary" @click="topSave">确认</el-button>
     </div>
   </mp-dialog>
 </template>
