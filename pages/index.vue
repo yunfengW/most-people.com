@@ -181,6 +181,10 @@ const keyUpEvent = (event: KeyboardEvent) => {
     userStore.message = userStore.sugList[userStore.sugIndex]
   }
 }
+
+onMounted(() => {
+  messageElement.value?.focus()
+})
 </script>
 
 <style lang="scss">

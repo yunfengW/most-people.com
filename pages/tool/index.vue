@@ -23,11 +23,7 @@
         <div class="ul">
           <client-only>
             <template v-for="(key, i) in top.list">
-              <el-tooltip
-                :content="toolStore.tools[key]?.intro || ''"
-                effect="customized"
-                placement="top"
-              >
+              <mp-tooltip :tip="toolStore.tools[key]?.intro || ''">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
                   <img
@@ -38,7 +34,7 @@
                   />
                   <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
                 </div>
-              </el-tooltip>
+              </mp-tooltip>
             </template>
           </client-only>
         </div>
@@ -52,13 +48,13 @@
     <div v-show="toolStore.tab === 'all'" class="tool-box">
       <client-only>
         <template v-for="tool in Object.values(toolStore.tools)">
-          <el-tooltip :content="tool.intro || ''" effect="customized" placement="top">
+          <mp-tooltip :tip="tool.intro || ''">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.zh" />
               <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
               <mp-icon name="edit" @click="toolEdit(tool.id)" />
             </div>
-          </el-tooltip>
+          </mp-tooltip>
         </template>
       </client-only>
       <div class="tool add">
@@ -194,7 +190,7 @@ const {
 
       img.logo {
         width: 20px;
-        height: auto;
+        height: 20px;
         margin-right: 6px;
       }
 
