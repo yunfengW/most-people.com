@@ -24,8 +24,8 @@ const $props = withDefaults(defineProps<Props>(), {
     display: none;
     position: absolute;
     bottom: calc(100% + 8px);
-    left: 0;
-    width: 100%;
+    left: -3%;
+    width: 106%;
     padding: 6px 12px;
     background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
     border-radius: 4px;
@@ -33,10 +33,10 @@ const $props = withDefaults(defineProps<Props>(), {
 
     &::before {
       position: absolute;
-      left: calc(50% - 5px);
-      bottom: -5px;
-      width: 10px;
-      height: 10px;
+      left: calc(50% - 4px);
+      bottom: -4px;
+      width: 8px;
+      height: 8px;
       z-index: -1;
       content: ' ';
       transform: rotate(45deg);
