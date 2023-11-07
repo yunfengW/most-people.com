@@ -10,7 +10,7 @@
       <div class="li" v-for="(key, i) in form.list">
         <span class="number">{{ i + 1 }}</span>
         <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
-        <a>{{ toolStore.tools[key]?.zh }}</a>
+        <span class="name">{{ toolStore.tools[key]?.zh }}</span>
         <mp-icon name="delete" @click="form.list.splice(i, 1)" />
       </div>
     </div>
@@ -154,10 +154,11 @@ onUpdated(() => {
         margin-right: 4px;
       }
 
-      a {
+      .name {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--el-color-primary);
       }
 
       .mp-icon-delete {

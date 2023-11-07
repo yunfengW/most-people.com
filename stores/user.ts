@@ -103,8 +103,12 @@ export const useUserStore = defineStore({
       if (username) {
         const userDB = await indexDB.getUser(username)
         if (userDB) {
-          const res = await api({ url: '/user' })
-          if (res.data) {
+          const res = await api({
+            method: 'post',
+            url: '/user/login',
+            data: { name: username },
+          })
+          if (res.data?.password_hash) {
             const user = res.data as User
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
             if (username === decrypt_username) {

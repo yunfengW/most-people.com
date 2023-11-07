@@ -125,7 +125,6 @@ const {
         overflow-y: auto;
 
         .li {
-          cursor: pointer;
           display: flex;
           align-items: center;
           height: 24px;
@@ -135,12 +134,14 @@ const {
           }
 
           img.logo {
+            cursor: pointer;
             width: 20px;
             height: 20px;
             margin-right: 4px;
           }
 
           .name {
+            cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
