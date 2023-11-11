@@ -40,12 +40,13 @@ export const useToolKey = () => {
   const markdownOld = ref('')
   const init = () => {
     initMarked()
-
-    apiData(`https://data.most-people.cn/tool/${toolKey}.md`)
+    // todo cache .md
+    apiData(`https://data.most-people.cn/tool/${toolKey}.md?t=${Date.now()}`)
       .then((res) => {
-        if (res.data) {
-          markdown.value = res.data
-          markdownOld.value = res.data
+        const text = String(res.data)
+        if (text) {
+          markdown.value = text
+          markdownOld.value = text
         }
       })
       .catch((err) => {
@@ -79,23 +80,48 @@ export const useToolKey = () => {
     })
   }
 
+  const publish = async () => {
+    const res = await api({
+      method: 'put',
+      url: '/data/tool.guide.update',
+      data: {
+        id: toolKey,
+        markdown: markdown.value,
+      },
+    })
+    if (res.data?.statusCode === 1004) {
+      router.push('/login')
+      return
+    }
+    if (res.data === true) {
+      mp.success('发布成功！')
+    }
+  }
+
   const publishGuide = async () => {
-    // const res = await api({
-    //   method: 'put',
-    //   url: '/data/tool.guide.update',
-    //   data: {
-    //     id: toolKey,
-    //     markdown: markdown.value,
-    //   },
-    // })
-    // if (res.data?.statusCode === 1004) {
-    //   router.push('/login')
-    //   return
-    // }
-    // if (res.data === true) {
-    //   mp.success('发布成功！')
-    // }
-    mp.info('开发中...')
+    ElMessageBox.prompt('', '请输入【我要发布】', {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      inputValidator: (v) => {
+        if (v === '我要发布') {
+          return true
+        }
+        return '请输入【我要发布】'
+      },
+      beforeClose: async (action, instance, done) => {
+        if (action === 'confirm') {
+          instance.confirmButtonLoading = true
+          instance.confirmButtonText = '发布中...'
+          await publish()
+          instance.confirmButtonLoading = false
+          done()
+        } else {
+          done()
+        }
+      },
+    })
+      .then(() => {})
+      .catch(() => {})
   }
 
   if (process.client) {
