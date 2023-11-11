@@ -50,7 +50,10 @@
         />
       </el-form-item>
 
-      <el-button type="primary" @click="toolSave" :loading="form.loading">确认</el-button>
+      <div class="button-box">
+        <el-button @click="$emit('close')">取消</el-button>
+        <el-button type="primary" @click="toolSave">确认</el-button>
+      </div>
     </el-form>
   </mp-dialog>
 </template>
@@ -161,9 +164,14 @@ onUpdated(() => {
     font-size: 16px;
     color: #000;
   }
-  .el-button {
-    margin-top: 12px;
-    width: 100%;
+
+  .button-box {
+    margin-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    .el-button {
+      width: 48%;
+    }
   }
 }
 </style>
