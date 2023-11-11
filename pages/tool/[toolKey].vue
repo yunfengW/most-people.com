@@ -2,6 +2,10 @@
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right>
+        <div class="edit" v-show="markdown !== markdownOld" @click="publishGuide">
+          <span>发布</span>
+          <mp-icon name="publish" />
+        </div>
         <div class="edit" @click="showEdit = true">
           <span>编辑</span>
           <mp-icon name="edit" />
@@ -51,7 +55,8 @@ const showEdit = ref(false)
 
 // monaco-editor
 
-const { inited, toolName, markdown, render, markdownElement } = useToolKey()
+const { inited, toolName, markdown, markdownOld, render, markdownElement, publishGuide } =
+  useToolKey()
 </script>
 
 <style lang="scss">

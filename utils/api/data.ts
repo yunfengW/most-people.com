@@ -14,25 +14,11 @@ apiData.interceptors.request.use(
   },
 )
 
-export const apiErrorCode: { [key: string]: string } = {
-  404: '请求失败，请检查网络',
-}
-
-const showError = (status: number) => {
-  const code = String(status)
-  if (apiErrorCode[code]) {
-    mp.error(apiErrorCode[code])
-  } else {
-    mp.error(`未知错误 error code：${code}`)
-  }
-}
-
 const initResponse = (response: AxiosResponse) => {
   const status = response?.data?.statusCode || response?.status || 404
   if (status >= 200 && status < 300) {
     return response
   } else {
-    showError(status)
     return response
   }
 }

@@ -66,11 +66,17 @@ const back = () => {
   }
 
   > .right {
+    display: flex;
+    align-items: center;
     .edit {
       cursor: pointer;
       display: flex;
       align-items: center;
       color: #909399;
+
+      & + .edit {
+        margin-left: 20px;
+      }
 
       &:hover {
         color: #b1b3b8;

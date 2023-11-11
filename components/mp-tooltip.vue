@@ -1,7 +1,9 @@
 <template>
   <div class="mp-tooltip">
     <slot />
-    <span class="mp-tip">{{ $props.tip }}</span>
+    <div class="mp-tip">
+      <span>{{ $props.tip }}</span>
+    </div>
   </div>
 </template>
 
@@ -22,14 +24,19 @@ const $props = withDefaults(defineProps<Props>(), {
 
   .mp-tip {
     display: none;
+    justify-content: center;
     position: absolute;
     bottom: calc(100% + 8px);
-    left: -3%;
-    width: 106%;
-    padding: 6px 12px;
-    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
-    border-radius: 4px;
+    left: 0;
+    right: 0;
     z-index: 100;
+
+    span {
+      display: block;
+      padding: 6px 12px;
+      background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
+      border-radius: 4px;
+    }
 
     &::before {
       position: absolute;
@@ -49,7 +56,7 @@ const $props = withDefaults(defineProps<Props>(), {
 .mp-tooltip {
   :first-child:hover {
     & ~ .mp-tip {
-      display: block;
+      display: flex;
     }
   }
 }

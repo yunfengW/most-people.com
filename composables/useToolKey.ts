@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { marked } from 'marked'
+import api from '~/utils/api'
 import apiData from '~/utils/api/data'
 // import DOMPurify from 'dompurify'
 
@@ -7,6 +7,7 @@ export const useToolKey = () => {
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
   const route = useRoute()
+  const router = useRouter()
   const toolKey = (route.params.toolKey || '') as string
 
   const toolStore = useToolStore()
@@ -36,15 +37,15 @@ export const useToolKey = () => {
   }
 
   const markdown = ref('')
+  const markdownOld = ref('')
   const init = () => {
     initMarked()
 
-    axios({
-      url: `https://data.most-people.cn/tool/${toolKey}.md`,
-    })
+    apiData(`https://data.most-people.cn/tool/${toolKey}.md`)
       .then((res) => {
         if (res.data) {
           markdown.value = res.data
+          markdownOld.value = res.data
         }
       })
       .catch((err) => {
@@ -78,6 +79,25 @@ export const useToolKey = () => {
     })
   }
 
+  const publishGuide = async () => {
+    // const res = await api({
+    //   method: 'put',
+    //   url: '/data/tool.guide.update',
+    //   data: {
+    //     id: toolKey,
+    //     markdown: markdown.value,
+    //   },
+    // })
+    // if (res.data?.statusCode === 1004) {
+    //   router.push('/login')
+    //   return
+    // }
+    // if (res.data === true) {
+    //   mp.success('发布成功！')
+    // }
+    mp.info('开发中...')
+  }
+
   if (process.client) {
     init()
   }
@@ -87,6 +107,8 @@ export const useToolKey = () => {
     toolName,
     markdownElement,
     markdown,
+    markdownOld,
     render,
+    publishGuide,
   }
 }
