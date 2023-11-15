@@ -15,6 +15,9 @@ export const useIndex = () => {
       const keyword = encodeURIComponent(sug || userStore.message || form.placeholder)
       return url.replace('「most-people」', keyword)
     }
+    if (!url.startsWith('http')) {
+      url = 'https://' + url
+    }
     const urlObject = new URL(url)
     const keyword = userStore.message || form.placeholder
     urlObject.searchParams.set('mp-keyword', keyword)
