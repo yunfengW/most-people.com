@@ -1,5 +1,8 @@
 <template>
   <mp-dialog class="mp-dialog-tool-edit" :title="form.isAdd ? '添加工具' : '编辑工具'">
+    <div class="how-to-use" v-if="!form.isAdd">
+      <nuxt-link :to="`/tool/${form.id}`" target="_blank">使用指南</nuxt-link>
+    </div>
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item
         prop="zh"
@@ -172,6 +175,11 @@ onUpdated(() => {
     .el-button {
       width: 48%;
     }
+  }
+
+  .how-to-use {
+    text-align: center;
+    margin-bottom: 16px;
   }
 }
 </style>
