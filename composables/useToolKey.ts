@@ -1,6 +1,5 @@
 import { marked } from 'marked'
 import api from '~/utils/api'
-import apiData from '~/utils/api/data'
 // import DOMPurify from 'dompurify'
 
 export const useToolKey = () => {
@@ -40,21 +39,26 @@ export const useToolKey = () => {
   const markdownOld = ref('')
   const init = () => {
     initMarked()
-    // todo cache .md
-    apiData(`https://data.most-people.cn/tool/${toolKey}.md?t=${Date.now()}`)
-      .then((res) => {
-        const text = String(res.data)
-        if (text) {
-          markdown.value = text
-          markdownOld.value = text
-        }
-      })
-      .catch((err) => {
-        // mp.error(err.message)
-      })
-      .finally(() => {
-        inited.value = true
-      })
+
+    console.log('🌊', toolStore.tools)
+    // api({
+    //   method: 'post',
+    //   url:'/db/'
+    // })
+    // apiData(`https://data.most-people.cn/tool/${toolKey}.md?t=${Date.now()}`)
+    //   .then((res) => {
+    //     const text = String(res.data)
+    //     if (text) {
+    //       markdown.value = text
+    //       markdownOld.value = text
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     // mp.error(err.message)
+    //   })
+    //   .finally(() => {
+    //     inited.value = true
+    //   })
   }
 
   const initMarked = () => {

@@ -9,20 +9,23 @@
 
 <script setup lang="ts">
 import { indexDB } from '~/utils/api/indexdb'
-import apiData from './utils/api/data'
-import api from './utils/api'
+import api from '~/utils/api'
+import { ToolsTop, Tool, Tools } from '~/stores/tool'
 
 const userStore = useUserStore()
 const toolStore = useToolStore()
 
 const initTools = async () => {
-  const res = await api({ url: '/data/tools.version', method: 'post' })
-  const version = res.data || ''
-  apiData('/toolsTop.json?t=' + version).then((res) => {
-    toolStore.toolsTop = res.data as ToolTop[]
+  api({ method: 'post', url: '/db/ToolsTop' }).then((res) => {
+    toolStore.toolsTop = res.data as ToolsTop[]
   })
-  apiData('/tools.json?t=' + version).then((res) => {
-    toolStore.tools = res.data as Tools
+  api({ method: 'post', url: '/db/Tools' }).then((res) => {
+    const list = res.data as Tool[]
+    const tools: Tools = {}
+    for (const tool of list) {
+      tools[tool.id] = tool
+    }
+    toolStore.tools = tools
   })
 }
 if (process.client) {

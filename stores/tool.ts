@@ -15,14 +15,14 @@ export interface Tool {
 export interface Tools {
   [key: string]: Tool
 }
-export interface ToolTop {
+export interface ToolsTop {
   zh: string
   list: string[]
 }
 
 interface ToolStore {
   tools: Tools
-  toolsTop: ToolTop[]
+  toolsTop: ToolsTop[]
   tab: 'top' | 'all'
 }
 
