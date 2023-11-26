@@ -85,13 +85,14 @@ export const useTool = () => {
       }
     }
     // 保存
-    const tools = JSON.parse(JSON.stringify(toolStore.tools))
+    const tools: Tools = JSON.parse(JSON.stringify(toolStore.tools))
     const toolsTop = JSON.parse(JSON.stringify(toolStore.toolsTop))
+
     const res = await api({
       method: 'put',
-      url: '/data/tools.update',
+      url: '/tool/update.tools',
       data: {
-        tools,
+        toolList: Object.values(tools),
         toolsTop,
       },
     })

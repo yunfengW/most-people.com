@@ -8,7 +8,9 @@ export interface Tool {
   url: string
   // 一句话介绍
   intro?: string
-  // upload
+  // 使用指南
+  how_to_use?: string
+  // logo 上传
   logoFile?: File
   logoDel?: string
 }
@@ -22,6 +24,7 @@ export interface ToolsTop {
 
 interface ToolStore {
   tools: Tools
+  toolList: Tool[]
   toolsTop: ToolsTop[]
   tab: 'top' | 'all'
 }
@@ -32,6 +35,7 @@ export const useToolStore = defineStore({
     return {
       tools,
       toolsTop,
+      toolList: [],
       tab: 'top',
     }
   },

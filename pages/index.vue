@@ -21,8 +21,10 @@
           ></el-image>
           <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
         </div>
-        <span class="button-box" v-if="userStore.user" @click="userStore.exit">
-          <el-button type="danger">退出</el-button>
+        <span class="button-box" v-if="userStore.user">
+          <el-button type="success" @click="$router.push('/note')">笔记</el-button>
+          <el-button type="primary" @click="$router.push('/knowledge')">知识库</el-button>
+          <el-button type="danger" @click="userStore.exit">退出</el-button>
         </span>
         <span class="button-box" v-else>
           <nuxt-link to="/login">

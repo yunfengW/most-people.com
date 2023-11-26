@@ -13,7 +13,7 @@ export const useToolKey = () => {
 
   const toolName = computed(() => {
     const tool = toolStore.tools[toolKey]
-    if (tool) {
+    if (tool?.zh) {
       return tool.zh
     }
     return toolKey as string
@@ -38,27 +38,12 @@ export const useToolKey = () => {
   const markdown = ref('')
   const markdownOld = ref('')
   const init = () => {
-    initMarked()
-
-    console.log('🌊', toolStore.tools)
-    // api({
-    //   method: 'post',
-    //   url:'/db/'
-    // })
-    // apiData(`https://data.most-people.cn/tool/${toolKey}.md?t=${Date.now()}`)
-    //   .then((res) => {
-    //     const text = String(res.data)
-    //     if (text) {
-    //       markdown.value = text
-    //       markdownOld.value = text
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     // mp.error(err.message)
-    //   })
-    //   .finally(() => {
-    //     inited.value = true
-    //   })
+    const tool = toolStore.tools[toolKey]
+    const text = tool?.how_to_use
+    if (text) {
+      markdown.value = text
+      markdownOld.value = text
+    }
   }
 
   const initMarked = () => {
@@ -87,7 +72,7 @@ export const useToolKey = () => {
   const publish = async () => {
     const res = await api({
       method: 'put',
-      url: '/data/tool.guide.update',
+      url: '/tool/update.how_to_use',
       data: {
         id: toolKey,
         markdown: markdown.value,
@@ -129,8 +114,17 @@ export const useToolKey = () => {
   }
 
   if (process.client) {
+    initMarked()
     init()
   }
+
+  watch(
+    () => toolStore.tools,
+    () => {
+      inited.value = true
+      init()
+    },
+  )
 
   return {
     inited,
