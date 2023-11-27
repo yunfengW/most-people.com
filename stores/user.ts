@@ -16,7 +16,7 @@ interface UserStore {
   firstPath: string
   user: User | null
   inited: boolean
-  toolKey: string
+  tool_id: string
   tools: string[]
   message: string
   sugList: string[]
@@ -32,7 +32,7 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      toolKey: 'Sogou',
+      tool_id: 'Sogou',
       tools: [
         'ChatGPT',
         'Bing',
@@ -51,7 +51,7 @@ export const useUserStore = defineStore({
   getters: {
     tool(): Tool {
       const toolStore = useToolStore()
-      const key = this.toolKey
+      const key = this.tool_id
       if (toolStore.tools[key]) {
         return toolStore.tools[key]
       } else {
@@ -94,9 +94,9 @@ export const useUserStore = defineStore({
     },
     updateTool(key: string) {
       if (process.client) {
-        window.sessionStorage.setItem('toolKey', key)
+        window.sessionStorage.setItem('tool_id', key)
       }
-      this.toolKey = key
+      this.tool_id = key
     },
     async init() {
       const username = window.localStorage.getItem('username')

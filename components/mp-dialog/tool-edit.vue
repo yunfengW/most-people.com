@@ -65,7 +65,7 @@
 import { FormInstance } from 'element-plus'
 
 interface Props {
-  toolKey: string
+  tool_id: string
 }
 const $props = defineProps<Props>()
 const $emit = defineEmits(['close'])
@@ -103,13 +103,13 @@ const toolSave = () => {
         logoDel,
       }
 
-      if ($props.toolKey !== form.id) {
+      if ($props.tool_id !== form.id) {
         // 删除旧的
-        delete toolStore.tools[$props.toolKey]
+        delete toolStore.tools[$props.tool_id]
         for (const top of toolStore.toolsTop) {
           for (let index = 0; index < top.list.length; index++) {
             const item = top.list[index]
-            if (item === $props.toolKey) {
+            if (item === $props.tool_id) {
               // 修改排行榜中的 key
               top.list[index] = form.id
             }
@@ -134,7 +134,7 @@ const checkToolKey = (_rule: any, v: string, callback: (err?: Error) => void) =>
 }
 
 onUpdated(() => {
-  const tool = toolStore.tools[$props.toolKey]
+  const tool = toolStore.tools[$props.tool_id]
   if (tool) {
     // 编辑
     form.isAdd = false

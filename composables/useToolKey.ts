@@ -7,16 +7,16 @@ export const useToolKey = () => {
   const markdownElement = ref<HTMLDivElement>()
   const route = useRoute()
   const router = useRouter()
-  const toolKey = (route.params.toolKey || '') as string
+  const tool_id = (route.params.tool_id || '') as string
 
   const toolStore = useToolStore()
 
   const toolName = computed(() => {
-    const tool = toolStore.tools[toolKey]
+    const tool = toolStore.tools[tool_id]
     if (tool?.zh) {
       return tool.zh
     }
-    return toolKey as string
+    return tool_id as string
   })
 
   const render = (md: string) => {
@@ -38,7 +38,7 @@ export const useToolKey = () => {
   const markdown = ref('')
   const markdownOld = ref('')
   const init = () => {
-    const tool = toolStore.tools[toolKey]
+    const tool = toolStore.tools[tool_id]
     const text = tool?.how_to_use
     if (text) {
       markdown.value = text
@@ -74,7 +74,7 @@ export const useToolKey = () => {
       method: 'put',
       url: '/tool/update.how_to_use',
       data: {
-        id: toolKey,
+        id: tool_id,
         markdown: markdown.value,
       },
     })

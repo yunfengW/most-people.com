@@ -44,11 +44,11 @@ export const useTool = () => {
 
   // tool
   const showToolEdit = ref(false)
-  const toolKey = ref('')
+  const tool_id = ref('')
 
   const toolEdit = (id: string) => {
     showToolEdit.value = true
-    toolKey.value = id
+    tool_id.value = id
   }
 
   const publish = async () => {
@@ -141,7 +141,7 @@ export const useTool = () => {
     topEdit,
     // tool
     showToolEdit,
-    toolKey,
+    tool_id,
     toolEdit,
     // 发布
     publishTools,

@@ -64,7 +64,7 @@
     <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
     <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
 
-    <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :toolKey="toolKey" />
+    <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :tool_id="tool_id" />
   </div>
 </template>
 
@@ -82,7 +82,7 @@ const {
   topEdit,
   // tool
   showToolEdit,
-  toolKey,
+  tool_id,
   toolEdit,
   // 发布
   publishTools,
