@@ -22,7 +22,9 @@
           <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
         </div>
         <span class="button-box" v-if="userStore.user">
-          <el-button type="success" @click="$router.push('/note')">笔记</el-button>
+          <el-button type="success" @click="$router.push(`/user/${userStore.user.id}/note`)">
+            笔记
+          </el-button>
           <el-button type="primary" @click="$router.push('/knowledge')">知识库</el-button>
           <el-button type="danger" @click="userStore.exit">退出</el-button>
         </span>
