@@ -21,7 +21,7 @@
     </mp-header>
 
     <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
-    <div v-else class="el-icon is-loading">
+    <div v-else-if="!inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
 
@@ -85,6 +85,7 @@ const questionOld = ref('')
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Knowledge/' + knowledge_id })
+  inited.value = true
   if (res.data?.id) {
     const knowledge: Knowledge = res.data
 
@@ -100,7 +101,7 @@ const init = async () => {
   }
 }
 
-const { markdown, render, markdownElement } = useMarkdown(publish)
+const { inited, markdown, render, markdownElement } = useMarkdown(publish)
 
 if (process.client) {
   init()

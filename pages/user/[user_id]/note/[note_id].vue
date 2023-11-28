@@ -21,7 +21,7 @@
     </mp-header>
 
     <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
-    <div v-else class="el-icon is-loading">
+    <div v-else-if="!inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
 
@@ -57,35 +57,32 @@ import { indexDB } from '~/utils/api/indexdb'
 
 const route = useRoute()
 const router = useRouter()
-// const tool_id = (route.params.tool_id || '') as string
+const note_id = (route.params.note_id || '') as string
 
 const showEdit = ref(false)
 
 const publish = async () => {
-  mp.info('开发中')
-  // const res = await api({
-  //   method: 'put',
-  //   url: '/note/update',
-  //   data: {
-  //     id: tool_id,
-  //     content: markdown.value,
-  //     title: noteTitle.value,
-  //   },
-  // })
-  // if (res.data?.statusCode === 1004) {
-  //   router.push('/login')
-  //   return
-  // }
-  // if (res.data === true) {
-  //   mp.success('发布成功！')
-  // }
+  const res = await api({
+    method: 'put',
+    url: '/note/update',
+    data: {
+      id: Number(note_id),
+      title: noteTitle.value,
+      content: markdown.value,
+    },
+  })
+  if (res.data?.statusCode === 1004) {
+    router.push('/login')
+    return
+  }
+  if (res.data === true) {
+    mp.success('发布成功！')
+  }
 }
 
-const note_id = (route.params.note_id || '') as string
-
-const markdownOld = ref('')
 const noteTitle = ref('')
 const noteTitleOld = ref('')
+const markdownOld = ref('')
 
 const decrypt = async (content: string) => {
   try {
@@ -94,7 +91,10 @@ const decrypt = async (content: string) => {
       if (username) {
         const userDB = await indexDB.getUser(username)
         if (userDB) {
-          return await mp.decrypt(content, userDB.key)
+          const text = await mp.decrypt(content, userDB.key)
+          if (text) {
+            return text
+          }
         }
       }
     }
@@ -106,6 +106,7 @@ const decrypt = async (content: string) => {
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
+  inited.value = true
   if (res.data?.id) {
     const note: Note = res.data
 
@@ -121,7 +122,7 @@ const init = async () => {
   }
 }
 
-const { markdown, render, markdownElement } = useMarkdown(publish)
+const { inited, markdown, render, markdownElement } = useMarkdown(publish)
 
 if (process.client) {
   init()

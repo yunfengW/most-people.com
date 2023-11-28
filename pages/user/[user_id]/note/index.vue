@@ -6,13 +6,28 @@
         {{ note.title }} {{ note.content.startsWith('mp://') ? '【私有】' : '' }}
       </nuxt-link>
 
-      <el-button @click="mp.info('开发中')">添加</el-button>
+      <el-button @click="addNote">添加</el-button>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import api from '~/utils/api'
+
 const { notes } = useUserNote()
+
+const addNote = async () => {
+  const res = await api({
+    method: 'put',
+    url: '/note/add',
+    data: {
+      title: '点击修改',
+    },
+  })
+  if (res.data?.id) {
+    notes.value.push(res.data)
+  }
+}
 </script>
 
 <style lang="scss">
