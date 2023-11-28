@@ -81,7 +81,7 @@ const publish = async () => {
   // }
 }
 
-const note_id = (route.params.note_id || '') as string
+const knowledge_id = (route.params.knowledge_id || '') as string
 
 const markdownOld = ref('')
 const noteTitle = ref('')
@@ -101,22 +101,22 @@ const decrypt = async (content: string) => {
   } catch (error) {
     console.error(error)
   }
-  return content || '# 新建笔记\n点击右上角 <i class="fa fa-list-ul"></i> 开启编辑'
+  return content || '# 新答案\n点击右上角 <i class="fa fa-list-ul"></i> 开启编辑'
 }
 
 const init = async () => {
-  const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
+  const res = await api({ method: 'post', url: '/db/Knowledge/' + knowledge_id })
   if (res.data?.id) {
-    const note: Note = res.data
+    const knowledge: Knowledge = res.data
 
-    const text = await decrypt(note.content)
+    const text = await decrypt(knowledge.Answer)
 
     markdown.value = text
     markdownOld.value = text
-    noteTitle.value = note.title
-    noteTitleOld.value = note.title
+    noteTitle.value = knowledge.Question
+    noteTitleOld.value = knowledge.Question
   } else {
-    mp.error('笔记不存在')
+    mp.error('知识不存在')
     router.back()
   }
 }

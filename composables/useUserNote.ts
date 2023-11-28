@@ -14,7 +14,7 @@ export const useUserNote = () => {
   const notes = ref<Note[]>([])
 
   const init = async () => {
-    const res = await api({ method: 'post', url: 'db/Notes/user/' + user_id })
+    const res = await api({ method: 'post', url: '/db/Notes/user/' + user_id })
     notes.value = res.data
   }
   if (process.client) {
