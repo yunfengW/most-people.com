@@ -5,6 +5,8 @@
       <nuxt-link :to="`/user/${note.user_id}/note/${note.id}`" v-for="note in notes">
         {{ note.title }} {{ note.content.startsWith('mp://') ? '【私有】' : '' }}
       </nuxt-link>
+
+      <el-button @click="mp.info('开发中')">添加</el-button>
     </main>
   </div>
 </template>
@@ -16,8 +18,6 @@ const { notes } = useUserNote()
 <style lang="scss">
 #page-user-note.page {
   main {
-    margin-top: 70px;
-
     a {
       display: inline-flex;
       margin: 10px;

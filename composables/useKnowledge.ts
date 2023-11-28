@@ -1,7 +1,7 @@
 import api from '~/utils/api'
 
 export interface Knowledge {
-  id: string
+  id: number
   Question: string
   Answer: string
   updated_time: string

@@ -95,7 +95,7 @@ const mp = {
       type: 'error',
       // duration: 0,
       customClass: 'mp-message-error',
-      // grouping: true,
+      grouping: true,
     })
   },
   // 成功提示
@@ -105,7 +105,7 @@ const mp = {
       type: 'success',
       // duration: 0,
       customClass: 'mp-message-success',
-      // grouping: true,
+      grouping: true,
     })
   },
   // 消息提示
@@ -115,7 +115,7 @@ const mp = {
       type: 'info',
       // duration: 0,
       customClass: 'mp-message-info',
-      // grouping: true,
+      grouping: true,
     })
   },
 }

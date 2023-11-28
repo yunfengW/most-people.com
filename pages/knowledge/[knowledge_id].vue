@@ -101,7 +101,7 @@ const decrypt = async (content: string) => {
   } catch (error) {
     console.error(error)
   }
-  return content || '# 新答案\n点击右上角 <i class="fa fa-list-ul"></i> 开启编辑'
+  return content || '# 新答案\n点击右上角 开启编辑'
 }
 
 const init = async () => {

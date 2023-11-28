@@ -55,8 +55,6 @@ export const useRegister = () => {
     if (res.data) {
       router.replace('/login')
       mp.success('注册成功')
-    } else {
-      mp.error('注册失败')
     }
   }
 
