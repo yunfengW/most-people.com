@@ -1,5 +1,5 @@
 <template>
-  <div id="page-note" ref="markdownElement">
+  <div id="page-note-id" ref="markdownElement">
     <mp-header title="">
       <template #center>
         <input class="note-title" v-model="noteTitle" type="text" />
@@ -131,7 +131,7 @@ if (process.client) {
 <style lang="scss">
 @import '~/assets/css/markdown.scss';
 
-#page-note.page {
+#page-note-id.page {
   .markdown-empty {
     text-align: center;
   }

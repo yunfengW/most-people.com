@@ -21,7 +21,7 @@ const addKnowledge = async () => {
     method: 'put',
     url: '/knowledge/add',
     data: {
-      Question: '小语种翻译',
+      Question: '点击修改',
       // Answer: '阿里翻译：https://medtrans.damo.alibaba.com/\n百度翻译：https://fanyi.baidu.com/\n提供多种语言翻译',
       // updated_time: String(Date.now()),
     },
