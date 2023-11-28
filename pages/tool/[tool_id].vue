@@ -13,7 +13,7 @@
       </template>
     </mp-header>
 
-    <div v-if="markdown" v-show="!showEdit" class="markdown-box" v-html="render(markdown)"></div>
+    <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
     <div class="markdown-empty" v-else-if="inited">
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
@@ -24,7 +24,7 @@
       <mp-icon name="loading" />
     </div>
 
-    <div class="markdown-editor" :class="{ 'show-edit': showEdit }">
+    <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">
         <mp-icon name="close" />
       </div>
@@ -49,138 +49,76 @@
 </template>
 
 <script setup lang="ts">
-import { useToolKey } from '~/composables/useToolKey'
+import { useMarkdown } from '~/composables/useMarkdown'
+import api from '~/utils/api'
+
+const route = useRoute()
+const router = useRouter()
+const tool_id = (route.params.tool_id || '') as string
+
+const toolStore = useToolStore()
 
 const showEdit = ref(false)
 
-// monaco-editor
+const toolName = computed(() => {
+  const tool = toolStore.tools[tool_id]
+  if (tool?.zh) {
+    return tool.zh
+  }
+  return tool_id as string
+})
 
-const { inited, toolName, markdown, markdownOld, render, markdownElement, publishGuide } =
-  useToolKey()
+const publish = async () => {
+  const res = await api({
+    method: 'put',
+    url: '/tool/update.how_to_use',
+    data: {
+      id: tool_id,
+      markdown: markdown.value,
+    },
+  })
+  if (res.data?.statusCode === 1004) {
+    router.push('/login')
+    return
+  }
+  if (res.data === true) {
+    mp.success('发布成功！')
+  }
+}
+
+const markdownOld = ref('')
+const init = () => {
+  const tool = toolStore.tools[tool_id]
+  const text = tool?.how_to_use
+  if (text) {
+    markdown.value = text
+    markdownOld.value = text
+  }
+}
+
+const { inited, markdown, render, markdownElement, publishGuide } = useMarkdown(publish)
+
+if (process.client) {
+  init()
+}
+
+watch(
+  () => toolStore.tools,
+  () => {
+    inited.value = true
+    init()
+  },
+)
 </script>
 
 <style lang="scss">
+@import '~/assets/css/markdown.scss';
+
 #page-tool.page {
   .markdown-empty {
     text-align: center;
     .join-us {
       max-width: 375px;
-    }
-  }
-  .markdown-box {
-    width: 100%;
-    word-break: break-word;
-    mp-mi {
-      display: flex;
-      flex-direction: column;
-      position: relative;
-
-      > div {
-        color: #000;
-      }
-      > span {
-        color: #f1f1f1;
-      }
-
-      > div,
-      > span {
-        width: 100%;
-        padding: 16px;
-        background-color: white;
-        border-radius: 20px;
-        font-size: 16px;
-        line-height: 24px;
-      }
-      > input {
-        width: 100%;
-        padding: 0 16px;
-        height: 56px;
-        border-radius: 20px;
-        outline: 0;
-        border: 0;
-        font-size: 20px;
-        margin: 10px 0;
-      }
-      > a {
-        position: absolute;
-        right: 16px;
-        bottom: 20px;
-        display: inline-flex;
-        align-items: center;
-        height: 36px;
-        background-color: rgb(29, 155, 240);
-        color: white;
-        margin-left: 16px;
-        padding: 0 16px;
-        border-radius: 20px;
-
-        &:hover {
-          background-color: rgb(23, 124, 192);
-        }
-      }
-    }
-  }
-
-  .markdown-editor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    background: #f1f1f1;
-    // 默认隐藏
-    opacity: 0;
-    pointer-events: none;
-
-    .close {
-      cursor: pointer;
-      position: absolute;
-      top: 6px;
-      right: 20px;
-      z-index: 1;
-      font-size: 32px;
-      color: #909399;
-    }
-
-    .preview {
-      width: 100%;
-      height: 38.2%;
-      padding: 0 20px 60px;
-      overflow-y: auto;
-    }
-
-    .editor {
-      width: 100%;
-      height: 61.8%;
-      background: #1e1e1e;
-    }
-
-    &.show-edit {
-      opacity: 1;
-      pointer-events: auto;
-    }
-  }
-}
-
-// PC端 横屏
-@media (orientation: landscape) and (min-width: 980px) {
-  #page-tool.page {
-    .markdown-editor {
-      flex-direction: row;
-      .preview {
-        width: 38.2%;
-        height: 100%;
-      }
-
-      .editor {
-        width: 61.8%;
-        height: 100%;
-      }
     }
   }
 }

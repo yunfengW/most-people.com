@@ -6,7 +6,9 @@
       <div class="title">{{ props.title }}</div>
     </div>
 
-    <div class="center"></div>
+    <div class="center">
+      <slot name="center" />
+    </div>
 
     <div class="right">
       <slot name="right" />

@@ -1,9 +1,11 @@
 import api from '~/utils/api'
 
 export interface Note {
-  title: string
-  user_id: number
   id: number
+  title: string
+  content: string
+  updated_time: string
+  user_id: number
 }
 export const useUserNote = () => {
   const route = useRoute()

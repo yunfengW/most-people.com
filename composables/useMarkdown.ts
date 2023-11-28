@@ -1,23 +1,9 @@
 import { marked } from 'marked'
-import api from '~/utils/api'
 // import DOMPurify from 'dompurify'
 
-export const useToolKey = () => {
+export const useMarkdown = (publish: () => void) => {
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
-  const route = useRoute()
-  const router = useRouter()
-  const tool_id = (route.params.tool_id || '') as string
-
-  const toolStore = useToolStore()
-
-  const toolName = computed(() => {
-    const tool = toolStore.tools[tool_id]
-    if (tool?.zh) {
-      return tool.zh
-    }
-    return tool_id as string
-  })
 
   const render = (md: string) => {
     const html = marked.parse(md)
@@ -36,15 +22,6 @@ export const useToolKey = () => {
   }
 
   const markdown = ref('')
-  const markdownOld = ref('')
-  const init = () => {
-    const tool = toolStore.tools[tool_id]
-    const text = tool?.how_to_use
-    if (text) {
-      markdown.value = text
-      markdownOld.value = text
-    }
-  }
 
   const initMarked = () => {
     marked.use({
@@ -67,24 +44,6 @@ export const useToolKey = () => {
     marked.setOptions({
       renderer: renderer,
     })
-  }
-
-  const publish = async () => {
-    const res = await api({
-      method: 'put',
-      url: '/tool/update.how_to_use',
-      data: {
-        id: tool_id,
-        markdown: markdown.value,
-      },
-    })
-    if (res.data?.statusCode === 1004) {
-      router.push('/login')
-      return
-    }
-    if (res.data === true) {
-      mp.success('发布成功！')
-    }
   }
 
   const publishGuide = async () => {
@@ -115,23 +74,12 @@ export const useToolKey = () => {
 
   if (process.client) {
     initMarked()
-    init()
   }
-
-  watch(
-    () => toolStore.tools,
-    () => {
-      inited.value = true
-      init()
-    },
-  )
 
   return {
     inited,
-    toolName,
     markdownElement,
     markdown,
-    markdownOld,
     render,
     publishGuide,
   }

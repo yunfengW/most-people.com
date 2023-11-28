@@ -3,7 +3,7 @@
     <mp-header title="我的笔记" />
     <main>
       <nuxt-link :to="`/user/${note.user_id}/note/${note.id}`" v-for="note in notes">
-        {{ note.title }}
+        {{ note.title }} {{ note.content.startsWith('mp://') ? '【私有】' : '' }}
       </nuxt-link>
     </main>
   </div>
