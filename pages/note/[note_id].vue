@@ -58,6 +58,7 @@ import { indexDB } from '~/utils/api/indexdb'
 const route = useRoute()
 const router = useRouter()
 const note_id = (route.params.note_id || '') as string
+const noteStore = useNoteStore()
 
 const showEdit = ref(false)
 
@@ -77,6 +78,20 @@ const publish = async () => {
   }
   if (res.data === true) {
     mp.success('发布成功！')
+
+    const content = markdown.value
+    const title = noteTitle.value
+    // 发布状态
+    markdown.value = content
+    markdownOld.value = content
+    noteTitle.value = title
+    noteTitleOld.value = title
+
+    const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
+    if (i !== -1) {
+      noteStore.notes[i].title = title
+      noteStore.notes[i].content = content
+    }
   }
 }
 
