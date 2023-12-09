@@ -8,6 +8,7 @@ export interface Note {
 
 interface NoteStore {
   notes: Note[]
+  inited: boolean
 }
 
 export const useNoteStore = defineStore({
@@ -15,6 +16,7 @@ export const useNoteStore = defineStore({
   state: (): NoteStore => {
     return {
       notes: [],
+      inited: false,
     }
   },
   getters: {},

@@ -53,8 +53,8 @@ const initZoom = () => {
 
 onBeforeMount(() => {
   // 屏幕缩放
-  initZoom()
-  window.addEventListener('resize', initZoom)
+  // initZoom()
+  // window.addEventListener('resize', initZoom)
 
   // indexDB
   indexDB.init().then(() => {

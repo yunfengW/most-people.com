@@ -44,17 +44,22 @@ const addNote = async () => {
     noteStore.notes.push(res.data)
   }
 }
-const init = async (user_id: number) => {
-  const res = await api({ method: 'post', url: '/db/Notes/user/' + user_id })
-  noteStore.notes = res.data as Note[]
+const init = async () => {
+  if (userStore.user && !noteStore.inited) {
+    const res = await api({ method: 'post', url: '/db/Notes/user/' + userStore.user.id })
+    noteStore.notes = res.data as Note[]
+    noteStore.inited = true
+  }
 }
+
+onBeforeMount(() => {
+  init()
+})
 
 watch(
   () => userStore.user,
-  (user) => {
-    if (user?.id) {
-      init(user?.id)
-    }
+  () => {
+    init()
   },
 )
 </script>
