@@ -1,3 +1,5 @@
+import api from '~/utils/api'
+
 export interface Note {
   id: number
   title: string
@@ -20,5 +22,14 @@ export const useNoteStore = defineStore({
     }
   },
   getters: {},
-  actions: {},
+  actions: {
+    async init() {
+      const userStore = useUserStore()
+      if (userStore.user && !this.inited) {
+        const res = await api({ method: 'post', url: '/db/Notes/user/' + userStore.user.id })
+        this.notes = res.data as Note[]
+        this.inited = true
+      }
+    },
+  },
 })

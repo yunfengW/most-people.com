@@ -1,20 +1,24 @@
 <template>
   <div id="page-knowledge">
     <mp-header title="知识库" />
-    <main>
-      <nuxt-link :to="`/knowledge/${knowledge.id}`" v-for="knowledge in knowledgeList">
+    <div v-if="knowledgeStore.inited === false" class="el-icon is-loading">
+      <mp-icon name="loading" />
+    </div>
+    <main v-else>
+      <nuxt-link :to="`/knowledge/${knowledge.id}`" v-for="knowledge in knowledgeStore.list">
         {{ knowledge.Question }}
       </nuxt-link>
-
+      <br />
       <el-button @click="addKnowledge">添加</el-button>
     </main>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useKnowledgeStore } from '~/stores/knowledge'
 import api from '~/utils/api'
 
-const { knowledgeList } = useKnowledge()
+const knowledgeStore = useKnowledgeStore()
 
 const addKnowledge = async () => {
   const res = await api({
@@ -22,13 +26,15 @@ const addKnowledge = async () => {
     url: '/knowledge/add',
     data: {
       Question: '点击修改',
-      // Answer: '阿里翻译：https://medtrans.damo.alibaba.com/\n百度翻译：https://fanyi.baidu.com/\n提供多种语言翻译',
-      // updated_time: String(Date.now()),
     },
   })
   if (res.data?.id) {
-    knowledgeList.value.push(res.data)
+    knowledgeStore.list.push(res.data)
   }
+}
+
+if (process.client) {
+  knowledgeStore.init()
 }
 </script>
 

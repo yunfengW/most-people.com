@@ -1,7 +1,10 @@
 <template>
   <div id="page-user-note">
     <mp-header title="我的笔记" />
-    <main>
+    <div v-if="noteStore.inited === false" class="el-icon is-loading">
+      <mp-icon name="loading" />
+    </div>
+    <main v-else>
       <h4>公开笔记</h4>
       <template v-for="note in publicNotes">
         <nuxt-link :to="`/note/${note.id}`">
@@ -44,22 +47,15 @@ const addNote = async () => {
     noteStore.notes.push(res.data)
   }
 }
-const init = async () => {
-  if (userStore.user && !noteStore.inited) {
-    const res = await api({ method: 'post', url: '/db/Notes/user/' + userStore.user.id })
-    noteStore.notes = res.data as Note[]
-    noteStore.inited = true
-  }
-}
 
 onBeforeMount(() => {
-  init()
+  noteStore.init()
 })
 
 watch(
   () => userStore.user,
   () => {
-    init()
+    noteStore.init()
   },
 )
 </script>
