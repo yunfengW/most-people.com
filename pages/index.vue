@@ -21,18 +21,21 @@
           ></el-image>
           <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
         </div>
-        <span class="button-box" v-if="userStore.user">
-          <el-button type="success" @click="$router.push(`/user/${userStore.user.id}/note`)">
-            笔记
-          </el-button>
-          <el-button type="primary" @click="$router.push('/knowledge')">知识库</el-button>
-          <el-button type="danger" @click="userStore.exit">退出</el-button>
-        </span>
-        <span class="button-box" v-else>
-          <nuxt-link to="/login">
-            <el-button type="primary">登录 / 注册</el-button>
+
+        <nuxt-link to="/knowledge">
+          <el-button type="success">知识库</el-button>
+        </nuxt-link>
+        <template v-if="userStore.user">
+          <nuxt-link to="/note">
+            <el-button type="primary">笔记</el-button>
           </nuxt-link>
-        </span>
+          <nuxt-link>
+            <el-button type="danger" @click="userStore.exit">退出</el-button>
+          </nuxt-link>
+        </template>
+        <nuxt-link to="/login" v-else>
+          <el-button type="primary">登录 / 注册</el-button>
+        </nuxt-link>
       </main>
     </div>
 
@@ -223,29 +226,20 @@ onMounted(() => {
       border-radius: 12px;
       box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
       width: 240px;
-      height: 240px;
       display: flex;
       flex-direction: column;
       align-items: center;
       overflow: hidden;
-      padding: 8px 0;
+      padding: 8px 20px;
       background: rgb(241, 241, 241);
       z-index: 11;
 
-      > span {
-        cursor: pointer;
+      a {
+        margin-bottom: 10px;
         width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 8px;
 
-        &.button-box {
-          justify-content: center;
-          a,
-          .el-button {
-            width: 100%;
-          }
+        .el-button {
+          width: 100%;
         }
       }
 
