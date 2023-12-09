@@ -23,16 +23,18 @@
         <div class="ul">
           <client-only>
             <template v-for="(key, i) in top.list">
-              <div class="li" :title="toolStore.tools[key]?.intro || ''">
-                <span class="number">{{ i + 1 }}</span>
-                <img
-                  class="logo"
-                  :src="toolStore.tools[key]?.logo"
-                  :alt="toolStore.tools[key]?.zh"
-                  @click="bindTool(key)"
-                />
-                <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
-              </div>
+              <mp-tooltip :tip="toolStore.tools[key]?.intro || ''">
+                <div class="li">
+                  <span class="number">{{ i + 1 }}</span>
+                  <img
+                    class="logo"
+                    :src="toolStore.tools[key]?.logo"
+                    :alt="toolStore.tools[key]?.zh"
+                    @click="bindTool(key)"
+                  />
+                  <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
+                </div>
+              </mp-tooltip>
             </template>
           </client-only>
         </div>

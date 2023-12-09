@@ -156,8 +156,13 @@ body,
 
 // element UI
 body {
+  // mp-tooltip
+  .el-popper {
+    font-size: 16px;
+    line-height: normal;
+    max-width: calc(100% - 10px);
+  }
   .el-popper.is-customized {
-    /* Set padding to ensure the height is 32px */
     padding: 6px 12px;
     background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
   }
