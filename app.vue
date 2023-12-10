@@ -4,13 +4,14 @@
       <el-button link type="info">{{ userStore.getUID }}</el-button>
     </nuxt-link>
     <nuxt-page class="page" />
+    <el-backtop :right="100" :bottom="100" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { indexDB } from '~/utils/api/indexdb'
 import api from '~/utils/api'
-import { ToolsTop, Tool, Tools } from '~/stores/tool'
+import type { ToolsTop, Tool, Tools } from '~/stores/tool'
 
 const userStore = useUserStore()
 const toolStore = useToolStore()

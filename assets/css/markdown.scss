@@ -1,4 +1,5 @@
-@import './atom-one-light.css';
+// https://github.com/highlightjs/highlight.js/blob/master/src/styles/atom-one-dark.css
+@import './atom-one-dark.css';
 
 .mp-markdown-box {
   width: 100%;
@@ -53,8 +54,6 @@
     }
   }
 
-  // note.css
-
   a {
     color: #76808e;
     text-decoration: none;
@@ -83,15 +82,20 @@
   pre {
     margin: 16px auto;
     border: 1px solid #ddd;
-    border-radius: 2px;
-    padding: 8px;
+    border-radius: 8px;
+    padding: 10px;
     overflow-x: auto;
-    color: #1e2931;
-    background: #f6f8fa;
+
+    // atom-one-light
+    // background: #f6f8fa;
+    // color: #1e2931;
+    // atom-one-dark
+    background: #282c34;
+    color: #abb2bf;
 
     code {
       font-size: 16px;
-      line-height: 16px;
+      line-height: normal;
       white-space: pre;
       padding: 0;
       color: inherit;

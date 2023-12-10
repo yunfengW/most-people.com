@@ -8,21 +8,23 @@
     "preview": "nuxt preview",
     "publish": "sh bin/publish.sh",
     "postinstall": "nuxt prepare",
-    "yarn": "yarn install"
+    "pnpm": "pnpm install"
   },
   "devDependencies": {
-    "@element-plus/nuxt": "^1.0.6",
+    "@element-plus/nuxt": "^1.0.7",
     "@pinia/nuxt": "^0.5.1",
-    "@types/node": "^20.8.10",
-    "axios": "^1.6.0",
-    "element-plus": "^2.4.2",
-    "ethers": "^6.8.1",
-    "nuxt": "^3.8.1",
+    "@types/node": "^20.10.4",
+    "axios": "^1.6.2",
+    "element-plus": "^2.4.3",
+    "ethers": "^6.9.0",
+    "nuxt": "^3.8.2",
     "sass": "^1.69.5"
   },
   "dependencies": {
-    "marked": "^9.1.5",
-    "monaco-editor": "^0.44.0",
-    "nuxt-monaco-editor": "^1.2.3"
+    "highlight.js": "^11.9.0",
+    "marked": "^11.0.1",
+    "marked-highlight": "^2.0.9",
+    "monaco-editor": "^0.45.0",
+    "nuxt-monaco-editor": "^1.2.6"
   }
 }
