@@ -35,8 +35,8 @@
         </div>
       </div>
       <div class="top add">
-        <mp-icon name="add" @click="showTopAdd = true" />
-        <span @click="showTopAdd = true">添加</span>
+        <mp-icon name="add" @click="topAdd" />
+        <span @click="topAdd">添加</span>
       </div>
     </div>
 
@@ -77,12 +77,11 @@ const {
   showTopEdit,
   topIndex,
   topEdit,
+  topAdd,
   // tool
   showToolEdit,
   tool_id,
   toolEdit,
-  // 发布
-  publishTools,
 } = useTool()
 </script>
 
