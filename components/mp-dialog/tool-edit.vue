@@ -9,7 +9,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
         label="中文"
       >
-        <el-input v-model.trim="form.zh" clearable />
+        <el-input v-model.trim="form.title" clearable />
       </el-form-item>
 
       <el-form-item
@@ -65,7 +65,7 @@
 import type { FormInstance } from 'element-plus'
 
 interface Props {
-  tool_id: string
+  tool_id: number
 }
 const $props = defineProps<Props>()
 const $emit = defineEmits(['close'])
@@ -73,8 +73,8 @@ const $emit = defineEmits(['close'])
 const toolStore = useToolStore()
 const formElement = ref<FormInstance>()
 const form = reactive({
-  id: '',
-  zh: '',
+  id: 0,
+  title: '',
   logo: '',
   url: '',
   intro: '' as undefined | string,
@@ -95,7 +95,7 @@ const toolSave = () => {
       }
       toolStore.tools[form.id] = {
         id: form.id,
-        zh: form.zh,
+        title: form.title,
         logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
         url: form.url,
         intro: form.intro || '',
@@ -103,19 +103,6 @@ const toolSave = () => {
         logoDel,
       }
 
-      if ($props.tool_id !== form.id) {
-        // 删除旧的
-        delete toolStore.tools[$props.tool_id]
-        for (const top of toolStore.toolsTop) {
-          for (let index = 0; index < top.list.length; index++) {
-            const item = top.list[index]
-            if (item === $props.tool_id) {
-              // 修改排行榜中的 key
-              top.list[index] = form.id
-            }
-          }
-        }
-      }
       $emit('close')
     }
   })
@@ -140,7 +127,7 @@ onUpdated(() => {
     form.isAdd = false
 
     form.id = tool.id
-    form.zh = tool.zh
+    form.title = tool.title
     form.logo = tool.logo
     form.url = tool.url
     form.intro = tool.intro
@@ -149,8 +136,8 @@ onUpdated(() => {
     // 添加
     form.isAdd = true
     // 重置状态
-    form.id = ''
-    form.zh = ''
+    form.id = 0
+    form.title = ''
     form.logo = ''
     form.url = ''
     form.intro = ''

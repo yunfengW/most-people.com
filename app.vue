@@ -11,15 +11,12 @@
 <script setup lang="ts">
 import { indexDB } from '~/utils/api/indexdb'
 import api from '~/utils/api'
-import type { ToolsTop, Tool, Tools } from '~/stores/tool'
+import type { Tool, Tools } from '~/stores/tool'
 
 const userStore = useUserStore()
 const toolStore = useToolStore()
 
 const initTools = async () => {
-  api({ method: 'post', url: '/db/ToolsTop' }).then((res) => {
-    toolStore.toolsTop = res.data as ToolsTop[]
-  })
   api({ method: 'post', url: '/db/Tools' }).then((res) => {
     const list = res.data as Tool[]
     const tools: Tools = {}

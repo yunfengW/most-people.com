@@ -81,8 +81,8 @@ export const useIndex = () => {
         mp.error('浏览器设置禁止了麦克风访问')
       })
   }
-  const bindTool = (key: string) => {
-    userStore.updateTool(key)
+  const bindTool = (id: number) => {
+    userStore.updateTool(id)
   }
 
   const bindAdd = () => {
@@ -93,13 +93,13 @@ export const useIndex = () => {
       },
     })
   }
-  const bindRemove = (key: string) => {
+  const bindRemove = (id: number) => {
     if (userStore.user === null) {
       mp.info('请先登录，登录后即可使用')
       router.push('/mine')
       return
     }
-    const i = userStore.tools.findIndex((e) => e === key)
+    const i = userStore.tools.findIndex((e) => e === id)
     if (i >= 0) {
       userStore.tools.splice(i, 1)
       userStore.updateTools()

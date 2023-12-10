@@ -48,7 +48,7 @@
         <el-image :src="userStore.tool.logo" />
       </nuxt-link>
       <div class="right">
-        <a :href="formatURL(userStore.tool.url)" target="_blank">{{ userStore.tool.zh }}</a>
+        <a :href="formatURL(userStore.tool.url)" target="_blank">{{ userStore.tool.title }}</a>
       </div>
     </div>
 
@@ -101,11 +101,11 @@
     </div>
 
     <div class="tools" :class="{ remove: form.remove }">
-      <template v-for="key in userStore.tools">
-        <div class="tool" @click="bindTool(key)">
-          <el-image :src="toolStore.tools[key]?.logo" fit="contain" />
-          <span>{{ toolStore.tools[key]?.zh }}</span>
-          <mp-icon name="remove" @click.stop="bindRemove(key)" />
+      <template v-for="id in userStore.tools">
+        <div class="tool" @click="bindTool(id)">
+          <el-image :src="toolStore.tools[id]?.logo" fit="contain" />
+          <span>{{ toolStore.tools[id]?.title }}</span>
+          <mp-icon name="remove" @click.stop="bindRemove(id)" />
         </div>
       </template>
       <div class="tool add" @click="bindAdd">

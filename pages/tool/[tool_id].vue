@@ -63,8 +63,8 @@ const showEdit = ref(false)
 
 const toolName = computed(() => {
   const tool = toolStore.tools[tool_id]
-  if (tool?.zh) {
-    return tool.zh
+  if (tool?.title) {
+    return tool.title
   }
   return tool_id as string
 })

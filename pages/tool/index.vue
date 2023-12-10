@@ -17,22 +17,22 @@
     <div v-show="toolStore.tab === 'top'" class="top-box">
       <div class="top" v-for="(top, index) in toolStore.toolsTop">
         <h4>
-          <span>{{ top.zh }}</span>
+          <span>{{ top.title }}</span>
           <mp-icon name="edit" @click="topEdit(index)" />
         </h4>
         <div class="ul">
           <client-only>
-            <template v-for="(key, i) in top.list">
-              <mp-tooltip :tip="toolStore.tools[key]?.intro || ''">
+            <template v-for="(id, i) in top.list">
+              <mp-tooltip :tip="toolStore.tools[id]?.intro || ''">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
                   <img
                     class="logo"
-                    :src="toolStore.tools[key]?.logo"
-                    :alt="toolStore.tools[key]?.zh"
-                    @click="bindTool(key)"
+                    :src="toolStore.tools[id]?.logo"
+                    :alt="toolStore.tools[id]?.title"
+                    @click="bindTool(id)"
                   />
-                  <div class="name" @click="bindTool(key)">{{ toolStore.tools[key]?.zh }}</div>
+                  <div class="name" @click="bindTool(id)">{{ toolStore.tools[id]?.title }}</div>
                 </div>
               </mp-tooltip>
             </template>
@@ -50,16 +50,16 @@
         <template v-for="tool in Object.values(toolStore.tools)">
           <mp-tooltip :tip="tool.intro || ''">
             <div class="tool">
-              <img class="logo" :src="tool.logo" :alt="tool.zh" />
-              <span class="name" @click="bindTool(tool.id)">{{ tool.zh }}</span>
+              <img class="logo" :src="tool.logo" :alt="tool.title" />
+              <span class="name" @click="bindTool(tool.id)">{{ tool.title }}</span>
               <mp-icon name="edit" @click="toolEdit(tool.id)" />
             </div>
           </mp-tooltip>
         </template>
       </client-only>
       <div class="tool add">
-        <mp-icon name="add" @click="toolEdit('')" />
-        <span @click="toolEdit('')">添加</span>
+        <mp-icon name="add" @click="toolEdit(0)" />
+        <span @click="toolEdit(0)">添加</span>
       </div>
     </div>
 

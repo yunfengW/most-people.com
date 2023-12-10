@@ -2,15 +2,15 @@
   <mp-dialog class="mp-dialog-top-edit" title="编辑分类" destroy-on-close>
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item prop="zh" :rules="[{ required: true, trigger: 'blur', message: '请输入类别' }]">
-        <el-input class="zh" v-model.trim="form.zh" clearable />
+        <el-input class="zh" v-model.trim="form.title" clearable />
       </el-form-item>
     </el-form>
 
     <div class="ul">
-      <div class="li" v-for="(key, i) in form.list">
+      <div class="li" v-for="(id, i) in form.list">
         <span class="number">{{ i + 1 }}</span>
-        <img class="logo" :src="toolStore.tools[key]?.logo" :alt="toolStore.tools[key]?.zh" />
-        <span class="name">{{ toolStore.tools[key]?.zh }}</span>
+        <img class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title" />
+        <span class="name">{{ toolStore.tools[id]?.title }}</span>
         <mp-icon name="delete" @click="form.list.splice(i, 1)" />
       </div>
     </div>
@@ -25,7 +25,7 @@
           <el-option
             v-for="tool in Object.values(toolStore.tools)"
             :key="tool.id"
-            :label="tool.zh"
+            :label="tool.title"
             :value="tool.id"
           />
         </el-select>
@@ -61,7 +61,7 @@ const toolStore = useToolStore()
 const formElement = ref<FormInstance>()
 const formToolElement = ref<FormInstance>()
 const form = reactive({
-  zh: '',
+  title: '',
   list: [] as string[],
 })
 
@@ -84,7 +84,7 @@ const topSave = () => {
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
       const top = toolStore.toolsTop[$props.topIndex]
-      top.zh = form.zh
+      top.title = form.title
       top.list = form.list
       $emit('close')
     }
@@ -108,7 +108,7 @@ const addTool = () => {
 onUpdated(() => {
   const top = toolStore.toolsTop[$props.topIndex]
   if (top) {
-    form.zh = top.zh
+    form.title = top.title
     form.list = JSON.parse(JSON.stringify(top.list))
   }
 })

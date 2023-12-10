@@ -1,15 +1,18 @@
-import tools from '~/assets/json/tools.json'
-import toolsTop from '~/assets/json/toolsTop.json'
+import toolList from '~/assets/json/tools.json'
 
 export interface Tool {
-  id: string
-  zh: string
+  id: number
+  title: string
   logo: string
   url: string
+  top?: number
+  user_id?: number
+  tags?: string[]
+  updated_time?: string
   // 一句话介绍
   intro?: string
   // 使用指南
-  how_to_use?: string
+  content?: string
   // logo 上传
   logoFile?: File
   logoDel?: string
@@ -18,8 +21,8 @@ export interface Tools {
   [key: string]: Tool
 }
 export interface ToolsTop {
-  zh: string
-  list: string[]
+  title: string
+  list: number[]
 }
 
 interface ToolStore {
@@ -29,12 +32,17 @@ interface ToolStore {
   tab: 'top' | 'all'
 }
 
+const tools: Tools = {}
+for (const tool of toolList) {
+  tools[tool.id] = tool
+}
+
 export const useToolStore = defineStore({
   id: 'toolStore',
   state: (): ToolStore => {
     return {
       tools,
-      toolsTop,
+      toolsTop: [],
       toolList: [],
       tab: 'top',
     }

@@ -25,7 +25,7 @@ const topAdd = () => {
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
       toolStore.toolsTop.push({
-        zh: form.category,
+        title: form.category,
         list: [],
       })
       form.category = ''

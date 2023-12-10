@@ -10,8 +10,8 @@ export const useTool = () => {
   const router = useRouter()
   const route = useRoute()
 
-  const bindTool = (key: string) => {
-    const tool = toolStore.tools[key]
+  const bindTool = (id: number) => {
+    const tool = toolStore.tools[id]
     if (tool) {
       // 添加
       if (route.query.type === 'add') {
@@ -44,9 +44,9 @@ export const useTool = () => {
 
   // tool
   const showToolEdit = ref(false)
-  const tool_id = ref('')
+  const tool_id = ref(0)
 
-  const toolEdit = (id: string) => {
+  const toolEdit = (id: number) => {
     showToolEdit.value = true
     tool_id.value = id
   }
@@ -62,7 +62,7 @@ export const useTool = () => {
           const formData = new FormData()
           // 'file'是要上传的文件字段名，file是要上传的文件对象
           formData.append('file', file)
-          formData.append('id', tool.id)
+          formData.append('id', String(tool.id))
           formData.append('logoDel', tool.logoDel || '')
           const res = await api({
             method: 'put',

@@ -8,7 +8,7 @@ export interface User {
   password_hash: string
   sign_time: string
   address: string
-  tools?: string[]
+  tools?: number[]
   // tool: string
 }
 
@@ -16,8 +16,8 @@ interface UserStore {
   firstPath: string
   user: User | null
   inited: boolean
-  tool_id: string
-  tools: string[]
+  tool_id: number
+  tools: number[]
   message: string
   sugList: string[]
   sugIndex: number
@@ -32,17 +32,8 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      tool_id: 'Sogou',
-      tools: [
-        'ChatGPT',
-        'Bing',
-        'Google',
-        'Douyin',
-        'Bilibili',
-        'SogouTranslate',
-        'Filehelper',
-        'MathSolver',
-      ],
+      tool_id: 1,
+      tools: [1],
       message: '',
       sugList: [],
       sugIndex: -1,
@@ -51,11 +42,11 @@ export const useUserStore = defineStore({
   getters: {
     tool(): Tool {
       const toolStore = useToolStore()
-      const key = this.tool_id
-      if (toolStore.tools[key]) {
-        return toolStore.tools[key]
+      const id = this.tool_id
+      if (toolStore.tools[id]) {
+        return toolStore.tools[id]
       } else {
-        return toolStore.tools['Sogou']
+        return toolStore.tools[1]
       }
     },
     getUID() {
@@ -92,11 +83,11 @@ export const useUserStore = defineStore({
         }
       })
     },
-    updateTool(key: string) {
+    updateTool(id: number) {
       if (process.client) {
-        window.sessionStorage.setItem('tool_id', key)
+        window.sessionStorage.setItem('tool_id', String(id))
       }
-      this.tool_id = key
+      this.tool_id = id
     },
     async init() {
       const username = window.localStorage.getItem('username')
