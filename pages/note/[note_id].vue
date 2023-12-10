@@ -2,14 +2,10 @@
   <div id="page-note-id" ref="markdownElement">
     <mp-header title="">
       <template #center>
-        <input class="note-title" v-model="noteTitle" type="text" />
+        <input class="note-title" v-model="markdown.title" type="text" />
       </template>
       <template #right>
-        <div
-          class="edit"
-          v-show="markdown !== markdownOld || noteTitle !== noteTitleOld"
-          @click="publish"
-        >
+        <div class="edit" v-show="needPublish" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -20,7 +16,12 @@
       </template>
     </mp-header>
 
-    <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
+    <div
+      v-if="markdown.content"
+      v-show="!showEdit"
+      class="mp-markdown-box"
+      v-html="render(markdown.content)"
+    ></div>
     <div v-else-if="!inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
@@ -30,21 +31,12 @@
         <mp-icon name="close" />
       </div>
 
-      <div class="preview markdown-box" ref="markdownElement" v-html="render(markdown)"></div>
-      <monaco-editor
-        class="editor"
-        v-model="markdown"
-        lang="markdown"
-        :options="{
-          tabSize: 2,
-          minimap: {
-            enabled: false,
-          },
-          formatOnType: true,
-          wordWrap: 'on',
-          theme: 'vs-dark',
-        }"
-      />
+      <div
+        class="preview markdown-box"
+        ref="markdownElement"
+        v-html="render(markdown.content)"
+      ></div>
+      <monaco-editor class="editor" v-model="markdown.content" lang="markdown" :options="options" />
     </div>
   </div>
 </template>
@@ -68,8 +60,8 @@ const publish = async () => {
     url: '/note/update',
     data: {
       id: Number(note_id),
-      title: noteTitle.value,
-      content: markdown.value,
+      title: markdown.title,
+      content: markdown.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -79,25 +71,16 @@ const publish = async () => {
   if (res.data === true) {
     mp.success('发布成功！')
 
-    const content = markdown.value
-    const title = noteTitle.value
     // 发布状态
-    markdown.value = content
-    markdownOld.value = content
-    noteTitle.value = title
-    noteTitleOld.value = title
+    markdown.contentOld = markdown.content
+    markdown.titleOld = markdown.title
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
     if (i !== -1) {
-      noteStore.notes[i].title = title
-      noteStore.notes[i].content = content
+      noteStore.notes[i].title = markdown.title
     }
   }
 }
-
-const noteTitle = ref('')
-const noteTitleOld = ref('')
-const markdownOld = ref('')
 
 const decrypt = async (content: string) => {
   try {
@@ -127,17 +110,17 @@ const init = async () => {
 
     const text = await decrypt(note.content)
 
-    markdown.value = text
-    markdownOld.value = text
-    noteTitle.value = note.title
-    noteTitleOld.value = note.title
+    markdown.content = text
+    markdown.contentOld = text
+    markdown.title = note.title
+    markdown.titleOld = note.title
   } else {
     mp.error('笔记不存在')
     router.back()
   }
 }
 
-const { inited, markdown, render, markdownElement } = useMarkdown(publish)
+const { options, inited, markdown, render, markdownElement, needPublish } = useMarkdown(publish)
 
 if (process.client) {
   init()

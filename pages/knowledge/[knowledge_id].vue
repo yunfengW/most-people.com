@@ -2,14 +2,10 @@
   <div id="page-knowledge-id" ref="markdownElement">
     <mp-header title="">
       <template #center>
-        <input class="note-title" v-model="question" type="text" />
+        <input class="note-title" v-model="markdown.title" type="text" />
       </template>
       <template #right>
-        <div
-          class="edit"
-          v-show="markdown !== markdownOld || question !== questionOld"
-          @click="publish"
-        >
+        <div class="edit" v-show="needPublish" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -20,7 +16,12 @@
       </template>
     </mp-header>
 
-    <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
+    <div
+      v-if="markdown"
+      v-show="!showEdit"
+      class="mp-markdown-box"
+      v-html="render(markdown.content)"
+    ></div>
     <div v-else-if="!inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
@@ -30,21 +31,12 @@
         <mp-icon name="close" />
       </div>
 
-      <div class="preview markdown-box" ref="markdownElement" v-html="render(markdown)"></div>
-      <monaco-editor
-        class="editor"
-        v-model="markdown"
-        lang="markdown"
-        :options="{
-          tabSize: 2,
-          minimap: {
-            enabled: false,
-          },
-          formatOnType: true,
-          wordWrap: 'on',
-          theme: 'vs-dark',
-        }"
-      />
+      <div
+        class="preview markdown-box"
+        ref="markdownElement"
+        v-html="render(markdown.content)"
+      ></div>
+      <monaco-editor class="editor" v-model="markdown.content" lang="markdown" :options="options" />
     </div>
   </div>
 </template>
@@ -53,6 +45,8 @@
 import { useMarkdown } from '~/composables/useMarkdown'
 
 import api from '~/utils/api'
+
+const knowledgeStore = useKnowledgeStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -66,8 +60,8 @@ const publish = async () => {
     url: '/knowledge/update',
     data: {
       id: Number(knowledge_id),
-      Answer: markdown.value,
-      Question: question.value,
+      Question: markdown.title,
+      Answer: markdown.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -76,12 +70,16 @@ const publish = async () => {
   }
   if (res.data === true) {
     mp.success('发布成功！')
+
+    markdown.titleOld = markdown.title
+    markdown.contentOld = markdown.content
+
+    const i = knowledgeStore.list.findIndex((knowledge) => String(knowledge.id) === knowledge_id)
+    if (i !== -1) {
+      knowledgeStore.list[i].Question = markdown.title
+    }
   }
 }
-
-const markdownOld = ref('')
-const question = ref('')
-const questionOld = ref('')
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Knowledge/' + knowledge_id })
@@ -91,17 +89,17 @@ const init = async () => {
 
     const text = knowledge.Answer || '# 新答案\n点击右上角 开启编辑'
 
-    markdown.value = text
-    markdownOld.value = text
-    question.value = knowledge.Question
-    questionOld.value = knowledge.Question
+    markdown.title = knowledge.Question
+    markdown.titleOld = knowledge.Question
+    markdown.content = text
+    markdown.contentOld = text
   } else {
     mp.error('知识不存在')
     router.back()
   }
 }
 
-const { inited, markdown, render, markdownElement } = useMarkdown(publish)
+const { options, inited, markdown, render, markdownElement, needPublish } = useMarkdown(publish)
 
 if (process.client) {
   init()

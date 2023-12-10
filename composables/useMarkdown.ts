@@ -1,9 +1,31 @@
 import { marked } from 'marked'
+import { editor } from 'monaco-editor'
 // import DOMPurify from 'dompurify'
 
 export const useMarkdown = (publish: () => void) => {
   const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
+
+  const options: editor.IStandaloneEditorConstructionOptions = {
+    tabSize: 2,
+    minimap: {
+      enabled: false,
+    },
+    formatOnType: true,
+    wordWrap: 'on',
+    theme: 'vs-dark',
+  }
+
+  const markdown = reactive({
+    title: '',
+    titleOld: '',
+    content: '',
+    contentOld: '',
+  })
+
+  const needPublish = computed(() => {
+    return markdown.content !== markdown.contentOld || markdown.title !== markdown.titleOld
+  })
 
   const render = (md: string) => {
     const html = marked.parse(md)
@@ -20,9 +42,6 @@ export const useMarkdown = (publish: () => void) => {
     // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
     return html
   }
-
-  const markdown = ref('')
-
   const initMarked = () => {
     marked.use({
       breaks: true,
@@ -45,7 +64,6 @@ export const useMarkdown = (publish: () => void) => {
       renderer: renderer,
     })
   }
-
   const publishGuide = async () => {
     ElMessageBox.prompt('', '请输入【我要发布】', {
       confirmButtonText: '确认',
@@ -71,16 +89,17 @@ export const useMarkdown = (publish: () => void) => {
       .then(() => {})
       .catch(() => {})
   }
-
   if (process.client) {
     initMarked()
   }
 
   return {
+    options,
     inited,
     markdownElement,
     markdown,
     render,
     publishGuide,
+    needPublish,
   }
 }

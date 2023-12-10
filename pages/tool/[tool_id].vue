@@ -2,7 +2,7 @@
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right>
-        <div class="edit" v-show="markdown !== markdownOld" @click="publishGuide">
+        <div class="edit" v-show="needPublish" @click="publishGuide">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -13,7 +13,12 @@
       </template>
     </mp-header>
 
-    <div v-if="markdown" v-show="!showEdit" class="mp-markdown-box" v-html="render(markdown)"></div>
+    <div
+      v-if="markdown"
+      v-show="!showEdit"
+      class="mp-markdown-box"
+      v-html="render(markdown.content)"
+    ></div>
     <div class="markdown-empty" v-else-if="inited">
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
@@ -29,28 +34,19 @@
         <mp-icon name="close" />
       </div>
 
-      <div class="preview markdown-box" ref="markdownElement" v-html="render(markdown)"></div>
-      <monaco-editor
-        class="editor"
-        v-model="markdown"
-        lang="markdown"
-        :options="{
-          tabSize: 2,
-          minimap: {
-            enabled: false,
-          },
-          formatOnType: true,
-          wordWrap: 'on',
-          theme: 'vs-dark',
-        }"
-      />
+      <div
+        class="preview markdown-box"
+        ref="markdownElement"
+        v-html="render(markdown.content)"
+      ></div>
+      <monaco-editor class="editor" v-model="markdown.content" lang="markdown" :options="options" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useMarkdown } from '~/composables/useMarkdown'
 import api from '~/utils/api'
+import { useMarkdown } from '~/composables/useMarkdown'
 
 const route = useRoute()
 const router = useRouter()
@@ -74,7 +70,7 @@ const publish = async () => {
     url: '/tool/update.how_to_use',
     data: {
       id: tool_id,
-      markdown: markdown.value,
+      markdown: markdown.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -83,20 +79,21 @@ const publish = async () => {
   }
   if (res.data === true) {
     mp.success('发布成功！')
+    markdown.contentOld = markdown.content
   }
 }
 
-const markdownOld = ref('')
 const init = () => {
   const tool = toolStore.tools[tool_id]
   const text = tool?.how_to_use
   if (text) {
-    markdown.value = text
-    markdownOld.value = text
+    markdown.content = text
+    markdown.contentOld = text
   }
 }
 
-const { inited, markdown, render, markdownElement, publishGuide } = useMarkdown(publish)
+const { options, inited, markdown, render, markdownElement, publishGuide, needPublish } =
+  useMarkdown(publish)
 
 if (process.client) {
   init()
