@@ -2,10 +2,10 @@
   <div id="page-knowledge-id" ref="markdownElement">
     <mp-header title="">
       <template #center>
-        <input class="note-title" v-model="markdown.title" type="text" />
+        <input class="note-title" v-model="md.form.title" type="text" />
       </template>
       <template #right>
-        <div class="edit" v-show="needPublish" @click="publish">
+        <div class="edit" v-show="md.needPublish" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -17,12 +17,12 @@
     </mp-header>
 
     <div
-      v-if="markdown"
+      v-if="md.form.content"
       v-show="!showEdit"
       class="mp-markdown-box"
-      v-html="render(markdown.content)"
+      v-html="md.render(md.form.content)"
     ></div>
-    <div v-else-if="!inited" class="el-icon is-loading">
+    <div v-else-if="!md.form.inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
 
@@ -34,9 +34,9 @@
       <div
         class="preview markdown-box"
         ref="markdownElement"
-        v-html="render(markdown.content)"
+        v-html="md.render(md.form.content)"
       ></div>
-      <monaco-editor class="editor" v-model="markdown.content" lang="markdown" :options="options" />
+      <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="options" />
     </div>
   </div>
 </template>
@@ -60,8 +60,8 @@ const publish = async () => {
     url: '/knowledge/update',
     data: {
       id: Number(knowledge_id),
-      Question: markdown.title,
-      Answer: markdown.content,
+      Question: md.form.title,
+      Answer: md.form.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -71,35 +71,35 @@ const publish = async () => {
   if (res.data === true) {
     mp.success('发布成功！')
 
-    markdown.titleOld = markdown.title
-    markdown.contentOld = markdown.content
+    md.form.titleOld = md.form.title
+    md.form.contentOld = md.form.content
 
     const i = knowledgeStore.list.findIndex((knowledge) => String(knowledge.id) === knowledge_id)
     if (i !== -1) {
-      knowledgeStore.list[i].Question = markdown.title
+      knowledgeStore.list[i].Question = md.form.title
     }
   }
 }
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Knowledge/' + knowledge_id })
-  inited.value = true
+  md.form.inited = true
   if (res.data?.id) {
     const knowledge: Knowledge = res.data
 
     const text = knowledge.Answer || '# 新答案\n点击右上角 开启编辑'
 
-    markdown.title = knowledge.Question
-    markdown.titleOld = knowledge.Question
-    markdown.content = text
-    markdown.contentOld = text
+    md.form.title = knowledge.Question
+    md.form.titleOld = knowledge.Question
+    md.form.content = text
+    md.form.contentOld = text
   } else {
     mp.error('知识不存在')
     router.back()
   }
 }
 
-const { options, inited, markdown, render, markdownElement, needPublish } = useMarkdown(publish)
+const md = useMarkdown(publish)
 
 if (process.client) {
   init()
@@ -107,7 +107,7 @@ if (process.client) {
 </script>
 
 <style lang="scss">
-@import '~/assets/css/markdown.scss';
+@import '~/assets/css/md.form.scss';
 
 #page-knowledge-id.page {
   .markdown-empty {

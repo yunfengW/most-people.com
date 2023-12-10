@@ -2,10 +2,10 @@
   <div id="page-note-id" ref="markdownElement">
     <mp-header title="">
       <template #center>
-        <input class="note-title" v-model="markdown.title" type="text" />
+        <input class="note-title" v-model="md.form.title" type="text" />
       </template>
       <template #right>
-        <div class="edit" v-show="needPublish" @click="publish">
+        <div class="edit" v-show="md.needPublish" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -17,12 +17,12 @@
     </mp-header>
 
     <div
-      v-if="markdown.content"
+      v-if="md.form.content"
       v-show="!showEdit"
       class="mp-markdown-box"
-      v-html="render(markdown.content)"
+      v-html="md.render(md.form.content)"
     ></div>
-    <div v-else-if="!inited" class="el-icon is-loading">
+    <div v-else-if="!md.form.inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
 
@@ -34,9 +34,14 @@
       <div
         class="preview markdown-box"
         ref="markdownElement"
-        v-html="render(markdown.content)"
+        v-html="md.render(md.form.content)"
       ></div>
-      <monaco-editor class="editor" v-model="markdown.content" lang="markdown" :options="options" />
+      <monaco-editor
+        class="editor"
+        v-model="md.form.content"
+        lang="markdown"
+        :options="md.options"
+      />
     </div>
   </div>
 </template>
@@ -60,8 +65,8 @@ const publish = async () => {
     url: '/note/update',
     data: {
       id: Number(note_id),
-      title: markdown.title,
-      content: markdown.content,
+      title: md.form.title,
+      content: md.form.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -72,12 +77,12 @@ const publish = async () => {
     mp.success('发布成功！')
 
     // 发布状态
-    markdown.contentOld = markdown.content
-    markdown.titleOld = markdown.title
+    md.form.contentOld = md.form.content
+    md.form.titleOld = md.form.title
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
     if (i !== -1) {
-      noteStore.notes[i].title = markdown.title
+      noteStore.notes[i].title = md.form.title
     }
   }
 }
@@ -104,23 +109,23 @@ const decrypt = async (content: string) => {
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
-  inited.value = true
+  md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
 
     const text = await decrypt(note.content)
 
-    markdown.content = text
-    markdown.contentOld = text
-    markdown.title = note.title
-    markdown.titleOld = note.title
+    md.form.content = text
+    md.form.contentOld = text
+    md.form.title = note.title
+    md.form.titleOld = note.title
   } else {
     mp.error('笔记不存在')
     router.back()
   }
 }
 
-const { options, inited, markdown, render, markdownElement, needPublish } = useMarkdown(publish)
+const md = useMarkdown(publish)
 
 if (process.client) {
   init()

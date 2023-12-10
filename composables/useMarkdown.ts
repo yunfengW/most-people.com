@@ -3,7 +3,6 @@ import { editor } from 'monaco-editor'
 // import DOMPurify from 'dompurify'
 
 export const useMarkdown = (publish: () => void) => {
-  const inited = ref(false)
   const markdownElement = ref<HTMLDivElement>()
 
   const options: editor.IStandaloneEditorConstructionOptions = {
@@ -16,15 +15,16 @@ export const useMarkdown = (publish: () => void) => {
     theme: 'vs-dark',
   }
 
-  const markdown = reactive({
+  const form = reactive({
     title: '',
     titleOld: '',
     content: '',
     contentOld: '',
+    inited: false,
   })
 
   const needPublish = computed(() => {
-    return markdown.content !== markdown.contentOld || markdown.title !== markdown.titleOld
+    return form.content !== form.contentOld || form.title !== form.titleOld
   })
 
   const render = (md: string) => {
@@ -42,6 +42,7 @@ export const useMarkdown = (publish: () => void) => {
     // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
     return html
   }
+
   const initMarked = () => {
     marked.use({
       breaks: true,
@@ -64,6 +65,7 @@ export const useMarkdown = (publish: () => void) => {
       renderer: renderer,
     })
   }
+
   const publishGuide = async () => {
     ElMessageBox.prompt('', '请输入【我要发布】', {
       confirmButtonText: '确认',
@@ -89,17 +91,49 @@ export const useMarkdown = (publish: () => void) => {
       .then(() => {})
       .catch(() => {})
   }
+
+  const toc = computed(() => {
+    const { title, content } = form
+    if (!title) {
+      return ''
+    }
+    let text = content
+    // 补全代码块
+    let codeBlock = text.match(/\n```/g)
+    if (codeBlock && codeBlock.length % 2 === 1) {
+      text += '\n```'
+    }
+    // 移除代码块
+    text.replace(/```[\s\S]+?```/g, '')
+
+    let arr: string[] = [`# ${title}`]
+    arr = arr.concat(text.split('\n'))
+    // # 号开头
+    arr = arr.filter((e) => /^#+? /.test(e))
+    arr = arr.map((e, i) => {
+      // #
+      e = e.slice(1).replace(/#/g, '>')
+      // > -
+      e = e.replace(/ /, ' - ')
+      // 锚点
+      e = e.replace(/ - (.+?)$/g, ` - <a href="#${i}">$1</a>`)
+      return e
+    })
+    const md = arr.join('\n')
+    return md
+  })
+
   if (process.client) {
     initMarked()
   }
 
   return {
     options,
-    inited,
     markdownElement,
-    markdown,
+    form,
     render,
     publishGuide,
     needPublish,
+    toc,
   }
 }
