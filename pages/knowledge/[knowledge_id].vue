@@ -5,7 +5,11 @@
         <input class="note-title" v-model="md.form.title" type="text" />
       </template>
       <template #right>
-        <div class="edit" v-show="md.needPublish" @click="publish">
+        <div
+          class="edit"
+          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
+          @click="publish"
+        >
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -65,8 +69,8 @@ const publish = async () => {
     url: '/knowledge/update',
     data: {
       id: Number(knowledge_id),
-      Question: md.form.title,
-      Answer: md.form.content,
+      title: md.form.title,
+      content: md.form.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -82,6 +86,7 @@ const publish = async () => {
     const i = knowledgeStore.list.findIndex((knowledge) => String(knowledge.id) === knowledge_id)
     if (i !== -1) {
       knowledgeStore.list[i].title = md.form.title
+      knowledgeStore.list[i].content = md.form.content
     }
   }
 }
@@ -104,7 +109,7 @@ const init = async () => {
   }
 }
 
-const md = useMarkdown(publish)
+const md = useMarkdown()
 
 if (process.client) {
   init()

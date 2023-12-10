@@ -32,8 +32,8 @@ export const useUserStore = defineStore({
       user: null,
       inited: false,
       // current tool
-      tool_id: 1,
-      tools: [1],
+      tool_id: 11,
+      tools: [5, 40, 37, 46, 35, 53, 43, 57, 60, 58, 29, 62, 11],
       message: '',
       sugList: [],
       sugIndex: -1,

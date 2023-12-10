@@ -5,7 +5,11 @@
         <input class="note-title" v-model="md.form.title" type="text" />
       </template>
       <template #right>
-        <div class="edit" v-show="md.needPublish" @click="publish">
+        <div
+          class="edit"
+          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
+          @click="publish"
+        >
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -125,7 +129,7 @@ const init = async () => {
   }
 }
 
-const md = useMarkdown(publish)
+const md = useMarkdown()
 
 if (process.client) {
   init()

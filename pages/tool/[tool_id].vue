@@ -2,7 +2,11 @@
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right>
-        <div class="edit" v-show="md.needPublish" @click="md.publishGuide">
+        <div
+          class="edit"
+          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
+          @click="publish"
+        >
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -66,16 +70,16 @@ const toolName = computed(() => {
   if (tool?.title) {
     return tool.title
   }
-  return tool_id as string
+  return ''
 })
 
 const publish = async () => {
   const res = await api({
     method: 'put',
-    url: '/tool/update.how_to_use',
+    url: '/tool/update.content',
     data: {
-      id: tool_id,
-      markdown: md.form.content,
+      id: Number(tool_id),
+      content: md.form.content,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -85,6 +89,8 @@ const publish = async () => {
   if (res.data === true) {
     mp.success('发布成功！')
     md.form.contentOld = md.form.content
+    const tool = toolStore.tools[tool_id]
+    tool.content = md.form.content
   }
 }
 
@@ -99,7 +105,7 @@ const init = () => {
   }
 }
 
-const md = useMarkdown(publish)
+const md = useMarkdown()
 onMounted(() => {
   init()
 })

@@ -13,7 +13,7 @@ const marked = new Marked(
   }),
 )
 
-export const useMarkdown = (publish: () => void) => {
+export const useMarkdown = () => {
   const markdownElement = ref<HTMLDivElement>()
 
   // editor options
@@ -33,10 +33,6 @@ export const useMarkdown = (publish: () => void) => {
     content: '',
     contentOld: '',
     inited: false,
-  })
-
-  const needPublish = computed(() => {
-    return form.content !== form.contentOld || form.title !== form.titleOld
   })
 
   const render = (md: string) => {
@@ -78,32 +74,6 @@ export const useMarkdown = (publish: () => void) => {
     })
   }
 
-  const publishGuide = async () => {
-    ElMessageBox.prompt('', '请输入【我要发布】', {
-      confirmButtonText: '确认',
-      cancelButtonText: '取消',
-      inputValidator: (v) => {
-        if (v === '我要发布') {
-          return true
-        }
-        return '请输入【我要发布】'
-      },
-      beforeClose: async (action, instance, done) => {
-        if (action === 'confirm') {
-          instance.confirmButtonLoading = true
-          instance.confirmButtonText = '发布中...'
-          await publish()
-          instance.confirmButtonLoading = false
-          done()
-        } else {
-          done()
-        }
-      },
-    })
-      .then(() => {})
-      .catch(() => {})
-  }
-
   const toc = computed(() => {
     const { title, content } = form
     if (!title) {
@@ -140,12 +110,10 @@ export const useMarkdown = (publish: () => void) => {
   }
 
   return {
+    render,
     options,
     markdownElement,
     form,
-    render,
-    publishGuide,
-    needPublish,
     toc,
   }
 }
