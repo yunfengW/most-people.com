@@ -62,11 +62,11 @@ const formElement = ref<FormInstance>()
 const formToolElement = ref<FormInstance>()
 const form = reactive({
   title: '',
-  list: [] as string[],
+  list: [] as number[],
 })
 
 const formTool = reactive({
-  tool: '',
+  tool: 0,
 })
 
 const topDel = () => {
@@ -100,7 +100,7 @@ const addTool = () => {
         return
       }
       form.list.push(formTool.tool)
-      formTool.tool = ''
+      formTool.tool = 0
     }
   })
 }

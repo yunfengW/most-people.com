@@ -1,13 +1,6 @@
 <template>
   <div id="page-top">
-    <mp-header title="万能工具箱">
-      <template #right>
-        <div class="edit" @click="publishTools">
-          <span>发布</span>
-          <mp-icon name="publish" />
-        </div>
-      </template>
-    </mp-header>
+    <mp-header title="万能工具箱" />
 
     <el-tabs v-model="toolStore.tab">
       <el-tab-pane label="分类" name="top"></el-tab-pane>

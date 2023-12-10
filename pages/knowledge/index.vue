@@ -6,7 +6,7 @@
     </div>
     <main v-else>
       <nuxt-link :to="`/knowledge/${knowledge.id}`" v-for="knowledge in knowledgeStore.list">
-        {{ knowledge.Question }}
+        {{ knowledge.title }}
       </nuxt-link>
       <br />
       <el-button @click="addKnowledge">添加</el-button>
@@ -25,7 +25,7 @@ const addKnowledge = async () => {
     method: 'put',
     url: '/knowledge/add',
     data: {
-      Question: '点击修改',
+      title: '点击修改',
     },
   })
   if (res.data?.id) {
@@ -41,6 +41,7 @@ if (process.client) {
 <style lang="scss">
 #page-knowledge.page {
   main {
+    width: 100%;
     a {
       display: inline-flex;
       margin: 10px;

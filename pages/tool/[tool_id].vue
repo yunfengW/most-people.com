@@ -89,8 +89,10 @@ const publish = async () => {
 }
 
 const init = () => {
+  md.form.inited = true
+
   const tool = toolStore.tools[tool_id]
-  const text = tool?.how_to_use
+  const text = tool?.content
   if (text) {
     md.form.content = text
     md.form.contentOld = text
@@ -98,15 +100,12 @@ const init = () => {
 }
 
 const md = useMarkdown(publish)
-
-if (process.client) {
+onMounted(() => {
   init()
-}
-
+})
 watch(
   () => toolStore.tools,
   () => {
-    md.form.inited = true
     init()
   },
 )

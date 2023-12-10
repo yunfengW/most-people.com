@@ -5,22 +5,11 @@
     </div>
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item
-        prop="zh"
+        prop="title"
         :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
         label="中文"
       >
         <el-input v-model.trim="form.title" clearable />
-      </el-form-item>
-
-      <el-form-item
-        prop="id"
-        :rules="[
-          { required: true, trigger: 'blur', message: '请输入工具 ID' },
-          { validator: checkToolKey, trigger: 'blur' },
-        ]"
-        label="工具 ID"
-      >
-        <el-input v-model.trim="form.id" clearable />
       </el-form-item>
 
       <el-form-item
@@ -106,18 +95,6 @@ const toolSave = () => {
       $emit('close')
     }
   })
-}
-
-// check
-const checkToolKey = (_rule: any, v: string, callback: (err?: Error) => void) => {
-  const id = v
-  if (!/^[a-zA-Z0-9]+$/.test(id)) {
-    return callback(new Error('只能包含字母和数字'))
-  }
-  if (form.isAdd && toolStore.tools[id]) {
-    return callback(new Error(`工具 ID ${id} 已存在`))
-  }
-  callback()
 }
 
 onUpdated(() => {

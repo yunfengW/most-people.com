@@ -1,12 +1,6 @@
-import api from "~/utils/api"
+import api from '~/utils/api'
 
-export interface Knowledge {
-  id: number
-  Question: string
-  Answer: string
-  updated_time: string
-  user_id: number
-}
+export interface Knowledge extends Note {}
 
 interface KnowledgeStore {
   list: Knowledge[]

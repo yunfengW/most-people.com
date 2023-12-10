@@ -63,6 +63,7 @@ watch(
 <style lang="scss">
 #page-user-note.page {
   main {
+    width: 100%;
     a {
       display: inline-flex;
       margin: 10px;

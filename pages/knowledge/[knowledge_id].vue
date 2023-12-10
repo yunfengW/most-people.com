@@ -81,7 +81,7 @@ const publish = async () => {
 
     const i = knowledgeStore.list.findIndex((knowledge) => String(knowledge.id) === knowledge_id)
     if (i !== -1) {
-      knowledgeStore.list[i].Question = md.form.title
+      knowledgeStore.list[i].title = md.form.title
     }
   }
 }
@@ -92,10 +92,10 @@ const init = async () => {
   if (res.data?.id) {
     const knowledge: Knowledge = res.data
 
-    const text = knowledge.Answer || '# 新答案\n点击右上角 开启编辑'
+    const text = knowledge.content || '# 新答案\n点击右上角 开启编辑'
 
-    md.form.title = knowledge.Question
-    md.form.titleOld = knowledge.Question
+    md.form.title = knowledge.title
+    md.form.titleOld = knowledge.title
     md.form.content = text
     md.form.contentOld = text
   } else {
