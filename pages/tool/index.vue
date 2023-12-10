@@ -23,9 +23,11 @@
                     class="logo"
                     :src="toolStore.tools[id]?.logo"
                     :alt="toolStore.tools[id]?.title"
-                    @click="bindTool(id)"
+                    @click.stop="bindTool(id)"
                   />
-                  <div class="name" @click="bindTool(id)">{{ toolStore.tools[id]?.title }}</div>
+                  <div class="name" @click.stop="bindTool(id)">
+                    {{ toolStore.tools[id]?.title }}
+                  </div>
                 </div>
               </mp-tooltip>
             </template>
@@ -44,8 +46,8 @@
           <mp-tooltip :tip="tool.intro || ''">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.title" />
-              <span class="name" @click="bindTool(tool.id)">{{ tool.title }}</span>
-              <mp-icon name="edit" @click="toolEdit(tool.id)" />
+              <span class="name" @click.stop="bindTool(tool.id)">{{ tool.title }}</span>
+              <mp-icon name="edit" @click.stop="toolEdit(tool.id)" />
             </div>
           </mp-tooltip>
         </template>
