@@ -1,0 +1,78 @@
+:root {
+  --red: #e30002;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+html {
+  background: rgb(241, 241, 241);
+}
+body {
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--el-color-primary-dark-2);
+}
+
+html,
+body,
+#__nuxt {
+  height: 100%;
+}
+
+#app {
+  position: relative;
+  min-height: 100%;
+
+  > .page {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin: 0 auto;
+    padding: 20px;
+  }
+  > .mp-uid {
+    position: absolute;
+    right: 14px;
+    bottom: 0;
+    z-index: 10;
+  }
+}
+
+// element UI
+body {
+  // mp-tooltip
+  .el-popper {
+    font-size: 16px;
+    line-height: normal;
+    max-width: calc(100% - 10px);
+  }
+  .el-popper.is-customized {
+    padding: 6px 12px;
+    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
+  }
+
+  .el-popper.is-customized .el-popper__arrow::before {
+    background: linear-gradient(45deg, #b2e68d, #bce689);
+    right: 0;
+  }
+}
+
+// PC端 横屏
+@media (orientation: landscape) and (min-width: 980px) {
+  #app {
+    > .page {
+      max-width: 61.8%;
+    }
+  }
+}

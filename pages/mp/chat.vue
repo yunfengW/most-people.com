@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import axios from 'axios'
-import { FormInstance } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
 interface Reason {
   message: {

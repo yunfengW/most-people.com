@@ -112,8 +112,6 @@ if (process.client) {
 </script>
 
 <style lang="scss">
-@import '~/assets/css/markdown.scss';
-
 #page-knowledge-id.page {
   .markdown-empty {
     text-align: center;

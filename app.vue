@@ -4,7 +4,7 @@
       <el-button link type="info">{{ userStore.getUID }}</el-button>
     </nuxt-link>
     <nuxt-page class="page" />
-    <el-backtop :right="100" :bottom="100" />
+    <el-backtop :visibility-height="1400" />
   </div>
 </template>
 
@@ -33,24 +33,24 @@ if (process.client) {
   initTools()
 }
 
-const initZoom = () => {
-  // 获取屏幕宽度和高度
-  const screenWidth =
-    window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-  const screenHeight =
-    window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+// const initZoom = () => {
+//   // 获取屏幕宽度和高度
+//   const screenWidth =
+//     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+//   const screenHeight =
+//     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
 
-  // 计算缩放比例
-  const scaleRatio = Math.min(1920 / screenWidth, 1080 / screenHeight) // 假设参考分辨率为 1920x1080
+//   // 计算缩放比例
+//   const scaleRatio = Math.min(1920 / screenWidth, 1080 / screenHeight) // 假设参考分辨率为 1920x1080
 
-  // 计算缩放级别
-  const zoomLevel = 1 / scaleRatio
+//   // 计算缩放级别
+//   const zoomLevel = 1 / scaleRatio
 
-  const zoom = String(zoomLevel > 1 ? zoomLevel : 1)
+//   const zoom = String(zoomLevel > 1 ? zoomLevel : 1)
 
-  // 应用缩放级别
-  document.body.style.setProperty('zoom', zoom)
-}
+//   // 应用缩放级别
+//   document.body.style.setProperty('zoom', zoom)
+// }
 
 onBeforeMount(() => {
   // 屏幕缩放
@@ -104,82 +104,6 @@ onMounted(() => {
 
 <style lang="scss">
 // global
-:root {
-  --red: #e30002;
-}
-
-*,
-::after,
-::before {
-  box-sizing: border-box;
-}
-html {
-  background: rgb(241, 241, 241);
-}
-body {
-  margin: 0;
-}
-
-a {
-  cursor: pointer;
-  color: var(--el-color-primary);
-  text-decoration: none;
-}
-a:hover {
-  color: var(--el-color-primary-dark-2);
-}
-
-html,
-body,
-#__nuxt {
-  height: 100%;
-}
-
-#app {
-  position: relative;
-  min-height: 100%;
-
-  > .page {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
-    margin: 0 auto;
-    padding: 20px;
-  }
-  > .mp-uid {
-    position: absolute;
-    right: 14px;
-    bottom: 0;
-    z-index: 10;
-  }
-}
-
-// element UI
-body {
-  // mp-tooltip
-  .el-popper {
-    font-size: 16px;
-    line-height: normal;
-    max-width: calc(100% - 10px);
-  }
-  .el-popper.is-customized {
-    padding: 6px 12px;
-    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
-  }
-
-  .el-popper.is-customized .el-popper__arrow::before {
-    background: linear-gradient(45deg, #b2e68d, #bce689);
-    right: 0;
-  }
-}
-
-// PC端 横屏
-@media (orientation: landscape) and (min-width: 980px) {
-  #app {
-    > .page {
-      max-width: 61.8%;
-    }
-  }
-}
+@import '~/assets/css/app.scss';
+@import '~/assets/css/markdown.scss';
 </style>

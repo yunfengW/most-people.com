@@ -113,8 +113,6 @@ watch(
 </script>
 
 <style lang="scss">
-@import '~/assets/css/markdown.scss';
-
 #page-tool.page {
   .markdown-empty {
     text-align: center;

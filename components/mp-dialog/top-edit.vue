@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { FormInstance } from 'element-plus'
+import type { FormInstance } from 'element-plus'
 
 interface Props {
   topIndex: number
