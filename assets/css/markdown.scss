@@ -1,3 +1,5 @@
+@import './atom-one-light.css';
+
 .mp-markdown-box {
   width: 100%;
   word-break: break-word;
@@ -49,6 +51,159 @@
         background-color: rgb(23, 124, 192);
       }
     }
+  }
+
+  // note.css
+
+  a {
+    color: #76808e;
+    text-decoration: none;
+    word-break: break-word;
+    border-bottom: 1px solid transparent;
+  }
+
+  a:hover {
+    color: #066188;
+    border-bottom: 1px solid rgba(23, 81, 153, 0.72);
+  }
+
+  img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    vertical-align: top;
+    border-radius: 4px;
+  }
+
+  pre,
+  code {
+    font-family: Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif;
+  }
+
+  pre {
+    margin: 16px auto;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    padding: 8px;
+    overflow-x: auto;
+    color: #1e2931;
+    background: #f6f8fa;
+
+    code {
+      font-size: 16px;
+      line-height: 16px;
+      white-space: pre;
+      padding: 0;
+      color: inherit;
+      background-color: transparent;
+    }
+  }
+
+  code {
+    border-style: none;
+    border-radius: 2px;
+    padding: 2px 4px;
+    background: rgba(1, 20, 36, 0.13);
+    color: #1e2931;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  table {
+    border-spacing: 0;
+    border-collapse: separate;
+    margin-bottom: 20px;
+    width: 100%;
+
+    thead {
+      tr {
+        th {
+          padding: 8px;
+          font-weight: normal;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        td {
+          border-top: 1px solid #d8dde4;
+          padding: 8px;
+          vertical-align: middle;
+        }
+      }
+
+      border: 1px solid #d8dde4;
+
+      > tr:nth-child(2n + 1) > td,
+      > tr:nth-child(2n + 1) > th {
+        background-color: rgba(216, 221, 228, 0.3);
+      }
+
+      tr:last-child {
+        td {
+          border-bottom: 1px solid #d8dde4;
+        }
+      }
+    }
+  }
+
+  em {
+    // font-style: normal;
+    opacity: 0.6;
+  }
+
+  mark,
+  ins,
+  strong {
+    padding: 0 2px;
+  }
+
+  mark {
+    padding: 2px 4px;
+    border-radius: 4px;
+    background-color: #077ddd;
+    color: #fff;
+    border-style: none;
+    word-break: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+
+  ins {
+    border-bottom: 2px solid #ff5e5e;
+    text-decoration: none;
+  }
+
+  p {
+    margin: 24px 0;
+    // text-indent: 2em;
+  }
+
+  ul {
+    padding-left: 40px;
+    margin: 0;
+  }
+
+  li {
+    padding: 4.8px 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  ol {
+    padding-inline-start: 40px;
+  }
+
+  blockquote {
+    margin-inline-end: 5px;
+  }
+
+  h1 {
+    line-height: 32px;
   }
 }
 

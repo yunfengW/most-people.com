@@ -36,7 +36,12 @@
         ref="markdownElement"
         v-html="md.render(md.form.content)"
       ></div>
-      <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="options" />
+      <monaco-editor
+        class="editor"
+        v-model="md.form.content"
+        lang="markdown"
+        :options="md.options"
+      />
     </div>
   </div>
 </template>
@@ -107,7 +112,7 @@ if (process.client) {
 </script>
 
 <style lang="scss">
-@import '~/assets/css/md.form.scss';
+@import '~/assets/css/markdown.scss';
 
 #page-knowledge-id.page {
   .markdown-empty {

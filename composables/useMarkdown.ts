@@ -1,6 +1,5 @@
 import { marked } from 'marked'
 import { editor } from 'monaco-editor'
-// import DOMPurify from 'dompurify'
 
 export const useMarkdown = (publish: () => void) => {
   const markdownElement = ref<HTMLDivElement>()

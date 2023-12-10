@@ -113,7 +113,7 @@ watch(
 </script>
 
 <style lang="scss">
-@import '~/assets/css/md.form.scss';
+@import '~/assets/css/markdown.scss';
 
 #page-tool.page {
   .markdown-empty {
