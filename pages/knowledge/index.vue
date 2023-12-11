@@ -44,7 +44,7 @@ if (process.client) {
     width: 100%;
     a {
       display: inline-flex;
-      margin: 10px;
+      padding: 10px;
     }
   }
 }

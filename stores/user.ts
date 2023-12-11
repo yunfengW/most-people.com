@@ -118,8 +118,9 @@ export const useUserStore = defineStore({
         return
       }
       indexDB.delUser(this.user.name)
-      this.$reset()
-      this.init()
+      // this.$reset()
+      // this.init()
+      location.reload()
     },
   },
 })

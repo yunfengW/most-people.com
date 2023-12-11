@@ -36,7 +36,7 @@
       </div>
 
       <div
-        class="preview markdown-box"
+        class="preview mp-markdown-box"
         ref="markdownElement"
         v-html="md.render(md.form.content)"
       ></div>

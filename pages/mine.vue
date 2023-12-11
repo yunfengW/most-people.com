@@ -9,6 +9,7 @@
           fit="cover"
         ></el-image>
         <h4>{{ userStore.user.name }}</h4>
+        <el-button type="danger" plain @click="userStore.exit">退出</el-button>
       </div>
       <div v-else class="not-logged-in">
         <nuxt-link to="/register">
