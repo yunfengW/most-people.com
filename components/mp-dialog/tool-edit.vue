@@ -46,6 +46,31 @@
         <el-input-number v-model="form.top" :min="0" :max="1000" />
       </el-form-item>
 
+      <el-form-item label="分类（选填）">
+        <div class="tags">
+          <el-tag
+            v-for="tag in form.tags"
+            :key="tag"
+            closable
+            :disable-transitions="false"
+            @close="removeTag(tag)"
+          >
+            {{ tag }}
+          </el-tag>
+          <el-input
+            v-if="form.showAddTag"
+            ref="addTagElement"
+            v-model="form.newTag"
+            size="small"
+            @keyup.enter="tagAdd"
+            @blur="tagAdd"
+          />
+          <el-button v-else class="button-new-tag ml-1" size="small" @click="tagInputFocus">
+            + 新分类
+          </el-button>
+        </div>
+      </el-form-item>
+
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
         <el-button type="primary" @click="toolSave">确认</el-button>
@@ -55,7 +80,32 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
+import type { FormInstance, ElInput } from 'element-plus'
+
+const addTagElement = ref<InstanceType<typeof ElInput>>()
+
+const removeTag = (tag: string) => {
+  form.tags.splice(form.tags.indexOf(tag), 1)
+}
+
+const tagInputFocus = () => {
+  form.showAddTag = true
+  nextTick(() => {
+    addTagElement.value!.input!.focus()
+  })
+}
+
+const tagAdd = () => {
+  if (form.newTag) {
+    if (form.tags.includes(form.newTag)) {
+      mp.info(`${form.newTag} 已存在`)
+    } else {
+      form.tags.push(form.newTag)
+    }
+  }
+  form.showAddTag = false
+  form.newTag = ''
+}
 
 interface Props {
   tool_id: number
@@ -67,15 +117,17 @@ const toolStore = useToolStore()
 const formElement = ref<FormInstance>()
 const form = reactive({
   id: 0,
-  title: '',
-  logo: '',
   url: '',
+  title: '',
   intro: '' as undefined | string,
+  logo: '',
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
   top: 1000,
-  tags: [] as string[]
+  tags: [] as string[],
+  newTag: '',
+  showAddTag: false,
 })
 
 const toolSave = () => {
@@ -152,6 +204,16 @@ onUpdated(() => {
   .how-to-use {
     text-align: center;
     margin-bottom: 16px;
+  }
+
+  .tags {
+    .el-tag {
+      margin-right: 10px;
+    }
+    .el-button,
+    .el-input {
+      width: 75px;
+    }
   }
 }
 </style>
