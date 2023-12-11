@@ -16,7 +16,7 @@
         <div class="ul">
           <client-only>
             <template v-for="(id, i) in top.list">
-              <mp-tooltip :tip="toolStore.tools[id]?.intro || ''">
+              <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
                   <img
@@ -43,7 +43,7 @@
     <div v-show="toolStore.tab === 'all'" class="tool-box">
       <client-only>
         <template v-for="tool in Object.values(toolStore.tools)">
-          <mp-tooltip :tip="tool.intro || ''">
+          <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.title" />
               <span class="name" @click.stop="bindTool(tool.id)">{{ tool.title }}</span>

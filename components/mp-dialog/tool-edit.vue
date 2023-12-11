@@ -17,8 +17,8 @@
       </el-form-item>
 
       <el-form-item
-        prop="logo"
-        :rules="[{ required: true, trigger: 'blur', message: '请上传 Logo' }]"
+        :prop="form.isAdd ? 'logoFile' : 'logo'"
+        :rules="[{ required: true, trigger: 'blur', message: '请上传图片' }]"
         label="Logo"
       >
         <mp-upload :url="form.logo" @change="(file) => (form.logoFile = file)" />
@@ -52,7 +52,7 @@
 
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
-        <el-button type="primary" :loading="form.loading" @click="toolSave">确认</el-button>
+        <el-button type="primary" :loading="form.loading" @click="submit">确认</el-button>
       </div>
     </el-form>
   </mp-dialog>
@@ -109,46 +109,75 @@ const uploadLogo = async (file: File) => {
   }
 }
 
-const updateTool = async () => {
-  const tool = toolStore.tools[$props.tool_id]
-  if (tool) {
-    tool.title = form.title
-    tool.url = form.url
-    tool.intro = form.intro
-    tool.logo = form.logo
-    tool.top = form.top
+const toolSave = async () => {
+  // 上传 logo
+  if (form.logoFile) {
+    const logo = await uploadLogo(form.logoFile)
+    form.logoFile = undefined
+    if (!logo) {
+      mp.error('logo 上传失败')
+      return
+    }
+    form.logo = logo
   }
+  // 更新 tool
   const res = await api({
     method: 'put',
     url: '/tool/update',
-    data: tool,
+    data: {
+      id: form.id,
+      title: form.title,
+      url: form.url,
+      top: form.top,
+      logo: form.logo,
+      intro: form.intro,
+    },
   })
   if (res.data?.statusCode === 1004) {
     router.push('/login')
     return
   }
-  if (res.data === true) {
+  if (res.data?.id) {
+    toolStore.tools[res.data.id] = res.data
     mp.success('保存成功')
   }
   $emit('close')
 }
 
-const toolSave = () => {
+const toolAdd = async () => {
+  // 创建
+  const res = await api({
+    method: 'put',
+    url: '/tool/add',
+    data: {
+      title: form.title,
+      url: form.url,
+      top: form.top,
+      intro: form.intro,
+      logo: '/favicon.ico',
+    },
+  })
+  if (res.data?.statusCode === 1004) {
+    router.push('/login')
+    return
+  }
+  if (res.data?.id) {
+    form.id = res.data.id
+    toolSave()
+  }
+}
+
+const submit = () => {
   if (!formElement.value) return
   formElement.value.validate(async (ok: boolean) => {
     if (ok) {
       form.loading = true
-      // 上传 logo
-      if (form.logoFile) {
-        const logo = await uploadLogo(form.logoFile)
-        if (!logo) {
-          mp.error('logo 上传失败')
-          return
-        }
-        form.logo = logo
+      if (form.isAdd) {
+        await toolAdd()
+      } else {
+        await toolSave()
       }
-      // 更新 tool
-      updateTool()
+      form.loading = false
     }
   })
 }
@@ -164,6 +193,7 @@ onUpdated(() => {
     form.title = tool.title
     form.intro = tool.intro
     form.logo = tool.logo
+    form.logoFile = undefined
     form.top = tool.top || 1000
   } else {
     // 添加
@@ -174,6 +204,7 @@ onUpdated(() => {
     form.title = ''
     form.intro = ''
     form.logo = ''
+    form.logoFile = undefined
     form.top = 1000
   }
   form.loading = false
