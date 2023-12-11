@@ -26,9 +26,7 @@
       class="mp-markdown-box"
       v-html="md.render(md.form.content)"
     ></div>
-    <div v-else-if="!md.form.inited" class="el-icon is-loading">
-      <mp-icon name="loading" />
-    </div>
+    <mp-loading v-else-if="!md.form.inited"/>
 
     <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">

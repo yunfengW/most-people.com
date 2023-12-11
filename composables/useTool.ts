@@ -53,9 +53,8 @@ export const useTool = () => {
   const tool_id = ref(0)
 
   const toolEdit = (id: number) => {
-    mp.info('维护中...')
-    // showToolEdit.value = true
-    // tool_id.value = id
+    showToolEdit.value = true
+    tool_id.value = id
   }
 
   const publish = async () => {

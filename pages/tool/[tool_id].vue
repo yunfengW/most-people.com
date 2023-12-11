@@ -29,9 +29,7 @@
       <br />
       <el-image class="join-us" src="/img/join-us.jpg" />
     </div>
-    <div v-else class="el-icon is-loading">
-      <mp-icon name="loading" />
-    </div>
+    <mp-loading v-else />
 
     <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">

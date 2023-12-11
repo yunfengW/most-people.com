@@ -1,10 +1,8 @@
 <template>
   <div id="page-user-note">
     <mp-header title="我的笔记" />
-    <div v-if="noteStore.inited === false" class="el-icon is-loading">
-      <mp-icon name="loading" />
-    </div>
-    <main v-else>
+
+    <main v-if="noteStore.inited">
       <h4>公开笔记</h4>
       <template v-for="note in publicNotes">
         <nuxt-link :to="`/note/${note.id}`">
@@ -18,6 +16,7 @@
         <nuxt-link :to="`/note/${note.id}`">{{ note.title }} </nuxt-link>
       </template>
     </main>
+    <mp-loading v-else />
   </div>
 </template>
 

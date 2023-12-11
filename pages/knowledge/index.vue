@@ -1,16 +1,14 @@
 <template>
   <div id="page-knowledge">
     <mp-header title="知识库" />
-    <div v-if="knowledgeStore.inited === false" class="el-icon is-loading">
-      <mp-icon name="loading" />
-    </div>
-    <main v-else>
+    <main v-if="knowledgeStore.inited">
       <nuxt-link :to="`/knowledge/${knowledge.id}`" v-for="knowledge in knowledgeStore.list">
         {{ knowledge.title }}
       </nuxt-link>
       <br />
       <el-button @click="addKnowledge">添加</el-button>
     </main>
+    <mp-loading v-else />
   </div>
 </template>
 

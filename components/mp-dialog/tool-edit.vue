@@ -42,6 +42,10 @@
         />
       </el-form-item>
 
+      <el-form-item label="排名（选填）">
+        <el-input-number v-model="form.top" :min="0" :max="1000" />
+      </el-form-item>
+
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
         <el-button type="primary" @click="toolSave">确认</el-button>
@@ -70,31 +74,31 @@ const form = reactive({
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
+  top: 1000,
+  tags: [] as string[]
 })
 
 const toolSave = () => {
-  if (!formElement.value) return
-  formElement.value.validate(async (ok: boolean) => {
-    if (ok) {
-      form.loading = true
-
-      let logoDel = toolStore.tools[form.id]?.logoDel
-      if (form.logoFile && !form.logo.startsWith('blob:')) {
-        logoDel = form.logo
-      }
-      toolStore.tools[form.id] = {
-        id: form.id,
-        title: form.title,
-        logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
-        url: form.url,
-        intro: form.intro || '',
-        logoFile: form.logoFile,
-        logoDel,
-      }
-
-      $emit('close')
-    }
-  })
+  // if (!formElement.value) return
+  // formElement.value.validate(async (ok: boolean) => {
+  //   if (ok) {
+  //     form.loading = true
+  //     let logoDel = toolStore.tools[form.id]?.logoDel
+  //     if (form.logoFile && !form.logo.startsWith('blob:')) {
+  //       logoDel = form.logo
+  //     }
+  //     toolStore.tools[form.id] = {
+  //       id: form.id,
+  //       title: form.title,
+  //       logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
+  //       url: form.url,
+  //       intro: form.intro || '',
+  //       logoFile: form.logoFile,
+  //       logoDel,
+  //     }
+  //     $emit('close')
+  //   }
+  // })
 }
 
 onUpdated(() => {
@@ -102,23 +106,27 @@ onUpdated(() => {
   if (tool) {
     // 编辑
     form.isAdd = false
-
+    // 加载状态
     form.id = tool.id
-    form.title = tool.title
-    form.logo = tool.logo
     form.url = tool.url
+    form.title = tool.title
     form.intro = tool.intro
+    form.logo = tool.logo
     form.logoFile = tool.logoFile
+    form.top = tool.top || 1000
+    form.tags = tool.tags || []
   } else {
     // 添加
     form.isAdd = true
     // 重置状态
     form.id = 0
-    form.title = ''
-    form.logo = ''
     form.url = ''
+    form.title = ''
     form.intro = ''
+    form.logo = ''
     form.logoFile = undefined
+    form.top = 1000
+    form.tags = []
   }
   form.loading = false
 })

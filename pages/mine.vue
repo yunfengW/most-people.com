@@ -21,6 +21,7 @@
         </nuxt-link>
       </div>
     </template>
+    <mp-loading v-else/>
   </div>
 </template>
 
