@@ -1,5 +1,9 @@
 <template>
-  <mp-dialog class="mp-dialog-tool-edit" :title="form.isAdd ? '添加工具' : '编辑工具'">
+  <mp-dialog
+    class="mp-dialog-tool-edit"
+    :title="form.isAdd ? '添加工具' : '编辑工具'"
+    :close-on-click-modal="false"
+  >
     <div class="how-to-use" v-if="!form.isAdd">
       <nuxt-link :to="`/tool/${form.id}`" target="_blank">使用指南</nuxt-link>
     </div>
@@ -13,16 +17,16 @@
       </el-form-item>
 
       <el-form-item
-        prop="id"
-        :rules="[{ required: true, trigger: 'blur', message: '请输入工具 logo' }]"
+        prop="logo"
+        :rules="[{ required: true, trigger: 'blur', message: '请上传 Logo' }]"
         label="Logo"
       >
         <mp-upload :url="form.logo" @change="(file) => (form.logoFile = file)" />
       </el-form-item>
 
       <el-form-item
-        prop="id"
-        :rules="[{ required: true, trigger: 'blur', message: '请输入工具网址' }]"
+        prop="url"
+        :rules="[{ required: true, trigger: 'blur', message: '请输入网址' }]"
         label="网址「most-people」"
       >
         <el-input
@@ -48,7 +52,7 @@
 
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
-        <el-button type="primary" @click="toolSave">确认</el-button>
+        <el-button type="primary" :loading="form.loading" @click="toolSave">确认</el-button>
       </div>
     </el-form>
   </mp-dialog>
@@ -56,12 +60,15 @@
 
 <script setup lang="ts">
 import type { FormInstance } from 'element-plus'
+import api from '~/utils/api'
 
 interface Props {
   tool_id: number
 }
 const $props = defineProps<Props>()
 const $emit = defineEmits(['close'])
+
+const router = useRouter()
 
 const toolStore = useToolStore()
 const formElement = ref<FormInstance>()
@@ -75,30 +82,75 @@ const form = reactive({
   loading: false,
   isAdd: false,
   top: 1000,
-  tags: [] as string[]
 })
 
+const uploadLogo = async (file: File) => {
+  const { id, logo } = form
+  // 创建FormData对象
+  const formData = new FormData()
+  // 'file'是要上传的文件字段名，file是要上传的文件对象
+  formData.append('file', file)
+  formData.append('id', String(id))
+  formData.append('logo', logo)
+  const res = await api({
+    method: 'put',
+    url: '/data/tool.logo.update',
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  if (res.data?.statusCode === 1004) {
+    router.push('/login')
+    return
+  }
+  if (res.data) {
+    const url = new URL(res.data)
+    url.searchParams.set('t', String(Date.now()))
+    return url.href
+  }
+}
+
+const updateTool = async () => {
+  const tool = toolStore.tools[$props.tool_id]
+  if (tool) {
+    tool.title = form.title
+    tool.url = form.url
+    tool.intro = form.intro
+    tool.logo = form.logo
+    tool.top = form.top
+  }
+  const res = await api({
+    method: 'put',
+    url: '/tool/update',
+    data: tool,
+  })
+  if (res.data?.statusCode === 1004) {
+    router.push('/login')
+    return
+  }
+  if (res.data === true) {
+    mp.success('保存成功')
+  }
+  $emit('close')
+}
+
 const toolSave = () => {
-  // if (!formElement.value) return
-  // formElement.value.validate(async (ok: boolean) => {
-  //   if (ok) {
-  //     form.loading = true
-  //     let logoDel = toolStore.tools[form.id]?.logoDel
-  //     if (form.logoFile && !form.logo.startsWith('blob:')) {
-  //       logoDel = form.logo
-  //     }
-  //     toolStore.tools[form.id] = {
-  //       id: form.id,
-  //       title: form.title,
-  //       logo: form.logoFile ? URL.createObjectURL(form.logoFile!) : form.logo,
-  //       url: form.url,
-  //       intro: form.intro || '',
-  //       logoFile: form.logoFile,
-  //       logoDel,
-  //     }
-  //     $emit('close')
-  //   }
-  // })
+  if (!formElement.value) return
+  formElement.value.validate(async (ok: boolean) => {
+    if (ok) {
+      form.loading = true
+      // 上传 logo
+      if (form.logoFile) {
+        const logo = await uploadLogo(form.logoFile)
+        if (!logo) {
+          mp.error('logo 上传失败')
+          return
+        }
+        form.logo = logo
+      }
+      // 更新 tool
+      updateTool()
+    }
+  })
 }
 
 onUpdated(() => {
@@ -112,9 +164,7 @@ onUpdated(() => {
     form.title = tool.title
     form.intro = tool.intro
     form.logo = tool.logo
-    form.logoFile = tool.logoFile
     form.top = tool.top || 1000
-    form.tags = tool.tags || []
   } else {
     // 添加
     form.isAdd = true
@@ -124,11 +174,13 @@ onUpdated(() => {
     form.title = ''
     form.intro = ''
     form.logo = ''
-    form.logoFile = undefined
     form.top = 1000
-    form.tags = []
   }
   form.loading = false
+  // 移除校验结果
+  if (formElement.value) {
+    formElement.value.clearValidate()
+  }
 })
 </script>
 

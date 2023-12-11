@@ -57,61 +57,6 @@ export const useTool = () => {
     tool_id.value = id
   }
 
-  const publish = async () => {
-    mp.info('维护中...')
-    // 处理需要上传的图片
-    // for (const key in toolStore.tools) {
-    //   const tool = toolStore.tools[key]
-    //   if (tool.logo.startsWith('blob:')) {
-    //     const file = tool.logoFile
-    //     if (file) {
-    //       // 创建FormData对象
-    //       const formData = new FormData()
-    //       // 'file'是要上传的文件字段名，file是要上传的文件对象
-    //       formData.append('file', file)
-    //       formData.append('id', String(tool.id))
-    //       formData.append('logoDel', tool.logoDel || '')
-    //       const res = await api({
-    //         method: 'put',
-    //         url: '/data/tool.logo.update',
-    //         data: formData,
-    //         headers: { 'Content-Type': 'multipart/form-data' },
-    //       })
-    //       if (res.data?.statusCode === 1004) {
-    //         router.push('/login')
-    //         return
-    //       }
-    //       if (res.data) {
-    //         const url = new URL(res.data)
-    //         url.searchParams.set('t', String(Date.now()))
-    //         tool.logo = url.href
-    //         delete tool.logoFile
-    //         delete tool.logoDel
-    //       }
-    //     }
-    //   }
-    // }
-    // // 保存
-    // const tools: Tools = JSON.parse(JSON.stringify(toolStore.tools))
-    // const toolsTop = JSON.parse(JSON.stringify(toolStore.toolsTop))
-
-    // const res = await api({
-    //   method: 'put',
-    //   url: '/tool/update.tools',
-    //   data: {
-    //     toolList: Object.values(tools),
-    //     toolsTop,
-    //   },
-    // })
-    // if (res.data?.statusCode === 1004) {
-    //   router.push('/login')
-    //   return
-    // }
-    // if (res.data === true) {
-    //   mp.success('发布成功！')
-    // }
-  }
-
   return {
     toolStore,
     bindTool,

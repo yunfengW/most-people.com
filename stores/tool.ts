@@ -8,8 +8,6 @@ export interface Tool extends Note {
   // 一句话介绍
   intro?: string
   // logo 上传
-  logoFile?: File
-  logoDel?: string
 }
 export interface Tools {
   [key: string]: Tool
