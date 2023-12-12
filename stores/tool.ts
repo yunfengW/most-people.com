@@ -11,15 +11,14 @@ export interface Tool extends Note {
 export interface Tools {
   [key: string]: Tool
 }
-export interface ToolsTop {
-  title: string
-  list: number[]
+export interface Top {
+  name: string
+  tools: number[]
 }
 
 interface ToolStore {
   tools: Tools
-  toolList: Tool[]
-  toolsTop: ToolsTop[]
+  toolTops: Top[]
   tab: 'top' | 'all'
 }
 
@@ -28,11 +27,28 @@ export const useToolStore = defineStore({
   state: (): ToolStore => {
     return {
       tools,
-      toolsTop: [],
-      toolList: [],
+      toolTops: [],
       tab: 'top',
     }
   },
   getters: {},
-  actions: {},
+  actions: {
+    initTops(list: Tool[]) {
+      const tops: Top[] = []
+      for (const tool of list) {
+        for (const tag of tool.tags) {
+          const i = tops.findIndex((top) => top.name === tag)
+          if (i === -1) {
+            tops.push({
+              name: tag,
+              tools: [tool.id],
+            })
+          } else {
+            tops[i].tools.push(tool.id)
+          }
+        }
+      }
+      this.toolTops = tops
+    },
+  },
 })

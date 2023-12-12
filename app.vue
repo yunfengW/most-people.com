@@ -24,6 +24,7 @@ const initTools = async () => {
       tools[tool.id] = tool
     }
     toolStore.tools = tools
+    toolStore.initTops(list)
   })
 }
 if (process.client) {

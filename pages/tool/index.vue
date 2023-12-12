@@ -12,32 +12,28 @@
     </div>
 
     <div v-show="toolStore.tab === 'top'" class="top-box">
-      <div class="top" v-for="(top, index) in toolStore.toolsTop">
-        <h4>
-          <span>{{ top.title }}</span>
-          <mp-icon name="edit" @click="topEdit(index)" />
-        </h4>
-        <div class="ul">
-          <client-only>
-            <template v-for="(id, i) in top.list">
+      <template v-for="(top, index) in allTops">
+        <div class="top">
+          <h4>
+            <span>{{ top.name }}</span>
+            <mp-icon name="edit" @click="topEdit(index)" />
+          </h4>
+          <div class="ul">
+            <template v-for="(id, i) in top.tools">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
-                  <img
-                    class="logo"
-                    :src="toolStore.tools[id]?.logo"
-                    :alt="toolStore.tools[id]?.title"
-                    @click.stop="bindTool(id)"
-                  />
+                  <img class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title"
+                    @click.stop="bindTool(id)" />
                   <div class="name" @click.stop="bindTool(id)">
                     {{ toolStore.tools[id]?.title }}
                   </div>
                 </div>
               </mp-tooltip>
             </template>
-          </client-only>
+          </div>
         </div>
-      </div>
+      </template>
       <div class="top add">
         <mp-icon name="add" @click="topAdd" />
         <span @click="topAdd">添加</span>
@@ -78,6 +74,10 @@ const allTools = computed(() => {
   return Object.values(toolStore.tools)
     .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
     .sort((a, b) => a.top - b.top)
+})
+const allTops = computed(() => {
+  return Object.values(toolStore.toolTops)
+    .filter((e) => e.name.toLowerCase().includes(filter.value.toLowerCase()))
 })
 
 const {
@@ -128,6 +128,7 @@ const {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         .mp-icon {
           cursor: pointer;
           color: #909399;
@@ -160,6 +161,7 @@ const {
             overflow: hidden;
             text-overflow: ellipsis;
             color: var(--el-color-primary);
+
             &:hover {
               color: var(--el-color-primary-dark-2);
             }
@@ -173,10 +175,12 @@ const {
         justify-content: center;
         flex-direction: column;
         align-items: center;
+
         .mp-icon {
           cursor: pointer;
           font-size: 36px;
         }
+
         span {
           cursor: pointer;
         }
@@ -191,6 +195,7 @@ const {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 8px;
     justify-content: space-between;
+
     .tool {
       box-shadow: 0 3px 6px 0 rgba(14, 30, 62, 0.08);
       background-color: #fff;
@@ -212,6 +217,7 @@ const {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
         &:hover {
           color: var(--el-color-primary);
         }
@@ -228,10 +234,12 @@ const {
       display: flex;
       justify-content: center;
       user-select: none;
+
       .mp-icon {
         cursor: pointer;
         padding-right: 4px;
       }
+
       span {
         cursor: pointer;
       }
