@@ -42,7 +42,7 @@
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
       <client-only>
-        <template v-for="tool in Object.values(toolStore.tools)">
+        <template v-for="tool in Object.values(toolStore.tools).sort((a, b) => a.top - b.top)">
           <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.title" />

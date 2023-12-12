@@ -47,7 +47,7 @@
       </el-form-item>
 
       <el-form-item label="排名（选填）">
-        <el-input-number v-model="form.top" :min="0" :max="1000" />
+        <el-input-number v-model="form.top" :min="1" :max="1000" />
       </el-form-item>
 
       <div class="button-box">
@@ -77,7 +77,7 @@ const form = reactive({
   title: '',
   logo: '',
   url: '',
-  intro: '' as undefined | string,
+  intro: '',
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
