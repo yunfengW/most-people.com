@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { ElLoading } from 'element-plus'
 import api from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
 
@@ -117,6 +118,7 @@ export const useUserStore = defineStore({
       if (!this.user) {
         return
       }
+      ElLoading.service({ fullscreen: true })
       indexDB.delUser(this.user.name)
       // this.$reset()
       // this.init()

@@ -3,17 +3,28 @@
     <mp-header title="我的笔记" />
 
     <main v-if="noteStore.inited">
+      <div class="filter">
+        <el-input v-model="filter" placeholder="关键字查询" clearable />
+      </div>
+
       <h4>公开笔记</h4>
       <template v-for="note in publicNotes">
         <nuxt-link :to="`/note/${note.id}`">
-          {{ note.title }}
+          <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
       </template>
       <br />
-      <el-button @click="addNote">添加</el-button>
+
+      <el-link @click="addNote" type="success">
+        <mp-icon name="add" />
+        <span :style="{ marginLeft: '2px' }">添加</span>
+      </el-link>
+
       <h4>加密笔记</h4>
       <template v-for="note in encryptedNotes">
-        <nuxt-link :to="`/note/${note.id}`">{{ note.title }} </nuxt-link>
+        <nuxt-link :to="`/note/${note.id}`">
+          <el-button link>{{ note.title }}</el-button>
+        </nuxt-link>
       </template>
     </main>
     <mp-loading v-else />
@@ -26,12 +37,18 @@ import api from '~/utils/api'
 const noteStore = useNoteStore()
 const userStore = useUserStore()
 
+const filter = ref('')
+
 const publicNotes = computed(() => {
-  return noteStore.notes.filter((note) => !note.content.startsWith('mp://'))
+  return noteStore.notes
+    .filter((note) => !note.content.startsWith('mp://'))
+    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
 })
 
 const encryptedNotes = computed(() => {
-  return noteStore.notes.filter((note) => note.content.startsWith('mp://'))
+  return noteStore.notes
+    .filter((note) => note.content.startsWith('mp://'))
+    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
 })
 
 const addNote = async () => {
@@ -63,9 +80,14 @@ watch(
 #page-user-note.page {
   main {
     width: 100%;
+    .filter {
+      margin: 0 auto 18px;
+      max-width: 240px;
+      width: 100%;
+    }
     a {
       display: inline-flex;
-      padding: 10px;
+      margin: 10px;
     }
   }
 }
