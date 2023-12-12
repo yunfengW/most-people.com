@@ -7,6 +7,10 @@
       <el-tab-pane label="全部" name="all"></el-tab-pane>
     </el-tabs>
 
+    <div class="filter">
+      <el-input v-model="filter" placeholder="关键字查询" clearable />
+    </div>
+
     <div v-show="toolStore.tab === 'top'" class="top-box">
       <div class="top" v-for="(top, index) in toolStore.toolsTop">
         <h4>
@@ -42,7 +46,7 @@
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
       <client-only>
-        <template v-for="tool in Object.values(toolStore.tools).sort((a, b) => a.top - b.top)">
+        <template v-for="tool in allTools">
           <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.title" />
@@ -69,7 +73,15 @@
 useHead({
   title: '万能工具箱',
 })
+
+const allTools = computed(() => {
+  return Object.values(toolStore.tools)
+    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
+    .sort((a, b) => a.top - b.top)
+})
+
 const {
+  filter,
   toolStore,
   bindTool,
   // top
@@ -88,6 +100,12 @@ const {
 <style lang="scss">
 #page-top.page {
   max-width: 100%;
+
+  .filter {
+    max-width: 240px;
+    margin-bottom: 18px;
+    width: 100%;
+  }
 
   .top-box {
     color: #000;

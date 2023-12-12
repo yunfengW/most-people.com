@@ -4,6 +4,7 @@ export const useTool = () => {
   const showTopAdd = ref(false)
   const showTopEdit = ref(false)
   const topIndex = ref(-1)
+  const filter = ref('')
 
   const userStore = useUserStore()
   const toolStore = useToolStore()
@@ -58,6 +59,7 @@ export const useTool = () => {
   }
 
   return {
+    filter,
     toolStore,
     bindTool,
     // top
