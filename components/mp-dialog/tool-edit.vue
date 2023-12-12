@@ -173,11 +173,10 @@ const submit = () => {
     if (ok) {
       form.loading = true
       if (form.isAdd) {
-        await toolAdd()
+        toolAdd()
       } else {
-        await toolSave()
+        toolSave()
       }
-      form.loading = false
     }
   })
 }
