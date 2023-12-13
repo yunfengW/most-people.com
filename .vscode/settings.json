@@ -2,12 +2,14 @@
   "cSpell.words": [
     "axios",
     "composables",
+    "hexlify",
     "iconpark",
     "indexdb",
     "inited",
     "Midjourney",
     "nuxt",
     "pinia",
+    "secp",
     "sogou"
   ]
 }

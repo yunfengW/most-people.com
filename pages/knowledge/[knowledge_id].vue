@@ -100,8 +100,6 @@ if (process.client) {
 
 <style lang="scss">
 #page-knowledge-id.page {
-  min-height: 100vh;
-  background: #fff;
 
   .markdown-empty {
     text-align: center;
@@ -112,9 +110,11 @@ if (process.client) {
     border: 0;
     outline: 0;
     font-size: 28px;
+    line-height: 32px;
     font-weight: 700;
     width: 100%;
     text-align: center;
+    background: #eee;
   }
 }
 </style>
