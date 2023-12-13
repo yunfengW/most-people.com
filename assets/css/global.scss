@@ -23,6 +23,10 @@ a:hover {
   color: var(--el-color-primary-dark-2);
 }
 
+img {
+  object-fit: cover;
+}
+
 html,
 body,
 #__nuxt {

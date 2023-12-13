@@ -102,6 +102,6 @@ onMounted(() => {
 
 <style lang="scss">
 // global
-@import '~/assets/css/app.scss';
+@import '~/assets/css/global.scss';
 @import '~/assets/css/markdown.scss';
 </style>
