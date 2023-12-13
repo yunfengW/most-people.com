@@ -77,7 +77,17 @@ const allTools = computed(() => {
 })
 const allTops = computed(() => {
   return Object.values(toolStore.toolTops)
-    .filter((e) => e.name.toLowerCase().includes(filter.value.toLowerCase()))
+    .filter((e) => {
+      if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
+        return true
+      }
+      for (const id of e.tools) {
+        if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
+          return true
+        }
+      }
+      return false
+    })
 })
 
 const {
