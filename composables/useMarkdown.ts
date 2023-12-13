@@ -30,7 +30,18 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     titleOld: '',
     content: '',
     contentOld: '',
+    // 状态
+    isPublic: true,
+    isPublicOld: true,
     inited: false,
+  })
+
+  const needPublish = computed(() => {
+    return (
+      form.content !== form.contentOld ||
+      form.title !== form.titleOld  ||
+      form.isPublic !== form.isPublicOld
+    )
   })
 
   const render = (md: string) => {
@@ -106,6 +117,7 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
   }
 
   return {
+    needPublish,
     render,
     options,
     markdownElement,

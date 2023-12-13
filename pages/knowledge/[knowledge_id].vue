@@ -1,9 +1,6 @@
 <template>
   <div id="page-knowledge-id" ref="markdownElement">
     <mp-header title="">
-      <template #center>
-        <input class="note-title" v-model="md.form.title" type="text" />
-      </template>
       <template #right>
         <div class="edit" v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
           @click="publish">
@@ -17,12 +14,14 @@
       </template>
     </mp-header>
 
+    <input class="note-title" v-model="md.form.title" type="text" />
+
     <div v-if="md.form.content" v-show="!showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
     <mp-loading v-else-if="!md.form.inited" />
 
     <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">
-        <mp-icon name="close" />
+        <mp-icon name="edit-back" />
       </div>
 
       <div class="preview markdown-box" v-html="md.render(md.form.content)"></div>
@@ -101,28 +100,21 @@ if (process.client) {
 
 <style lang="scss">
 #page-knowledge-id.page {
+  min-height: 100vh;
+  background: #fff;
+
   .markdown-empty {
     text-align: center;
   }
 
-  .mp-header {
-    .center {
-      width: 100%;
-
-      .note-title {
-        text-align: center;
-        background: transparent;
-        border: 0;
-        outline: 0;
-        font-size: 16px;
-        width: 100%;
-        background: #eee;
-      }
-    }
-
-    .right {
-      flex-shrink: 0;
-    }
+  .note-title {
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 28px;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
   }
 }
 </style>

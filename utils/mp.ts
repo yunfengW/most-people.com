@@ -10,6 +10,7 @@ import {
 } from 'ethers'
 import dayjs from 'dayjs'
 import elliptic from 'elliptic'
+import { indexDB } from '~/utils/api/indexdb'
 
 declare global {
   interface Window {
@@ -41,7 +42,7 @@ const mp = {
     const wallet = new Wallet(privateKey)
     const address = wallet.address
     const { publicKey, compressedPublicKey } = new SigningKey(privateKey)
-    
+
     // token
     const message = String(dayjs().unix())
     const sig = await wallet.signMessage(message)
@@ -63,9 +64,12 @@ const mp = {
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
     if (!key) {
-      console.error('not found key')
+      key = await indexDB.getKey()
+    }
+    if (!key) {
       return ''
     }
+
     const version = 'mp://1'
     const iv = String(Date.now())
     const encryptedBytes = await window.crypto.subtle.encrypt(
@@ -82,7 +86,13 @@ const mp = {
     return encrypted.join('.')
   },
   // 解密
-  async decrypt(encrypted: string, key: CryptoKey) {
+  async decrypt(encrypted: string, key?: CryptoKey) {
+    if (!key) {
+      key = await indexDB.getKey()
+    }
+    if (!key) {
+      return ''
+    }
     const [version, iv, data] = encrypted.split('.')
     if (version !== 'mp://1') {
       console.error('version error')

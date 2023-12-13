@@ -25,7 +25,7 @@
 
     <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">
-        <mp-icon name="close" />
+        <mp-icon name="edit-back" />
       </div>
 
       <div class="preview markdown-box" v-html="md.render(md.form.content)"></div>

@@ -91,4 +91,15 @@ export const indexDB = {
       }
     })
   },
+  
+  // 获取用户 key
+  async getKey() {
+    const username = window.localStorage.getItem('username')
+    if (username) {
+      const userDB = await indexDB.getUser(username)
+      if (userDB) {
+        return userDB.key
+      }
+    }
+  },
 }

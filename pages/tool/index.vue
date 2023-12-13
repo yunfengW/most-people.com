@@ -16,7 +16,7 @@
         <div class="top">
           <h4>
             <span>{{ top.name }}</span>
-            <mp-icon name="edit" @click="topEdit(index)" />
+            <!-- <mp-icon name="edit" @click="topEdit(index)" /> -->
           </h4>
           <div class="ul">
             <template v-for="(id, i) in top.tools">
