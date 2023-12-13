@@ -34,18 +34,27 @@ export const useToolStore = defineStore({
   getters: {},
   actions: {
     initTops(list: Tool[]) {
-      const tops: Top[] = []
+      const tops: Top[] = [
+        {
+          name: '未分类',
+          tools: [],
+        },
+      ]
       for (const tool of list) {
-        for (const tag of tool.tags) {
-          const i = tops.findIndex((top) => top.name === tag)
-          if (i === -1) {
-            tops.push({
-              name: tag,
-              tools: [tool.id],
-            })
-          } else {
-            tops[i].tools.push(tool.id)
+        if (tool.tags.length > 0) {
+          for (const tag of tool.tags) {
+            const i = tops.findIndex((top) => top.name === tag)
+            if (i === -1) {
+              tops.push({
+                name: tag,
+                tools: [tool.id],
+              })
+            } else {
+              tops[i].tools.push(tool.id)
+            }
           }
+        } else {
+          tops[0].tools.push(tool.id)
         }
       }
       this.toolTops = tops

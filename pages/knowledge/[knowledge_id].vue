@@ -5,11 +5,8 @@
         <input class="note-title" v-model="md.form.title" type="text" />
       </template>
       <template #right>
-        <div
-          class="edit"
-          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
-          @click="publish"
-        >
+        <div class="edit" v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
+          @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -20,30 +17,16 @@
       </template>
     </mp-header>
 
-    <div
-      v-if="md.form.content"
-      v-show="!showEdit"
-      class="mp-markdown-box"
-      v-html="md.render(md.form.content)"
-    ></div>
-    <mp-loading v-else-if="!md.form.inited"/>
+    <div v-if="md.form.content" v-show="!showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
+    <mp-loading v-else-if="!md.form.inited" />
 
     <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
       <div class="close" @click="showEdit = false">
         <mp-icon name="close" />
       </div>
 
-      <div
-        class="preview markdown-box"
-        ref="markdownElement"
-        v-html="md.render(md.form.content)"
-      ></div>
-      <monaco-editor
-        class="editor"
-        v-model="md.form.content"
-        lang="markdown"
-        :options="md.options"
-      />
+      <div class="preview markdown-box" v-html="md.render(md.form.content)"></div>
+      <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="md.options" />
     </div>
   </div>
 </template>
@@ -107,7 +90,9 @@ const init = async () => {
   }
 }
 
-const md = useMarkdown()
+const markdownElement = ref<HTMLDivElement>()
+const md = useMarkdown(markdownElement)
+
 
 if (process.client) {
   init()
@@ -123,6 +108,7 @@ if (process.client) {
   .mp-header {
     .center {
       width: 100%;
+
       .note-title {
         text-align: center;
         background: transparent;
@@ -133,6 +119,7 @@ if (process.client) {
         background: #eee;
       }
     }
+
     .right {
       flex-shrink: 0;
     }

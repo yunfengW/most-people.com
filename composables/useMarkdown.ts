@@ -13,9 +13,7 @@ const marked = new Marked(
   }),
 )
 
-export const useMarkdown = () => {
-  const markdownElement = ref<HTMLDivElement>()
-
+export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) => {
   // editor options
   const options: any = {
     tabSize: 2,
@@ -46,8 +44,6 @@ export const useMarkdown = () => {
         mi.innerHTML = `<span>${encrypted}</span><input placeholder="输入密码" /><a>解密</a>`
       }
     })
-
-    // const clean = DOMPurify.sanitize(html, { ADD_TAGS: ['mp-mi'] })
     return html
   }
 
