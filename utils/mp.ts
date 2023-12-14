@@ -1,15 +1,6 @@
-import {
-  toUtf8Bytes,
-  hexlify,
-  toUtf8String,
-  pbkdf2,
-  sha256,
-  getBytes,
-  Wallet,
-  SigningKey,
-} from 'ethers'
+import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes, Wallet } from 'ethers'
 import dayjs from 'dayjs'
-import elliptic from 'elliptic'
+import sodium from 'libsodium-wrappers'
 import { indexDB } from '~/utils/api/indexdb'
 
 declare global {
@@ -29,8 +20,16 @@ const mp = {
     const salt = toUtf8Bytes('/mp/' + username)
     const kdf = pbkdf2(p, salt, 1, 256 / 8, 'sha512')
     const privateKey = sha256(kdf)
+    // x25519 key
+    await sodium.ready
+    const seed = sodium.from_string(privateKey)
+    const keyData = sodium.crypto_generichash(32, seed)
+    const keyPair = sodium.crypto_box_seed_keypair(keyData)
 
-    // key
+    const public_key = sodium.to_hex(keyPair.publicKey)
+    const private_key = sodium.to_hex(keyPair.privateKey)
+
+    // AES-GCM key
     const keydata = toUtf8Bytes(privateKey).slice(-32)
     // https://gist.github.com/pedrouid/b4056fd1f754918ddae86b32cf7d803e#aes-gcm
     const key = await window.crypto.subtle.importKey('raw', keydata, { name: 'AES-GCM' }, false, [
@@ -41,26 +40,41 @@ const mp = {
     // address
     const wallet = new Wallet(privateKey)
     const address = wallet.address
-    const { publicKey, compressedPublicKey } = new SigningKey(privateKey)
 
     // token
     const message = String(dayjs().unix())
     const sig = await wallet.signMessage(message)
     const token = [message, sig].join()
 
-    return { key, address, token, privateKey, publicKey, compressedPublicKey }
+    return { key, address, token, privateKey, public_key, private_key }
   },
-  getPublicKey(compressedPublicKey: string) {
-    // 压缩公钥 还原 完整公钥
+
+  encode(text: string, senderPrivateKey: string, receiverPublicKey: string) {
+    const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES)
+    const encrypted = sodium.crypto_box_easy(
+      text,
+      nonce,
+      sodium.from_hex(receiverPublicKey),
+      sodium.from_hex(senderPrivateKey),
+    )
+    return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
+  },
+  decode(encoded: string, senderPublicKey: string, receiverPrivateKey: string) {
     try {
-      const key2 = new elliptic.ec('secp256k1').keyFromPublic(compressedPublicKey.slice(2), 'hex')
-      const publicKey = key2.getPublic().encode('hex', false)
-      return '0x' + publicKey
+      const [nonce, encrypted] = encoded.split('.')
+      const decrypted = sodium.crypto_box_open_easy(
+        sodium.from_base64(encrypted),
+        sodium.from_base64(nonce),
+        sodium.from_hex(senderPublicKey),
+        sodium.from_hex(receiverPrivateKey),
+      )
+      return sodium.to_string(decrypted)
     } catch (error) {
       console.error(error)
     }
     return ''
   },
+
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
     if (!key) {

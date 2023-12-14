@@ -3,12 +3,9 @@
     <mp-header title="个人中心" />
     <template v-if="userStore.inited">
       <div class="mine" v-if="userStore.user">
-        <el-image
-          class="avatar"
-          :src="'https://robohash.org/' + userStore.user.name"
-          fit="cover"
-        ></el-image>
+        <el-image class="avatar" :src="'https://robohash.org/' + userStore.user.name" fit="cover"></el-image>
         <h4>{{ userStore.user.name }}</h4>
+        <span>以太坊地址：{{ userStore.user.address }}</span>
         <el-button type="danger" plain @click="userStore.exit">退出</el-button>
       </div>
       <div v-else class="not-logged-in">
@@ -21,7 +18,7 @@
         </nuxt-link>
       </div>
     </template>
-    <mp-loading v-else/>
+    <mp-loading v-else />
   </div>
 </template>
 
@@ -36,6 +33,7 @@ const userStore = useUserStore()
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    word-break: break-all;
 
     .avatar {
       width: 200px;
@@ -52,6 +50,7 @@ const userStore = useUserStore()
       width: 300px;
     }
   }
+
   .not-logged-in {
     .el-button {
       margin-top: 20px;

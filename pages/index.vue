@@ -23,6 +23,9 @@
           <el-button type="success">知识库</el-button>
         </nuxt-link>
         <template v-if="userStore.user">
+          <nuxt-link to="/url">
+            <el-button type="warning">书签</el-button>
+          </nuxt-link>
           <nuxt-link to="/note">
             <el-button type="primary">笔记</el-button>
           </nuxt-link>
