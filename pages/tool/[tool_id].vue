@@ -28,7 +28,7 @@
         <mp-icon name="edit-back" />
       </div>
 
-      <div class="preview markdown-box" v-html="md.render(md.form.content)"></div>
+      <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
       <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="md.options" />
     </div>
   </div>
