@@ -2,33 +2,34 @@
   <div id="page-note-id" ref="markdownElement">
     <mp-header title="">
       <template #right>
-        <div class="edit" v-show="md.needPublish.value" @click="publish">
+        <div class="edit" @click="publish" v-show="md.needPublish.value">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
-        <div class="edit" @click="showEdit = true">
+        <div class="edit" @click="md.form.showEdit = true" v-show="!readonly">
           <span>编辑</span>
           <mp-icon name="edit" />
         </div>
       </template>
     </mp-header>
 
-    <input class="note-title" v-model="md.form.title" placeholder="输入标题" />
+    <input class="note-title" v-model="md.form.title" placeholder="输入标题" :readonly="readonly" />
     <div class="note-public">
       <span>是否公开：</span>
-      <el-switch v-model="md.form.isPublic" inline-prompt active-text="公开" inactive-text="私有" size="large" />
+      <el-switch v-model="md.form.isPublic" inline-prompt active-text="公开" inactive-text="私有" size="large"
+        :disabled="readonly" />
     </div>
 
     <template v-if="md.form.content">
 
-      <div v-show="!showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
+      <div v-show="!md.form.showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
     </template>
     <div v-else-if="!md.form.inited" class="el-icon is-loading">
       <mp-icon name="loading" />
     </div>
 
-    <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
-      <div class="close" @click="showEdit = false">
+    <div class="mp-markdown-editor" :class="{ 'show-edit': md.form.showEdit }">
+      <div class="close" @click="md.form.showEdit = false">
         <mp-icon name="edit-back" />
       </div>
 
@@ -47,8 +48,6 @@ const route = useRoute()
 const router = useRouter()
 const note_id = (route.params.note_id || '') as string
 const noteStore = useNoteStore()
-
-const showEdit = ref(false)
 
 const publish = async () => {
   let text = md.form.content
@@ -96,6 +95,10 @@ const decrypt = async (content: string) => {
   }
   return content || '# 新建笔记\n点击右上角 开启编辑'
 }
+const user_id = ref(0)
+const readonly = computed(() => {
+  return useUserStore().user?.id !== user_id.value
+})
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
@@ -103,16 +106,21 @@ const init = async () => {
   if (res.data?.id) {
     const note: Note = res.data
 
-    const text = await decrypt(note.content)
 
+    const text = await decrypt(note.content)
+    // 内容
     md.form.content = text
     md.form.contentOld = text
+    // 标题
+    useHead({ title: note.title })
     md.form.title = note.title
     md.form.titleOld = note.title
     // 是否公开
     const isPublic = note.content.startsWith('mp://') === false
     md.form.isPublic = isPublic
     md.form.isPublicOld = isPublic
+    // 用户
+    user_id.value = note.user_id
   } else {
     mp.error('笔记不存在')
     router.back()

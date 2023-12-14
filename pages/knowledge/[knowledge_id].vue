@@ -14,7 +14,7 @@
       </template>
     </mp-header>
 
-    <input class="note-title" v-model="md.form.title" type="text" />
+    <input class="note-title" v-model="md.form.title" placeholder="输入标题" />
 
     <div v-if="md.form.content" v-show="!showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
     <mp-loading v-else-if="!md.form.inited" />

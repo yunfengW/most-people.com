@@ -34,12 +34,13 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     isPublic: true,
     isPublicOld: true,
     inited: false,
+    showEdit: false,
   })
 
   const needPublish = computed(() => {
     return (
       form.content !== form.contentOld ||
-      form.title !== form.titleOld  ||
+      form.title !== form.titleOld ||
       form.isPublic !== form.isPublicOld
     )
   })
