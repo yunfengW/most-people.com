@@ -28,6 +28,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   title: '',
 })
+if (props.title) {
+  useHead({ title: props.title })
+}
 
 const back = () => {
   if (userStore.firstPath === route.path) {
@@ -47,19 +50,22 @@ const back = () => {
   justify-content: space-between;
   width: 100%;
   padding-bottom: 20px;
-  > .left {
+
+  >.left {
     display: flex;
     align-items: center;
 
-    > .mp-icon {
+    >.mp-icon {
       cursor: pointer;
       font-size: 22px;
       padding-right: 10px;
+
       &:hover {
         color: #e30002;
       }
     }
-    > .line {
+
+    >.line {
       margin: 0 16px 0 6px;
       background: #dcdfe6;
       width: 1px;
@@ -67,16 +73,17 @@ const back = () => {
     }
   }
 
-  > .right {
+  >.right {
     display: flex;
     align-items: center;
+
     .edit {
       cursor: pointer;
       display: flex;
       align-items: center;
       color: #909399;
 
-      & + .edit {
+      &+.edit {
         margin-left: 20px;
       }
 
@@ -91,5 +98,4 @@ const back = () => {
       }
     }
   }
-}
-</style>
+}</style>

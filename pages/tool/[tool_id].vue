@@ -49,6 +49,7 @@ const showEdit = ref(false)
 const toolName = computed(() => {
   const tool = toolStore.tools[tool_id]
   if (tool?.title) {
+    useHead({ title: tool.title })
     return tool.title
   }
   return ''

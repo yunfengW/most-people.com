@@ -57,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+
 const { form, formElement, register, checkUsername, checkPassword, checkConfirmPassword } =
   useRegister()
 </script>

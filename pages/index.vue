@@ -14,11 +14,8 @@
       <mp-icon name="setting" @click="showSetting = true" />
       <main v-show="showSetting">
         <div class="mine">
-          <el-image
-            class="avatar"
-            :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
-            fit="cover"
-          ></el-image>
+          <el-image class="avatar" :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
+            fit="cover"></el-image>
           <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
         </div>
 
@@ -52,40 +49,19 @@
       </div>
     </div>
 
-    <div
-      class="search"
-      :class="{ 'show-sug': userStore.sugList.length > 0 && inputFocus, 'is-focus': inputFocus }"
-    >
+    <div class="search" :class="{ 'show-sug': userStore.sugList.length > 0 && inputFocus, 'is-focus': inputFocus }">
       <div ref="sugElement"></div>
 
-      <div
-        class="intelligence"
-        v-show="userStore.sugList.length > 0 && inputFocus"
-        @mouseout="userStore.sugIndex = -1"
-      >
-        <div
-          class="one"
-          v-for="(sug, i) in userStore.sugList"
-          @mouseover="userStore.sugIndex = i"
-          :class="{ active: userStore.sugIndex === i }"
-          @mousedown.prevent="send(sug)"
-        >
+      <div class="intelligence" v-show="userStore.sugList.length > 0 && inputFocus" @mouseout="userStore.sugIndex = -1">
+        <div class="one" v-for="(sug, i) in userStore.sugList" @mouseover="userStore.sugIndex = i"
+          :class="{ active: userStore.sugIndex === i }" @mousedown.prevent="send(sug)">
           {{ sug }}
         </div>
       </div>
 
-      <el-input
-        ref="messageElement"
-        v-model="userStore.message"
-        :placeholder="form.placeholder"
-        autofocus
-        size="large"
-        @input="inputEvent"
-        @focus="inputFocus = true"
-        @blur="inputFocus = false"
-        @keydown="keyDownEvent($event as KeyboardEvent)"
-        @keyup="keyUpEvent"
-      >
+      <el-input ref="messageElement" v-model="userStore.message" :placeholder="form.placeholder" autofocus size="large"
+        @input="inputEvent" @focus="inputFocus = true" @blur="inputFocus = false"
+        @keydown="keyDownEvent($event as KeyboardEvent)" @keyup="keyUpEvent">
         <template #prefix>
           <div class="button microphone" @click.stop="microphone">
             <mp-icon v-if="isListening" class="el-icon is-loading" name="loading" />
@@ -121,6 +97,8 @@
 </template>
 
 <script lang="ts" setup>
+useHead({ title: '动员群众，解决难题' })
+
 const showSetting = ref(false)
 
 const toolStore = useToolStore()
@@ -196,14 +174,14 @@ onMounted(() => {
 
 <style lang="scss">
 #page-index {
-  > .mp-join-us {
+  >.mp-join-us {
     position: absolute;
     left: 10px;
     bottom: 0;
     z-index: 10;
   }
 
-  > .setting-box {
+  >.setting-box {
     user-select: none;
     position: absolute;
     top: 10px;
@@ -212,7 +190,8 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    > .mp-icon-setting {
+
+    >.mp-icon-setting {
       padding: 10px;
       cursor: pointer;
       color: var(--el-color-info);
@@ -222,7 +201,8 @@ onMounted(() => {
         color: var(--el-color-info-light-5);
       }
     }
-    > main {
+
+    >main {
       border-radius: 12px;
       box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
       width: 240px;
@@ -261,7 +241,8 @@ onMounted(() => {
         }
       }
     }
-    > .mask {
+
+    >.mask {
       position: fixed;
       top: 0;
       left: 0;
@@ -297,6 +278,7 @@ onMounted(() => {
         font-size: 24px;
         margin-right: 8px;
       }
+
       &:hover {
         opacity: 1;
       }
@@ -313,6 +295,7 @@ onMounted(() => {
       margin: 20px 22px;
       height: 80px;
       width: 80px;
+
       .el-image {
         width: 100%;
         height: 100%;
@@ -330,6 +313,7 @@ onMounted(() => {
           border-color: #e30002;
         }
       }
+
       &.show-sug {
         .el-input {
           .el-input__wrapper {
@@ -341,6 +325,7 @@ onMounted(() => {
 
     .el-input {
       position: relative;
+
       .el-input__wrapper {
         padding-left: 0;
         padding-right: 0;
@@ -354,6 +339,7 @@ onMounted(() => {
           letter-spacing: 1px;
         }
       }
+
       .button {
         cursor: pointer;
         display: flex;
@@ -405,8 +391,10 @@ onMounted(() => {
     padding: 10px 0;
 
     display: grid;
-    grid-template-columns: repeat(auto-fill, 100px); /* 列宽度 100px */
-    grid-gap: 10px; /* 设置网格间距 */
+    grid-template-columns: repeat(auto-fill, 100px);
+    /* 列宽度 100px */
+    grid-gap: 10px;
+    /* 设置网格间距 */
     justify-content: space-between;
 
     font-size: 14px;
@@ -425,6 +413,7 @@ onMounted(() => {
         width: 40px;
         padding: 2px;
       }
+
       // add del
       .mp-icon-add,
       .mp-icon-del {

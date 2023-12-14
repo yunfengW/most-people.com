@@ -77,6 +77,8 @@ const init = async () => {
   if (res.data?.id) {
     const knowledge: Knowledge = res.data
 
+    useHead({ title: knowledge.title })
+
     const text = knowledge.content || '# 新答案\n点击右上角 开启编辑'
 
     md.form.title = knowledge.title

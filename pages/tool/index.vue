@@ -66,10 +66,6 @@
 </template>
 
 <script setup lang="ts">
-useHead({
-  title: '万能工具箱',
-})
-
 const allTools = computed(() => {
   return Object.values(toolStore.tools)
     .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
