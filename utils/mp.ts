@@ -48,25 +48,32 @@ const mp = {
 
     return { key, address, token, privateKey, public_key, private_key }
   },
-
-  encode(text: string, senderPrivateKey: string, receiverPublicKey: string) {
-    const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES)
-    const encrypted = sodium.crypto_box_easy(
-      text,
-      nonce,
-      sodium.from_hex(receiverPublicKey),
-      sodium.from_hex(senderPrivateKey),
-    )
-    return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
+  // 共享秘钥，对称加密
+  encode(text: string, otherPublicKey: string, myPrivateKey: string) {
+    try {
+      const sharedKey = sodium.crypto_scalarmult(
+        sodium.from_hex(myPrivateKey),
+        sodium.from_hex(otherPublicKey),
+      )
+      const nonce = sodium.randombytes_buf(sodium.crypto_secretbox_NONCEBYTES)
+      const encrypted = sodium.crypto_secretbox_easy(text, nonce, sharedKey)
+      return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
+    } catch (error) {
+      console.error(error)
+    }
+    return ''
   },
-  decode(encoded: string, senderPublicKey: string, receiverPrivateKey: string) {
+  decode(encoded: string, otherPublicKey: string, myPrivateKey: string) {
     try {
       const [nonce, encrypted] = encoded.split('.')
-      const decrypted = sodium.crypto_box_open_easy(
+      const sharedKey = sodium.crypto_scalarmult(
+        sodium.from_hex(myPrivateKey),
+        sodium.from_hex(otherPublicKey),
+      )
+      const decrypted = sodium.crypto_secretbox_open_easy(
         sodium.from_base64(encrypted),
         sodium.from_base64(nonce),
-        sodium.from_hex(senderPublicKey),
-        sodium.from_hex(receiverPrivateKey),
+        sharedKey,
       )
       return sodium.to_string(decrypted)
     } catch (error) {
@@ -74,6 +81,32 @@ const mp = {
     }
     return ''
   },
+  // 非对称加密
+  // encode(text: string, senderPrivateKey: string, receiverPublicKey: string) {
+  //   const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES)
+  //   const encrypted = sodium.crypto_box_easy(
+  //     text,
+  //     nonce,
+  //     sodium.from_hex(receiverPublicKey),
+  //     sodium.from_hex(senderPrivateKey),
+  //   )
+  //   return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
+  // },
+  // decode(encoded: string, senderPublicKey: string, receiverPrivateKey: string) {
+  //   try {
+  //     const [nonce, encrypted] = encoded.split('.')
+  //     const decrypted = sodium.crypto_box_open_easy(
+  //       sodium.from_base64(encrypted),
+  //       sodium.from_base64(nonce),
+  //       sodium.from_hex(senderPublicKey),
+  //       sodium.from_hex(receiverPrivateKey),
+  //     )
+  //     return sodium.to_string(decrypted)
+  //   } catch (error) {
+  //     console.error(error)
+  //   }
+  //   return ''
+  // },
 
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
