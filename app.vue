@@ -21,6 +21,9 @@ const initTools = async () => {
     const list = res.data as Tool[]
     const tools: Tools = {}
     for (const tool of list) {
+      if (!tool.content) {
+        tool.content = ''
+      }
       tools[tool.id] = tool
     }
     toolStore.tools = tools

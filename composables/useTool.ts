@@ -1,9 +1,6 @@
-import api from '~/utils/api'
-
 export const useTool = () => {
-  const showTopAdd = ref(false)
   const showTopEdit = ref(false)
-  const topIndex = ref(-1)
+  const top_edit = ref<Top>()
   const filter = ref('')
 
   const userStore = useUserStore()
@@ -38,10 +35,9 @@ export const useTool = () => {
     router.replace('/')
   }
 
-  const topEdit = (index: number) => {
-    mp.info('维护中...')
-    // showTopEdit.value = true
-    // topIndex.value = index
+  const topEdit = (top: Top) => {
+    showTopEdit.value = true
+    top_edit.value = top
   }
 
   const topAdd = () => {
@@ -63,9 +59,8 @@ export const useTool = () => {
     toolStore,
     bindTool,
     // top
-    showTopAdd,
     showTopEdit,
-    topIndex,
+    top_edit,
     topAdd,
     topEdit,
     // tool

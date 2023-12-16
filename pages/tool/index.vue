@@ -12,19 +12,23 @@
     </div>
 
     <div v-show="toolStore.tab === 'top'" class="top-box">
-      <template v-for="(top, index) in allTops">
+      <template v-for="top in allTops">
         <div class="top">
           <h4>
             <span>{{ top.name }}</span>
-            <!-- <mp-icon name="edit" @click="topEdit(index)" /> -->
+            <mp-icon name="edit" @click="topEdit(top)" />
           </h4>
           <div class="ul">
             <template v-for="(id, i) in top.tools">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
-                  <img class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title"
-                    @click.stop="bindTool(id)" />
+                  <img
+                    class="logo"
+                    :src="toolStore.tools[id]?.logo"
+                    :alt="toolStore.tools[id]?.title"
+                    @click.stop="bindTool(id)"
+                  />
                   <div class="name" @click.stop="bindTool(id)">
                     {{ toolStore.tools[id]?.title }}
                   </div>
@@ -58,9 +62,7 @@
       </div>
     </div>
 
-    <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :topIndex="topIndex" />
-    <mp-dialog-top-add v-model="showTopAdd" @close="showTopAdd = false" />
-
+    <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :top="top_edit" />
     <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :tool_id="tool_id" />
   </div>
 </template>
@@ -72,18 +74,17 @@ const allTools = computed(() => {
     .sort((a, b) => a.top - b.top)
 })
 const allTops = computed(() => {
-  return Object.values(toolStore.toolTops)
-    .filter((e) => {
-      if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
+  return Object.values(toolStore.toolTops).filter((e) => {
+    if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
+      return true
+    }
+    for (const id of e.tools) {
+      if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
         return true
       }
-      for (const id of e.tools) {
-        if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
-          return true
-        }
-      }
-      return false
-    })
+    }
+    return false
+  })
 })
 
 const {
@@ -91,9 +92,8 @@ const {
   toolStore,
   bindTool,
   // top
-  showTopAdd,
   showTopEdit,
-  topIndex,
+  top_edit,
   topEdit,
   topAdd,
   // tool
