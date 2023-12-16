@@ -12,14 +12,21 @@
     </div>
 
     <div v-show="toolStore.tab === 'top'" class="top-box">
-      <template v-for="top in allTops">
+      <template v-for="(top, index) in allTops">
         <div class="top">
           <h4>
-            <span>{{ top.name }}</span>
+            <span>
+              {{ top.name }}
+              <span class="number">{{ index + 1 }}</span>
+            </span>
             <mp-icon name="edit" @click="topEdit(top)" />
           </h4>
           <div class="ul">
-            <template v-for="(id, i) in top.tools">
+            <template
+              v-for="(id, i) in top.tools.sort(
+                (a, b) => toolStore.tools[a]?.top - toolStore.tools[b]?.top,
+              )"
+            >
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
@@ -70,17 +77,29 @@ const allTools = computed(() => {
     .sort((a, b) => a.top - b.top)
 })
 const allTops = computed(() => {
-  return Object.values(toolStore.toolTops).filter((e) => {
-    if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
-      return true
-    }
-    for (const id of e.tools) {
-      if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
+  return Object.values(toolStore.toolTops)
+    .filter((e) => {
+      if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
         return true
       }
-    }
-    return false
-  })
+      for (const id of e.tools) {
+        if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
+          return true
+        }
+      }
+      return false
+    })
+    .sort((a, b) => {
+      let x = 0
+      for (const id of a.tools) {
+        x += toolStore.tools[id].top
+      }
+      let y = 0
+      for (const id of b.tools) {
+        y += toolStore.tools[id].top
+      }
+      return x / a.tools.length - y / b.tools.length
+    })
 })
 
 const {
@@ -129,6 +148,14 @@ const {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        span {
+          > .number {
+            color: rgba(0, 0, 0, 0);
+            margin-left: 4px;
+            font-size: 14px;
+            font-weight: 300;
+          }
+        }
 
         .mp-icon {
           cursor: pointer;
@@ -145,7 +172,7 @@ const {
           align-items: center;
           height: 24px;
 
-          .number {
+          > .number {
             margin-right: 4px;
           }
 
