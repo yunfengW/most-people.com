@@ -40,16 +40,12 @@ export const useTool = () => {
     top_edit.value = top
   }
 
-  const topAdd = () => {
-    mp.info('维护中...')
-    // showTopAdd.value = true
-  }
-
   // tool
   const showToolEdit = ref(false)
   const tool_id = ref(0)
 
   const toolEdit = (id: number) => {
+    // showTopEdit.value = false
     showToolEdit.value = true
     tool_id.value = id
   }

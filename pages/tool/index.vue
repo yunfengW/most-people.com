@@ -38,10 +38,6 @@
           </div>
         </div>
       </template>
-      <div class="top add">
-        <mp-icon name="add" @click="topAdd" />
-        <span @click="topAdd">添加</span>
-      </div>
     </div>
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
@@ -62,7 +58,7 @@
       </div>
     </div>
 
-    <mp-dialog-top-edit v-model="showTopEdit" @close="showTopEdit = false" :top="top_edit" />
+    <mp-dialog-top-edit v-model="showTopEdit" @edit="toolEdit" :top="top_edit" />
     <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :tool_id="tool_id" />
   </div>
 </template>

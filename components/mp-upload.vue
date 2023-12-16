@@ -10,14 +10,11 @@
 interface Props {
   url: string
 }
-
-const $props = withDefaults(defineProps<Props>(), {
-  url: '',
-})
-
-const $emit = defineEmits<{
+const $props = withDefaults(defineProps<Props>(), { url: '' })
+interface Emits {
   (event: 'change', file: File): void
-}>()
+}
+const $emit = defineEmits<Emits>()
 
 const imageUrl = ref($props.url)
 
