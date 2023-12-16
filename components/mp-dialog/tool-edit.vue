@@ -50,6 +50,31 @@
         <el-input-number v-model="form.top" :min="1" :max="1000" />
       </el-form-item>
 
+      <el-form-item label="分类（选填）">
+        <div class="tags">
+          <el-tag
+            v-for="tag in form.tags"
+            :key="tag"
+            closable
+            :disable-transitions="false"
+            @close="removeTag(tag)"
+          >
+            {{ tag }}
+          </el-tag>
+          <el-input
+            v-if="form.showAddTag"
+            ref="addTagElement"
+            v-model="form.newTag"
+            size="small"
+            @keyup.enter="tagAdd"
+            @blur="tagAdd"
+          />
+          <el-button v-else class="button-new-tag ml-1" size="small" @click="tagInputFocus">
+            + 新分类
+          </el-button>
+        </div>
+      </el-form-item>
+
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
         <el-button type="primary" :loading="form.loading" @click="submit">确认</el-button>
@@ -59,8 +84,34 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from 'element-plus'
 import api from '~/utils/api'
+
+import type { FormInstance, ElInput } from 'element-plus'
+
+const addTagElement = ref<InstanceType<typeof ElInput>>()
+
+const removeTag = (tag: string) => {
+  form.tags.splice(form.tags.indexOf(tag), 1)
+}
+
+const tagInputFocus = () => {
+  form.showAddTag = true
+  nextTick(() => {
+    addTagElement.value!.input!.focus()
+  })
+}
+
+const tagAdd = () => {
+  if (form.newTag) {
+    if (form.tags.includes(form.newTag)) {
+      mp.info(`${form.newTag} 已存在`)
+    } else {
+      form.tags.push(form.newTag)
+    }
+  }
+  form.showAddTag = false
+  form.newTag = ''
+}
 
 interface Props {
   tool_id: number
@@ -82,6 +133,9 @@ const form = reactive({
   loading: false,
   isAdd: false,
   top: 1000,
+  tags: [] as string[],
+  newTag: '',
+  showAddTag: false,
 })
 
 const uploadLogo = async (file: File) => {
@@ -131,6 +185,7 @@ const toolSave = async () => {
       top: form.top,
       logo: form.logo,
       intro: form.intro,
+      tags: form.tags,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -139,6 +194,7 @@ const toolSave = async () => {
   }
   if (res.data?.id) {
     toolStore.tools[res.data.id] = res.data
+    toolStore.initTops()
     mp.success('保存成功')
   }
   $emit('close')
@@ -194,6 +250,7 @@ onUpdated(() => {
     form.logo = tool.logo
     form.logoFile = undefined
     form.top = tool.top || 1000
+    form.tags = tool.tags || []
   } else {
     // 添加
     form.isAdd = true
@@ -205,6 +262,7 @@ onUpdated(() => {
     form.logo = ''
     form.logoFile = undefined
     form.top = 1000
+    form.tags = []
   }
   form.loading = false
   // 移除校验结果
@@ -234,6 +292,16 @@ onUpdated(() => {
   .how-to-use {
     text-align: center;
     margin-bottom: 16px;
+  }
+
+  .tags {
+    .el-tag {
+      margin-right: 10px;
+    }
+    .el-button,
+    .el-input {
+      width: 75px;
+    }
   }
 }
 </style>

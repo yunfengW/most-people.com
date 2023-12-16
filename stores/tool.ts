@@ -33,14 +33,16 @@ export const useToolStore = defineStore({
   },
   getters: {},
   actions: {
-    initTops(list: Tool[]) {
+    // 建立索引
+    initTops() {
       const tops: Top[] = [
         {
           name: '未分类',
           tools: [],
         },
       ]
-      for (const tool of list) {
+      for (const id in this.tools) {
+        const tool = this.tools[id]
         if (tool.tags.length > 0) {
           for (const tag of tool.tags) {
             const i = tops.findIndex((top) => top.name === tag)

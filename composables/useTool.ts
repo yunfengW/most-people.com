@@ -45,9 +45,9 @@ export const useTool = () => {
   const tool_id = ref(0)
 
   const toolEdit = (id: number) => {
-    // showTopEdit.value = false
-    showToolEdit.value = true
+    showTopEdit.value = false
     tool_id.value = id
+    showToolEdit.value = true
   }
 
   return {
@@ -57,7 +57,6 @@ export const useTool = () => {
     // top
     showTopEdit,
     top_edit,
-    topAdd,
     topEdit,
     // tool
     showToolEdit,
