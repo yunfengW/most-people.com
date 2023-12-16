@@ -19,7 +19,7 @@
               {{ top.name }}
               <span class="number">{{ index + 1 }}</span>
             </span>
-            <mp-icon name="edit" @click="topEdit(top)" />
+            <mp-icon name="edit" @click="topEdit(top, index + 1)" />
           </h4>
           <div class="ul">
             <template
@@ -65,7 +65,12 @@
       </div>
     </div>
 
-    <mp-dialog-top-edit v-model="showTopEdit" @edit="toolEdit" :top="top_edit" />
+    <mp-dialog-top-edit
+      v-model="showTopEdit"
+      @edit="toolEdit"
+      :top="top_edit"
+      :top_number="top_number"
+    />
     <mp-dialog-tool-edit v-model="showToolEdit" @close="showToolEdit = false" :tool_id="tool_id" />
   </div>
 </template>
@@ -91,14 +96,20 @@ const allTops = computed(() => {
     })
     .sort((a, b) => {
       let x = 0
-      for (const id of a.tools) {
+      const xList = a.tools
+        .sort((a1, b1) => toolStore.tools[a1]?.top - toolStore.tools[b1]?.top)
+        .slice(0, 4)
+      for (const id of xList) {
         x += toolStore.tools[id].top
       }
       let y = 0
-      for (const id of b.tools) {
+      const bList = b.tools
+        .sort((a2, b2) => toolStore.tools[a2]?.top - toolStore.tools[b2]?.top)
+        .slice(0, 4)
+      for (const id of bList) {
         y += toolStore.tools[id].top
       }
-      return x / a.tools.length - y / b.tools.length
+      return x / xList.length - y / bList.length
     })
 })
 
@@ -109,6 +120,7 @@ const {
   // top
   showTopEdit,
   top_edit,
+  top_number,
   topEdit,
   // tool
   showToolEdit,

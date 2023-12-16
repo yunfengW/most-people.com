@@ -1,6 +1,7 @@
 export const useTool = () => {
   const showTopEdit = ref(false)
   const top_edit = ref<Top>()
+  const top_number = ref(0)
   const filter = ref('')
 
   const userStore = useUserStore()
@@ -35,9 +36,10 @@ export const useTool = () => {
     router.replace('/')
   }
 
-  const topEdit = (top: Top) => {
+  const topEdit = (top: Top, index: number) => {
     showTopEdit.value = true
     top_edit.value = top
+    top_number.value = index
   }
 
   // tool
@@ -57,6 +59,7 @@ export const useTool = () => {
     // top
     showTopEdit,
     top_edit,
+    top_number,
     topEdit,
     // tool
     showToolEdit,

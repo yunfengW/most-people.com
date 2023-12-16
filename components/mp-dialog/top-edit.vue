@@ -1,5 +1,5 @@
 <template>
-  <mp-dialog class="mp-dialog-top-edit" :title="form.name" destroy-on-close>
+  <mp-dialog class="mp-dialog-top-edit" :title="form.name + form.index" destroy-on-close>
     <div class="ul">
       <div class="li" v-for="(id, i) in form.tools">
         <span class="number">{{ i + 1 }}</span>
@@ -14,6 +14,7 @@
 <script setup lang="ts">
 interface Props {
   top?: Top
+  top_number?: number
 }
 const $props = defineProps<Props>()
 
@@ -27,6 +28,7 @@ const toolStore = useToolStore()
 const form = reactive({
   name: '',
   tools: [] as number[],
+  index: '',
 })
 
 const toolEdit = (tool_id: number) => {
@@ -38,6 +40,10 @@ onUpdated(() => {
   if (top) {
     form.name = top.name
     form.tools = top.tools.map((e) => e)
+  }
+  const number = $props.top_number
+  if (number) {
+    form.index = ` No.${String(number)}`
   }
 })
 </script>
