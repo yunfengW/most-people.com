@@ -10,5 +10,9 @@
 .el-dialog {
   max-width: 370px;
   width: calc(100% - 60px);
+
+  .el-dialog__body {
+    padding: 20px;
+  }
 }
 </style>

@@ -3,6 +3,11 @@ import { ElLoading } from 'element-plus'
 import api from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
 
+export interface Url {
+  name: string
+  url: string
+  icon?: string
+}
 export interface User {
   id: number
   name: string
@@ -10,7 +15,7 @@ export interface User {
   sign_time: string
   address: string
   tools?: number[]
-  // tool: string
+  urls?: Url[]
 }
 
 interface UserStore {

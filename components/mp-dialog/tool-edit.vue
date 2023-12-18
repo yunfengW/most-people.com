@@ -129,13 +129,14 @@ const form = reactive({
   logo: '',
   url: '',
   intro: '',
+  top: 1000,
+  tags: [] as string[],
+  // 其它状态
+  newTag: '',
+  showAddTag: false,
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
-  top: 1000,
-  tags: [] as string[],
-  newTag: '',
-  showAddTag: false,
 })
 
 const uploadLogo = async (file: File) => {
