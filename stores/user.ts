@@ -15,7 +15,7 @@ export interface User {
   sign_time: string
   address: string
   tools?: number[]
-  urls?: Url[]
+  urls?: string
 }
 
 interface UserStore {
@@ -24,6 +24,7 @@ interface UserStore {
   inited: boolean
   tool_id: number
   tools: number[]
+  urls: Url[]
   message: string
   sugList: string[]
   sugIndex: number
@@ -40,6 +41,7 @@ export const useUserStore = defineStore({
       // current tool
       tool_id: 11,
       tools: [5, 40, 37, 46, 35, 53, 43, 57, 60, 58, 29, 62, 11],
+      urls: [],
       message: '',
       sugList: [],
       sugIndex: -1,
@@ -69,9 +71,17 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    update(user: User, token: string) {
+    async update(user: User, token: string) {
       this.user = user
       window.sessionStorage.setItem('token', token)
+
+      if (user.urls) {
+        try {
+          const json = await mp.decrypt(user.urls)
+          const urls = JSON.parse(json)
+          this.urls = urls
+        } catch (error) {}
+      }
 
       if (user.tools) {
         this.tools = user.tools

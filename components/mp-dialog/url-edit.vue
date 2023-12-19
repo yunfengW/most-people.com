@@ -30,7 +30,11 @@
         <nuxt-link to="/knowledge/70" target="_blank">获取网站图标</nuxt-link>
       </div>
       <div class="url-icon">
-        <img :src="form.icon || '/favicon.ico'" @error="iconError" alt="icon" />
+        <img
+          :src="form.icon || '/favicon.ico'"
+          @error="(event:any)=>event.target.src = '/favicon.ico'"
+          alt="icon"
+        />
       </div>
 
       <el-form-item prop="icon" label="图标">
@@ -69,16 +73,8 @@ const form = reactive({
   isAdd: false,
 })
 
-const iconError = (event: any) => {
-  event.target.src = '/favicon.ico'
-  form.icon = ''
-}
-
 const urlDel = () => {
-  const urls = userStore.user?.urls
-  if (urls) {
-    urls.splice($props.url_index, 1)
-  }
+  userStore.urls.splice($props.url_index, 1)
   updateUrls()
   $emit('close')
 }
@@ -89,10 +85,7 @@ const urlSave = () => {
     url: form.url,
     icon: form.icon,
   }
-  const urls = userStore.user?.urls
-  if (urls) {
-    urls[$props.url_index] = url
-  }
+  userStore.urls[$props.url_index] = url
   updateUrls()
   $emit('close')
 }
@@ -103,23 +96,24 @@ const urlAdd = () => {
     url: form.url,
     icon: form.icon,
   }
-  if (userStore.user) {
-    if (userStore.user.urls) {
-      userStore.user.urls.push(url)
-    } else {
-      userStore.user.urls = [url]
-    }
-  }
+  userStore.urls.push(url)
   updateUrls()
   $emit('close')
 }
 
 const updateUrls = async () => {
-  const urls = userStore.user?.urls
-  if (urls) {
-    const json = JSON.stringify(urls)
-    console.log('🌊', json)
-  }
+  const json = JSON.stringify(userStore.urls)
+  const encrypted = await mp.encrypt(json)
+  api({
+    method: 'post',
+    url: '/user/update',
+    data: { urls: encrypted },
+  }).then((res) => {
+    mp.success('保存成功')
+    if (!res.data) {
+      mp.error('保存出错，请联系管理员')
+    }
+  })
 }
 
 const submit = () => {
@@ -137,8 +131,7 @@ const submit = () => {
 }
 
 onUpdated(() => {
-  const urls = userStore.user?.urls || []
-  const url = urls[$props.url_index]
+  const url = userStore.urls[$props.url_index]
   if (url) {
     // 编辑
     form.isAdd = false

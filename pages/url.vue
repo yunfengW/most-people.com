@@ -8,7 +8,7 @@
 
     <div class="url-box">
       <client-only>
-        <template v-for="(url, index) in userStore.user?.urls || []">
+        <template v-for="(url, index) in userStore.urls">
           <div class="url">
             <img
               class="icon"
