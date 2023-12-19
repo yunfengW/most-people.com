@@ -79,7 +79,9 @@ export const useUserStore = defineStore({
         try {
           const json = await mp.decrypt(user.urls)
           const urls = JSON.parse(json)
-          this.urls = urls
+          if (Array.isArray(urls)) {
+            this.urls = urls
+          }
         } catch (error) {}
       }
 

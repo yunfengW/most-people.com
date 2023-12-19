@@ -16,7 +16,7 @@
               @error="(event:any) => (event.target.src = '/favicon.ico')"
               :alt="url.name"
             />
-            <span class="name" @click.stop="bindUrl(url)">{{ url.name }}</span>
+            <nuxt-link target="_black" :to="url.url">{{ url.name }}</nuxt-link>
             <mp-icon name="edit" @click.stop="urlEdit(index)" />
           </div>
         </template>
