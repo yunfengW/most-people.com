@@ -6,6 +6,14 @@
   >
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item
+        prop="name"
+        :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
+        label="名称"
+      >
+        <el-input v-model.trim="form.name" clearable />
+      </el-form-item>
+
+      <el-form-item
         prop="url"
         :rules="[{ required: true, trigger: 'blur', message: '请输入超链接' }]"
         label="网址"
@@ -18,17 +26,13 @@
         />
       </el-form-item>
 
-      <el-form-item
-        prop="title"
-        :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
-        label="中文"
-      >
-        <el-input v-model.trim="form.name" clearable />
-      </el-form-item>
+      <!-- <div class="how-to-use">
+        <nuxt-link to="/knowledge/70" target="_blank">获取网站图标</nuxt-link>
+      </div>
 
       <el-form-item prop="icon" label="图标">
         <mp-upload :url="form.icon" @change="(file) => (form.iconFile = file)" />
-      </el-form-item>
+      </el-form-item> -->
 
       <div class="button-box">
         <el-button @click="$emit('close')">取消</el-button>
@@ -49,8 +53,6 @@ interface Props {
 const $props = defineProps<Props>()
 const $emit = defineEmits(['close'])
 
-const router = useRouter()
-
 const userStore = useUserStore()
 const formElement = ref<FormInstance>()
 const form = reactive({
@@ -63,89 +65,32 @@ const form = reactive({
   isAdd: false,
 })
 
-const uploadLogo = async (file: File) => {
-  // const { id, logo } = form
-  // // 创建FormData对象
-  // const formData = new FormData()
-  // // 'file'是要上传的文件字段名，file是要上传的文件对象
-  // formData.append('file', file)
-  // formData.append('id', String(id))
-  // formData.append('logo', logo)
-  // const res = await api({
-  //   method: 'put',
-  //   url: '/data/tool.logo.update',
-  //   data: formData,
-  //   headers: { 'Content-Type': 'multipart/form-data' },
-  // })
-  // if (res.data?.statusCode === 1004) {
-  //   router.push('/login')
-  //   return
-  // }
-  // if (res.data) {
-  //   const url = new URL(res.data)
-  //   url.searchParams.set('t', String(Date.now()))
-  //   return url.href
-  // }
+const urlSave = async () => {
+  const url = {
+    name: form.name,
+    url: form.url,
+  }
+  const urls = userStore.user?.urls
+  if (urls) {
+    urls[$props.url_index] = url
+  }
+  $emit('close')
 }
 
-const toolSave = async () => {
-  // // 上传 logo
-  // if (form.logoFile) {
-  //   const logo = await uploadLogo(form.logoFile)
-  //   form.logoFile = undefined
-  //   if (!logo) {
-  //     mp.error('logo 上传失败')
-  //     return
-  //   }
-  //   form.logo = logo
-  // }
-  // // 更新 tool
-  // const res = await api({
-  //   method: 'put',
-  //   url: '/tool/update',
-  //   data: {
-  //     id: form.id,
-  //     title: form.title,
-  //     url: form.url,
-  //     top: form.top,
-  //     logo: form.logo,
-  //     intro: form.intro,
-  //     tags: form.tags,
-  //   },
-  // })
-  // if (res.data?.statusCode === 1004) {
-  //   router.push('/login')
-  //   return
-  // }
-  // if (res.data?.id) {
-  //   toolStore.tools[res.data.id] = res.data
-  //   toolStore.initTops()
-  //   mp.success('保存成功')
-  // }
-  // $emit('close')
-}
+const urlAdd = async () => {
+  const url = {
+    name: form.name,
+    url: form.url,
+  }
 
-const toolAdd = async () => {
-  // 创建
-  // const res = await api({
-  //   method: 'put',
-  //   url: '/tool/add',
-  //   data: {
-  //     title: form.title,
-  //     url: form.url,
-  //     top: form.top,
-  //     intro: form.intro,
-  //     logo: '/favicon.ico',
-  //   },
-  // })
-  // if (res.data?.statusCode === 1004) {
-  //   router.push('/login')
-  //   return
-  // }
-  // if (res.data?.id) {
-  //   form.id = res.data.id
-  //   toolSave()
-  // }
+  if (userStore.user) {
+    if (userStore.user.urls) {
+      userStore.user.urls.push(url)
+    } else {
+      userStore.user.urls = [url]
+    }
+  }
+  $emit('close')
 }
 
 const submit = () => {
@@ -154,9 +99,9 @@ const submit = () => {
     if (ok) {
       form.loading = true
       if (form.isAdd) {
-        toolAdd()
+        urlAdd()
       } else {
-        toolSave()
+        urlSave()
       }
     }
   })
@@ -191,6 +136,10 @@ onUpdated(() => {
 
 <style lang="scss">
 .mp-dialog-url-edit {
+  .how-to-use {
+    text-align: center;
+  }
+
   input,
   textarea {
     font-size: 16px;

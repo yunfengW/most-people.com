@@ -22,6 +22,9 @@
         label="Logo"
       >
         <mp-upload :url="form.logo" @change="(file) => (form.logoFile = file)" />
+        <nuxt-link class="get-icon" to="/knowledge/70" target="_blank">
+          <el-button link>获取网站图标</el-button>
+        </nuxt-link>
       </el-form-item>
 
       <el-form-item
@@ -292,7 +295,10 @@ onUpdated(() => {
 
   .how-to-use {
     text-align: center;
-    margin-bottom: 16px;
+  }
+
+  .get-icon {
+    margin-left: auto;
   }
 
   .tags {

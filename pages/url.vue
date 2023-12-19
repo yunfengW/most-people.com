@@ -10,7 +10,7 @@
       <client-only>
         <template v-for="(url, index) in userStore.user?.urls || []">
           <div class="url">
-            <img class="icon" :src="url.icon" :alt="url.name" />
+            <img class="icon" :src="url.icon || '/favicon.ico'" :alt="url.name" />
             <span class="name" @click.stop="bindUrl(url)">{{ url.name }}</span>
             <mp-icon name="edit" @click.stop="urlEdit(index)" />
           </div>
@@ -71,7 +71,7 @@ const bindUrl = (url: Url) => {
       display: flex;
       align-items: center;
 
-      img.logo {
+      img.icon {
         width: 20px;
         height: 20px;
         margin-right: 6px;
