@@ -10,7 +10,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
         label="名称"
       >
-        <el-input v-model.trim="form.name" clearable />
+        <el-input v-model="form.name" clearable />
       </el-form-item>
 
       <el-form-item
@@ -26,16 +26,20 @@
         />
       </el-form-item>
 
-      <!-- <div class="how-to-use">
+      <div class="how-to-use">
         <nuxt-link to="/knowledge/70" target="_blank">获取网站图标</nuxt-link>
+      </div>
+      <div class="url-icon">
+        <img :src="form.icon || '/favicon.ico'" @error="iconError" alt="icon" />
       </div>
 
       <el-form-item prop="icon" label="图标">
-        <mp-upload :url="form.icon" @change="(file) => (form.iconFile = file)" />
-      </el-form-item> -->
+        <el-input v-model.trim="form.icon" />
+      </el-form-item>
 
       <div class="button-box">
-        <el-button @click="$emit('close')">取消</el-button>
+        <el-button @click="$emit('close')" v-if="form.isAdd">取消</el-button>
+        <el-button type="danger" @click="urlDel" v-else>删除</el-button>
         <el-button type="primary" :loading="form.loading" @click="submit">确认</el-button>
       </div>
     </el-form>
@@ -65,24 +69,40 @@ const form = reactive({
   isAdd: false,
 })
 
-const urlSave = async () => {
+const iconError = (event: any) => {
+  event.target.src = '/favicon.ico'
+  form.icon = ''
+}
+
+const urlDel = () => {
+  const urls = userStore.user?.urls
+  if (urls) {
+    urls.splice($props.url_index, 1)
+  }
+  updateUrls()
+  $emit('close')
+}
+
+const urlSave = () => {
   const url = {
     name: form.name,
     url: form.url,
+    icon: form.icon,
   }
   const urls = userStore.user?.urls
   if (urls) {
     urls[$props.url_index] = url
   }
+  updateUrls()
   $emit('close')
 }
 
-const urlAdd = async () => {
+const urlAdd = () => {
   const url = {
     name: form.name,
     url: form.url,
+    icon: form.icon,
   }
-
   if (userStore.user) {
     if (userStore.user.urls) {
       userStore.user.urls.push(url)
@@ -90,7 +110,16 @@ const urlAdd = async () => {
       userStore.user.urls = [url]
     }
   }
+  updateUrls()
   $emit('close')
+}
+
+const updateUrls = async () => {
+  const urls = userStore.user?.urls
+  if (urls) {
+    const json = JSON.stringify(urls)
+    console.log('🌊', json)
+  }
 }
 
 const submit = () => {
@@ -138,6 +167,16 @@ onUpdated(() => {
 .mp-dialog-url-edit {
   .how-to-use {
     text-align: center;
+  }
+
+  .url-icon {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   input,

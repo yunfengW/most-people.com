@@ -13,7 +13,7 @@
         :rules="[{ required: true, trigger: 'blur', message: '请输入名字' }]"
         label="中文"
       >
-        <el-input v-model.trim="form.title" clearable />
+        <el-input v-model="form.title" clearable />
       </el-form-item>
 
       <el-form-item
@@ -41,12 +41,7 @@
       </el-form-item>
 
       <el-form-item label="一句话介绍（选填）">
-        <el-input
-          v-model.trim="form.intro"
-          type="textarea"
-          :autosize="{ minRows: 2 }"
-          resize="none"
-        />
+        <el-input v-model="form.intro" type="textarea" :autosize="{ minRows: 2 }" resize="none" />
       </el-form-item>
 
       <el-form-item label="排名（选填）">

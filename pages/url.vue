@@ -10,7 +10,12 @@
       <client-only>
         <template v-for="(url, index) in userStore.user?.urls || []">
           <div class="url">
-            <img class="icon" :src="url.icon || '/favicon.ico'" :alt="url.name" />
+            <img
+              class="icon"
+              :src="url.icon || '/favicon.ico'"
+              @error="(event:any) => (event.target.src = '/favicon.ico')"
+              :alt="url.name"
+            />
             <span class="name" @click.stop="bindUrl(url)">{{ url.name }}</span>
             <mp-icon name="edit" @click.stop="urlEdit(index)" />
           </div>
