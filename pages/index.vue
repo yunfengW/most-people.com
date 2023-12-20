@@ -1,6 +1,6 @@
 <template>
   <div id="page-index">
-    <mp-header />
+    <mp-header title="" />
 
     <div class="join-us">
       <nuxt-link to="/join-us">
@@ -96,6 +96,7 @@
 useHead({ title: 'Most People | 动员群众，解决难题' })
 
 const toolStore = useToolStore()
+const knowledgeStore = useKnowledgeStore()
 
 const {
   userStore,
@@ -125,18 +126,7 @@ const inputEvent = () => {
     userStore.sugIndex = -1
     return
   }
-  // 缓存关键字
-  const url = 'https://sor.html5.qq.com/api/getsug?key=' + encodeURI(v)
-  const script = document.createElement('script')
-  script.src = url
-
-  const sug = sugElement.value
-  if (sug) {
-    for (const e of sug.children) {
-      e.remove()
-    }
-    sug.appendChild(script)
-  }
+  console.log('🌊', v)
 }
 
 const keyDownEvent = (event: KeyboardEvent) => {

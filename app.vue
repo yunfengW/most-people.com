@@ -34,42 +34,19 @@ if (process.client) {
   initTools()
 }
 
-// const initZoom = () => {
-//   // 获取屏幕宽度和高度
-//   const screenWidth =
-//     window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
-//   const screenHeight =
-//     window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
-
-//   // 计算缩放比例
-//   const scaleRatio = Math.min(1920 / screenWidth, 1080 / screenHeight) // 假设参考分辨率为 1920x1080
-
-//   // 计算缩放级别
-//   const zoomLevel = 1 / scaleRatio
-
-//   const zoom = String(zoomLevel > 1 ? zoomLevel : 1)
-
-//   // 应用缩放级别
-//   document.body.style.setProperty('zoom', zoom)
-// }
-
 onBeforeMount(() => {
-  // 屏幕缩放
-  // initZoom()
-  // window.addEventListener('resize', initZoom)
-
   // indexDB
   indexDB.init().then(() => {
     userStore.init()
   })
 
   // 搜狗 jsonp 提示
-  window.sogou = {
-    sug(data) {
-      userStore.sugList = data[1]
-      userStore.sugIndex = -1
-    },
-  }
+  // window.sogou = {
+  //   sug(data) {
+  //     userStore.sugList = data[1]
+  //     userStore.sugIndex = -1
+  //   },
+  // }
 })
 
 onMounted(() => {
