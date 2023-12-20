@@ -64,16 +64,16 @@ const addNote = async () => {
   }
 }
 
-onBeforeMount(() => {
-  noteStore.init()
-})
+// onBeforeMount(() => {
+//   noteStore.init()
+// })
 
-watch(
-  () => userStore.user,
-  () => {
-    noteStore.init()
-  },
-)
+// watch(
+//   () => userStore.user,
+//   () => {
+//     noteStore.init()
+//   },
+// )
 </script>
 
 <style lang="scss">

@@ -26,23 +26,29 @@
 
     <div
       class="search"
-      :class="{ 'show-sug': userStore.sugList.length > 0 && inputFocus, 'is-focus': inputFocus }"
+      :class="{
+        'show-sug': userStore.getSearchList.length > 0 && inputFocus,
+        'is-focus': inputFocus,
+      }"
     >
       <div ref="sugElement"></div>
 
       <div
         class="intelligence"
-        v-show="userStore.sugList.length > 0 && inputFocus"
+        v-show="userStore.getSearchList.length > 0 && inputFocus"
         @mouseout="userStore.sugIndex = -1"
       >
         <div
           class="one"
-          v-for="(search, i) in userStore.sugList"
+          v-for="(search, i) in userStore.getSearchList"
           @mouseover="userStore.sugIndex = i"
           :class="{ active: userStore.sugIndex === i }"
-          @mousedown.prevent="send(search.name)"
+          @mousedown.prevent="bindSearch(search)"
         >
-          {{ search.name }}
+          <span>{{ search.name }}</span>
+          <el-tag v-if="searchTag[search.type].name" :type="(searchTag[search.type].type as any)">
+            {{ searchTag[search.type].name }}
+          </el-tag>
         </div>
       </div>
 
@@ -52,7 +58,7 @@
         :placeholder="form.placeholder"
         autofocus
         size="large"
-        @input="inputEvent"
+        @input="userStore.inputSearch"
         @focus="inputFocus = true"
         @blur="inputFocus = false"
         @keydown="keyDownEvent($event as KeyboardEvent)"
@@ -65,7 +71,11 @@
           </div>
         </template>
         <template #suffix>
-          <div class="button send" :class="{ disabled: !userStore.message }" @click.stop="send()">
+          <div
+            class="button send"
+            :class="{ disabled: !userStore.message }"
+            @click.stop="bindSearch()"
+          >
             <mp-icon name="send" />
           </div>
         </template>
@@ -95,8 +105,9 @@
 <script lang="ts" setup>
 useHead({ title: 'Most People | 动员群众，解决难题' })
 
+const router = useRouter()
+
 const toolStore = useToolStore()
-const knowledgeStore = useKnowledgeStore()
 
 const {
   userStore,
@@ -106,7 +117,6 @@ const {
   microphone,
   isListening,
   // 发送
-  send,
   //
   bindTool,
   bindAdd,
@@ -119,29 +129,54 @@ const inputFocus = ref(true)
 
 const sugElement = ref<HTMLDivElement>()
 
-const inputEvent = () => {
-  const v = userStore.message
+const searchTag = {
+  sogou: {
+    name: '',
+    type: '',
+  },
+  tool: {
+    name: '工具',
+    type: 'info',
+  },
+  url: {
+    name: '书签',
+    type: 'warning',
+  },
+  note: {
+    name: '笔记',
+    type: '',
+  },
+  knowledge: {
+    name: '知识',
+    type: 'success',
+  },
+}
 
-  userStore.sugList = []
-  userStore.sugIndex = -1
-
-  if (!v) {
+const bindSearch = (search?: Search) => {
+  if (!search) {
+    search = userStore.getSearchList[userStore.sugIndex]
+  }
+  if (!search) {
+    const url = formatURL(userStore.tool.url, userStore.message)
+    window.open(url)
     return
   }
-
-  // userStore.knowledgeList = knowledgeStore.list.filter(e => e.title.toLowerCase().includes(v.toLowerCase()))
-
-  // 关键字联想
-  const url = 'https://sor.html5.qq.com/api/getsug?key=' + encodeURI(v)
-  const script = document.createElement('script')
-  script.src = url
-
-  const sug = sugElement.value
-  if (sug) {
-    for (const e of sug.children) {
-      e.remove()
-    }
-    sug.appendChild(script)
+  const { type, data } = search
+  if (type === 'url') {
+    window.open(data as string)
+  } else if (type === 'tool') {
+    bindTool(data as number)
+    userStore.message = ''
+    userStore.searchList = []
+    userStore.sugList = []
+    userStore.sugIndex = -1
+  } else if (type === 'knowledge') {
+    router.push(data as string)
+  } else if (type === 'note') {
+    router.push(data as string)
+  } else if (type === 'sogou') {
+    const url = formatURL(userStore.tool.url, data as string)
+    window.open(url)
   }
 }
 
@@ -154,16 +189,14 @@ const keyDownEvent = (event: KeyboardEvent) => {
 const keyUpEvent = (event: KeyboardEvent) => {
   const k = event.key
   const index = userStore.sugIndex
-  const length = userStore.sugList.length
+  const length = userStore.getSearchList.length
   if (k === 'Enter') {
-    send()
+    bindSearch()
   } else if (k === 'ArrowUp') {
     userStore.sugIndex = (index + length - 1) % length
-    userStore.message = userStore.sugList[userStore.sugIndex].name
     // 下
   } else if (k === 'ArrowDown') {
     userStore.sugIndex = (index + length + 1) % length
-    userStore.message = userStore.sugList[userStore.sugIndex].name
   }
 }
 
@@ -305,6 +338,9 @@ onMounted(() => {
       .one {
         cursor: pointer;
         padding: 4px 10px;
+
+        display: flex;
+        justify-content: space-between;
 
         &.active {
           background: rgb(241, 241, 241);

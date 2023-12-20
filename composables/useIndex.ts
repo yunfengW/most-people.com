@@ -23,10 +23,6 @@ export const useIndex = () => {
     urlObject.searchParams.set('mp-keyword', keyword)
     return urlObject.href
   }
-  const send = (sug?: string) => {
-    const url = formatURL(userStore.tool.url, sug)
-    window.open(url)
-  }
 
   const recognition = ref()
   onBeforeMount(() => {
@@ -113,7 +109,6 @@ export const useIndex = () => {
     microphone,
     isListening,
     recognition,
-    send,
     bindTool,
     bindAdd,
     bindRemove,

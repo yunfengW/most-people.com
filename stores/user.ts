@@ -18,12 +18,12 @@ export interface User {
   urls?: string
 }
 
-export type SearchType = 'sogou' | 'tool' | 'url' | 'note'
+export type SearchType = 'sogou' | 'tool' | 'url' | 'note' | 'knowledge'
 
 export interface Search {
   type: SearchType
   name: string
-  path?: string
+  data?: string | number
 }
 
 interface UserStore {
@@ -68,6 +68,9 @@ export const useUserStore = defineStore({
         return toolStore.tools[1]
       }
     },
+    getSearchList(): Search[] {
+      return [...this.searchList, ...this.sugList].slice(0, 10)
+    },
     getUID() {
       const n = this.user?.id || 0
       let result = ''
@@ -82,9 +85,21 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async update(user: User, token: string) {
+    async initUser(user: User, token: string) {
       this.user = user
       window.sessionStorage.setItem('token', token)
+
+      const message = useRoute().query.s as string
+      this.message = message
+      this.inputSearch()
+
+      useNoteStore()
+        .init()
+        .then(() => this.inputSearch())
+
+      useKnowledgeStore()
+        .init()
+        .then(() => this.inputSearch())
 
       if (user.urls) {
         try {
@@ -132,7 +147,7 @@ export const useUserStore = defineStore({
             const user = res.data as User
             const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
             if (username === decrypt_username) {
-              this.update(user, userDB.token)
+              this.initUser(user, userDB.token)
             }
           }
         } else {
@@ -151,6 +166,87 @@ export const useUserStore = defineStore({
       // this.$reset()
       // this.init()
       location.reload()
+    },
+    // 搜索
+    initKnowledge(v: string) {
+      const knowledgeStore = useKnowledgeStore()
+      const list: Search[] = knowledgeStore.list
+        .filter((e) => e.title.toLowerCase().includes(v.toLowerCase()))
+        .map((e) => {
+          return {
+            name: e.title,
+            type: 'knowledge',
+            data: `/knowledge/${e.id}`,
+          }
+        })
+      this.searchList.push(...list)
+    },
+    initTool(v: string) {
+      const toolStore = useToolStore()
+      const list: Search[] = []
+      for (const key in toolStore.tools) {
+        const e = toolStore.tools[key]
+        if (e.title.toLowerCase().includes(v.toLowerCase())) {
+          list.unshift({
+            name: e.title,
+            type: 'tool',
+            data: e.id,
+          })
+        } else {
+          for (const tag of e.tags) {
+            if (tag.toLowerCase().includes(v.toLowerCase())) {
+              list.unshift({
+                name: e.title,
+                type: 'tool',
+                data: e.id,
+              })
+            }
+          }
+        }
+      }
+      this.searchList.push(...list)
+    },
+    initUrl(v: string) {
+      const list: Search[] = this.urls
+        .filter((e) => e.name.toLowerCase().includes(v.toLowerCase()))
+        .map((e) => {
+          return {
+            name: e.name,
+            type: 'url',
+            data: e.url,
+          }
+        })
+      this.searchList.push(...list)
+    },
+    initNote(v: string) {
+      const noteStore = useNoteStore()
+      const list: Search[] = noteStore.notes
+        .filter((e) => e.title.toLowerCase().includes(v.toLowerCase()))
+        .map((e) => {
+          return {
+            name: e.title,
+            type: 'note',
+            data: `/note/${e.id}`,
+          }
+        })
+      this.searchList.push(...list)
+    },
+    inputSearch() {
+      const v = this.message
+
+      this.sugList = []
+      this.searchList = []
+      this.sugIndex = -1
+
+      if (!v) {
+        return
+      }
+
+      this.initNote(v)
+      this.initUrl(v)
+      this.initTool(v)
+      this.initKnowledge(v)
+      // initSogou(v)
     },
   },
 })

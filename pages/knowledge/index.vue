@@ -49,9 +49,9 @@ const addKnowledge = async () => {
   }
 }
 
-if (process.client) {
-  knowledgeStore.init()
-}
+// if (process.client) {
+//   knowledgeStore.init()
+// }
 </script>
 
 <style lang="scss">
