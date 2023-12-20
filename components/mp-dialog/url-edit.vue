@@ -4,6 +4,15 @@
     :title="form.isAdd ? '添加书签' : '编辑书签'"
     :close-on-click-modal="false"
   >
+    <div class="url-icon">
+      <img
+        :src="form.icon || '/favicon.ico'"
+        @error="(event:any)=>event.target.src = '/favicon.ico'"
+        alt="icon"
+      />
+      <nuxt-link target="_blank" :to="form.url">{{ form.name }}</nuxt-link>
+    </div>
+
     <el-form @submit.prevent ref="formElement" :model="form" label-position="top">
       <el-form-item
         prop="name"
@@ -28,13 +37,6 @@
 
       <div class="how-to-use">
         <nuxt-link to="/knowledge/70" target="_blank">获取网站图标</nuxt-link>
-      </div>
-      <div class="url-icon">
-        <img
-          :src="form.icon || '/favicon.ico'"
-          @error="(event:any)=>event.target.src = '/favicon.ico'"
-          alt="icon"
-        />
       </div>
 
       <el-form-item prop="icon" label="图标">
@@ -163,12 +165,15 @@ onUpdated(() => {
   }
 
   .url-icon {
-    margin-top: 10px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     img {
       width: 20px;
       height: 20px;
+    }
+    a {
+      margin-left: 10px;
     }
   }
 

@@ -69,8 +69,6 @@ const urlEdit = (i: number) => {
 
     .url {
       box-shadow: 0 3px 6px 0 rgba(14, 30, 62, 0.08);
-      background-color: #fff;
-      will-change: background;
       border-radius: 5px;
       padding: 20px;
 

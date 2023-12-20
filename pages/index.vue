@@ -168,6 +168,9 @@ onMounted(() => {
 
 <style lang="scss">
 #page-index {
+  > .mp-header {
+    padding-bottom: 0;
+  }
   > .join-us {
     position: absolute;
     left: 10px;
