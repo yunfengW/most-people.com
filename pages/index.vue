@@ -37,12 +37,12 @@
       >
         <div
           class="one"
-          v-for="(sug, i) in userStore.sugList"
+          v-for="(search, i) in userStore.sugList"
           @mouseover="userStore.sugIndex = i"
           :class="{ active: userStore.sugIndex === i }"
-          @mousedown.prevent="send(sug)"
+          @mousedown.prevent="send(search.name)"
         >
-          {{ sug }}
+          {{ search.name }}
         </div>
       </div>
 
@@ -121,12 +121,28 @@ const sugElement = ref<HTMLDivElement>()
 
 const inputEvent = () => {
   const v = userStore.message
+
+  userStore.sugList = []
+  userStore.sugIndex = -1
+
   if (!v) {
-    userStore.sugList = []
-    userStore.sugIndex = -1
     return
   }
-  console.log('🌊', v)
+
+  // userStore.knowledgeList = knowledgeStore.list.filter(e => e.title.toLowerCase().includes(v.toLowerCase()))
+
+  // 关键字联想
+  const url = 'https://sor.html5.qq.com/api/getsug?key=' + encodeURI(v)
+  const script = document.createElement('script')
+  script.src = url
+
+  const sug = sugElement.value
+  if (sug) {
+    for (const e of sug.children) {
+      e.remove()
+    }
+    sug.appendChild(script)
+  }
 }
 
 const keyDownEvent = (event: KeyboardEvent) => {
@@ -143,11 +159,11 @@ const keyUpEvent = (event: KeyboardEvent) => {
     send()
   } else if (k === 'ArrowUp') {
     userStore.sugIndex = (index + length - 1) % length
-    userStore.message = userStore.sugList[userStore.sugIndex]
+    userStore.message = userStore.sugList[userStore.sugIndex].name
     // 下
   } else if (k === 'ArrowDown') {
     userStore.sugIndex = (index + length + 1) % length
-    userStore.message = userStore.sugList[userStore.sugIndex]
+    userStore.message = userStore.sugList[userStore.sugIndex].name
   }
 }
 

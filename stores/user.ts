@@ -18,6 +18,14 @@ export interface User {
   urls?: string
 }
 
+export type SearchType = 'sogou' | 'tool' | 'url' | 'note'
+
+export interface Search {
+  type: SearchType
+  name: string
+  path?: string
+}
+
 interface UserStore {
   firstPath: string
   user: User | null
@@ -26,7 +34,9 @@ interface UserStore {
   tools: number[]
   urls: Url[]
   message: string
-  sugList: string[]
+  // 搜索
+  searchList: Search[]
+  sugList: Search[]
   sugIndex: number
 }
 
@@ -40,11 +50,12 @@ export const useUserStore = defineStore({
       inited: false,
       // current tool
       tool_id: 11,
-      tools: [5, 40, 37, 46, 35, 53, 43, 57, 60, 58, 29, 62, 11],
+      tools: [5, 43, 185, 57, 39, 46, 84, 37],
       urls: [],
       message: '',
       sugList: [],
       sugIndex: -1,
+      searchList: [],
     }
   },
   getters: {
