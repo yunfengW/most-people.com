@@ -35,12 +35,9 @@ export const useToolStore = defineStore({
   actions: {
     // 建立索引
     initTops() {
-      const tops: Top[] = [
-        {
-          name: '未分类',
-          tools: [],
-        },
-      ]
+      const tops: Top[] = []
+      // 未分类的工具
+      const unclassified: number[] = []
       for (const id in this.tools) {
         const tool = this.tools[id]
         if (tool.tags.length > 0) {
@@ -56,8 +53,14 @@ export const useToolStore = defineStore({
             }
           }
         } else {
-          tops[0].tools.push(tool.id)
+          unclassified.push(tool.id)
         }
+      }
+      if (unclassified.length > 0) {
+        tops.push({
+          name: '未分类',
+          tools: unclassified,
+        })
       }
       this.toolTops = tops
     },

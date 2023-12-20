@@ -59,17 +59,19 @@
           >
             {{ tag }}
           </el-tag>
-          <el-input
-            v-if="form.showAddTag"
-            ref="addTagElement"
-            v-model="form.newTag"
-            size="small"
-            @keyup.enter="tagAdd"
-            @blur="tagAdd"
-          />
-          <el-button v-else class="button-new-tag ml-1" size="small" @click="tagInputFocus">
-            + 新分类
-          </el-button>
+          <template v-if="form.tags.length === 0">
+            <el-input
+              v-if="form.showAddTag"
+              ref="addTagElement"
+              v-model="form.newTag"
+              size="small"
+              @keyup.enter="tagAdd"
+              @blur="tagAdd"
+            />
+            <el-button v-else class="button-new-tag ml-1" size="small" @click="tagInputFocus">
+              + 新分类
+            </el-button>
+          </template>
         </div>
       </el-form-item>
 
