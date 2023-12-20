@@ -1,8 +1,8 @@
 import Axios, { type AxiosResponse } from 'axios'
 
 const api = Axios.create({
-  baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  // baseURL: 'https://api.most-people.cn',
+  // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
+  baseURL: 'https://api.most-people.cn',
 })
 
 // interceptors https://axios-http.com/zh/docs/interceptors

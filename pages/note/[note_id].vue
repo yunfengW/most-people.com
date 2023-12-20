@@ -1,7 +1,7 @@
 <template>
   <div id="page-note-id" ref="markdownElement">
     <mp-header title="">
-      <template #right>
+      <template #right v-if="!readonly">
         <div class="edit" @click="publish" v-show="md.needPublish.value">
           <span>发布</span>
           <mp-icon name="publish" />
@@ -16,13 +16,22 @@
     <input class="note-title" v-model="md.form.title" placeholder="输入标题" :readonly="readonly" />
     <div class="note-public">
       <span>是否公开：</span>
-      <el-switch v-model="md.form.isPublic" inline-prompt active-text="公开" inactive-text="私有" size="large"
-        :disabled="readonly" />
+      <el-switch
+        v-model="md.form.isPublic"
+        inline-prompt
+        active-text="公开"
+        inactive-text="私有"
+        size="large"
+        :disabled="readonly"
+      />
     </div>
 
     <template v-if="md.form.content">
-
-      <div v-show="!md.form.showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
+      <div
+        v-show="!md.form.showEdit"
+        class="mp-markdown-box"
+        v-html="md.render(md.form.content)"
+      ></div>
     </template>
     <div v-else-if="!md.form.inited" class="el-icon is-loading">
       <mp-icon name="loading" />
@@ -34,7 +43,12 @@
       </div>
 
       <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
-      <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="md.options" />
+      <monaco-editor
+        class="editor"
+        v-model="md.form.content"
+        lang="markdown"
+        :options="md.options"
+      />
     </div>
   </div>
 </template>
@@ -48,6 +62,7 @@ const route = useRoute()
 const router = useRouter()
 const note_id = (route.params.note_id || '') as string
 const noteStore = useNoteStore()
+const userStore = useUserStore()
 
 const publish = async () => {
   let text = md.form.content
@@ -105,7 +120,6 @@ const init = async () => {
   md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
-
 
     const text = await decrypt(note.content)
     // 内容

@@ -8,7 +8,11 @@
 
     <div class="url-box">
       <client-only>
-        <template v-for="(url, index) in userStore.urls">
+        <template
+          v-for="(url, index) in userStore.urls.filter((e) =>
+            e.name.toLowerCase().includes(filter.toLowerCase()),
+          )"
+        >
           <div class="url">
             <img
               class="icon"
@@ -43,9 +47,6 @@ const showUrlEdit = ref(false)
 const urlEdit = (i: number) => {
   showUrlEdit.value = true
   url_index.value = i
-}
-const bindUrl = (url: Url) => {
-  console.log('🌊', url)
 }
 </script>
 

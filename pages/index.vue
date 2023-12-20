@@ -1,45 +1,14 @@
 <template>
   <div id="page-index">
-    <div class="mp-join-us">
+    <mp-header />
+
+    <div class="join-us">
       <nuxt-link to="/join-us">
         <el-button link type="info">加入我们</el-button>
       </nuxt-link>
       <a href="https://beian.miit.gov.cn/" target="_blank">
         <el-button link type="info">粤ICP备2020105439号</el-button>
       </a>
-    </div>
-
-    <div class="setting-box">
-      <div class="mask" @click="showSetting = false" v-show="showSetting"></div>
-      <mp-icon name="setting" @click="showSetting = true" />
-      <main v-show="showSetting">
-        <div class="mine">
-          <el-image
-            class="avatar"
-            :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
-            fit="cover"
-          ></el-image>
-          <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
-        </div>
-
-        <nuxt-link to="/knowledge">
-          <el-button type="success">知识库</el-button>
-        </nuxt-link>
-        <template v-if="userStore.user">
-          <nuxt-link to="/url">
-            <el-button type="warning">书签</el-button>
-          </nuxt-link>
-          <nuxt-link to="/note">
-            <el-button type="primary">笔记</el-button>
-          </nuxt-link>
-          <nuxt-link>
-            <el-button type="danger" @click="userStore.exit">退出</el-button>
-          </nuxt-link>
-        </template>
-        <nuxt-link to="/login" v-else>
-          <el-button type="primary">登录 / 注册</el-button>
-        </nuxt-link>
-      </main>
     </div>
 
     <div class="current-tool">
@@ -126,8 +95,6 @@
 <script lang="ts" setup>
 useHead({ title: 'Most People | 动员群众，解决难题' })
 
-const showSetting = ref(false)
-
 const toolStore = useToolStore()
 
 const {
@@ -201,86 +168,11 @@ onMounted(() => {
 
 <style lang="scss">
 #page-index {
-  > .mp-join-us {
+  > .join-us {
     position: absolute;
     left: 10px;
     bottom: 0;
     z-index: 10;
-  }
-
-  > .setting-box {
-    user-select: none;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    > .mp-icon-setting {
-      padding: 10px;
-      cursor: pointer;
-      color: var(--el-color-info);
-      font-size: 20px;
-
-      &:hover {
-        color: var(--el-color-info-light-5);
-      }
-    }
-
-    > main {
-      border-radius: 12px;
-      box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
-      width: 240px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: hidden;
-      padding: 8px 20px;
-      background: rgb(241, 241, 241);
-      z-index: 11;
-
-      a {
-        margin-bottom: 10px;
-        width: 100%;
-
-        .el-button {
-          width: 100%;
-        }
-      }
-
-      .mine {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-bottom: auto;
-
-        .avatar {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          overflow: hidden;
-
-          background-color: #fff;
-          border: 1px solid var(--el-text-color-primary);
-        }
-      }
-    }
-
-    > .mask {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.04);
-    }
   }
 
   .current-tool {
