@@ -13,10 +13,10 @@
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.7",
     "@pinia/nuxt": "^0.5.1",
-    "@types/node": "^20.10.4",
+    "@types/node": "^20.10.5",
     "axios": "^1.6.2",
-    "element-plus": "^2.4.3",
-    "ethers": "^6.9.0",
+    "element-plus": "^2.4.4",
+    "ethers": "^6.9.1",
     "nuxt": "^3.8.2",
     "sass": "^1.69.5"
   },
@@ -25,7 +25,7 @@
     "highlight.js": "^11.9.0",
     "libsodium-wrappers": "^0.7.13",
     "marked": "^11.1.0",
-    "marked-highlight": "^2.0.9",
+    "marked-highlight": "^2.1.0",
     "monaco-editor": "^0.45.0",
     "nuxt-monaco-editor": "^1.2.6"
   }
