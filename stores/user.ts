@@ -248,8 +248,8 @@ export const useUserStore = defineStore({
 
       this.initNote(v)
       this.initUrl(v)
-      this.initTool(v)
       this.initKnowledge(v)
+      this.initTool(v)
       // initSogou(v)
     },
   },
