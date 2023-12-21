@@ -129,12 +129,14 @@ export const useUserStore = defineStore({
       const s = useRoute().query.s as string
       if (s) {
         this.message = s
-        this.inputSearch()
-
-        useKnowledgeStore()
-          .init()
-          .then(() => this.inputSearch())
       }
+      useKnowledgeStore()
+        .init()
+        .then(() => {
+          if (s) {
+            this.inputSearch()
+          }
+        })
 
       const username = window.localStorage.getItem('username')
       if (username) {
