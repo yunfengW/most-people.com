@@ -89,15 +89,7 @@ export const useUserStore = defineStore({
       this.user = user
       window.sessionStorage.setItem('token', token)
 
-      const message = useRoute().query.s as string
-      this.message = message
-      this.inputSearch()
-
       useNoteStore()
-        .init()
-        .then(() => this.inputSearch())
-
-      useKnowledgeStore()
         .init()
         .then(() => this.inputSearch())
 
@@ -134,6 +126,16 @@ export const useUserStore = defineStore({
       this.tool_id = id
     },
     async init() {
+      const s = useRoute().query.s as string
+      if (s) {
+        this.message = s
+        this.inputSearch()
+
+        useKnowledgeStore()
+          .init()
+          .then(() => this.inputSearch())
+      }
+
       const username = window.localStorage.getItem('username')
       if (username) {
         const userDB = await indexDB.getUser(username)

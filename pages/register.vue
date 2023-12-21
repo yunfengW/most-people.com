@@ -50,14 +50,11 @@
       </el-button>
     </el-form>
     <br />
-    <router-link to="/login" replace>
-      <el-link>已有账号？去登录</el-link>
-    </router-link>
+    <nuxt-link to="/login" replace>已有账号？去登录</nuxt-link>
   </div>
 </template>
 
 <script setup lang="ts">
-
 const { form, formElement, register, checkUsername, checkPassword, checkConfirmPassword } =
   useRegister()
 </script>
@@ -70,6 +67,17 @@ const { form, formElement, register, checkUsername, checkPassword, checkConfirmP
   .el-button {
     margin-top: 20px;
     width: 100%;
+  }
+  a {
+    color: #606266;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      color: #409eff;
+      border-color: #409eff;
+    }
   }
 }
 </style>

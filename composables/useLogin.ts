@@ -33,7 +33,7 @@ export const useLogin = () => {
             // login success
             indexDB.setUser(username, key, token).then((ok) => {
               if (ok) {
-                userStore.update(user, token)
+                userStore.initUser(user, token)
                 router.back()
               } else {
                 mp.error('indexDB 写入失败')

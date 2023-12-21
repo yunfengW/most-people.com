@@ -37,9 +37,7 @@
       </el-button>
     </el-form>
     <br />
-    <router-link to="/register" replace>
-      <el-link>还没账号？去注册</el-link>
-    </router-link>
+    <nuxt-link to="/register" replace> 还没账号？去注册 </nuxt-link>
   </div>
 </template>
 
@@ -56,6 +54,17 @@ const { checkPassword } = useRegister()
   .el-button {
     margin-top: 20px;
     width: 100%;
+  }
+  a {
+    color: #606266;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+
+    &:hover {
+      color: #409eff;
+      border-color: #409eff;
+    }
   }
 }
 </style>
