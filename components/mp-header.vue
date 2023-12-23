@@ -35,6 +35,9 @@
               <nuxt-link to="/note">
                 <el-button type="primary">笔记</el-button>
               </nuxt-link>
+              <nuxt-link to="/chat">
+                <el-button type="info">联系人</el-button>
+              </nuxt-link>
               <nuxt-link>
                 <el-button type="danger" @click="userStore.exit">退出</el-button>
               </nuxt-link>

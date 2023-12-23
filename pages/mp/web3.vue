@@ -1,5 +1,5 @@
 <template>
-  <div id="page-utils">
+  <div id="page-web3">
     <mp-header title="Web3" />
     <el-input v-model="form.username" placeholder="username" />
     <br />
@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 const form = reactive({
-  hyphenate: 'ChatGPT',
   username: '',
   password: '',
   address: '',
@@ -28,7 +27,7 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-#page-utils.page {
+#page-web3.page {
   align-items: flex-start;
 }
 </style>
