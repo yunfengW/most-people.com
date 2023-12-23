@@ -27,13 +27,23 @@ export const useLogin = () => {
         })
         if (res.data) {
           const user = res.data as User
-          const { key, token } = await mp.key(form.username, form.password)
+          const { key, token, private_key, public_key } = await mp.key(form.username, form.password)
           const username = await mp.decrypt(user.password_hash, key)
           if (username === form.username) {
             // login success
-            indexDB.setUser(username, key, token).then((ok) => {
+            const mp_private_key = await mp.encrypt(private_key, key)
+            indexDB.setUser({ name: username, key, token, mp_private_key }).then((ok) => {
               if (ok) {
-                userStore.initUser(user, token)
+                userStore.initUser(user, token).then(() => {
+                  // auto add public_key
+                  if (!user.public_key) {
+                    api({
+                      method: 'post',
+                      url: '/user/update',
+                      data: { public_key },
+                    })
+                  }
+                })
                 router.back()
               } else {
                 mp.error('indexDB 写入失败')

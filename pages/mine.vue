@@ -28,7 +28,7 @@ const userStore = useUserStore()
 
 <style lang="scss">
 #page-mine {
-  .mine {
+  > .mine {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,7 +51,7 @@ const userStore = useUserStore()
     }
   }
 
-  .not-logged-in {
+  > .not-logged-in {
     .el-button {
       margin-top: 20px;
       width: 300px;

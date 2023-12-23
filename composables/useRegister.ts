@@ -45,12 +45,12 @@ export const useRegister = () => {
   }
   // submit
   const submit = async (username: string, password: string) => {
-    const { key, address } = await mp.key(username, password)
+    const { key, address, public_key } = await mp.key(username, password)
     const password_hash = await mp.encrypt(username, key)
     const res = await api({
       method: 'post',
       url: '/user/register',
-      data: { name: username, password_hash, address },
+      data: { name: username, password_hash, address, public_key },
     })
     if (res.data) {
       router.replace('/login')

@@ -107,7 +107,6 @@ const mp = {
   //   }
   //   return ''
   // },
-
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
     if (!key) {

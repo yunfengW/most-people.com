@@ -5,6 +5,7 @@ export interface UserDB {
   name: string
   key: CryptoKey
   token: string
+  mp_private_key: string
 }
 
 let db: IDBDatabase | undefined
@@ -56,16 +57,16 @@ export const indexDB = {
   },
 
   // 设置用户
-  setUser(name: string, key: CryptoKey, token: string): Promise<boolean> {
+  setUser(userDB: UserDB): Promise<boolean> {
     return new Promise((resolve) => {
       if (!db) {
         resolve(false)
         return
       }
       const store = db.transaction(['user'], 'readwrite').objectStore('user')
-      const request = store.put({ name, key, token })
+      const request = store.put(userDB)
       request.onsuccess = () => {
-        window.localStorage.setItem('username', name)
+        window.localStorage.setItem('username', userDB.name)
         resolve(true)
       }
       request.onerror = () => {
@@ -91,7 +92,7 @@ export const indexDB = {
       }
     })
   },
-  
+
   // 获取用户 key
   async getKey() {
     const username = window.localStorage.getItem('username')

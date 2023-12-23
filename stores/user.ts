@@ -14,6 +14,7 @@ export interface User {
   password_hash: string
   sign_time: string
   address: string
+  public_key: string
   tools?: number[]
   urls?: string
 }
