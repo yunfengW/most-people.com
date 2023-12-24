@@ -103,7 +103,7 @@
 </template>
 
 <script lang="ts" setup>
-useHead({ title: 'Most People | 动员群众，解决难题' })
+useHead({ title: 'Most People | 动员群众，解决难题 | 密码朋克' })
 
 const router = useRouter()
 
