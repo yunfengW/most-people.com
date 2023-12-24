@@ -6,7 +6,7 @@
 
     <el-input v-model="contact.person" placeholder="输入联系人" />
     <br />
-    <el-button type="success" @click="startPerson">开始</el-button>
+    <el-button type="success" @click="startPerson" :loading="contact.personLoading">开始</el-button>
 
     <h4>联络小组（切勿泄露联络密码）</h4>
 
@@ -21,6 +21,8 @@
 <script setup lang="ts">
 import api from '~/utils/api'
 
+const router = useRouter()
+
 const contact = reactive({
   person: '',
   personLoading: false,
@@ -34,17 +36,23 @@ const startPerson = async () => {
     mp.info('请输入联系人')
     return
   }
+  contact.personLoading = true
   const res = await api({
     method: 'post',
     url: '/user/get.user.id',
     data: { name: contact.person },
   })
-  if (res.data === false) {
+  contact.personLoading = false
+  const person_id = res.data
+  if (!person_id) {
     mp.error('联系人不存在')
     return
   }
+  router.push(`/chat/${person_id}`)
 }
-const startGroup = () => {}
+const startGroup = () => {
+  router.push(`/group/1`)
+}
 
 onMounted(async () => {
   // 私聊
@@ -59,7 +67,7 @@ onMounted(async () => {
   console.log('🌊', message4u)
 
   // 群聊
-  const { key } = await mp.key('most-people', '德玛西亚')
+  const { key } = await mp.key('测试测试', '收到收到')
   const encrypted = await mp.encrypt('你好', key)
   const decrypted = await mp.decrypt(encrypted, key)
   console.log('🌊', decrypted)
