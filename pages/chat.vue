@@ -2,11 +2,50 @@
   <div id="page-chat">
     <mp-header title="加密聊天" />
 
-    <h4>开发中</h4>
+    <h4>单线联系（最安全）</h4>
+
+    <el-input v-model="contact.person" placeholder="输入联系人" />
+    <br />
+    <el-button type="success" @click="startPerson">开始</el-button>
+
+    <h4>联络小组（切勿泄露联络密码）</h4>
+
+    <el-input v-model="contact.groupName" placeholder="输入小组名称" />
+    <br />
+    <el-input v-model="contact.groupPassword" placeholder="输入联络密码" />
+    <br />
+    <el-button type="warning" @click="startGroup">进入小组</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
+import api from '~/utils/api'
+
+const contact = reactive({
+  person: '',
+  personLoading: false,
+  groupName: '',
+  groupPassword: '',
+  groupLoading: false,
+})
+
+const startPerson = async () => {
+  if (!contact.person) {
+    mp.info('请输入联系人')
+    return
+  }
+  const res = await api({
+    method: 'post',
+    url: '/user/get.user.id',
+    data: { name: contact.person },
+  })
+  if (res.data === false) {
+    mp.error('联系人不存在')
+    return
+  }
+}
+const startGroup = () => {}
+
 onMounted(async () => {
   // 私聊
   const SEA = await mp.key('Test1', 'most-people.com')
@@ -26,3 +65,4 @@ onMounted(async () => {
   console.log('🌊', decrypted)
 })
 </script>
+<style lang="scss"></style>

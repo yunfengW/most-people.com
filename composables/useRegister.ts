@@ -67,16 +67,14 @@ export const useRegister = () => {
     form.usernameLoading = true
     api({
       method: 'post',
-      url: '/user/check.name',
+      url: '/user/get.user.id',
       data: { name: username },
     }).then((res) => {
       form.usernameLoading = false
       if (res.data) {
-        callback()
-      } else if (res.data === null) {
-        callback(new Error(apiErrorCode[404]))
-      } else {
         callback(new Error(apiErrorCode[1001]))
+      } else {
+        callback()
       }
     })
   }

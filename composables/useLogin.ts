@@ -22,7 +22,7 @@ export const useLogin = () => {
         form.loading = true
         const res = await api({
           method: 'post',
-          url: '/user/login',
+          url: '/user/get.user',
           data: { name: form.username },
         })
         if (res.data) {
@@ -68,18 +68,14 @@ export const useLogin = () => {
     form.usernameLoading = true
     api({
       method: 'post',
-      url: '/user/check.name',
+      url: '/user/get.user.id',
       data: { name: username },
     }).then((res) => {
       form.usernameLoading = false
       if (res.data) {
-        callback(new Error('用户名不存在'))
+        callback()
       } else {
-        if (res.data === null) {
-          callback(new Error(apiErrorCode[404]))
-        } else {
-          callback()
-        }
+        callback(new Error('用户名不存在'))
       }
     })
   }

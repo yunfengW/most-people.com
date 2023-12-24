@@ -145,7 +145,7 @@ export const useUserStore = defineStore({
         if (userDB) {
           const res = await api({
             method: 'post',
-            url: '/user/login',
+            url: '/user/get.user',
             data: { name: username },
           })
           if (res.data?.password_hash) {
