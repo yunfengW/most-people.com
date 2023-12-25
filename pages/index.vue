@@ -58,7 +58,7 @@
         :placeholder="form.placeholder"
         autofocus
         size="large"
-        @input="userStore.inputSearch"
+        @input="userStore.initSearch"
         @focus="inputFocus = true"
         @blur="inputFocus = false"
         @keydown="keyDownEvent($event as KeyboardEvent)"

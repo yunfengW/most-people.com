@@ -92,7 +92,7 @@ export const useUserStore = defineStore({
 
       useNoteStore()
         .init()
-        .then(() => this.inputSearch())
+        .then(() => this.initSearch())
 
       if (user.urls) {
         try {
@@ -135,7 +135,7 @@ export const useUserStore = defineStore({
         .init()
         .then(() => {
           if (s) {
-            this.inputSearch()
+            this.initSearch()
           }
         })
 
@@ -236,7 +236,7 @@ export const useUserStore = defineStore({
         })
       this.searchList.push(...list)
     },
-    inputSearch() {
+    initSearch() {
       const v = this.message
 
       this.sugList = []

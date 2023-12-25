@@ -28,6 +28,7 @@ const initTools = async () => {
     }
     toolStore.tools = tools
     toolStore.initTops()
+    userStore.initSearch()
   })
 }
 if (process.client) {

@@ -5,13 +5,15 @@ import hljs from 'highlight.js'
 const marked = new Marked(
   markedHighlight({
     // 设置语言前缀
-    langPrefix: 'hljs language-',
     highlight(code, lang) {
       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
       return hljs.highlight(code, { language }).value
     },
   }),
 )
+marked.use({
+  breaks: true,
+})
 
 export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) => {
   // editor options
@@ -60,10 +62,6 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
   }
 
   const initMarked = () => {
-    marked.use({
-      breaks: true,
-    })
-
     const renderer = new marked.Renderer()
     renderer.link = function (href, title, text) {
       const div = document.createElement('div')
