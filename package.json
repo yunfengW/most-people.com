@@ -17,7 +17,7 @@
     "axios": "^1.6.2",
     "element-plus": "^2.4.4",
     "ethers": "^6.9.1",
-    "nuxt": "^3.8.2",
+    "nuxt": "^3.9.0",
     "sass": "^1.69.5"
   },
   "dependencies": {
@@ -26,7 +26,7 @@
     "libsodium-wrappers": "^0.7.13",
     "marked": "^11.1.0",
     "marked-highlight": "^2.1.0",
-    "monaco-editor": "^0.45.0",
+    "monaco-editor": "0.44.0",
     "nuxt-monaco-editor": "^1.2.6"
   }
 }

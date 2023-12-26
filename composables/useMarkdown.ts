@@ -22,9 +22,12 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     minimap: {
       enabled: false,
     },
-    formatOnType: true,
     wordWrap: 'on',
+    formatOnType: true,
+    lineNumbers: false,
     theme: 'vs-dark',
+    fontSize: 16,
+    fontFamily: `Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif`,
   }
 
   const form = reactive({

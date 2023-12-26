@@ -34,6 +34,7 @@ export default defineNuxtConfig({
   },
   // modules
   modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor'],
+  monacoEditor: { locale: 'zh-hans' },
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },

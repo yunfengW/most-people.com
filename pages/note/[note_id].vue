@@ -62,7 +62,6 @@ const route = useRoute()
 const router = useRouter()
 const note_id = (route.params.note_id || '') as string
 const noteStore = useNoteStore()
-const userStore = useUserStore()
 
 const publish = async () => {
   let text = md.form.content
