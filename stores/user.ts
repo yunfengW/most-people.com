@@ -17,6 +17,7 @@ export interface User {
   public_key: string
   tools?: number[]
   urls?: string
+  memo?: string
 }
 
 export type SearchType = 'sogou' | 'tool' | 'url' | 'note' | 'knowledge'
@@ -35,6 +36,7 @@ interface UserStore {
   tools: number[]
   urls: Url[]
   message: string
+  memo: string
   // 搜索
   searchList: Search[]
   sugList: Search[]
@@ -57,6 +59,7 @@ export const useUserStore = defineStore({
       sugList: [],
       sugIndex: -1,
       searchList: [],
+      memo: '',
     }
   },
   getters: {
@@ -90,10 +93,11 @@ export const useUserStore = defineStore({
       this.user = user
       window.sessionStorage.setItem('token', token)
 
+      // 初始化笔记
       useNoteStore()
         .init()
         .then(() => this.initSearch())
-
+      // 初始化书签
       if (user.urls) {
         try {
           const json = await mp.decrypt(user.urls)
@@ -103,9 +107,16 @@ export const useUserStore = defineStore({
           }
         } catch (error) {}
       }
-
+      // 初始化工具
       if (user.tools) {
         this.tools = user.tools
+      }
+      // 初始化便签
+      if (user.memo) {
+        const memo = await mp.decrypt(user.memo)
+        if (memo) {
+          this.memo = memo
+        }
       }
     },
     updateTools() {

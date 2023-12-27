@@ -1,3 +1,6 @@
+import debounce from 'lodash.debounce'
+import api from '~/utils/api'
+
 export const useIndex = () => {
   const userStore = useUserStore()
   const router = useRouter()
@@ -6,6 +9,20 @@ export const useIndex = () => {
     placeholder: '没有调查，就没有发言权',
     remove: false,
   })
+
+  // 防抖延迟 500 毫秒
+  const saveMemo = debounce(async (v: string) => {
+    // 保存数据到服务器的逻辑
+    const encrypted = await mp.encrypt(v)
+    const res = await api({
+      method: 'post',
+      url: '/user/update',
+      data: { memo: encrypted },
+    })
+    if (res.data !== true) {
+      mp.error('便签保存失败')
+    }
+  }, 1000)
 
   const formatURL = (url: string, sug?: string) => {
     if (url.startsWith('/')) {
@@ -113,5 +130,6 @@ export const useIndex = () => {
     bindAdd,
     bindRemove,
     formatURL,
+    saveMemo,
   }
 }

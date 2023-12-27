@@ -99,6 +99,17 @@
         <span>{{ form.remove ? '关闭删除' : '删除' }}</span>
       </div>
     </div>
+
+    <div class="memo">
+      <el-input
+        @input="saveMemo"
+        type="textarea"
+        v-model="userStore.memo"
+        :autosize="{ minRows: 4 }"
+        resize="none"
+        placeholder="便签"
+      />
+    </div>
   </div>
 </template>
 
@@ -121,6 +132,7 @@ const {
   bindTool,
   bindAdd,
   bindRemove,
+  saveMemo,
   //
   formatURL,
 } = useIndex()
@@ -408,6 +420,25 @@ onMounted(() => {
       .tool {
         .mp-icon-remove {
           visibility: initial;
+        }
+      }
+    }
+  }
+
+  .memo {
+    width: 100%;
+    margin: 20px 0;
+    .el-textarea {
+      .el-textarea__inner {
+        text-align: center;
+        background: transparent;
+        box-shadow: none;
+
+        &:hover {
+          box-shadow: 0 0 0 1px #dcdfe6 inset;
+        }
+        &:focus {
+          box-shadow: 0 0 0 1px #c0c4cc inset;
         }
       }
     }
