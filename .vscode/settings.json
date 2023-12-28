@@ -1,15 +1,3 @@
 {
-  "cSpell.words": [
-    "axios",
-    "composables",
-    "hexlify",
-    "iconpark",
-    "indexdb",
-    "inited",
-    "Midjourney",
-    "nuxt",
-    "pinia",
-    "secp",
-    "sogou"
-  ]
+  "cSpell.words": ["axios", "composables", "iconpark", "indexdb", "inited", "nuxt", "pinia"]
 }

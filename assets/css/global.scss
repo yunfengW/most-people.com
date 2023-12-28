@@ -1,6 +1,6 @@
-:root {
-  --red: #e30002;
-}
+// :root {
+//   --red: #e30002;
+// }
 
 *,
 ::after,
@@ -34,126 +34,33 @@ body,
 }
 
 #app {
-  position: relative;
+  // position: relative;
   min-height: 100%;
 
-  > .page {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
+  // > .page {
+  //   display: flex;
+  //   align-items: center;
+  //   flex-direction: column;
 
-    margin: 0 auto;
-    padding: 20px;
-  }
-  > .mp-uid {
-    position: absolute;
-    right: 14px;
-    bottom: 0;
-    z-index: 10;
-  }
-}
-
-.mp-setting-box {
-  user-select: none;
-  position: relative;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  > .mp-icon-setting {
-    padding: 10px;
-    cursor: pointer;
-    color: var(--el-color-info);
-    font-size: 20px;
-
-    &:hover {
-      color: var(--el-color-info-light-5);
-    }
-  }
-
-  > .setting-box {
-    position: absolute;
-    top: 40px;
-    right: 0;
-
-    border-radius: 12px;
-    box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.3);
-    width: 240px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
-    padding: 8px 20px;
-    background: rgb(241, 241, 241);
-    z-index: 11;
-
-    a {
-      margin-bottom: 10px;
-      width: 100%;
-
-      .el-button {
-        width: 100%;
-      }
-    }
-
-    .mine {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-bottom: auto;
-
-      .avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        overflow: hidden;
-
-        background-color: #fff;
-        border: 1px solid var(--el-text-color-primary);
-      }
-    }
-  }
-
-  > .mask {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.04);
-  }
+  //   margin: 0 auto;
+  //   padding: 20px;
+  // }
 }
 
 // element UI
 body {
-  // mp-tooltip
   .el-popper {
-    font-size: 16px;
-    line-height: normal;
-    max-width: calc(100% - 10px);
-  }
-  .el-popper.is-customized {
-    padding: 6px 12px;
-    background: linear-gradient(90deg, rgb(159, 229, 151), rgb(204, 229, 129));
-  }
-
-  .el-popper.is-customized .el-popper__arrow::before {
-    background: linear-gradient(45deg, #b2e68d, #bce689);
-    right: 0;
+    // font-size: 16px;
+    // line-height: normal;
+    // max-width: calc(100% - 10px);
   }
 }
 
 // PC端 横屏
-@media (orientation: landscape) and (min-width: 980px) {
-  #app {
-    > .page {
-      max-width: 61.8%;
-    }
-  }
-}
+// @media (orientation: landscape) and (min-width: 980px) {
+//   #app {
+//     > .page {
+//       max-width: 61.8%;
+//     }
+//   }
+// }

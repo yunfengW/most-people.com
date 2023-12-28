@@ -18,7 +18,6 @@ api.interceptors.request.use(
 
 export const apiErrorCode: { [key: string]: string } = {
   404: '请求失败，请检查网络',
-  1001: '用户名已存在',
 }
 
 const showError = (status: number, message?: string) => {

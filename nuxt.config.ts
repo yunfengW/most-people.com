@@ -10,36 +10,35 @@ console.log('The branch is:', branch)
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Most People | 动员群众，解决难题 | 密码朋克',
+      title: 'Most People | Demo',
       meta: [
         {
           name: 'description',
-          content: '全世界无产者，联合起来！',
+          content: 'Most People',
         },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
-      script: [{ defer: true, src: '/js/iconpark.js' }],
+      // script: [{ defer: true, src: '/js/iconpark.js' }],
     },
   },
-  vue: {
-    compilerOptions: {
-      isCustomElement: (tag) => {
-        return tag === 'iconpark-icon'
-      },
-    },
-  },
+  // vue: {
+  //   compilerOptions: {
+  //     isCustomElement: (tag) => {
+  //       return tag === 'iconpark-icon'
+  //     },
+  //   },
+  // },
   // generate
   experimental: {
     payloadExtraction: false,
   },
   // modules
-  modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor'],
-  monacoEditor: { locale: 'zh-hans' },
+  modules: ['@element-plus/nuxt', '@pinia/nuxt'],
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },
   devServer: {
     // host: '127.0.0.1',
-    port: 2023,
+    port: 3000,
   },
 })
