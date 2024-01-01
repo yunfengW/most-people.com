@@ -89,7 +89,7 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    async initUser(user: User, token: string) {
+    initUser(user: User, token: string) {
       this.user = user
       window.sessionStorage.setItem('token', token)
 
@@ -97,26 +97,32 @@ export const useUserStore = defineStore({
       useNoteStore()
         .init()
         .then(() => this.initSearch())
+
       // 初始化书签
       if (user.urls) {
-        try {
-          const json = await mp.decrypt(user.urls)
-          const urls = JSON.parse(json)
-          if (Array.isArray(urls)) {
-            this.urls = urls
+        mp.decrypt(user.urls).then((json) => {
+          try {
+            const urls = JSON.parse(json)
+            if (Array.isArray(urls)) {
+              this.urls = urls
+            }
+          } catch (error) {
+            console.error(error)
           }
-        } catch (error) {}
+        })
       }
       // 初始化工具
       if (user.tools) {
         this.tools = user.tools
       }
+
       // 初始化便签
       if (user.memo) {
-        const memo = await mp.decrypt(user.memo)
-        if (memo) {
-          this.memo = memo
-        }
+        mp.decrypt(user.memo).then((memo) => {
+          if (memo) {
+            this.memo = memo
+          }
+        })
       }
     },
     updateTools() {

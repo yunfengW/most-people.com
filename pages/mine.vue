@@ -9,10 +9,12 @@
           fit="cover"
         ></el-image>
         <h4>{{ userStore.user.name }}</h4>
-        <span>注册时间：{{ dayjs(Number(userStore.user?.sign_time)).format('YYYY-MM-DD HH:mm:ss') }}</span>
-        <br>
+        <span>
+          注册时间：{{ dayjs(Number(userStore.user?.sign_time)).format('YYYY-MM-DD HH:mm:ss') }}
+        </span>
+        <br />
         <span>以太坊地址：{{ userStore.user.address }}</span>
-        <br>
+        <br />
         <span>公钥：{{ userStore.user.public_key || '' }}</span>
         <el-button type="danger" plain @click="userStore.exit">退出</el-button>
       </div>
