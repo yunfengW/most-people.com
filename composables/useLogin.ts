@@ -34,16 +34,15 @@ export const useLogin = () => {
             const mp_private_key = await mp.encrypt(private_key, key)
             indexDB.setUser({ name: username, key, token, mp_private_key }).then((ok) => {
               if (ok) {
-                userStore.initUser(user, token).then(() => {
-                  // auto add public_key
-                  if (!user.public_key) {
-                    api({
-                      method: 'post',
-                      url: '/user/update',
-                      data: { public_key },
-                    })
-                  }
-                })
+                userStore.initUser(user, token)
+                // auto add public_key
+                if (!user.public_key) {
+                  api({
+                    method: 'post',
+                    url: '/user/update',
+                    data: { public_key },
+                  })
+                }
                 router.back()
               } else {
                 mp.error('indexDB 写入失败')

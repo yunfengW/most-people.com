@@ -2,8 +2,11 @@
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right>
-        <div class="edit" v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
-          @click="publish">
+        <div
+          class="edit"
+          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
+          @click="publish"
+        >
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -14,7 +17,12 @@
       </template>
     </mp-header>
 
-    <div v-if="md.form.content" v-show="!showEdit" class="mp-markdown-box" v-html="md.render(md.form.content)"></div>
+    <div
+      v-if="md.form.content"
+      v-show="!showEdit"
+      class="mp-markdown-box"
+      v-html="md.render(md.form.content)"
+    ></div>
     <div class="markdown-empty" v-else-if="md.form.inited">
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
@@ -29,7 +37,12 @@
       </div>
 
       <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
-      <monaco-editor class="editor" v-model="md.form.content" lang="markdown" :options="md.options" />
+      <monaco-editor
+        class="editor"
+        v-model="md.form.content"
+        lang="markdown"
+        :options="md.options"
+      />
     </div>
   </div>
 </template>
@@ -89,6 +102,7 @@ const init = () => {
 
 const markdownElement = ref<HTMLDivElement>()
 const md = useMarkdown(markdownElement)
+
 onMounted(() => {
   init()
 })

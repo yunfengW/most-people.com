@@ -42,7 +42,7 @@
                 <el-button type="danger" @click="userStore.exit">退出</el-button>
               </nuxt-link>
             </template>
-            <nuxt-link to="/login" v-else>
+            <nuxt-link to="/login" v-else-if="userStore.inited">
               <el-button type="primary">登录 / 注册</el-button>
             </nuxt-link>
           </div>
