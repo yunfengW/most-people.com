@@ -15,7 +15,6 @@
 
     <input class="note-title" v-model="md.form.title" placeholder="输入标题" :readonly="readonly" />
     <div class="note-public">
-      <span>是否公开：</span>
       <el-switch
         v-model="md.form.isPublic"
         inline-prompt
@@ -37,6 +36,13 @@
       <mp-icon name="loading" />
     </div>
 
+    <div class="note-authors">
+      <div class="authors">
+        <span>SEA</span>
+        <span>{{ mp.formatTime(updated_time) }}</span>
+      </div>
+    </div>
+
     <div class="mp-markdown-editor" :class="{ 'show-edit': md.form.showEdit }">
       <div class="close" @click="md.form.showEdit = false">
         <mp-icon name="edit-back" />
@@ -55,7 +61,6 @@
 
 <script setup lang="ts">
 import { useMarkdown } from '~/composables/useMarkdown'
-
 import api from '~/utils/api'
 
 const route = useRoute()
@@ -110,6 +115,7 @@ const decrypt = async (content: string) => {
   return content || '# 新建笔记\n点击右上角 开启编辑'
 }
 const user_id = ref(0)
+const updated_time = ref('')
 const readonly = computed(() => {
   return useUserStore().user?.id !== user_id.value
 })
@@ -132,8 +138,10 @@ const init = async () => {
     const isPublic = note.content.startsWith('mp://') === false
     md.form.isPublic = isPublic
     md.form.isPublicOld = isPublic
-    // 用户
+    // 创建者
     user_id.value = note.user_id
+    //
+    updated_time.value = note.updated_time
   } else {
     mp.error('笔记不存在')
     router.back()
@@ -173,6 +181,17 @@ if (process.client) {
     width: 100%;
     font-size: 14px;
     color: #909399;
+  }
+  .note-authors {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    .authors {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      gap: 8px;
+    }
   }
 }
 </style>

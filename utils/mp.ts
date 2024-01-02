@@ -81,32 +81,6 @@ const mp = {
     }
     return ''
   },
-  // 非对称加密
-  // encode(text: string, senderPrivateKey: string, receiverPublicKey: string) {
-  //   const nonce = sodium.randombytes_buf(sodium.crypto_box_NONCEBYTES)
-  //   const encrypted = sodium.crypto_box_easy(
-  //     text,
-  //     nonce,
-  //     sodium.from_hex(receiverPublicKey),
-  //     sodium.from_hex(senderPrivateKey),
-  //   )
-  //   return [sodium.to_base64(nonce), sodium.to_base64(encrypted)].join('.')
-  // },
-  // decode(encoded: string, senderPublicKey: string, receiverPrivateKey: string) {
-  //   try {
-  //     const [nonce, encrypted] = encoded.split('.')
-  //     const decrypted = sodium.crypto_box_open_easy(
-  //       sodium.from_base64(encrypted),
-  //       sodium.from_base64(nonce),
-  //       sodium.from_hex(senderPublicKey),
-  //       sodium.from_hex(receiverPrivateKey),
-  //     )
-  //     return sodium.to_string(decrypted)
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  //   return ''
-  // },
   // 加密
   async encrypt(text: string, key?: CryptoKey) {
     if (!key) {
@@ -196,6 +170,35 @@ const mp = {
       customClass: 'mp-message-info',
       grouping: true,
     })
+  },
+
+  // 格式化时间
+  formatTime(time: string) {
+    if (!time) {
+      return ''
+    }
+    const date = dayjs(Number(time))
+    const hour = date.hour()
+    // 判断当前时间段
+    let timeOfDay
+    if (hour >= 0 && hour < 3) {
+      timeOfDay = '凌晨'
+    } else if (hour >= 3 && hour < 6) {
+      timeOfDay = '拂晓'
+    } else if (hour >= 6 && hour < 9) {
+      timeOfDay = '早晨'
+    } else if (hour >= 9 && hour < 12) {
+      timeOfDay = '午前'
+    } else if (hour >= 12 && hour < 15) {
+      timeOfDay = '午后'
+    } else if (hour >= 15 && hour < 18) {
+      timeOfDay = '傍晚'
+    } else if (hour >= 18 && hour < 21) {
+      timeOfDay = '薄暮'
+    } else {
+      timeOfDay = '深夜'
+    }
+    return date.format(`YYYY年M月D日 ${timeOfDay}h点m分`)
   },
 }
 
