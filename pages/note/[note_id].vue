@@ -13,7 +13,7 @@
       </template>
     </mp-header>
 
-    <input class="note-title" v-model="md.form.title" placeholder="输入标题" :readonly="readonly" />
+    <input class="note-title" v-model="md.form.title" :readonly="readonly" />
     <div class="note-public">
       <el-switch
         v-model="md.form.isPublic"
@@ -38,7 +38,7 @@
 
     <div class="note-authors">
       <div class="authors">
-        <span>SEA</span>
+        <!-- <span>{{ userStore.user?.name }}</span> -->
         <span>{{ mp.formatTime(updated_time) }}</span>
       </div>
     </div>
@@ -67,6 +67,7 @@ const route = useRoute()
 const router = useRouter()
 const note_id = (route.params.note_id || '') as string
 const noteStore = useNoteStore()
+const userStore = useUserStore()
 
 const publish = async () => {
   let text = md.form.content
@@ -117,7 +118,7 @@ const decrypt = async (content: string) => {
 const user_id = ref(0)
 const updated_time = ref('')
 const readonly = computed(() => {
-  return useUserStore().user?.id !== user_id.value
+  return userStore.user?.id !== user_id.value
 })
 
 const init = async () => {
