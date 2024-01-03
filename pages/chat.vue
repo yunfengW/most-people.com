@@ -56,19 +56,25 @@ const startGroup = () => {
 
 onMounted(async () => {
   // 私聊
-  const SEA = await mp.key('Test1', 'most-people.com')
-  const FourU = await mp.key('Test2', 'www.most-people.com')
+  const A = await mp.key('A', 'most-people.com')
+  const B = await mp.key('B', 'www.most-people.com')
 
-  const encoded1 = mp.encode('SEA: 你好吗', FourU.public_key, SEA.private_key)
-  const messageSEA = mp.decode(encoded1, SEA.public_key, FourU.private_key)
-  console.log('🌊', messageSEA)
-  const encoded2 = mp.encode('4u: 我很好', SEA.public_key, FourU.private_key)
-  const message4u = mp.decode(encoded2, FourU.public_key, SEA.private_key)
-  console.log('🌊', message4u)
+  const A_to_B = mp.decode(
+    mp.encode('A: 你好吗', B.public_key, A.private_key),
+    A.public_key,
+    B.private_key,
+  )
+  console.log('🌊', A_to_B)
+  const B_to_A = mp.decode(
+    mp.encode('B: 我很好', A.public_key, B.private_key),
+    B.public_key,
+    A.private_key,
+  )
+  console.log('🌊', B_to_A)
 
   // 群聊
   const { key } = await mp.key('测试测试', '收到收到')
-  const encrypted = await mp.encrypt('你好', key)
+  const encrypted = await mp.encrypt('歪比歪比', key)
   const decrypted = await mp.decrypt(encrypted, key)
   console.log('🌊', decrypted)
 })
