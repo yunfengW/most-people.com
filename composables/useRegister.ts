@@ -17,7 +17,7 @@ export const useRegister = () => {
     if (!formElement.value) return
     formElement.value.validate(async (ok: boolean) => {
       if (ok) {
-        ElMessageBox.prompt('请牢记您的密码，本站数据加密公开，忘记密码将失去账号。', {
+        ElMessageBox.prompt('请牢记您的密码，most-people 数据加密公开，忘记密码将失去账号。', {
           closeOnClickModal: false,
           closeOnPressEscape: false,
           showCancelButton: true,

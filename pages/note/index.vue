@@ -35,7 +35,6 @@
 import api from '~/utils/api'
 
 const noteStore = useNoteStore()
-const userStore = useUserStore()
 
 const filter = ref('')
 

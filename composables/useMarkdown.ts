@@ -32,21 +32,34 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
 
   const form = reactive({
     title: '',
-    titleOld: '',
     content: '',
-    contentOld: '',
     // 状态
     isPublic: true,
-    isPublicOld: true,
+    // 多人协作
+    note_password_hash: '',
     inited: false,
     showEdit: false,
   })
 
+  const backup = reactive({
+    title: '',
+    content: '',
+    isPublic: true,
+    note_password_hash: '',
+  })
+
   const needPublish = computed(() => {
+    console.log(
+      form.content !== backup.content,
+      form.title !== backup.title,
+      form.note_password_hash !== backup.note_password_hash,
+      form.isPublic !== backup.isPublic,
+    )
     return (
-      form.content !== form.contentOld ||
-      form.title !== form.titleOld ||
-      form.isPublic !== form.isPublicOld
+      form.content !== backup.content ||
+      form.title !== backup.title ||
+      form.note_password_hash !== backup.note_password_hash ||
+      form.isPublic !== backup.isPublic
     )
   })
 
@@ -124,6 +137,7 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     options,
     markdownElement,
     form,
+    backup,
     toc,
   }
 }

@@ -2,11 +2,7 @@
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
       <template #right>
-        <div
-          class="edit"
-          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
-          @click="publish"
-        >
+        <div class="edit" v-show="md.needPublish.value" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -83,7 +79,7 @@ const publish = async () => {
   }
   if (res.data === true) {
     mp.success('发布成功！')
-    md.form.contentOld = md.form.content
+    md.backup.content = md.form.content
     const tool = toolStore.tools[tool_id]
     tool.content = md.form.content
   }
@@ -96,7 +92,7 @@ const init = () => {
   const text = tool?.content
   if (text) {
     md.form.content = text
-    md.form.contentOld = text
+    md.backup.content = text
   }
 }
 

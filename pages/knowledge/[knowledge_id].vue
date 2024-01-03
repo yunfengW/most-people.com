@@ -2,11 +2,7 @@
   <div id="page-knowledge-id" ref="markdownElement">
     <mp-header title="">
       <template #right>
-        <div
-          class="edit"
-          v-show="md.form.content !== md.form.contentOld || md.form.title !== md.form.titleOld"
-          @click="publish"
-        >
+        <div class="edit" v-show="md.needPublish.value" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
@@ -73,8 +69,8 @@ const publish = async () => {
   if (res.data === true) {
     mp.success('发布成功！')
 
-    md.form.titleOld = md.form.title
-    md.form.contentOld = md.form.content
+    md.backup.title = md.form.title
+    md.backup.content = md.form.content
 
     const i = knowledgeStore.list.findIndex((knowledge) => String(knowledge.id) === knowledge_id)
     if (i !== -1) {
@@ -95,9 +91,9 @@ const init = async () => {
     const text = knowledge.content || '# 新答案\n点击右上角 开启编辑'
 
     md.form.title = knowledge.title
-    md.form.titleOld = knowledge.title
+    md.backup.title = knowledge.title
     md.form.content = text
-    md.form.contentOld = text
+    md.backup.content = text
   } else {
     mp.error('知识不存在')
     router.back()

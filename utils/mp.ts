@@ -49,7 +49,7 @@ const mp = {
     return { key, address, token, privateKey, public_key, private_key }
   },
   // 共享秘钥，对称加密
-  encode(text: string, otherPublicKey: string, myPrivateKey: string) {
+  chatEncode(text: string, otherPublicKey: string, myPrivateKey: string) {
     try {
       const sharedKey = sodium.crypto_scalarmult(
         sodium.from_hex(myPrivateKey),
@@ -63,7 +63,7 @@ const mp = {
     }
     return ''
   },
-  decode(encoded: string, otherPublicKey: string, myPrivateKey: string) {
+  chatDecode(encoded: string, otherPublicKey: string, myPrivateKey: string) {
     try {
       const [nonce, encrypted] = encoded.split('.')
       const sharedKey = sodium.crypto_scalarmult(
@@ -135,12 +135,12 @@ const mp = {
       return ''
     }
   },
-  deBase64(s: string) {
-    return decodeURIComponent(atob(s))
-  },
-  enBase64(s: string) {
-    return btoa(encodeURIComponent(s))
-  },
+  // deBase64(s: string) {
+  //   return decodeURIComponent(atob(s))
+  // },
+  // enBase64(s: string) {
+  //   return btoa(encodeURIComponent(s))
+  // },
   // 错误提示
   error(message: string) {
     ElMessage({

@@ -16,10 +16,22 @@
     <input class="note-title" v-model="md.form.title" :readonly="readonly" />
     <div class="note-public">
       <el-switch
+        :value="Boolean(md.form.note_password_hash)"
+        inline-prompt
+        active-text="多人协作"
+        inactive-text="仅自己"
+        width="88"
+        size="large"
+        :loading="lockLoading"
+        :before-change="changeNoteLock"
+        :disabled="user_id !== userStore.user?.id"
+      />
+      <el-switch
         v-model="md.form.isPublic"
         inline-prompt
         active-text="公开"
         inactive-text="私有"
+        width="60"
         size="large"
         :disabled="readonly"
       />
@@ -38,7 +50,7 @@
 
     <div class="note-authors">
       <div class="authors">
-        <!-- <span>{{ userStore.user?.name }}</span> -->
+        <span>{{ authors }}</span>
         <span>{{ mp.formatTime(updated_time) }}</span>
       </div>
     </div>
@@ -69,6 +81,59 @@ const note_id = (route.params.note_id || '') as string
 const noteStore = useNoteStore()
 const userStore = useUserStore()
 
+const lockLoading = ref(false)
+
+const changeNoteLock = (): Promise<boolean> => {
+  lockLoading.value = true
+  return new Promise((resolve) => {
+    if (md.form.note_password_hash) {
+      ElMessageBox.prompt('确认关闭多人协作？', {
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showCancelButton: true,
+        showClose: false,
+        showInput: false,
+        cancelButtonText: '取消',
+        confirmButtonText: '确认',
+      })
+        .then(async () => {
+          lockLoading.value = false
+          md.form.note_password_hash = ''
+          resolve(true)
+        })
+        .catch(() => {
+          resolve(false)
+          lockLoading.value = false
+        })
+      return
+    }
+    ElMessageBox.prompt('请输入协作密码', {
+      closeOnClickModal: false,
+      closeOnPressEscape: false,
+      showCancelButton: true,
+      showClose: false,
+      showInput: true,
+      cancelButtonText: '取消',
+      confirmButtonText: '确认',
+      inputValidator(v: string) {
+        if (!v) {
+          return '请输入协作密码'
+        }
+        return true
+      },
+    })
+      .then(async ({ value }) => {
+        lockLoading.value = false
+        md.form.note_password_hash = await mp.encrypt(value)
+        resolve(true)
+      })
+      .catch(() => {
+        resolve(false)
+        lockLoading.value = false
+      })
+  })
+}
+
 const publish = async () => {
   let text = md.form.content
   if (md.form.isPublic == false) {
@@ -91,8 +156,8 @@ const publish = async () => {
     mp.success('发布成功！')
 
     // 发布状态
-    md.form.contentOld = md.form.content
-    md.form.titleOld = md.form.title
+    md.backup.content = md.form.content
+    md.backup.title = md.form.title
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
     if (i !== -1) {
@@ -115,11 +180,24 @@ const decrypt = async (content: string) => {
   }
   return content || '# 新建笔记\n点击右上角 开启编辑'
 }
+const authors = ref('')
 const user_id = ref(0)
 const updated_time = ref('')
 const readonly = computed(() => {
   return userStore.user?.id !== user_id.value
 })
+
+const initNames = async (user_ids: number[]) => {
+  user_ids = user_ids.filter((uid) => uid > 0)
+  const res = await api({
+    method: 'post',
+    url: '/user/get.user.name',
+    data: { user_ids },
+  })
+  if (Array.isArray(res.data)) {
+    authors.value = res.data.join('　')
+  }
+}
 
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
@@ -130,18 +208,19 @@ const init = async () => {
     const text = await decrypt(note.content)
     // 内容
     md.form.content = text
-    md.form.contentOld = text
+    md.backup.content = text
     // 标题
     useHead({ title: note.title })
     md.form.title = note.title
-    md.form.titleOld = note.title
+    md.backup.title = note.title
     // 是否公开
     const isPublic = note.content.startsWith('mp://') === false
     md.form.isPublic = isPublic
-    md.form.isPublicOld = isPublic
+    md.backup.isPublic = isPublic
     // 创建者
     user_id.value = note.user_id
-    //
+    initNames([note.user_id])
+    // 更新时间
     updated_time.value = note.updated_time
   } else {
     mp.error('笔记不存在')
@@ -182,6 +261,9 @@ if (process.client) {
     width: 100%;
     font-size: 14px;
     color: #909399;
+    .el-switch + .el-switch {
+      margin-left: 10px;
+    }
   }
   .note-authors {
     width: 100%;

@@ -59,14 +59,14 @@ onMounted(async () => {
   const A = await mp.key('A', 'most-people.com')
   const B = await mp.key('B', 'www.most-people.com')
 
-  const A_to_B = mp.decode(
-    mp.encode('A: 你好吗', B.public_key, A.private_key),
+  const A_to_B = mp.chatDecode(
+    mp.chatEncode('A: 你好吗', B.public_key, A.private_key),
     A.public_key,
     B.private_key,
   )
   console.log('🌊', A_to_B)
-  const B_to_A = mp.decode(
-    mp.encode('B: 我很好', A.public_key, B.private_key),
+  const B_to_A = mp.chatDecode(
+    mp.chatEncode('B: 我很好', A.public_key, B.private_key),
     B.public_key,
     A.private_key,
   )
