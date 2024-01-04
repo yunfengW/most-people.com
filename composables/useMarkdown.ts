@@ -49,12 +49,6 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
   })
 
   const needPublish = computed(() => {
-    console.log(
-      form.content !== backup.content,
-      form.title !== backup.title,
-      form.note_password_hash !== backup.note_password_hash,
-      form.isPublic !== backup.isPublic,
-    )
     return (
       form.content !== backup.content ||
       form.title !== backup.title ||

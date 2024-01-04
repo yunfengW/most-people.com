@@ -6,6 +6,9 @@ export interface Note {
   content: string
   updated_time: string
   user_id: number
+  passwords?: {
+    [key: string]: string
+  }
 }
 
 interface NoteStore {

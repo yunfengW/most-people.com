@@ -137,7 +137,15 @@ const changeNoteLock = (): Promise<boolean> => {
 const publish = async () => {
   let text = md.form.content
   if (md.form.isPublic == false) {
-    text = await mp.encrypt(text)
+    if (md.form.note_password_hash) {
+      const password = await mp.decrypt(md.form.note_password_hash)
+      if (password) {
+        const { key } = await mp.key(note_id, password)
+        text = await mp.encrypt(text, key)
+      }
+    } else {
+      text = await mp.encrypt(text)
+    }
   }
   const res = await api({
     method: 'put',
@@ -146,6 +154,7 @@ const publish = async () => {
       id: Number(note_id),
       title: md.form.title,
       content: text,
+      note_password_hash: md.form.note_password_hash,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -167,12 +176,21 @@ const publish = async () => {
   }
 }
 
-const decrypt = async (content: string) => {
+const decryptContent = async (content: string, note_password_hash?: string) => {
   if (content.startsWith('mp://')) {
     try {
-      const text = await mp.decrypt(content)
-      if (text) {
-        return text
+      if (note_password_hash) {
+        const password = await mp.decrypt(note_password_hash)
+        const { key } = await mp.key(note_id, password)
+        const text = await mp.decrypt(content, key)
+        if (text) {
+          return text
+        }
+      } else {
+        const text = await mp.decrypt(content)
+        if (text) {
+          return text
+        }
       }
     } catch (error) {
       console.error(error)
@@ -187,25 +205,21 @@ const readonly = computed(() => {
   return userStore.user?.id !== user_id.value
 })
 
-const initNames = async (user_ids: number[]) => {
-  user_ids = user_ids.filter((uid) => uid > 0)
-  const res = await api({
-    method: 'post',
-    url: '/user/get.user.name',
-    data: { user_ids },
-  })
-  if (Array.isArray(res.data)) {
-    authors.value = res.data.join('　')
-  }
-}
-
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
   md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
 
-    const text = await decrypt(note.content)
+    // 多人协作
+    if (note.passwords) {
+      const username = localStorage.getItem('username') || ''
+      md.form.note_password_hash = note.passwords[username] || ''
+      // 作者
+      authors.value = Object.keys(note.passwords).join('　')
+    }
+    // 解密
+    const text = await decryptContent(note.content, md.form.note_password_hash)
     // 内容
     md.form.content = text
     md.backup.content = text
@@ -219,7 +233,6 @@ const init = async () => {
     md.backup.isPublic = isPublic
     // 创建者
     user_id.value = note.user_id
-    initNames([note.user_id])
     // 更新时间
     updated_time.value = note.updated_time
   } else {
@@ -231,9 +244,9 @@ const init = async () => {
 const markdownElement = ref<HTMLDivElement>()
 const md = useMarkdown(markdownElement)
 
-if (process.client) {
+onMounted(() => {
   init()
-}
+})
 </script>
 
 <style lang="scss">

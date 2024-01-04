@@ -5,6 +5,7 @@ export interface UserDB {
   name: string
   key: CryptoKey
   token: string
+  // 加密聊天 - 单线联系
   mp_private_key: string
 }
 

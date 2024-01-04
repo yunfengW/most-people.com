@@ -135,12 +135,12 @@ const mp = {
       return ''
     }
   },
-  // deBase64(s: string) {
-  //   return decodeURIComponent(atob(s))
-  // },
-  // enBase64(s: string) {
-  //   return btoa(encodeURIComponent(s))
-  // },
+  deBase64(s: string) {
+    return decodeURIComponent(atob(s))
+  },
+  enBase64(s: string) {
+    return btoa(encodeURIComponent(s))
+  },
   // 错误提示
   error(message: string) {
     ElMessage({
