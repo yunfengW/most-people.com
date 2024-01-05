@@ -9,6 +9,7 @@ export interface Note {
   passwords?: {
     [key: string]: string
   }
+  note_password_hash?: string
 }
 
 interface NoteStore {

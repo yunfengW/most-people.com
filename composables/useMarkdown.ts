@@ -37,6 +37,7 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     isPublic: true,
     // 多人协作
     note_password_hash: '',
+    user_password_hash: '',
     inited: false,
     showEdit: false,
   })
@@ -45,6 +46,7 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     title: '',
     content: '',
     isPublic: true,
+    user_password_hash: '',
     note_password_hash: '',
   })
 
@@ -52,6 +54,7 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     return (
       form.content !== backup.content ||
       form.title !== backup.title ||
+      form.user_password_hash !== backup.user_password_hash ||
       form.note_password_hash !== backup.note_password_hash ||
       form.isPublic !== backup.isPublic
     )

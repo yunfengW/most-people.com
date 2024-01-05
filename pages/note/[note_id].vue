@@ -16,7 +16,7 @@
     <input class="note-title" v-model="md.form.title" :readonly="readonly" />
     <div class="note-public">
       <el-switch
-        :value="Boolean(md.form.note_password_hash)"
+        :value="Boolean(md.form.user_password_hash)"
         inline-prompt
         active-text="多人协作"
         inactive-text="仅自己"
@@ -86,7 +86,7 @@ const lockLoading = ref(false)
 const changeNoteLock = (): Promise<boolean> => {
   lockLoading.value = true
   return new Promise((resolve) => {
-    if (md.form.note_password_hash) {
+    if (md.form.user_password_hash) {
       ElMessageBox.prompt('确认关闭多人协作？', {
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -98,7 +98,7 @@ const changeNoteLock = (): Promise<boolean> => {
       })
         .then(async () => {
           lockLoading.value = false
-          md.form.note_password_hash = ''
+          md.form.user_password_hash = ''
           resolve(true)
         })
         .catch(() => {
@@ -124,7 +124,7 @@ const changeNoteLock = (): Promise<boolean> => {
     })
       .then(async ({ value }) => {
         lockLoading.value = false
-        md.form.note_password_hash = await mp.encrypt(value)
+        md.form.user_password_hash = await mp.encrypt(value)
         resolve(true)
       })
       .catch(() => {
@@ -137,8 +137,8 @@ const changeNoteLock = (): Promise<boolean> => {
 const publish = async () => {
   let text = md.form.content
   if (md.form.isPublic == false) {
-    if (md.form.note_password_hash) {
-      const password = await mp.decrypt(md.form.note_password_hash)
+    if (md.form.user_password_hash) {
+      const password = await mp.decrypt(md.form.user_password_hash)
       if (password) {
         const { key } = await mp.key(note_id, password)
         text = await mp.encrypt(text, key)
@@ -147,6 +147,16 @@ const publish = async () => {
       text = await mp.encrypt(text)
     }
   }
+
+  let note_password_hash = ''
+  if (md.form.user_password_hash) {
+    const password = await mp.decrypt(md.form.user_password_hash)
+    if (password) {
+      const { key } = await mp.key(note_id, password)
+      note_password_hash = await mp.encrypt(password, key)
+    }
+  }
+
   const res = await api({
     method: 'put',
     url: '/note/update',
@@ -154,7 +164,8 @@ const publish = async () => {
       id: Number(note_id),
       title: md.form.title,
       content: text,
-      note_password_hash: md.form.note_password_hash,
+      user_password_hash: md.form.user_password_hash,
+      note_password_hash,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -167,6 +178,8 @@ const publish = async () => {
     // 发布状态
     md.backup.content = md.form.content
     md.backup.title = md.form.title
+    md.backup.user_password_hash = md.form.user_password_hash
+    md.backup.note_password_hash = md.form.note_password_hash
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
     if (i !== -1) {
@@ -176,11 +189,11 @@ const publish = async () => {
   }
 }
 
-const decryptContent = async (content: string, note_password_hash?: string) => {
+const decryptContent = async (content: string, user_password_hash?: string) => {
   if (content.startsWith('mp://')) {
     try {
-      if (note_password_hash) {
-        const password = await mp.decrypt(note_password_hash)
+      if (user_password_hash) {
+        const password = await mp.decrypt(user_password_hash)
         const { key } = await mp.key(note_id, password)
         const text = await mp.decrypt(content, key)
         if (text) {
@@ -214,13 +227,66 @@ const init = async () => {
     // 多人协作
     if (note.passwords) {
       const username = localStorage.getItem('username') || ''
-      md.form.note_password_hash = note.passwords[username] || ''
+      const user_password_hash = note.passwords[username]
+      if (user_password_hash) {
+        md.form.user_password_hash = user_password_hash
+        md.backup.user_password_hash = user_password_hash
+      } else {
+        // 加入协作
+        ElMessageBox.prompt('请输入协作密码', {
+          closeOnClickModal: false,
+          closeOnPressEscape: false,
+          showCancelButton: true,
+          showClose: false,
+          showInput: true,
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          async beforeClose(action, instance, done) {
+            if (action === 'confirm') {
+              const value = instance.inputValue
+              const { key } = await mp.key(note_id, value)
+              if (note.note_password_hash) {
+                md.form.note_password_hash = note.note_password_hash
+                md.backup.note_password_hash = note.note_password_hash
+                const password = await mp.decrypt(note.note_password_hash, key)
+                if (password) {
+                  md.form.user_password_hash = await mp.encrypt(password)
+                  md.backup.user_password_hash = await mp.encrypt(password)
+                  // 解密内容
+                  const text = await decryptContent(note.content, md.form.user_password_hash)
+                  md.form.content = text
+                  md.backup.content = text
+                  done()
+                } else {
+                  mp.error('密码不正确')
+                }
+              }
+            } else {
+              done()
+            }
+          },
+          inputValidator(v: string) {
+            if (!v) {
+              return '请输入协作密码'
+            }
+            return true
+          },
+        })
+          .then(() => {
+            lockLoading.value = false
+          })
+          .catch(() => {
+            lockLoading.value = false
+          })
+      }
       // 作者
       authors.value = Object.keys(note.passwords).join('　')
     }
-    // 解密
-    const text = await decryptContent(note.content, md.form.note_password_hash)
-    // 内容
+    // 是否协作
+    md.form.note_password_hash = note.note_password_hash || ''
+    md.backup.note_password_hash = note.note_password_hash || ''
+    // 解密内容
+    const text = await decryptContent(note.content, md.form.user_password_hash)
     md.form.content = text
     md.backup.content = text
     // 标题
