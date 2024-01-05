@@ -16,7 +16,7 @@
     <input class="note-title" v-model="md.form.title" :readonly="readonly" />
     <div class="note-public">
       <el-switch
-        :value="Boolean(md.form.user_password_hash)"
+        :value="Boolean(md.form.note_password_hash)"
         inline-prompt
         active-text="多人协作"
         inactive-text="仅自己"
@@ -86,7 +86,7 @@ const lockLoading = ref(false)
 const changeNoteLock = (): Promise<boolean> => {
   lockLoading.value = true
   return new Promise((resolve) => {
-    if (md.form.user_password_hash) {
+    if (md.form.note_password_hash) {
       ElMessageBox.prompt('确认关闭多人协作？', {
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -97,7 +97,7 @@ const changeNoteLock = (): Promise<boolean> => {
         confirmButtonText: '确认',
       })
         .then(() => {
-          md.form.user_password_hash = ''
+          md.form.note_password_hash = ''
           resolve(true)
           lockLoading.value = false
         })
@@ -123,8 +123,9 @@ const changeNoteLock = (): Promise<boolean> => {
       })
         .then(async ({ value }) => {
           lockLoading.value = false
-          const hash = await mp.encrypt(value)
-          md.form.user_password_hash = hash
+          md.form.user_password_hash = await mp.encrypt(value)
+          const { key } = await mp.key(note_id, value)
+          md.form.note_password_hash = await mp.encrypt(value, key)
           resolve(true)
         })
         .catch(() => {
@@ -179,7 +180,6 @@ const publish = async () => {
     // 发布状态
     md.backup.content = md.form.content
     md.backup.title = md.form.title
-    md.backup.user_password_hash = md.form.user_password_hash
     md.backup.note_password_hash = md.form.note_password_hash
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
@@ -221,7 +221,9 @@ const authors = ref('')
 const user_id = ref(0)
 const updated_time = ref('')
 const readonly = computed(() => {
-  // return userStore.user?.id !== user_id.value
+  if (userStore.user?.id === user_id.value) {
+    return false
+  }
   return !md.form.user_password_hash
 })
 
@@ -230,14 +232,13 @@ const init = async () => {
   md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
-
     // 多人协作
     if (note.passwords) {
       const username = localStorage.getItem('username') || ''
-      const user_password_hash = note.passwords[username]
-      if (user_password_hash) {
-        md.form.user_password_hash = user_password_hash
-        md.backup.user_password_hash = user_password_hash
+      const hash = note.passwords[username]
+      if (hash) {
+        md.form.user_password_hash = hash
+        md.backup.user_password_hash = hash
       } else {
         // 加入协作
         ElMessageBox.prompt('请输入协作密码', {
