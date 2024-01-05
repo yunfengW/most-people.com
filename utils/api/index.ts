@@ -47,7 +47,7 @@ const setInterceptors = (api: AxiosInstance) => {
 
 const api = Axios.create({
   // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  baseURL: 'https://most.red',
+  baseURL: 'https://api.most-people.cn',
 })
 
 setInterceptors(api)
