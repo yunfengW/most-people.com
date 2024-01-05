@@ -96,41 +96,42 @@ const changeNoteLock = (): Promise<boolean> => {
         cancelButtonText: '取消',
         confirmButtonText: '确认',
       })
-        .then(async () => {
-          lockLoading.value = false
+        .then(() => {
           md.form.user_password_hash = ''
+          resolve(true)
+          lockLoading.value = false
+        })
+        .catch(() => {
+          resolve(false)
+          lockLoading.value = false
+        })
+    } else {
+      ElMessageBox.prompt('请输入协作密码', {
+        closeOnClickModal: false,
+        closeOnPressEscape: false,
+        showCancelButton: true,
+        showClose: false,
+        showInput: true,
+        cancelButtonText: '取消',
+        confirmButtonText: '确认',
+        inputValidator(v: string) {
+          if (!v) {
+            return '请输入协作密码'
+          }
+          return true
+        },
+      })
+        .then(async ({ value }) => {
+          lockLoading.value = false
+          const hash = await mp.encrypt(value)
+          md.form.user_password_hash = hash
           resolve(true)
         })
         .catch(() => {
           resolve(false)
           lockLoading.value = false
         })
-      return
     }
-    ElMessageBox.prompt('请输入协作密码', {
-      closeOnClickModal: false,
-      closeOnPressEscape: false,
-      showCancelButton: true,
-      showClose: false,
-      showInput: true,
-      cancelButtonText: '取消',
-      confirmButtonText: '确认',
-      inputValidator(v: string) {
-        if (!v) {
-          return '请输入协作密码'
-        }
-        return true
-      },
-    })
-      .then(async ({ value }) => {
-        lockLoading.value = false
-        md.form.user_password_hash = await mp.encrypt(value)
-        resolve(true)
-      })
-      .catch(() => {
-        resolve(false)
-        lockLoading.value = false
-      })
   })
 }
 
@@ -189,33 +190,39 @@ const publish = async () => {
   }
 }
 
-const decryptContent = async (content: string, user_password_hash?: string) => {
+const decryptContent = async (content: string) => {
+  let result = ''
   if (content.startsWith('mp://')) {
     try {
-      if (user_password_hash) {
-        const password = await mp.decrypt(user_password_hash)
+      if (md.form.user_password_hash) {
+        const password = await mp.decrypt(md.form.user_password_hash)
         const { key } = await mp.key(note_id, password)
         const text = await mp.decrypt(content, key)
         if (text) {
-          return text
+          result = text
         }
       } else {
         const text = await mp.decrypt(content)
         if (text) {
-          return text
+          result = text
         }
       }
     } catch (error) {
       console.error(error)
     }
   }
-  return content || '# 新建笔记\n点击右上角 开启编辑'
+  if (!result) {
+    result = content || '# 新建笔记\n点击右上角 开启编辑'
+  }
+  md.form.content = result
+  md.backup.content = result
 }
 const authors = ref('')
 const user_id = ref(0)
 const updated_time = ref('')
 const readonly = computed(() => {
-  return userStore.user?.id !== user_id.value
+  // return userStore.user?.id !== user_id.value
+  return !md.form.user_password_hash
 })
 
 const init = async () => {
@@ -250,12 +257,11 @@ const init = async () => {
                 md.backup.note_password_hash = note.note_password_hash
                 const password = await mp.decrypt(note.note_password_hash, key)
                 if (password) {
-                  md.form.user_password_hash = await mp.encrypt(password)
-                  md.backup.user_password_hash = await mp.encrypt(password)
+                  const hash = await mp.encrypt(password)
+                  md.form.user_password_hash = hash
+                  md.backup.user_password_hash = hash
                   // 解密内容
-                  const text = await decryptContent(note.content, md.form.user_password_hash)
-                  md.form.content = text
-                  md.backup.content = text
+                  decryptContent(note.content)
                   done()
                 } else {
                   mp.error('密码不正确')
@@ -286,9 +292,7 @@ const init = async () => {
     md.form.note_password_hash = note.note_password_hash || ''
     md.backup.note_password_hash = note.note_password_hash || ''
     // 解密内容
-    const text = await decryptContent(note.content, md.form.user_password_hash)
-    md.form.content = text
-    md.backup.content = text
+    decryptContent(note.content)
     // 标题
     useHead({ title: note.title })
     md.form.title = note.title
