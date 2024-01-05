@@ -50,7 +50,7 @@
 
     <div class="note-authors">
       <div class="authors">
-        <span>{{ authors }}</span>
+        <span v-if="authors">{{ authors }}</span>
         <span>{{ mp.formatTime(updated_time) }}</span>
       </div>
     </div>
@@ -98,6 +98,7 @@ const changeNoteLock = (): Promise<boolean> => {
       })
         .then(() => {
           md.form.note_password_hash = ''
+          md.form.user_password_hash = ''
           resolve(true)
           lockLoading.value = false
         })
@@ -150,15 +151,6 @@ const publish = async () => {
     }
   }
 
-  let note_password_hash = ''
-  if (md.form.user_password_hash) {
-    const password = await mp.decrypt(md.form.user_password_hash)
-    if (password) {
-      const { key } = await mp.key(note_id, password)
-      note_password_hash = await mp.encrypt(password, key)
-    }
-  }
-
   const res = await api({
     method: 'put',
     url: '/note/update',
@@ -167,7 +159,7 @@ const publish = async () => {
       title: md.form.title,
       content: text,
       user_password_hash: md.form.user_password_hash,
-      note_password_hash,
+      note_password_hash: md.form.note_password_hash,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -255,12 +247,10 @@ const init = async () => {
               const { key } = await mp.key(note_id, value)
               if (note.note_password_hash) {
                 md.form.note_password_hash = note.note_password_hash
-                md.backup.note_password_hash = note.note_password_hash
                 const password = await mp.decrypt(note.note_password_hash, key)
                 if (password) {
                   const hash = await mp.encrypt(password)
                   md.form.user_password_hash = hash
-                  md.backup.user_password_hash = hash
                   // 解密内容
                   decryptContent(note.content)
                   done()
