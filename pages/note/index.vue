@@ -26,6 +26,13 @@
           <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
       </template>
+
+      <h4>多人协作</h4>
+      <template v-for="note in encryptedNotes">
+        <nuxt-link :to="`/note/${note.id}`">
+          <el-button link>{{ note.title }}</el-button>
+        </nuxt-link>
+      </template>
     </main>
     <mp-loading v-else />
   </div>

@@ -6,9 +6,8 @@ export interface Note {
   content: string
   updated_time: string
   user_id: number
-  passwords?: {
-    [key: string]: string
-  }
+  authors?: string[]
+  passwords?: string[]
   note_password_hash?: string
 }
 

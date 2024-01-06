@@ -219,15 +219,25 @@ const readonly = computed(() => {
   return !md.form.user_password_hash
 })
 
+const getUserPasswordHash = (note: Note) => {
+  if (note.authors && note.passwords) {
+    const username = localStorage.getItem('username') || ''
+    const i = note.authors.findIndex((e) => e === username)
+    if (i !== -1) {
+      return note.passwords[i] || ''
+    }
+  }
+  return ''
+}
+
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
   md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
     // 多人协作
-    if (note.passwords) {
-      const username = localStorage.getItem('username') || ''
-      const hash = note.passwords[username]
+    if (note.note_password_hash) {
+      const hash = getUserPasswordHash(note)
       if (hash) {
         md.form.user_password_hash = hash
         md.backup.user_password_hash = hash
@@ -277,7 +287,7 @@ const init = async () => {
           })
       }
       // 作者
-      authors.value = Object.keys(note.passwords).join('　')
+      authors.value = Object.keys(note.authors || []).join('　')
     }
     // 是否协作
     md.form.note_password_hash = note.note_password_hash || ''
