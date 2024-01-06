@@ -13,6 +13,7 @@ export interface Note {
 
 interface NoteStore {
   notes: Note[]
+  authorsNotes: Note[]
   inited: boolean
 }
 
@@ -21,17 +22,25 @@ export const useNoteStore = defineStore({
   state: (): NoteStore => {
     return {
       notes: [],
+      authorsNotes: [],
       inited: false,
     }
   },
   getters: {},
   actions: {
     async init() {
+      this.initAuthorsNotes()
       const userStore = useUserStore()
       if (userStore.user && !this.inited) {
         const res = await api({ method: 'post', url: '/db/Notes/user/' + userStore.user.id })
         this.notes = res.data as Note[]
         this.inited = true
+      }
+    },
+    async initAuthorsNotes() {
+      const res = await api({ method: 'post', url: '/note/authors' })
+      if (res.data) {
+        this.authorsNotes = res.data
       }
     },
   },

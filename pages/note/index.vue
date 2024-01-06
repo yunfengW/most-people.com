@@ -27,8 +27,8 @@
         </nuxt-link>
       </template>
 
-      <h4>多人协作</h4>
-      <template v-for="note in encryptedNotes">
+      <h4>多人笔记</h4>
+      <template v-for="note in noteStore.authorsNotes">
         <nuxt-link :to="`/note/${note.id}`">
           <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
@@ -69,17 +69,6 @@ const addNote = async () => {
     noteStore.notes.push(res.data)
   }
 }
-
-// onBeforeMount(() => {
-//   noteStore.init()
-// })
-
-// watch(
-//   () => userStore.user,
-//   () => {
-//     noteStore.init()
-//   },
-// )
 </script>
 
 <style lang="scss">

@@ -287,7 +287,7 @@ const init = async () => {
           })
       }
       // 作者
-      authors.value = Object.keys(note.authors || []).join('　')
+      authors.value = note.authors?.join('　') || ''
     }
     // 是否协作
     md.form.note_password_hash = note.note_password_hash || ''
