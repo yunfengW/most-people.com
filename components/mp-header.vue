@@ -22,7 +22,9 @@
                 :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
                 fit="cover"
               ></el-image>
-              <h4>{{ userStore.user?.name || 'Most-People' }}</h4>
+              <nuxt-link to="/mine" class="username">
+                {{ userStore.user?.name || 'Most-People' }}
+              </nuxt-link>
             </div>
 
             <nuxt-link to="/knowledge">
@@ -37,6 +39,9 @@
               </nuxt-link>
               <nuxt-link to="/chat">
                 <el-button type="info">联系人</el-button>
+              </nuxt-link>
+              <nuxt-link to="/pan">
+                <el-button type="primary" text bg>网盘</el-button>
               </nuxt-link>
               <nuxt-link>
                 <el-button type="danger" @click="userStore.exit">退出</el-button>

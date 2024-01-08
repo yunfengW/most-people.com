@@ -9,13 +9,9 @@
           fit="cover"
         ></el-image>
         <h4>{{ userStore.user.name }}</h4>
-        <span>
-          注册时间：{{ dayjs(Number(userStore.user?.sign_time)).format('YYYY-MM-DD HH:mm:ss') }}
-        </span>
+        <span> 注册时间：{{ mp.formatTime(userStore.user?.sign_time) }} </span>
         <br />
         <span>以太坊地址：{{ userStore.user.address }}</span>
-        <br />
-        <span>公钥：{{ userStore.user.public_key || '' }}</span>
         <el-button type="danger" plain @click="userStore.exit">退出</el-button>
       </div>
       <div v-else class="not-logged-in">
@@ -33,7 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import dayjs from 'dayjs'
 const userStore = useUserStore()
 </script>
 

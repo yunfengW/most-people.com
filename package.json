@@ -4,14 +4,13 @@
   "scripts": {
     "start": "nuxt dev --open",
     "generate": "nuxt generate",
-    "build": "nuxt build",
     "preview": "nuxt preview",
     "publish": "sh bin/publish.sh",
-    "postinstall": "nuxt prepare",
     "pnpm": "pnpm install"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.7",
+    "@nuxtjs/device": "^3.1.1",
     "@pinia/nuxt": "^0.5.1",
     "@types/node": "^20.10.5",
     "axios": "^1.6.3",
@@ -25,7 +24,7 @@
     "@types/lodash.debounce": "^4.0.9",
     "highlight.js": "^11.9.0",
     "libsodium-wrappers": "^0.7.13",
-    "marked": "^11.1.0",
+    "marked": "^11.1.1",
     "marked-highlight": "^2.1.0",
     "monaco-editor": "0.44.0",
     "nuxt-monaco-editor": "^1.2.6"

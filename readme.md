@@ -40,3 +40,12 @@ npm run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+备份命令
+
+```json
+{
+  "build": "nuxt build",
+  "postinstall": "nuxt prepare"
+}
+```

@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   // modules
-  modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor'],
+  modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor', '@nuxtjs/device'],
   monacoEditor: { locale: 'zh-hans' },
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],

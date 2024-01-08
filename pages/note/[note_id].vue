@@ -108,6 +108,7 @@ const changeNoteLock = (): Promise<boolean> => {
         })
     } else {
       ElMessageBox.prompt('请输入协作密码', {
+        title: '设置协作密码',
         closeOnClickModal: false,
         closeOnPressEscape: false,
         showCancelButton: true,
@@ -242,49 +243,53 @@ const init = async () => {
         md.form.user_password_hash = hash
         md.backup.user_password_hash = hash
       } else {
-        // 加入协作
-        ElMessageBox.prompt('请输入协作密码', {
-          closeOnClickModal: false,
-          closeOnPressEscape: false,
-          showCancelButton: true,
-          showClose: false,
-          showInput: true,
-          cancelButtonText: '取消',
-          confirmButtonText: '确认',
-          async beforeClose(action, instance, done) {
-            if (action === 'confirm') {
-              const value = instance.inputValue
-              const { key } = await mp.key(note_id, value)
-              if (note.note_password_hash) {
-                md.form.note_password_hash = note.note_password_hash
-                const password = await mp.decrypt(note.note_password_hash, key)
-                if (password) {
-                  const hash = await mp.encrypt(password)
-                  md.form.user_password_hash = hash
-                  // 解密内容
-                  decryptContent(note.content)
-                  done()
-                } else {
-                  mp.error('密码不正确')
+        const username = window.localStorage.getItem('username')
+        if (username) {
+          // 加入协作
+          ElMessageBox.prompt('请输入协作密码', {
+            title: '加入笔记',
+            closeOnClickModal: false,
+            closeOnPressEscape: false,
+            showCancelButton: true,
+            showClose: false,
+            showInput: true,
+            cancelButtonText: '取消',
+            confirmButtonText: '确认',
+            async beforeClose(action, instance, done) {
+              if (action === 'confirm') {
+                const value = instance.inputValue
+                const { key } = await mp.key(note_id, value)
+                if (note.note_password_hash) {
+                  md.form.note_password_hash = note.note_password_hash
+                  const password = await mp.decrypt(note.note_password_hash, key)
+                  if (password) {
+                    const hash = await mp.encrypt(password)
+                    md.form.user_password_hash = hash
+                    // 解密内容
+                    decryptContent(note.content)
+                    done()
+                  } else {
+                    mp.error('密码不正确')
+                  }
                 }
+              } else {
+                done()
               }
-            } else {
-              done()
-            }
-          },
-          inputValidator(v: string) {
-            if (!v) {
-              return '请输入协作密码'
-            }
-            return true
-          },
-        })
-          .then(() => {
-            lockLoading.value = false
+            },
+            inputValidator(v: string) {
+              if (!v) {
+                return '请输入协作密码'
+              }
+              return true
+            },
           })
-          .catch(() => {
-            lockLoading.value = false
-          })
+            .then(() => {
+              lockLoading.value = false
+            })
+            .catch(() => {
+              lockLoading.value = false
+            })
+        }
       }
       // 作者
       authors.value = note.authors?.join('　') || ''
