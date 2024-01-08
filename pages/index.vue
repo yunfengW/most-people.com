@@ -27,7 +27,7 @@
     <div
       class="search"
       :class="{
-        'show-sug': userStore.getSearchList.length > 0 && inputFocus,
+        'show-sug': userStore.getSugList.length > 0 && inputFocus,
         'is-focus': inputFocus,
       }"
     >
@@ -35,12 +35,12 @@
 
       <div
         class="intelligence"
-        v-show="userStore.getSearchList.length > 0 && inputFocus"
+        v-show="userStore.getSugList.length > 0 && inputFocus"
         @mouseout="userStore.sugIndex = -1"
       >
         <div
           class="one"
-          v-for="(search, i) in userStore.getSearchList"
+          v-for="(search, i) in userStore.getSugList"
           @mouseover="userStore.sugIndex = i"
           :class="{ active: userStore.sugIndex === i }"
           @mousedown.prevent="bindSearch(search)"
@@ -166,7 +166,7 @@ const searchTag = {
 
 const bindSearch = (search?: Search) => {
   if (!search) {
-    search = userStore.getSearchList[userStore.sugIndex]
+    search = userStore.getSugList[userStore.sugIndex]
   }
   if (!search) {
     const url = formatURL(userStore.tool.url, userStore.message)
@@ -179,7 +179,6 @@ const bindSearch = (search?: Search) => {
   } else if (type === 'tool') {
     bindTool(data as number)
     userStore.message = ''
-    userStore.searchList = []
     userStore.sugList = []
     userStore.sugIndex = -1
   } else if (type === 'knowledge') {
@@ -201,7 +200,7 @@ const keyDownEvent = (event: KeyboardEvent) => {
 const keyUpEvent = (event: KeyboardEvent) => {
   const k = event.key
   const index = userStore.sugIndex
-  const length = userStore.getSearchList.length
+  const length = userStore.getSugList.length
   if (k === 'Enter') {
     bindSearch()
   } else if (k === 'ArrowUp') {

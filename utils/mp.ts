@@ -1,5 +1,6 @@
 import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes, Wallet } from 'ethers'
 import dayjs from 'dayjs'
+import { match } from 'pinyin-pro'
 import sodium from 'libsodium-wrappers'
 import { indexDB } from '~/utils/api/indexdb'
 
@@ -199,6 +200,20 @@ const mp = {
       timeOfDay = '深夜'
     }
     return date.format(`YYYY年M月D日 ${timeOfDay}h点m分`)
+  },
+  filter(title: string, v: string, jump = 2) {
+    const t = title || ''
+    if (v.length < jump) {
+      return false
+    }
+    if (t.toLowerCase().includes(v.toLowerCase())) {
+      return true
+    }
+    const pinyin = match(t, v, { continuous: true })
+    if (pinyin && pinyin.length >= 2) {
+      return true
+    }
+    return false
   },
 }
 

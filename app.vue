@@ -40,15 +40,6 @@ onBeforeMount(() => {
   indexDB.init().then(() => {
     userStore.init()
   })
-
-  // 搜狗 jsonp 提示
-  // window.sogou = {
-  //   sug(data) {
-  //     userStore.sugList = data[1].map((e) => {
-  //       return { name: e, type: 'sogou' }
-  //     })
-  //   },
-  // }
 })
 
 onMounted(() => {

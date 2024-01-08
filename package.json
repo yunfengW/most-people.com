@@ -27,6 +27,7 @@
     "marked": "^11.1.1",
     "marked-highlight": "^2.1.0",
     "monaco-editor": "0.44.0",
-    "nuxt-monaco-editor": "^1.2.6"
+    "nuxt-monaco-editor": "^1.2.6",
+    "pinyin-pro": "^3.18.6"
   }
 }

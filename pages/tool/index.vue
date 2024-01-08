@@ -12,7 +12,7 @@
     </div>
 
     <div v-show="toolStore.tab === 'top'" class="top-box">
-      <template v-for="(top, index) in allTops">
+      <template v-for="(top, index) in allTops" :key="top.name">
         <div class="top">
           <h4>
             <span>
@@ -49,7 +49,7 @@
 
     <div v-show="toolStore.tab === 'all'" class="tool-box">
       <client-only>
-        <template v-for="tool in allTools">
+        <template v-for="tool in allTools" :key="`tool-${tool.id}`">
           <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
               <img class="logo" :src="tool.logo" :alt="tool.title" />
@@ -78,17 +78,17 @@
 <script setup lang="ts">
 const allTools = computed(() => {
   return Object.values(toolStore.tools)
-    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
+    .filter((e) => mp.filter(e.title, filter.value, 0))
     .sort((a, b) => a.top - b.top)
 })
 const allTops = computed(() => {
   return Object.values(toolStore.toolTops)
     .filter((e) => {
-      if (e.name.toLowerCase().includes(filter.value.toLowerCase())) {
+      if (mp.filter(e.name, filter.value, 0)) {
         return true
       }
       for (const id of e.tools) {
-        if (toolStore.tools[id]?.title.toLowerCase().includes(filter.value.toLowerCase())) {
+        if (mp.filter(toolStore.tools[id]?.title, filter.value, 0)) {
           return true
         }
       }

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ElLoading } from 'element-plus'
+
 import api from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
 
@@ -38,7 +39,6 @@ interface UserStore {
   message: string
   memo: string
   // 搜索
-  searchList: Search[]
   sugList: Search[]
   sugIndex: number
 }
@@ -56,9 +56,8 @@ export const useUserStore = defineStore({
       tools: [5, 43, 185, 57, 39, 46, 84, 37],
       urls: [],
       message: '',
-      sugList: [],
       sugIndex: -1,
-      searchList: [],
+      sugList: [],
       memo: '',
     }
   },
@@ -72,8 +71,8 @@ export const useUserStore = defineStore({
         return toolStore.tools[1]
       }
     },
-    getSearchList(): Search[] {
-      return [...this.searchList, ...this.sugList].slice(0, 10)
+    getSugList(): Search[] {
+      return this.sugList.slice(0, 10)
     },
     getUID() {
       const n = this.user?.id || 0
@@ -193,7 +192,7 @@ export const useUserStore = defineStore({
     initKnowledge(v: string) {
       const knowledgeStore = useKnowledgeStore()
       const list: Search[] = knowledgeStore.list
-        .filter((e) => e.title.toLowerCase().includes(v.toLowerCase()))
+        .filter((e) => mp.filter(e.title, v))
         .map((e) => {
           return {
             name: e.title,
@@ -201,14 +200,14 @@ export const useUserStore = defineStore({
             data: `/knowledge/${e.id}`,
           }
         })
-      this.searchList.push(...list)
+      this.sugList.push(...list)
     },
     initTool(v: string) {
       const toolStore = useToolStore()
       const list: Search[] = []
       for (const key in toolStore.tools) {
         const e = toolStore.tools[key]
-        if (e.title.toLowerCase().includes(v.toLowerCase())) {
+        if (mp.filter(e.title, v)) {
           list.unshift({
             name: e.title,
             type: 'tool',
@@ -216,7 +215,7 @@ export const useUserStore = defineStore({
           })
         } else {
           for (const tag of e.tags) {
-            if (tag.toLowerCase().includes(v.toLowerCase())) {
+            if (mp.filter(tag, v)) {
               list.unshift({
                 name: e.title,
                 type: 'tool',
@@ -226,11 +225,11 @@ export const useUserStore = defineStore({
           }
         }
       }
-      this.searchList.push(...list)
+      this.sugList.push(...list)
     },
     initUrl(v: string) {
       const list: Search[] = this.urls
-        .filter((e) => e.name.toLowerCase().includes(v.toLowerCase()))
+        .filter((e) => mp.filter(e.name, v))
         .map((e) => {
           return {
             name: e.name,
@@ -238,12 +237,13 @@ export const useUserStore = defineStore({
             data: e.url,
           }
         })
-      this.searchList.push(...list)
+      this.sugList.push(...list)
     },
     initNote(v: string) {
       const noteStore = useNoteStore()
       const list: Search[] = noteStore.notes
-        .filter((e) => e.title.toLowerCase().includes(v.toLowerCase()))
+        .concat(noteStore.authorsNotes)
+        .filter((e) => mp.filter(e.title, v))
         .map((e) => {
           return {
             name: e.title,
@@ -251,13 +251,12 @@ export const useUserStore = defineStore({
             data: `/note/${e.id}`,
           }
         })
-      this.searchList.push(...list)
+      this.sugList.push(...list)
     },
     initSearch() {
       const v = this.message
 
       this.sugList = []
-      this.searchList = []
       this.sugIndex = -1
 
       if (!v) {
