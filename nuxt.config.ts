@@ -17,8 +17,18 @@ export default defineNuxtConfig({
           content: '全世界无产者，联合起来！',
         },
       ],
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
+        },
+      ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
-      script: [{ defer: true, src: '/js/iconpark.js' }],
+      script: [
+        { defer: true, src: '/js/iconpark.js' },
+        { defer: true, src: 'https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js' },
+        { defer: true, src: 'https://uicdn.toast.com/editor/latest/i18n/zh-cn.js' },
+      ],
     },
   },
   vue: {

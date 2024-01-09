@@ -9,6 +9,9 @@ declare global {
     sogou: {
       sug: (data: string[][]) => void
     }
+    // markdown 可视化编辑器
+    toastui: any
+    // 语音识别
     SpeechRecognition: any
     webkitSpeechRecognition: any
   }

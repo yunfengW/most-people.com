@@ -22,19 +22,9 @@
       v-html="md.render(md.form.content)"
     ></div>
     <mp-loading v-else-if="!md.form.inited" />
-
-    <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }">
-      <div class="close" @click="showEdit = false">
-        <mp-icon name="edit-back" />
-      </div>
-
-      <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
-      <monaco-editor
-        class="editor"
-        v-model="md.form.content"
-        lang="markdown"
-        :options="md.options"
-      />
+    <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }" ref="editorElement"></div>
+    <div class="close" @click="editEnd" v-show="showEdit">
+      <mp-icon name="edit-back" />
     </div>
   </div>
 </template>
@@ -51,6 +41,8 @@ const router = useRouter()
 const knowledge_id = (route.params.knowledge_id || '') as string
 
 const showEdit = ref(false)
+
+const editorElement = ref<HTMLDivElement>()
 
 const publish = async () => {
   const res = await api({
@@ -80,6 +72,11 @@ const publish = async () => {
   }
 }
 
+const editEnd = () => {
+  md.form.content = editor.getMarkdown()
+  showEdit.value = false
+}
+
 const init = async () => {
   const res = await api({ method: 'post', url: '/db/Knowledge/' + knowledge_id })
   md.form.inited = true
@@ -94,6 +91,9 @@ const init = async () => {
     md.backup.title = knowledge.title
     md.form.content = text
     md.backup.content = text
+    if (editor) {
+      editor.setMarkdown(text)
+    }
   } else {
     mp.error('知识不存在')
     router.back()
@@ -106,6 +106,34 @@ const md = useMarkdown(markdownElement)
 if (process.client) {
   init()
 }
+
+let editor: any
+onMounted(() => {
+  // toast UI
+  const Editor = window.toastui.Editor
+  // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
+  editor = new Editor({
+    el: editorElement.value,
+    height: 'auto',
+    initialValue: '',
+    initialEditType: 'wysiwyg',
+    // 不能切换到 markdown
+    hideModeSwitch: false,
+    usageStatistics: false,
+    language: 'zh-CN',
+    previewStyle: 'vertical',
+    customHTMLRenderer: {
+      link(node: any, context: any) {
+        const { origin, entering } = context
+        const result = origin()
+        if (entering) {
+          result.attributes.target = '_blank'
+        }
+        return result
+      },
+    },
+  })
+})
 </script>
 
 <style lang="scss">
