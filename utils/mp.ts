@@ -210,7 +210,7 @@ const mp = {
       return true
     }
     const pinyin = match(t, v, { continuous: true })
-    if (pinyin && pinyin.length >= 2) {
+    if (pinyin && pinyin.length >= jump) {
       return true
     }
     return false

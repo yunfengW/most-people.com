@@ -28,7 +28,7 @@
       </template>
 
       <h4>多人笔记</h4>
-      <template v-for="note in noteStore.authorsNotes">
+      <template v-for="note in authorsNotes">
         <nuxt-link :to="`/note/${note.id}`">
           <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
@@ -48,13 +48,17 @@ const filter = ref('')
 const publicNotes = computed(() => {
   return noteStore.notes
     .filter((note) => !note.content.startsWith('mp://'))
-    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
+    .filter((e) => mp.filter(e.title, filter.value, 0))
 })
 
 const encryptedNotes = computed(() => {
   return noteStore.notes
     .filter((note) => note.content.startsWith('mp://'))
-    .filter((e) => e.title.toLowerCase().includes(filter.value.toLowerCase()))
+    .filter((e) => mp.filter(e.title, filter.value, 0))
+})
+
+const authorsNotes = computed(() => {
+  return noteStore.authorsNotes.filter((e) => mp.filter(e.title, filter.value, 0))
 })
 
 const addNote = async () => {

@@ -30,9 +30,7 @@ const knowledgeStore = useKnowledgeStore()
 const filter = ref('')
 
 const knowledgeList = computed(() => {
-  return knowledgeStore.list.filter((e) =>
-    e.title.toLowerCase().includes(filter.value.toLowerCase()),
-  )
+  return knowledgeStore.list.filter((e) => mp.filter(e.title, filter.value, 0))
 })
 
 const addKnowledge = async () => {
@@ -48,10 +46,6 @@ const addKnowledge = async () => {
     router.push(`/knowledge/${res.data.id}`)
   }
 }
-
-// if (process.client) {
-//   knowledgeStore.init()
-// }
 </script>
 
 <style lang="scss">

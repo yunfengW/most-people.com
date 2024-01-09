@@ -9,9 +9,7 @@
     <div class="url-box">
       <client-only>
         <template
-          v-for="(url, index) in userStore.urls.filter((e) =>
-            e.name.toLowerCase().includes(filter.toLowerCase()),
-          )"
+          v-for="(url, index) in userStore.urls.filter((e) => mp.filter(e.name, filter, 0))"
         >
           <div class="url">
             <img
