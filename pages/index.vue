@@ -3,6 +3,7 @@
     <mp-header title="" />
 
     <div class="join-us">
+      <el-button link type="info">大海（深圳）信息集成有限公司 版权所有</el-button><br />
       <nuxt-link to="/join-us">
         <el-button link type="info">加入我们</el-button>
       </nuxt-link>
