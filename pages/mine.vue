@@ -3,11 +3,7 @@
     <mp-header title="个人中心" />
     <template v-if="userStore.inited">
       <div class="mine" v-if="userStore.user">
-        <el-image
-          class="avatar"
-          :src="'https://robohash.org/' + userStore.user.name"
-          fit="cover"
-        ></el-image>
+        <mp-image class="avatar" :src="'https://robohash.org/' + userStore.user.name" fit="cover" />
         <h4>{{ userStore.user.name }}</h4>
         <span> 注册时间：{{ mp.formatTime(userStore.user?.sign_time) }} </span>
         <br />

@@ -12,12 +12,12 @@
     "@element-plus/nuxt": "^1.0.7",
     "@nuxtjs/device": "^3.1.1",
     "@pinia/nuxt": "^0.5.1",
-    "@types/node": "^20.10.5",
-    "axios": "^1.6.3",
+    "@types/node": "^20.10.8",
+    "axios": "^1.6.5",
     "element-plus": "^2.4.4",
-    "ethers": "^6.9.1",
-    "nuxt": "^3.9.0",
-    "sass": "^1.69.5"
+    "ethers": "^6.9.2",
+    "nuxt": "^3.9.1",
+    "sass": "^1.69.7"
   },
   "dependencies": {
     "@types/libsodium-wrappers": "^0.7.13",

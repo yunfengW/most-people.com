@@ -18,7 +18,7 @@
         <span>使用指南</span>
       </nuxt-link>
       <nuxt-link class="logo" to="/tool">
-        <el-image :src="userStore.tool.logo" />
+        <mp-image :src="userStore.tool.logo" />
       </nuxt-link>
       <div class="right">
         <a :href="formatURL(userStore.tool.url)" target="_blank">{{ userStore.tool.title }}</a>
@@ -86,7 +86,7 @@
     <div class="tools" :class="{ remove: form.remove }">
       <template v-for="id in userStore.tools">
         <div class="tool" @click="bindTool(id)">
-          <el-image :src="toolStore.tools[id]?.logo" fit="contain" />
+          <mp-image :src="toolStore.tools[id]?.logo" fit="contain" />
           <span>{{ toolStore.tools[id]?.title }}</span>
           <mp-icon name="remove" @click.stop="bindRemove(id)" />
         </div>
@@ -269,7 +269,7 @@ onMounted(() => {
       height: 80px;
       width: 80px;
 
-      .el-image {
+      .mp-image {
         width: 100%;
         height: 100%;
       }
@@ -383,7 +383,7 @@ onMounted(() => {
       flex-direction: column;
       align-items: center;
 
-      .el-image {
+      .mp-image {
         user-select: none;
         height: 40px;
         width: 40px;

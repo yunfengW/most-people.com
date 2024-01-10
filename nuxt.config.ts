@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },
   devServer: {
-    // host: '127.0.0.1',
+    host: '0.0.0.0',
     port: 2023,
   },
 })

@@ -23,7 +23,7 @@
       <h4>抱歉，暂时还没有「{{ toolName }}」的使用指南</h4>
       <div>如果你有兴趣的话，加入我们吧</div>
       <br />
-      <el-image class="join-us" src="/img/join-us.jpg" />
+      <mp-image class="join-us" src="/img/join-us.jpg" />
     </div>
     <mp-loading v-else />
 

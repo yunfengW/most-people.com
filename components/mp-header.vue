@@ -17,11 +17,11 @@
           <mp-icon name="setting" @click="showSetting = true" />
           <div class="setting-box" v-show="showSetting">
             <div class="mine">
-              <el-image
+              <mp-image
                 class="avatar"
                 :src="'https://robohash.org/' + (userStore.user?.name || 'Most-People')"
                 fit="cover"
-              ></el-image>
+              />
               <nuxt-link to="/mine" class="username">
                 {{ userStore.user?.name || 'Most-People' }}
               </nuxt-link>
