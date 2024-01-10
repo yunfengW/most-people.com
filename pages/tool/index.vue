@@ -22,10 +22,12 @@
             <mp-icon name="edit" @click="topEdit(top, index + 1)" />
           </h4>
           <div class="ul">
-            <template v-for="(id, i) in sortTop(top)">
+            <template v-for="id in top.tools" :key="id">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
-                <div class="li">
-                  <span class="number">{{ i + 1 }}</span>
+                <div class="li" :style="{ order: getTop(id, top.name) }">
+                  <span class="number">{{
+                    getTop(id, top.name) === 100 ? '' : getTop(id, top.name)
+                  }}</span>
                   <img
                     class="logo"
                     :src="toolStore.tools[id]?.logo"
@@ -72,18 +74,16 @@
 </template>
 
 <script setup lang="ts">
-const sortTop = (top: Top) => {
-  return top.tools.sort((a, b) => {
-    const i = toolStore.tools[a]?.tags?.findIndex((e) => e === top.name) || 0
-    if (i !== -1) {
-      const topA = toolStore.tools[a]?.tops?.[i]
-      const topB = toolStore.tools[b]?.tops?.[i]
-      if (topA && topB) {
-        return topA - topB
-      }
+const getTop = (id: number, name: string) => {
+  const tool = toolStore.tools[id]
+  if (tool) {
+    const i = tool.tags?.findIndex((e) => e === name) || 0
+    const top = tool.tops?.[i]
+    if (top) {
+      return top
     }
-    return toolStore.tools[a]?.top - toolStore.tools[b]?.top
-  })
+  }
+  return 100
 }
 
 const allTools = computed(() => {
@@ -91,6 +91,7 @@ const allTools = computed(() => {
     .filter((e) => mp.filter(e.title, filter.value, 0))
     .sort((a, b) => a.top - b.top)
 })
+
 const allTops = computed(() => {
   return Object.values(toolStore.toolTops)
     .filter((e) => {
@@ -188,11 +189,14 @@ const {
       .ul {
         height: 96px;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
 
         .li {
           display: flex;
           align-items: center;
           height: 24px;
+          flex-shrink: 0;
 
           > .number {
             margin-right: 4px;
