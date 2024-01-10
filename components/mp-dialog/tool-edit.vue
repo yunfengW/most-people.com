@@ -45,34 +45,69 @@
       </el-form-item>
 
       <el-form-item label="排名（选填）">
-        <el-input-number v-model="form.top" :min="1" :max="1000" />
+        <el-input-number
+          v-model="form.top"
+          :precision="0"
+          :min="1"
+          :max="1000"
+          value-on-clear="max"
+        />
       </el-form-item>
 
       <el-form-item label="分类（选填）">
-        <div class="tags">
-          <el-tag
-            v-for="tag in form.tags"
-            :key="tag"
-            closable
-            :disable-transitions="false"
-            @close="removeTag(tag)"
-          >
-            {{ tag }}
-          </el-tag>
-          <template v-if="form.tags.length === 0">
-            <el-input
-              v-if="form.showAddTag"
-              ref="addTagElement"
-              v-model="form.newTag"
-              size="small"
-              @keyup.enter="tagAdd"
-              @blur="tagAdd"
-            />
-            <el-button v-else class="button-new-tag ml-1" size="small" @click="tagInputFocus">
-              + 新分类
-            </el-button>
-          </template>
-        </div>
+        <client-only>
+          <el-table :data="form.tagTops">
+            <el-table-column prop="tag" label="名称" width="130">
+              <template #default="scope">
+                <el-form-item
+                  :prop="`tagTops.${scope.$index}.tag`"
+                  :rules="[{ required: true, trigger: 'blur', message: '请输入分类' }]"
+                >
+                  <el-input v-model="form.tagTops[scope.$index].tag" maxlength="10" />
+                </el-form-item>
+              </template>
+            </el-table-column>
+            <el-table-column prop="top" label="排序" width="65">
+              <template #default="scope">
+                <el-form-item
+                  :prop="`tagTops.${scope.$index}.top`"
+                  :rules="[{ required: true, trigger: 'blur', message: '请输入排名' }]"
+                >
+                  <el-input
+                    v-model="form.tagTops[scope.$index].top"
+                    :formatter="(v:string) => v.replace(/\D/g, '')"
+                    maxlength="2"
+                  />
+                </el-form-item>
+              </template>
+            </el-table-column>
+            <el-table-column align="right">
+              <template #header>
+                <el-button
+                  :disabled="form.tagTops.length > 2"
+                  text
+                  bg
+                  size="small"
+                  type="success"
+                  @click="form.tagTops.push({ tag: '', top: 1 })"
+                >
+                  <mp-icon name="add" />
+                </el-button>
+              </template>
+              <template #default="scope">
+                <el-button
+                  text
+                  bg
+                  size="small"
+                  type="danger"
+                  @click="form.tagTops.splice(scope.$index, 1)"
+                >
+                  <mp-icon name="del" />
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </client-only>
       </el-form-item>
 
       <div class="button-box">
@@ -88,29 +123,9 @@ import api from '~/utils/api'
 
 import type { FormInstance, ElInput } from 'element-plus'
 
-const addTagElement = ref<InstanceType<typeof ElInput>>()
-
-const removeTag = (tag: string) => {
-  form.tags.splice(form.tags.indexOf(tag), 1)
-}
-
-const tagInputFocus = () => {
-  form.showAddTag = true
-  nextTick(() => {
-    addTagElement.value!.input!.focus()
-  })
-}
-
-const tagAdd = () => {
-  if (form.newTag) {
-    if (form.tags.includes(form.newTag)) {
-      mp.info(`${form.newTag} 已存在`)
-    } else {
-      form.tags.push(form.newTag)
-    }
-  }
-  form.showAddTag = false
-  form.newTag = ''
+interface TagTop {
+  tag: string
+  top: number
 }
 
 interface Props {
@@ -130,10 +145,8 @@ const form = reactive({
   url: '',
   intro: '',
   top: 1000,
-  tags: [] as string[],
+  tagTops: [] as TagTop[],
   // 其它状态
-  newTag: '',
-  showAddTag: false,
   logoFile: undefined as undefined | File,
   loading: false,
   isAdd: false,
@@ -175,6 +188,7 @@ const toolSave = async () => {
     }
     form.logo = logo
   }
+
   // 更新 tool
   const res = await api({
     method: 'put',
@@ -186,7 +200,8 @@ const toolSave = async () => {
       top: form.top,
       logo: form.logo,
       intro: form.intro,
-      tags: form.tags,
+      tags: form.tagTops.map((e) => e.tag),
+      tops: form.tagTops.map((e) => Number(e.top)),
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -238,6 +253,20 @@ const submit = () => {
   })
 }
 
+const initTags = (tool: Tool) => {
+  const result: TagTop[] = []
+  if (tool.tags) {
+    for (let i = 0; i < tool.tags.length; i++) {
+      const tag = tool.tags[i]
+      result.push({
+        tag,
+        top: tool.tops?.[i] || 1,
+      })
+    }
+  }
+  form.tagTops = result
+}
+
 onUpdated(() => {
   const tool = toolStore.tools[$props.tool_id]
   if (tool) {
@@ -251,7 +280,7 @@ onUpdated(() => {
     form.logo = tool.logo
     form.logoFile = undefined
     form.top = tool.top || 1000
-    form.tags = tool.tags || []
+    initTags(tool)
   } else {
     // 添加
     form.isAdd = true
@@ -263,7 +292,6 @@ onUpdated(() => {
     form.logo = ''
     form.logoFile = undefined
     form.top = 1000
-    form.tags = []
   }
   form.loading = false
   // 移除校验结果

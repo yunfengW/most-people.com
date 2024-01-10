@@ -214,7 +214,8 @@ export const useUserStore = defineStore({
             data: e.id,
           })
         } else {
-          for (const tag of e.tags) {
+          const tags = e.tags || []
+          for (const tag of tags) {
             if (mp.filter(tag, v)) {
               list.unshift({
                 name: e.title,

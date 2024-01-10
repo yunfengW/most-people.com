@@ -4,7 +4,8 @@ export interface Tool extends Note {
   logo: string
   url: string
   top: number
-  tags: string[]
+  tags?: string[]
+  tops?: number[]
   // 一句话介绍
   intro: string
 }
@@ -40,8 +41,9 @@ export const useToolStore = defineStore({
       const unclassified: number[] = []
       for (const id in this.tools) {
         const tool = this.tools[id]
-        if (tool.tags.length > 0) {
-          for (const tag of tool.tags) {
+        const tags = tool.tags || []
+        if (tags.length > 0) {
+          for (const tag of tags) {
             const i = tops.findIndex((top) => top.name === tag)
             if (i === -1) {
               tops.push({

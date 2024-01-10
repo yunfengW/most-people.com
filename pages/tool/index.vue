@@ -22,11 +22,7 @@
             <mp-icon name="edit" @click="topEdit(top, index + 1)" />
           </h4>
           <div class="ul">
-            <template
-              v-for="(id, i) in top.tools.sort(
-                (a, b) => toolStore.tools[a]?.top - toolStore.tools[b]?.top,
-              )"
-            >
+            <template v-for="(id, i) in sortTop(top)">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
                 <div class="li">
                   <span class="number">{{ i + 1 }}</span>
@@ -76,6 +72,20 @@
 </template>
 
 <script setup lang="ts">
+const sortTop = (top: Top) => {
+  return top.tools.sort((a, b) => {
+    const i = toolStore.tools[a]?.tags?.findIndex((e) => e === top.name) || 0
+    if (i !== -1) {
+      const topA = toolStore.tools[a]?.tops?.[i]
+      const topB = toolStore.tools[b]?.tops?.[i]
+      if (topA && topB) {
+        return topA - topB
+      }
+    }
+    return toolStore.tools[a]?.top - toolStore.tools[b]?.top
+  })
+}
+
 const allTools = computed(() => {
   return Object.values(toolStore.tools)
     .filter((e) => mp.filter(e.title, filter.value, 0))
