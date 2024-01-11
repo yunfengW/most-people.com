@@ -42,8 +42,6 @@ export default defineNuxtConfig({
     'nuxt-monaco-editor',
     // 设备信息
     '@nuxtjs/device',
-    // 清除无用的 CSS https://nuxt.com/modules/purgecss
-    'nuxt-purgecss',
   ],
   monacoEditor: { locale: 'zh-hans' },
   // https://content.nuxtjs.org/examples/mdc/nested-components

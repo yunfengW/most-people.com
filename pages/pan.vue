@@ -1,8 +1,7 @@
 <template>
   <div id="page-pan">
     <mp-header title="Most People 网盘" />
-
-    <el-upload
+    <!-- <el-upload
       class="upload-demo"
       drag
       action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
@@ -20,7 +19,7 @@
       <template #tip>
         <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
       </template>
-    </el-upload>
+    </el-upload> -->
   </div>
 </template>
 
