@@ -1,14 +1,18 @@
 {
   "cSpell.words": [
     "axios",
+    "backtop",
     "composables",
     "hexlify",
     "iconpark",
     "indexdb",
     "inited",
+    "libsodium",
     "Midjourney",
     "nuxt",
+    "nuxtjs",
     "pinia",
+    "purgecss",
     "secp",
     "sogou"
   ]

@@ -1,10 +1,13 @@
 <template>
   <div id="app">
-    <nuxt-link class="mp-uid" to="/mine">
-      <el-button link type="info">{{ userStore.getUID }}</el-button>
-    </nuxt-link>
+    <nuxt-loading-indicator />
     <nuxt-page class="page" />
+
     <el-backtop :visibility-height="1400" />
+
+    <nuxt-link class="mp-uid" to="/mine">
+      <el-button link type="info">UID {{ userStore.UID }}</el-button>
+    </nuxt-link>
   </div>
 </template>
 

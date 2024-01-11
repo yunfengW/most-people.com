@@ -33,7 +33,18 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
   // modules
-  modules: ['@element-plus/nuxt', '@pinia/nuxt', 'nuxt-monaco-editor', '@nuxtjs/device'],
+  modules: [
+    // Element Plus
+    '@element-plus/nuxt',
+    // 状态管理
+    '@pinia/nuxt',
+    // VS Code 编辑器
+    'nuxt-monaco-editor',
+    // 设备信息
+    '@nuxtjs/device',
+    // 清除无用的 CSS https://nuxt.com/modules/purgecss
+    'nuxt-purgecss',
+  ],
   monacoEditor: { locale: 'zh-hans' },
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],

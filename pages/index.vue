@@ -28,7 +28,7 @@
     <div
       class="search"
       :class="{
-        'show-sug': userStore.getSugList.length > 0 && inputFocus,
+        'show-sug': userStore.sugs.length > 0 && inputFocus,
         'is-focus': inputFocus,
       }"
     >
@@ -36,19 +36,19 @@
 
       <div
         class="intelligence"
-        v-show="userStore.getSugList.length > 0 && inputFocus"
+        v-show="userStore.sugs.length > 0 && inputFocus"
         @mouseout="userStore.sugIndex = -1"
       >
         <div
           class="one"
-          v-for="(search, i) in userStore.getSugList"
+          v-for="(sug, i) in userStore.sugs"
           @mouseover="userStore.sugIndex = i"
           :class="{ active: userStore.sugIndex === i }"
-          @mousedown.prevent="bindSearch(search)"
+          @mousedown.prevent="bindSearch(sug)"
         >
-          <span>{{ search.name }}</span>
-          <el-tag v-if="searchTag[search.type].name" :type="(searchTag[search.type].type as any)">
-            {{ searchTag[search.type].name }}
+          <span>{{ sug.name }}</span>
+          <el-tag v-if="searchTag[sug.type].name" :type="(searchTag[sug.type].type as any)">
+            {{ searchTag[sug.type].name }}
           </el-tag>
         </div>
       </div>
@@ -165,16 +165,16 @@ const searchTag = {
   },
 }
 
-const bindSearch = (search?: Search) => {
-  if (!search) {
-    search = userStore.getSugList[userStore.sugIndex]
+const bindSearch = (sug?: Sug) => {
+  if (!sug) {
+    sug = userStore.sugs[userStore.sugIndex]
   }
-  if (!search) {
+  if (!sug) {
     const url = formatURL(userStore.tool.url, userStore.message)
     window.open(url)
     return
   }
-  const { type, data } = search
+  const { type, data } = sug
   if (type === 'url') {
     window.open(data as string)
   } else if (type === 'tool') {
@@ -201,7 +201,7 @@ const keyDownEvent = (event: KeyboardEvent) => {
 const keyUpEvent = (event: KeyboardEvent) => {
   const k = event.key
   const index = userStore.sugIndex
-  const length = userStore.getSugList.length
+  const length = userStore.sugs.length
   if (k === 'Enter') {
     bindSearch()
   } else if (k === 'ArrowUp') {

@@ -21,10 +21,10 @@ export interface User {
   memo?: string
 }
 
-export type SearchType = 'sogou' | 'tool' | 'url' | 'note' | 'knowledge'
+export type SugType = 'sogou' | 'tool' | 'url' | 'note' | 'knowledge'
 
-export interface Search {
-  type: SearchType
+export interface Sug {
+  type: SugType
   name: string
   data?: string | number
 }
@@ -39,7 +39,7 @@ interface UserStore {
   message: string
   memo: string
   // 搜索
-  sugList: Search[]
+  sugList: Sug[]
   sugIndex: number
 }
 
@@ -71,10 +71,10 @@ export const useUserStore = defineStore({
         return toolStore.tools[1]
       }
     },
-    getSugList(): Search[] {
+    sugs(): Sug[] {
       return this.sugList.slice(0, 10)
     },
-    getUID() {
+    UID() {
       const n = this.user?.id || 0
       let result = ''
       const s = n.toString().padStart(9, '0')
@@ -84,7 +84,7 @@ export const useUserStore = defineStore({
         }
         result += s.charAt(i)
       }
-      return 'UID ' + result
+      return result
     },
   },
   actions: {
@@ -191,7 +191,7 @@ export const useUserStore = defineStore({
     // 搜索
     initKnowledge(v: string) {
       const knowledgeStore = useKnowledgeStore()
-      const list: Search[] = knowledgeStore.list
+      const list: Sug[] = knowledgeStore.list
         .filter((e) => mp.filter(e.title, v))
         .map((e) => {
           return {
@@ -204,7 +204,7 @@ export const useUserStore = defineStore({
     },
     initTool(v: string) {
       const toolStore = useToolStore()
-      const list: Search[] = []
+      const list: Sug[] = []
       for (const key in toolStore.tools) {
         const e = toolStore.tools[key]
         if (mp.filter(e.title, v)) {
@@ -229,7 +229,7 @@ export const useUserStore = defineStore({
       this.sugList.push(...list)
     },
     initUrl(v: string) {
-      const list: Search[] = this.urls
+      const list: Sug[] = this.urls
         .filter((e) => mp.filter(e.name, v))
         .map((e) => {
           return {
@@ -242,7 +242,7 @@ export const useUserStore = defineStore({
     },
     initNote(v: string) {
       const noteStore = useNoteStore()
-      const list: Search[] = noteStore.notes
+      const list: Sug[] = noteStore.notes
         .concat(noteStore.authorsNotes)
         .filter((e) => mp.filter(e.title, v))
         .map((e) => {
