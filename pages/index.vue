@@ -53,34 +53,36 @@
         </div>
       </div>
 
-      <el-input
-        ref="messageElement"
-        v-model="userStore.message"
-        :placeholder="form.placeholder"
-        autofocus
-        size="large"
-        @input="userStore.initSearch"
-        @focus="inputFocus = true"
-        @blur="inputFocus = false"
-        @keydown="keyDownEvent($event as KeyboardEvent)"
-        @keyup="keyUpEvent"
-      >
-        <template #prefix>
-          <div class="button microphone" @click.stop="microphone">
-            <mp-icon v-if="isListening" class="el-icon is-loading" name="loading" />
-            <mp-icon v-else name="microphone" />
-          </div>
-        </template>
-        <template #suffix>
-          <div
-            class="button send"
-            :class="{ disabled: !userStore.message }"
-            @click.stop="bindSearch()"
-          >
-            <mp-icon name="send" />
-          </div>
-        </template>
-      </el-input>
+      <el-form @submit.prevent>
+        <el-input
+          ref="messageElement"
+          v-model="userStore.message"
+          :placeholder="form.placeholder"
+          autofocus
+          size="large"
+          @input="userStore.initSearch"
+          @focus="inputFocus = true"
+          @blur="inputFocus = false"
+          @keydown="keyDownEvent($event as KeyboardEvent)"
+          @keyup="keyUpEvent"
+        >
+          <template #prefix>
+            <div class="button microphone" @click.stop="microphone">
+              <mp-icon v-if="isListening" class="el-icon is-loading" name="loading" />
+              <mp-icon v-else name="microphone" />
+            </div>
+          </template>
+          <template #suffix>
+            <div
+              class="button send"
+              :class="{ disabled: !userStore.message }"
+              @click.stop="bindSearch()"
+            >
+              <mp-icon name="send" />
+            </div>
+          </template>
+        </el-input>
+      </el-form>
     </div>
 
     <div class="tools" :class="{ remove: form.remove }">
@@ -103,6 +105,7 @@
 
     <div class="memo">
       <el-input
+        :disabled="!userStore.user"
         @input="saveMemo"
         type="textarea"
         v-model="userStore.memo"
