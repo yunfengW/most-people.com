@@ -1,8 +1,15 @@
 <template>
   <mp-dialog class="mp-dialog-top-edit" :title="form.name + form.index" destroy-on-close>
     <div class="ul">
-      <div class="li" v-for="(id, i) in form.tools">
-        <span class="number">{{ i + 1 }}</span>
+      <div
+        class="li"
+        v-for="(id, i) in form.tools"
+        :key="id"
+        :style="{ order: toolStore.getTop(id, form.name) }"
+      >
+        <span class="number">
+          {{ toolStore.getTop(id, form.name) === 100 ? '' : toolStore.getTop(id, form.name) }}
+        </span>
         <img class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title" />
         <span class="name">{{ toolStore.tools[id]?.title }}</span>
         <mp-icon name="edit" @click="toolEdit(id)" />
@@ -39,6 +46,7 @@ onUpdated(() => {
   const top = $props.top
   if (top) {
     form.name = top.name
+    // copy
     form.tools = top.tools.map((e) => e)
   }
   const number = $props.top_number
@@ -51,6 +59,8 @@ onUpdated(() => {
 <style lang="scss">
 .mp-dialog-top-edit {
   .ul {
+    display: flex;
+    flex-direction: column;
     .li {
       display: flex;
       align-items: center;

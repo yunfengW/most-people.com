@@ -66,5 +66,16 @@ export const useToolStore = defineStore({
       }
       this.toolTops = tops
     },
+    getTop(id: number, name: string) {
+      const tool = this.tools[id]
+      if (tool) {
+        const i = tool.tags?.findIndex((e) => e === name) || 0
+        const top = tool.tops?.[i]
+        if (top) {
+          return top
+        }
+      }
+      return 100
+    },
   },
 })

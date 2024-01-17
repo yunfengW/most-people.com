@@ -24,10 +24,12 @@
           <div class="ul">
             <template v-for="id in top.tools" :key="id">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
-                <div class="li" :style="{ order: getTop(id, top.name) }">
-                  <span class="number">{{
-                    getTop(id, top.name) === 100 ? '' : getTop(id, top.name)
-                  }}</span>
+                <div class="li" :style="{ order: toolStore.getTop(id, top.name) }">
+                  <span class="number">
+                    {{
+                      toolStore.getTop(id, top.name) === 100 ? '' : toolStore.getTop(id, top.name)
+                    }}
+                  </span>
                   <img
                     class="logo"
                     :src="toolStore.tools[id]?.logo"
@@ -74,18 +76,6 @@
 </template>
 
 <script setup lang="ts">
-const getTop = (id: number, name: string) => {
-  const tool = toolStore.tools[id]
-  if (tool) {
-    const i = tool.tags?.findIndex((e) => e === name) || 0
-    const top = tool.tops?.[i]
-    if (top) {
-      return top
-    }
-  }
-  return 100
-}
-
 const allTools = computed(() => {
   return Object.values(toolStore.tools)
     .filter((e) => mp.filter(e.title, filter.value, 0))
