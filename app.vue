@@ -6,7 +6,7 @@
     <el-backtop :visibility-height="1400" />
 
     <nuxt-link class="mp-uid" to="/mine">
-      <el-button link type="info">UID {{ userStore.UID }}</el-button>
+      <el-button link type="info">{{ userStore.UID }}</el-button>
     </nuxt-link>
   </div>
 </template>

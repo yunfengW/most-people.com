@@ -1,7 +1,7 @@
 <template>
   <div id="page-tool" ref="markdownElement">
     <mp-header :title="toolName">
-      <template #right>
+      <template #right v-if="userStore.user">
         <div class="edit" v-show="md.needPublish.value" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
@@ -52,6 +52,7 @@ const router = useRouter()
 const tool_id = (route.params.tool_id || '') as string
 
 const toolStore = useToolStore()
+const userStore = useUserStore()
 
 const showEdit = ref(false)
 

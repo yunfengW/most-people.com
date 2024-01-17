@@ -76,7 +76,7 @@ export const useUserStore = defineStore({
     },
     UID() {
       const n = this.user?.id || 0
-      let result = ''
+      let result = 'UID '
       const s = n.toString().padStart(9, '0')
       for (let i = 0; i < s.length; i++) {
         if (i > 0 && i % 3 === 0) {

@@ -5,7 +5,7 @@
       <div class="mine" v-if="userStore.user">
         <mp-image class="avatar" :src="'https://robohash.org/' + userStore.user.name" fit="cover" />
         <h4>{{ userStore.user.name }}</h4>
-        <span>UID：{{ userStore.UID }}</span>
+        <span>{{ userStore.UID }}</span>
         <br />
         <span> 注册时间：{{ mp.formatTime(userStore.user?.sign_time) }} </span>
         <br />
