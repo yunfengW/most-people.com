@@ -1,5 +1,5 @@
 <template>
-  <img class="mp-image" v-bind="$attrs" @error="error" />
+  <img class="mp-image" loading="lazy" v-bind="$attrs" @error="error" />
 </template>
 
 <script setup lang="ts">

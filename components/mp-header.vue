@@ -101,6 +101,8 @@ const back = () => {
     > .mp-icon {
       cursor: pointer;
       font-size: 22px;
+      width: 22px;
+      height: 22px;
       padding-right: 10px;
 
       &:hover {
@@ -138,6 +140,8 @@ const back = () => {
         margin-top: 2px;
         margin-left: 8px;
         font-size: 20px;
+        width: 20px;
+        height: 20px;
       }
     }
   }

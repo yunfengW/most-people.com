@@ -81,10 +81,5 @@ watch(
     height: 100%;
     opacity: 0;
   }
-
-  // .mp-icon {
-  //   font-size: 24px;
-  //   color: #8c939d;
-  // }
 }
 </style>
