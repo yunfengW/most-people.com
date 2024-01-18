@@ -1,7 +1,7 @@
 <template>
   <div class="mp-upload">
     <input ref="upload" type="file" accept="image/*" @change="change" />
-    <img v-if="imageUrl" :src="imageUrl" />
+    <mp-image v-if="imageUrl" :src="imageUrl" />
     <mp-icon v-else name="add" />
   </div>
 </template>

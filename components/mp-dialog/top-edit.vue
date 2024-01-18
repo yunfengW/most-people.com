@@ -10,7 +10,7 @@
         <span class="number">
           {{ toolStore.getTop(id, form.name) === 100 ? '' : toolStore.getTop(id, form.name) }}
         </span>
-        <img class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title" />
+        <mp-image class="logo" :src="toolStore.tools[id]?.logo" :alt="toolStore.tools[id]?.title" />
         <span class="name">{{ toolStore.tools[id]?.title }}</span>
         <mp-icon name="edit" @click="toolEdit(id)" />
       </div>

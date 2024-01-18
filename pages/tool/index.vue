@@ -30,7 +30,7 @@
                       toolStore.getTop(id, top.name) === 100 ? '' : toolStore.getTop(id, top.name)
                     }}
                   </span>
-                  <img
+                  <mp-image
                     class="logo"
                     :src="toolStore.tools[id]?.logo"
                     :alt="toolStore.tools[id]?.title"
@@ -52,7 +52,7 @@
         <template v-for="tool in allTools" :key="`tool-${tool.id}`">
           <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
-              <img class="logo" :src="tool.logo" :alt="tool.title" />
+              <mp-image class="logo" :src="tool.logo" :alt="tool.title" />
               <span class="name" @click.stop="bindTool(tool.id)">{{ tool.title }}</span>
               <mp-icon name="edit" @click.stop="toolEdit(tool.id)" />
             </div>
