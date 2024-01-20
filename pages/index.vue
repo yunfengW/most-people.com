@@ -251,8 +251,6 @@ onMounted(() => {
       .mp-icon {
         opacity: 0.8;
         font-size: 24px;
-        width: 24px;
-        height: 24px;
         margin-right: 8px;
       }
 
@@ -331,8 +329,6 @@ onMounted(() => {
 
         .mp-icon {
           font-size: 20px;
-          width: 20px;
-          height: 20px;
         }
       }
     }
@@ -401,8 +397,6 @@ onMounted(() => {
       .mp-icon-del {
         color: initial;
         font-size: 40px;
-        width: 40px;
-        height: 40px;
       }
 
       span {

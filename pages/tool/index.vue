@@ -223,8 +223,6 @@ const {
         .mp-icon {
           cursor: pointer;
           font-size: 36px;
-          width: 36px;
-          height: 36px;
         }
 
         span {
