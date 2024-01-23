@@ -56,7 +56,7 @@
         <el-input
           ref="messageElement"
           v-model="userStore.message"
-          :placeholder="form.placeholder"
+          :placeholder="userStore.placeholder"
           autofocus
           size="large"
           @input="userStore.initSearch"
@@ -216,6 +216,7 @@ const keyUpEvent = (event: KeyboardEvent) => {
 
 onMounted(() => {
   messageElement.value?.focus()
+  userStore.initPlaceholder()
 })
 </script>
 
