@@ -9,6 +9,11 @@ export default defineNuxtConfig({
           content: '让每个人都能成为密码朋克！',
         },
       ],
+      link: [
+        { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
+        { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/x-icon' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon.png' },
+      ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [{ defer: true, src: '/js/iconpark.js' }],
     },

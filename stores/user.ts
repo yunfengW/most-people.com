@@ -267,7 +267,11 @@ export const useUserStore = defineStore({
       const v = this.message
 
       const url = new URL(window.location.href)
-      url.searchParams.set('s', v)
+      if (v) {
+        url.searchParams.set('s', v)
+      } else {
+        url.searchParams.delete('s')
+      }
       window.history.replaceState({}, '', url.toString())
 
       this.sugList = []
