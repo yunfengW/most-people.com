@@ -22,11 +22,15 @@
             <mp-icon name="edit" @click="topEdit(top, index + 1)" />
           </h4>
           <div class="ul">
-            <template v-for="(id, i) in sortTop(top)">
+            <template v-for="id in top.tools" :key="id">
               <mp-tooltip :tip="toolStore.tools[id]?.intro || '暂无介绍'">
-                <div class="li">
-                  <span class="number">{{ i + 1 }}</span>
-                  <img
+                <div class="li" :style="{ order: toolStore.getTop(id, top.name) }">
+                  <span class="number">
+                    {{
+                      toolStore.getTop(id, top.name) === 100 ? '' : toolStore.getTop(id, top.name)
+                    }}
+                  </span>
+                  <mp-image
                     class="logo"
                     :src="toolStore.tools[id]?.logo"
                     :alt="toolStore.tools[id]?.title"
@@ -48,7 +52,7 @@
         <template v-for="tool in allTools" :key="`tool-${tool.id}`">
           <mp-tooltip :tip="tool.intro || '暂无介绍'">
             <div class="tool">
-              <img class="logo" :src="tool.logo" :alt="tool.title" />
+              <mp-image class="logo" :src="tool.logo" :alt="tool.title" />
               <span class="name" @click.stop="bindTool(tool.id)">{{ tool.title }}</span>
               <mp-icon name="edit" @click.stop="toolEdit(tool.id)" />
             </div>
@@ -72,25 +76,12 @@
 </template>
 
 <script setup lang="ts">
-const sortTop = (top: Top) => {
-  return top.tools.sort((a, b) => {
-    const i = toolStore.tools[a]?.tags?.findIndex((e) => e === top.name) || 0
-    if (i !== -1) {
-      const topA = toolStore.tools[a]?.tops?.[i]
-      const topB = toolStore.tools[b]?.tops?.[i]
-      if (topA && topB) {
-        return topA - topB
-      }
-    }
-    return toolStore.tools[a]?.top - toolStore.tools[b]?.top
-  })
-}
-
 const allTools = computed(() => {
   return Object.values(toolStore.tools)
     .filter((e) => mp.filter(e.title, filter.value, 0))
     .sort((a, b) => a.top - b.top)
 })
+
 const allTops = computed(() => {
   return Object.values(toolStore.toolTops)
     .filter((e) => {
@@ -188,11 +179,14 @@ const {
       .ul {
         height: 96px;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
 
         .li {
           display: flex;
           align-items: center;
           height: 24px;
+          flex-shrink: 0;
 
           > .number {
             margin-right: 4px;

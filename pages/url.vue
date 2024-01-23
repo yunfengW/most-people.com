@@ -12,12 +12,7 @@
           v-for="(url, index) in userStore.urls.filter((e) => mp.filter(e.name, filter, 0))"
         >
           <div class="url">
-            <img
-              class="icon"
-              :src="url.icon || '/favicon.ico'"
-              @error="(event:any) => (event.target.src = '/favicon.ico')"
-              :alt="url.name"
-            />
+            <mp-image class="icon" :src="url.icon || '/favicon.ico'" :alt="url.name" />
             <nuxt-link target="_black" :to="url.url">{{ url.name }}</nuxt-link>
             <mp-icon name="edit" @click.stop="urlEdit(index)" />
           </div>

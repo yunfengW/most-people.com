@@ -1,7 +1,7 @@
 <template>
   <div class="mp-upload">
     <input ref="upload" type="file" accept="image/*" @change="change" />
-    <img v-if="imageUrl" :src="imageUrl" />
+    <mp-image v-if="imageUrl" :src="imageUrl" />
     <mp-icon v-else name="add" />
   </div>
 </template>
@@ -81,10 +81,5 @@ watch(
     height: 100%;
     opacity: 0;
   }
-
-  // .mp-icon {
-  //   font-size: 24px;
-  //   color: #8c939d;
-  // }
 }
 </style>

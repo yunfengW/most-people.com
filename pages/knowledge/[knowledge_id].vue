@@ -1,7 +1,7 @@
 <template>
   <div id="page-knowledge-id" ref="markdownElement">
     <mp-header title="">
-      <template #right>
+      <template #right v-if="userStore.user">
         <div class="edit" v-show="md.needPublish.value" @click="publish">
           <span>发布</span>
           <mp-icon name="publish" />
@@ -35,6 +35,7 @@ import { useMarkdown } from '~/composables/useMarkdown'
 import api from '~/utils/api'
 
 const knowledgeStore = useKnowledgeStore()
+const userStore = useUserStore()
 
 const route = useRoute()
 const router = useRouter()

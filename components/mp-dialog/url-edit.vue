@@ -5,11 +5,7 @@
     :close-on-click-modal="false"
   >
     <div class="url-icon">
-      <img
-        :src="form.icon || '/favicon.ico'"
-        @error="(event:any)=>event.target.src = '/favicon.ico'"
-        alt="icon"
-      />
+      <mp-image :src="form.icon || '/favicon.ico'" />
       <nuxt-link target="_blank" :to="form.url">{{ form.name }}</nuxt-link>
     </div>
 
