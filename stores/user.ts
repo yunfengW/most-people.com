@@ -257,6 +257,10 @@ export const useUserStore = defineStore({
     initSearch() {
       const v = this.message
 
+      const url = new URL(window.location.href)
+      url.searchParams.set('s', v)
+      window.history.replaceState({}, '', url.toString())
+
       this.sugList = []
       this.sugIndex = -1
 
