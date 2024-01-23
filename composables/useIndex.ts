@@ -66,7 +66,7 @@ export const useIndex = () => {
       recognition.value.onend = function () {
         // console.log('语音识别结束')
         isListening.value = false
-        userStore.placeholder = userStore.initPlaceholder()
+        userStore.initPlaceholder()
       }
     }
   })

@@ -216,7 +216,6 @@ const keyUpEvent = (event: KeyboardEvent) => {
 
 onMounted(() => {
   messageElement.value?.focus()
-  userStore.initPlaceholder()
 })
 </script>
 

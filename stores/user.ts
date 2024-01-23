@@ -94,9 +94,8 @@ export const useUserStore = defineStore({
   },
   actions: {
     initPlaceholder() {
-      const list = in_a_word
-      const i = Math.floor(Math.random() * list.length)
-      return list[i]
+      const i = Math.floor(Math.random() * in_a_word.length)
+      this.placeholder = in_a_word[i]
     },
     initUser(user: User, token: string) {
       this.user = user

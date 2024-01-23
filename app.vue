@@ -46,6 +46,7 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
+  userStore.initPlaceholder()
   // mp-mi
   document.addEventListener('click', async (event: any) => {
     const mi = event?.target?.parentElement as HTMLDivElement
