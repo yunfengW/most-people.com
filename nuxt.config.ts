@@ -2,11 +2,11 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Most People',
+      title: 'Most People | 动员群众，解决难题 | 密码朋克',
       meta: [
         {
           name: 'description',
-          content: 'Most People | 动员群众，解决难题 | 密码朋克',
+          content: '让每个人都能成为密码朋克！',
         },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob

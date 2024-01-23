@@ -1,12 +1,19 @@
 import debounce from 'lodash.debounce'
 import api from '~/utils/api'
+import in_a_word from '~/assets/json/in-a-word.json'
 
 export const useIndex = () => {
   const userStore = useUserStore()
   const router = useRouter()
 
+  const initPlaceholder = () => {
+    const list = in_a_word
+    const i = Math.floor(Math.random() * list.length)
+    return list[i]
+  }
+
   const form = reactive({
-    placeholder: '没有调查，就没有发言权',
+    placeholder: initPlaceholder(),
     remove: false,
   })
 
@@ -67,7 +74,7 @@ export const useIndex = () => {
       recognition.value.onend = function () {
         // console.log('语音识别结束')
         isListening.value = false
-        form.placeholder = '没有调查，就没有发言权'
+        form.placeholder = initPlaceholder()
       }
     }
   })
