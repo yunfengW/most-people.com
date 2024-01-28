@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { ElLoading } from 'element-plus'
 
+import in_a_word from '~/assets/json/in-a-word.json'
+
 import api from '~/utils/api'
 import { indexDB } from '~/utils/api/indexdb'
 
@@ -41,6 +43,8 @@ interface UserStore {
   // 搜索
   sugList: Sug[]
   sugIndex: number
+  // 摘录句子
+  placeholder: string
 }
 
 export const useUserStore = defineStore({
@@ -59,6 +63,7 @@ export const useUserStore = defineStore({
       sugIndex: -1,
       sugList: [],
       memo: '',
+      placeholder: '没有调查，就没有发言权',
     }
   },
   getters: {
@@ -88,6 +93,10 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
+    initPlaceholder() {
+      const i = Math.floor(Math.random() * in_a_word.length)
+      this.placeholder = in_a_word[i]
+    },
     initUser(user: User, token: string) {
       this.user = user
       window.sessionStorage.setItem('token', token)
@@ -256,6 +265,14 @@ export const useUserStore = defineStore({
     },
     initSearch() {
       const v = this.message
+
+      const url = new URL(window.location.href)
+      if (v) {
+        url.searchParams.set('s', v)
+      } else {
+        url.searchParams.delete('s')
+      }
+      window.history.replaceState({}, '', url.toString())
 
       this.sugList = []
       this.sugIndex = -1

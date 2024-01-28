@@ -6,7 +6,6 @@ export const useIndex = () => {
   const router = useRouter()
 
   const form = reactive({
-    placeholder: '没有调查，就没有发言权',
     remove: false,
   })
 
@@ -29,14 +28,14 @@ export const useIndex = () => {
       return url
     }
     if (url.includes('「most-people」')) {
-      const keyword = encodeURIComponent(sug || userStore.message || form.placeholder)
+      const keyword = encodeURIComponent(sug || userStore.message || userStore.placeholder)
       return url.replace('「most-people」', keyword)
     }
     if (!url.startsWith('http')) {
       url = 'https://' + url
     }
     const urlObject = new URL(url)
-    const keyword = userStore.message || form.placeholder
+    const keyword = userStore.message || userStore.placeholder
     urlObject.searchParams.set('mp-keyword', keyword)
     return urlObject.href
   }
@@ -53,7 +52,7 @@ export const useIndex = () => {
       recognition.value.onstart = function () {
         // console.log('语音识别开始')
         userStore.message = ''
-        form.placeholder = '请说中文'
+        userStore.placeholder = '请说中文'
         isListening.value = true
       }
       recognition.value.onresult = function (event: any) {
@@ -67,7 +66,7 @@ export const useIndex = () => {
       recognition.value.onend = function () {
         // console.log('语音识别结束')
         isListening.value = false
-        form.placeholder = '没有调查，就没有发言权'
+        userStore.initPlaceholder()
       }
     }
   })

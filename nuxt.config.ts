@@ -2,11 +2,11 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: 'Most People',
+      title: 'Most People | 动员群众，解决难题 | 密码朋克',
       meta: [
         {
           name: 'description',
-          content: 'Most People | 动员群众，解决难题 | 密码朋克',
+          content: '让每个人都能成为密码朋克！',
         },
       ],
       link: [
@@ -14,6 +14,9 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
         },
+        { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
+        { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/x-icon' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon.png' },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [

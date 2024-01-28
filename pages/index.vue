@@ -56,7 +56,7 @@
         <el-input
           ref="messageElement"
           v-model="userStore.message"
-          :placeholder="form.placeholder"
+          :placeholder="userStore.placeholder"
           autofocus
           size="large"
           @input="userStore.initSearch"
@@ -117,7 +117,7 @@
 </template>
 
 <script lang="ts" setup>
-useHead({ title: 'Most People | 动员群众，解决难题 | 密码朋克' })
+useHead({ title: 'Most People' })
 
 const router = useRouter()
 
