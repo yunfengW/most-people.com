@@ -37,7 +37,7 @@
       />
     </div>
 
-    <div v-show="!md.form.showEdit" ref="viewerElement" class="mp-markdown-box"></div>
+    <div ref="viewerElement" v-show="!md.form.showEdit" class="mp-markdown-viewer" />
 
     <div class="note-authors">
       <div class="authors">
@@ -47,10 +47,10 @@
     </div>
 
     <div
-      class="mp-markdown-editor"
-      :class="{ 'show-edit': md.form.showEdit }"
       ref="editorElement"
-    ></div>
+      :class="{ 'show-edit': md.form.showEdit }"
+      class="mp-markdown-editor"
+    />
     <div class="close" @click="editEnd" v-show="md.form.showEdit">
       <mp-icon name="edit-back" />
     </div>
@@ -313,48 +313,15 @@ const init = async () => {
   }
 }
 
-const markdownElement = ref<HTMLDivElement>()
-const md = useMarkdown(markdownElement)
-
 const viewerElement = ref<HTMLDivElement>()
 const editorElement = ref<HTMLDivElement>()
+const md = useMarkdown(viewerElement, editorElement)
 
 let viewer: any
 let editor: any
-const initToastUI = () => {
-  const customHTMLRenderer = {
-    link(node: any, context: any) {
-      const { origin, entering } = context
-      const result = origin()
-      if (entering) {
-        result.attributes.target = '_blank'
-      }
-      return result
-    },
-  }
-  // toast UI
-  const Editor = window.toastui.Editor
-  // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
-  viewer = new Editor.factory({
-    el: viewerElement.value,
-    viewer: true,
-    customHTMLRenderer,
-  })
-  editor = new Editor.factory({
-    el: editorElement.value,
-    height: '100%',
-    initialValue: '',
-    initialEditType: 'wysiwyg',
-    // 不能切换到 markdown
-    hideModeSwitch: false,
-    usageStatistics: false,
-    language: 'zh-CN',
-    previewStyle: 'vertical',
-    customHTMLRenderer,
-  })
-}
 onMounted(() => {
-  initToastUI()
+  editor = md.initEditor()
+  viewer = md.initViewer()
   init()
 })
 </script>

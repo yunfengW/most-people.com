@@ -18,7 +18,7 @@
     <div
       v-if="md.form.content"
       v-show="!showEdit"
-      class="mp-markdown-box"
+      class="mp-markdown-viewer"
       v-html="md.render(md.form.content)"
     ></div>
     <mp-loading v-else-if="!md.form.inited" />

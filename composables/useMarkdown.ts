@@ -1,34 +1,37 @@
-import { Marked } from 'marked'
-import { markedHighlight } from 'marked-highlight'
-import hljs from 'highlight.js'
+// import { Marked } from 'marked'
+// import { markedHighlight } from 'marked-highlight'
+// import hljs from 'highlight.js'
 
-const marked = new Marked(
-  markedHighlight({
-    // 设置语言前缀
-    highlight(code, lang) {
-      const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-      return hljs.highlight(code, { language }).value
-    },
-  }),
-)
-marked.use({
-  breaks: true,
-})
+// const marked = new Marked(
+//   markedHighlight({
+//     // 设置语言前缀
+//     highlight(code, lang) {
+//       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+//       return hljs.highlight(code, { language }).value
+//     },
+//   }),
+// )
+// marked.use({
+//   breaks: true,
+// })
 
-export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) => {
+export const useMarkdown = (
+  viewerElement: Ref<HTMLDivElement | undefined>,
+  editorElement: Ref<HTMLDivElement | undefined>,
+) => {
   // editor options
-  const options: any = {
-    tabSize: 2,
-    minimap: {
-      enabled: false,
-    },
-    wordWrap: 'on',
-    formatOnType: true,
-    lineNumbers: false,
-    theme: 'vs-dark',
-    fontSize: 16,
-    fontFamily: `Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif`,
-  }
+  // const options: any = {
+  //   tabSize: 2,
+  //   minimap: {
+  //     enabled: false,
+  //   },
+  //   wordWrap: 'on',
+  //   formatOnType: true,
+  //   lineNumbers: false,
+  //   theme: 'vs-dark',
+  //   fontSize: 16,
+  //   fontFamily: `Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif`,
+  // }
 
   const form = reactive({
     title: '',
@@ -60,38 +63,38 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     )
   })
 
-  const render = (md: string) => {
-    const html = marked.parse(md)
-    // mp-mi
-    nextTick(async () => {
-      if (!markdownElement.value) return
-      const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
-      for (const mi of miList) {
-        const encrypted = mi.querySelector('span')?.innerText || mi.innerText
-        mi.innerHTML = `<span>${encrypted}</span><input placeholder="输入密码" /><a>解密</a>`
-      }
-    })
-    return html
-  }
+  // const render = (md: string) => {
+  //   const html = marked.parse(md)
+  //   // mp-mi
+  //   nextTick(async () => {
+  //     if (!markdownElement.value) return
+  //     const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
+  //     for (const mi of miList) {
+  //       const encrypted = mi.querySelector('span')?.innerText || mi.innerText
+  //       mi.innerHTML = `<span>${encrypted}</span><input placeholder="输入密码" /><a>解密</a>`
+  //     }
+  //   })
+  //   return html
+  // }
 
-  const initMarked = () => {
-    const renderer = new marked.Renderer()
-    renderer.link = function (href, title, text) {
-      const div = document.createElement('div')
-      const a = document.createElement('a')
-      a.href = href
-      a.target = '_blank'
-      if (title) {
-        a.title = title
-      }
-      a.textContent = text
-      div.appendChild(a)
-      return div.innerHTML
-    }
-    marked.setOptions({
-      renderer: renderer,
-    })
-  }
+  // const initMarked = () => {
+  //   const renderer = new marked.Renderer()
+  //   renderer.link = function (href, title, text) {
+  //     const div = document.createElement('div')
+  //     const a = document.createElement('a')
+  //     a.href = href
+  //     a.target = '_blank'
+  //     if (title) {
+  //       a.title = title
+  //     }
+  //     a.textContent = text
+  //     div.appendChild(a)
+  //     return div.innerHTML
+  //   }
+  //   marked.setOptions({
+  //     renderer: renderer,
+  //   })
+  // }
 
   const toc = computed(() => {
     const { title, content } = form
@@ -124,17 +127,50 @@ export const useMarkdown = (markdownElement: Ref<HTMLDivElement | undefined>) =>
     return md
   })
 
-  if (process.client) {
-    initMarked()
+  const customHTMLRenderer = {
+    link(node: any, context: any) {
+      const { origin, entering } = context
+      const result = origin()
+      if (entering) {
+        result.attributes.target = '_blank'
+      }
+      return result
+    },
+  }
+  const initEditor = () => {
+    const Editor = window.toastui.Editor
+    // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
+    return new Editor.factory({
+      el: editorElement.value,
+      height: '100%',
+      initialValue: '',
+      initialEditType: 'wysiwyg',
+      // 不能切换到 markdown
+      hideModeSwitch: false,
+      usageStatistics: false,
+      language: 'zh-CN',
+      previewStyle: 'vertical',
+      customHTMLRenderer,
+    })
+  }
+  const initViewer = () => {
+    const Editor = window.toastui.Editor
+    // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
+    return new Editor.factory({
+      el: viewerElement.value,
+      viewer: true,
+      customHTMLRenderer,
+    })
   }
 
   return {
+    // init
+    initEditor,
+    initViewer,
+    //
     needPublish,
-    render,
-    options,
-    markdownElement,
+    toc,
     form,
     backup,
-    toc,
   }
 }

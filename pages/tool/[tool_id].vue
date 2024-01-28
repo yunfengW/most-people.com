@@ -16,7 +16,7 @@
     <div
       v-if="md.form.content"
       v-show="!showEdit"
-      class="mp-markdown-box"
+      class="mp-markdown-viewer"
       v-html="md.render(md.form.content)"
     ></div>
     <div class="markdown-empty" v-else-if="md.form.inited">
@@ -32,7 +32,7 @@
         <mp-icon name="edit-back" />
       </div>
 
-      <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
+      <div class="preview mp-markdown-viewer" v-html="md.render(md.form.content)"></div>
       <monaco-editor
         class="editor"
         v-model="md.form.content"
