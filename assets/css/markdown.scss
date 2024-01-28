@@ -4,6 +4,18 @@
 .toastui-editor-contents {
   font-size: initial;
   font-family: initial;
+  width: 100%;
+  word-break: break-word;
+
+  // fix toastui
+  .task-list-item:before {
+    top: 10px;
+  }
+  ul > li:before {
+    margin-top: 11px;
+  }
+
+  // most-people custom
 
   mp-mi {
     display: flex;
@@ -55,17 +67,8 @@
       }
     }
   }
-}
-.toastui-editor-dropdown-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 94%;
-  height: auto;
-}
 
-.mp-markdown-viewer {
-  width: 100%;
-  word-break: break-word;
+  // default
 
   a {
     color: #76808e;
@@ -232,6 +235,7 @@
   h6 {
     margin: 16px 0;
     font-weight: 600;
+    line-height: 1.2;
   }
 
   h1 {
@@ -253,7 +257,16 @@
     font-size: 18px;
   }
 }
+.toastui-editor-dropdown-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 94%;
+  height: auto;
+}
 
+.mp-markdown-viewer {
+  width: 100%;
+}
 .mp-markdown-editor {
   position: fixed;
   top: 0;
