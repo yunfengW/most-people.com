@@ -15,9 +15,9 @@ export default defineNuxtConfig({
           // href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
           href: 'https://data.most-people.cn/cdn/css/toastui-editor.min.css',
         },
-        { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
-        { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/x-icon' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon.png' },
+        { rel: 'icon', href: '/favicon.ico' },
+        { rel: 'shortcut icon', href: '/favicon.ico' },
+        { rel: 'apple-touch-icon', href: '/favicon.png' },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [
