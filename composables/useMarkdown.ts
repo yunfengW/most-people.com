@@ -1,6 +1,7 @@
 // import { Marked } from 'marked'
 // import { markedHighlight } from 'marked-highlight'
 // import hljs from 'highlight.js'
+// import { Editor } from '@toast-ui/editor'
 
 // const marked = new Marked(
 //   markedHighlight({
@@ -63,39 +64,6 @@ export const useMarkdown = (
     )
   })
 
-  // const render = (md: string) => {
-  //   const html = marked.parse(md)
-  //   // mp-mi
-  //   nextTick(async () => {
-  //     if (!markdownElement.value) return
-  //     const miList = markdownElement.value.querySelectorAll('mp-mi') as unknown as HTMLDivElement[]
-  //     for (const mi of miList) {
-  //       const encrypted = mi.querySelector('span')?.innerText || mi.innerText
-  //       mi.innerHTML = `<span>${encrypted}</span><input placeholder="输入密码" /><a>解密</a>`
-  //     }
-  //   })
-  //   return html
-  // }
-
-  // const initMarked = () => {
-  //   const renderer = new marked.Renderer()
-  //   renderer.link = function (href, title, text) {
-  //     const div = document.createElement('div')
-  //     const a = document.createElement('a')
-  //     a.href = href
-  //     a.target = '_blank'
-  //     if (title) {
-  //       a.title = title
-  //     }
-  //     a.textContent = text
-  //     div.appendChild(a)
-  //     return div.innerHTML
-  //   }
-  //   marked.setOptions({
-  //     renderer: renderer,
-  //   })
-  // }
-
   const toc = computed(() => {
     const { title, content } = form
     if (!title) {
@@ -127,39 +95,82 @@ export const useMarkdown = (
     return md
   })
 
-  const customHTMLRenderer = {
-    link(node: any, context: any) {
-      const { origin, entering } = context
-      const result = origin()
-      if (entering) {
-        result.attributes.target = '_blank'
-      }
-      return result
-    },
+  // const customHTMLRenderer = {
+  //   link(node: any, context: any) {
+  //     const { origin, entering } = context
+  //     const result = origin()
+  //     if (entering) {
+  //       result.attributes.target = '_blank'
+  //     }
+  //     return result
+  //   },
+  // }
+
+  const mp_miPlugin = () => {
+    const toHTMLRenderers = {
+      mp_mi(node: any) {
+        const content = `<mp-mi>
+          <span>${node.literal}</span>
+          <input placeholder="输入密码" />
+          <a>解密</a>
+        </mp-mi>`
+        return [
+          { type: 'openTag', tagName: 'div', outerNewLine: true },
+          { type: 'html', content },
+          { type: 'closeTag', tagName: 'div', outerNewLine: true },
+        ]
+      },
+    }
+
+    return { toHTMLRenderers }
   }
+
   const initEditor = () => {
+    if (!editorElement.value) {
+      return
+    }
     const Editor = window.toastui.Editor
     // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
-    return new Editor.factory({
+    return new Editor({
       el: editorElement.value,
       height: '100%',
       initialValue: '',
       initialEditType: 'wysiwyg',
-      // 不能切换到 markdown
+      // 隐藏切换到 markdown
       hideModeSwitch: false,
+      // 使用 google analytics
       usageStatistics: false,
       language: 'zh-CN',
       previewStyle: 'vertical',
-      customHTMLRenderer,
+      // 自动添加链接
+      extendedAutolinks: true,
+      linkAttributes: {
+        target: '_blank',
+      },
+      plugins: [mp_miPlugin],
+      customHTMLSanitizer(html: string) {
+        return html
+      },
     })
   }
   const initViewer = () => {
+    if (!viewerElement.value) {
+      return
+    }
     const Editor = window.toastui.Editor
     // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
-    return new Editor.factory({
+    return Editor.factory({
       el: viewerElement.value,
       viewer: true,
-      customHTMLRenderer,
+      // 自动添加链接
+      extendedAutolinks: true,
+      linkAttributes: {
+        target: '_blank',
+      },
+      plugins: [mp_miPlugin],
+      customHTMLSanitizer(html: string) {
+        return html
+      },
     })
   }
 

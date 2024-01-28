@@ -52,8 +52,8 @@ onMounted(() => {
     const tagName = mi?.tagName
     if (tagName === 'MP-MI') {
       if (event?.target?.tagName === 'A') {
-        const input = event.target.previousSibling
-        if (input.tagName === 'INPUT') {
+        const input = mi.querySelector('input')
+        if (input) {
           const password = input.value as string
           const text = mi.querySelector('span')?.innerText || ''
           const { key } = await mp.key('most-people', password)

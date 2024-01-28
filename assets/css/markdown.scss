@@ -2,19 +2,8 @@
 @import './atom-one-dark.css';
 
 .toastui-editor-contents {
-  font-size: 16px;
-  font-family: Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif;
-}
-.toastui-editor-dropdown-toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  max-width: 94%;
-  height: auto;
-}
-
-.mp-markdown-viewer {
-  width: 100%;
-  word-break: break-word;
+  font-size: initial;
+  font-family: initial;
 
   mp-mi {
     display: flex;
@@ -62,9 +51,21 @@
 
       &:hover {
         background-color: rgb(23, 124, 192);
+        color: white;
       }
     }
   }
+}
+.toastui-editor-dropdown-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 94%;
+  height: auto;
+}
+
+.mp-markdown-viewer {
+  width: 100%;
+  word-break: break-word;
 
   a {
     color: #76808e;
