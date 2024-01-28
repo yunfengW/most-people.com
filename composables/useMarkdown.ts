@@ -1,39 +1,9 @@
-// import { Marked } from 'marked'
-// import { markedHighlight } from 'marked-highlight'
-// import hljs from 'highlight.js'
 // import { Editor } from '@toast-ui/editor'
-
-// const marked = new Marked(
-//   markedHighlight({
-//     // 设置语言前缀
-//     highlight(code, lang) {
-//       const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-//       return hljs.highlight(code, { language }).value
-//     },
-//   }),
-// )
-// marked.use({
-//   breaks: true,
-// })
 
 export const useMarkdown = (
   viewerElement: Ref<HTMLDivElement | undefined>,
   editorElement: Ref<HTMLDivElement | undefined>,
 ) => {
-  // editor options
-  // const options: any = {
-  //   tabSize: 2,
-  //   minimap: {
-  //     enabled: false,
-  //   },
-  //   wordWrap: 'on',
-  //   formatOnType: true,
-  //   lineNumbers: false,
-  //   theme: 'vs-dark',
-  //   fontSize: 16,
-  //   fontFamily: `Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif`,
-  // }
-
   const form = reactive({
     title: '',
     content: '',
@@ -95,17 +65,6 @@ export const useMarkdown = (
     return md
   })
 
-  // const customHTMLRenderer = {
-  //   link(node: any, context: any) {
-  //     const { origin, entering } = context
-  //     const result = origin()
-  //     if (entering) {
-  //       result.attributes.target = '_blank'
-  //     }
-  //     return result
-  //   },
-  // }
-
   const mp_miPlugin = () => {
     const toHTMLRenderers = {
       mp_mi(node: any) {
@@ -127,6 +86,10 @@ export const useMarkdown = (
 
   const initEditor = () => {
     if (!editorElement.value) {
+      return
+    }
+    if (!window.toastui) {
+      mp.error('初始化错误')
       return
     }
     const Editor = window.toastui.Editor
@@ -155,6 +118,10 @@ export const useMarkdown = (
   }
   const initViewer = () => {
     if (!viewerElement.value) {
+      return
+    }
+    if (!window.toastui) {
+      mp.error('初始化错误')
       return
     }
     const Editor = window.toastui.Editor

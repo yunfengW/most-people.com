@@ -12,7 +12,8 @@ export default defineNuxtConfig({
       link: [
         {
           rel: 'stylesheet',
-          href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
+          // href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
+          href: 'https://data.most-people.cn/cdn/css/toastui-editor.min.css',
         },
         { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
         { rel: 'shortcut icon', href: '/favicon.ico', type: 'image/x-icon' },
@@ -21,8 +22,14 @@ export default defineNuxtConfig({
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [
         { defer: true, src: '/js/iconpark.js' },
-        { defer: true, src: 'https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js' },
-        { defer: true, src: 'https://uicdn.toast.com/editor/latest/i18n/zh-cn.js' },
+        {
+          // src: 'https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js',
+          src: 'https://data.most-people.cn/cdn/js/toastui-editor-all.min.js',
+        },
+        {
+          // src: 'https://uicdn.toast.com/editor/latest/i18n/zh-cn.js',
+          src: 'https://data.most-people.cn/cdn/js/zh-cn.js',
+        },
       ],
     },
   },
@@ -43,12 +50,9 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     // 状态管理
     '@pinia/nuxt',
-    // VS Code 编辑器
-    'nuxt-monaco-editor',
     // 设备信息
     '@nuxtjs/device',
   ],
-  monacoEditor: { locale: 'zh-hans' },
   // https://content.nuxtjs.org/examples/mdc/nested-components
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },
