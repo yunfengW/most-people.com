@@ -6,24 +6,31 @@
           <span>发布</span>
           <mp-icon name="publish" />
         </div>
-        <div class="edit" @click="showEdit = true">
+        <div class="edit" @click="md.form.showEdit = true">
           <span>编辑</span>
           <mp-icon name="edit" />
         </div>
       </template>
     </mp-header>
 
-    <input class="note-title" v-model="md.form.title" placeholder="输入标题" />
+    <input
+      v-if="md.form.inited"
+      class="note-title"
+      v-model="md.form.title"
+      placeholder="输入标题"
+    />
+    <mp-loading v-else />
+
+    <br />
+
+    <div ref="viewerElement" v-show="!md.form.showEdit" class="mp-markdown-viewer" />
 
     <div
-      v-if="md.form.content"
-      v-show="!showEdit"
-      class="mp-markdown-viewer"
-      v-html="md.render(md.form.content)"
-    ></div>
-    <mp-loading v-else-if="!md.form.inited" />
-    <div class="mp-markdown-editor" :class="{ 'show-edit': showEdit }" ref="editorElement"></div>
-    <div class="close" @click="editEnd" v-show="showEdit">
+      ref="editorElement"
+      :class="{ 'show-edit': md.form.showEdit }"
+      class="mp-markdown-editor"
+    />
+    <div class="close" @click="editEnd" v-show="md.form.showEdit">
       <mp-icon name="edit-back" />
     </div>
   </div>
@@ -40,10 +47,6 @@ const userStore = useUserStore()
 const route = useRoute()
 const router = useRouter()
 const knowledge_id = (route.params.knowledge_id || '') as string
-
-const showEdit = ref(false)
-
-const editorElement = ref<HTMLDivElement>()
 
 const publish = async () => {
   const res = await api({
@@ -75,7 +78,8 @@ const publish = async () => {
 
 const editEnd = () => {
   md.form.content = editor.getMarkdown()
-  showEdit.value = false
+  md.form.showEdit = false
+  viewer.setMarkdown(md.form.content)
 }
 
 const init = async () => {
@@ -92,48 +96,24 @@ const init = async () => {
     md.backup.title = knowledge.title
     md.form.content = text
     md.backup.content = text
-    if (editor) {
-      editor.setMarkdown(text)
-    }
+    viewer.setMarkdown(text)
+    editor.setMarkdown(text)
   } else {
     mp.error('知识不存在')
     router.back()
   }
 }
 
-const markdownElement = ref<HTMLDivElement>()
-const md = useMarkdown(markdownElement)
+const viewerElement = ref<HTMLDivElement>()
+const editorElement = ref<HTMLDivElement>()
+const md = useMarkdown(viewerElement, editorElement)
 
-if (process.client) {
-  init()
-}
-
+let viewer: any
 let editor: any
 onMounted(() => {
-  // toast UI
-  const Editor = window.toastui.Editor
-  // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
-  editor = new Editor({
-    el: editorElement.value,
-    height: 'auto',
-    initialValue: '',
-    initialEditType: 'wysiwyg',
-    // 不能切换到 markdown
-    hideModeSwitch: false,
-    usageStatistics: false,
-    language: 'zh-CN',
-    previewStyle: 'vertical',
-    customHTMLRenderer: {
-      link(node: any, context: any) {
-        const { origin, entering } = context
-        const result = origin()
-        if (entering) {
-          result.attributes.target = '_blank'
-        }
-        return result
-      },
-    },
-  })
+  editor = md.initEditor()
+  viewer = md.initViewer()
+  init()
 })
 </script>
 

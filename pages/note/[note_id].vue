@@ -169,12 +169,6 @@ const publish = async () => {
   }
 }
 
-const editEnd = () => {
-  md.form.content = editor.getMarkdown()
-  md.form.showEdit = false
-  viewer.setMarkdown(md.form.content)
-}
-
 const decryptContent = async (content: string) => {
   let result = ''
   if (content.startsWith('mp://')) {
@@ -201,10 +195,8 @@ const decryptContent = async (content: string) => {
   }
   md.form.content = result
   md.backup.content = result
-  if (viewer) {
-    viewer.setMarkdown(result)
-    editor.setMarkdown(result)
-  }
+  viewer.setMarkdown(result)
+  editor.setMarkdown(result)
 }
 const authors = ref('')
 const user_id = ref(0)
@@ -225,6 +217,12 @@ const getNotePasswordHash = (note: Note) => {
     }
   }
   return ''
+}
+
+const editEnd = () => {
+  md.form.content = editor.getMarkdown()
+  md.form.showEdit = false
+  viewer.setMarkdown(md.form.content)
 }
 
 const init = async () => {
@@ -355,6 +353,7 @@ onMounted(() => {
       margin-left: 10px;
     }
   }
+
   .note-authors {
     width: 100%;
     display: flex;
