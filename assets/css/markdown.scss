@@ -1,9 +1,21 @@
 // https://github.com/highlightjs/highlight.js/blob/master/src/styles/atom-one-dark.css
 @import './atom-one-dark.css';
 
+.toastui-editor-contents {
+  font-size: 16px;
+  font-family: Monaco, Menlo, Consolas, 'Courier New', Microsoft Yahei, sans-serif;
+}
+.toastui-editor-dropdown-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 94%;
+  height: auto;
+}
+
 .mp-markdown-box {
   width: 100%;
   word-break: break-word;
+
   mp-mi {
     display: flex;
     flex-direction: column;

@@ -37,16 +37,7 @@
       />
     </div>
 
-    <template v-if="md.form.content">
-      <div
-        v-show="!md.form.showEdit"
-        class="mp-markdown-box"
-        v-html="md.render(md.form.content)"
-      ></div>
-    </template>
-    <div v-else-if="!md.form.inited" class="el-icon is-loading">
-      <mp-icon name="loading" />
-    </div>
+    <div v-show="!md.form.showEdit" ref="viewerElement" class="mp-markdown-box"></div>
 
     <div class="note-authors">
       <div class="authors">
@@ -55,18 +46,13 @@
       </div>
     </div>
 
-    <div class="mp-markdown-editor" :class="{ 'show-edit': md.form.showEdit }">
-      <div class="close" @click="md.form.showEdit = false">
-        <mp-icon name="edit-back" />
-      </div>
-
-      <div class="preview mp-markdown-box" v-html="md.render(md.form.content)"></div>
-      <monaco-editor
-        class="editor"
-        v-model="md.form.content"
-        lang="markdown"
-        :options="md.options"
-      />
+    <div
+      class="mp-markdown-editor"
+      :class="{ 'show-edit': md.form.showEdit }"
+      ref="editorElement"
+    ></div>
+    <div class="close" @click="editEnd" v-show="md.form.showEdit">
+      <mp-icon name="edit-back" />
     </div>
   </div>
 </template>
@@ -183,6 +169,12 @@ const publish = async () => {
   }
 }
 
+const editEnd = () => {
+  md.form.content = editor.getMarkdown()
+  md.form.showEdit = false
+  viewer.setMarkdown(md.form.content)
+}
+
 const decryptContent = async (content: string) => {
   let result = ''
   if (content.startsWith('mp://')) {
@@ -209,6 +201,10 @@ const decryptContent = async (content: string) => {
   }
   md.form.content = result
   md.backup.content = result
+  if (viewer) {
+    viewer.setMarkdown(result)
+    editor.setMarkdown(result)
+  }
 }
 const authors = ref('')
 const user_id = ref(0)
@@ -220,7 +216,7 @@ const readonly = computed(() => {
   return !md.form.user_password_hash
 })
 
-const getUserPasswordHash = (note: Note) => {
+const getNotePasswordHash = (note: Note) => {
   if (note.authors && note.passwords) {
     const username = localStorage.getItem('username') || ''
     const i = note.authors.findIndex((e) => e === username)
@@ -238,7 +234,7 @@ const init = async () => {
     const note: Note = res.data
     // 多人协作
     if (note.note_password_hash) {
-      const hash = getUserPasswordHash(note)
+      const hash = getNotePasswordHash(note)
       if (hash) {
         md.form.user_password_hash = hash
         md.backup.user_password_hash = hash
@@ -320,7 +316,45 @@ const init = async () => {
 const markdownElement = ref<HTMLDivElement>()
 const md = useMarkdown(markdownElement)
 
+const viewerElement = ref<HTMLDivElement>()
+const editorElement = ref<HTMLDivElement>()
+
+let viewer: any
+let editor: any
+const initToastUI = () => {
+  const customHTMLRenderer = {
+    link(node: any, context: any) {
+      const { origin, entering } = context
+      const result = origin()
+      if (entering) {
+        result.attributes.target = '_blank'
+      }
+      return result
+    },
+  }
+  // toast UI
+  const Editor = window.toastui.Editor
+  // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
+  viewer = new Editor.factory({
+    el: viewerElement.value,
+    viewer: true,
+    customHTMLRenderer,
+  })
+  editor = new Editor.factory({
+    el: editorElement.value,
+    height: '100%',
+    initialValue: '',
+    initialEditType: 'wysiwyg',
+    // 不能切换到 markdown
+    hideModeSwitch: false,
+    usageStatistics: false,
+    language: 'zh-CN',
+    previewStyle: 'vertical',
+    customHTMLRenderer,
+  })
+}
 onMounted(() => {
+  initToastUI()
   init()
 })
 </script>
