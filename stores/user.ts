@@ -57,7 +57,7 @@ export const useUserStore = defineStore({
       inited: false,
       // current tool
       tool_id: 38,
-      tools: [5, 43, 185, 57, 39, 46, 84, 37],
+      tools: [5, 43, 185, 39, 46, 84, 37, 290, 57],
       urls: [],
       message: '',
       sugIndex: -1,
