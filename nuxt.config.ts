@@ -1,3 +1,4 @@
+const { VITE_Data, VITE_Frontend } = import.meta.env
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   app: {
@@ -17,35 +18,38 @@ export default defineNuxtConfig({
         // 后备选项
         { rel: 'alternate icon', href: '/favicon.ico' },
         {
-          rel: 'stylesheet',
           // href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
-          href: 'https://data.most-people.cn/cdn/css/toastui-editor.min.css',
+          rel: 'stylesheet',
+          href: VITE_Data + '/cdn/css/toastui-editor.min.css',
         },
         {
-          rel: 'stylesheet',
           // https://www.jsdelivr.com/package/npm/prismjs
-          href: 'https://data.most-people.cn/cdn/css/prism.min.css',
+          rel: 'stylesheet',
+          href: VITE_Data + '/cdn/css/prism.min.css',
         },
         {
-          rel: 'stylesheet',
           // href: 'https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css',
-          href: 'https://data.most-people.cn/cdn/css/toastui-editor-plugin-code-syntax-highlight.min.css',
+          rel: 'stylesheet',
+          href: VITE_Data + '/cdn/css/toastui-editor-plugin-code-syntax-highlight.min.css',
         },
       ],
-      // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [
-        { defer: true, src: '/js/iconpark.js' },
+        {
+          // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
+          defer: true,
+          src: '/js/iconpark.js',
+        },
         {
           // src: 'https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js',
-          src: 'https://data.most-people.cn/cdn/js/toastui-editor-all.min.js',
+          src: VITE_Data + '/cdn/js/toastui-editor-all.min.js',
         },
         {
           // src: 'https://uicdn.toast.com/editor/latest/i18n/zh-cn.js',
-          src: 'https://data.most-people.cn/cdn/js/zh-cn.js',
+          src: VITE_Data + '/cdn/js/zh-cn.js',
         },
         {
           // src: 'https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js',
-          src: 'https://data.most-people.cn/cdn/css/toastui-editor-plugin-code-syntax-highlight-all.min.js',
+          src: VITE_Data + '/cdn/css/toastui-editor-plugin-code-syntax-highlight-all.min.js',
         },
       ],
     },
@@ -75,6 +79,6 @@ export default defineNuxtConfig({
   elementPlus: { importStyle: 'scss' },
   devServer: {
     host: 'localhost',
-    port: 2023,
+    port: VITE_Frontend,
   },
 })

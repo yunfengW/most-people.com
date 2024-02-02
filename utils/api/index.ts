@@ -1,5 +1,7 @@
 import Axios, { type AxiosInstance, type AxiosResponse } from 'axios'
 
+const { VITE_Api } = import.meta.env
+
 export const apiErrorCode: { [key: string]: string } = {
   404: '请求失败，请检查网络',
   1001: '用户名已存在',
@@ -46,8 +48,8 @@ const setInterceptors = (api: AxiosInstance) => {
 }
 
 const api = Axios.create({
-  // baseURL: import.meta.env.PROD ? 'https://api.most-people.cn' : 'http://localhost:8001',
-  baseURL: 'https://api.most-people.cn',
+  // baseURL:  import.meta.env.PROD ? VITE_Api : 'http://localhost:8001',
+  baseURL: VITE_Api,
 })
 
 setInterceptors(api)
