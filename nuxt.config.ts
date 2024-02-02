@@ -10,17 +10,27 @@ export default defineNuxtConfig({
         },
       ],
       link: [
-        {
-          rel: 'stylesheet',
-          // href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
-          href: 'https://data.most-people.cn/cdn/css/toastui-editor.min.css',
-        },
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
         { rel: 'shortcut icon', type: 'image/svg+xml', href: '/favicon.svg' },
         // apple
         { rel: 'apple-touch-icon', type: 'image/png', href: '/favicon.png' },
         // 后备选项
         { rel: 'alternate icon', href: '/favicon.ico' },
+        {
+          rel: 'stylesheet',
+          // href: 'https://uicdn.toast.com/editor/latest/toastui-editor.min.css',
+          href: 'https://data.most-people.cn/cdn/css/toastui-editor.min.css',
+        },
+        {
+          rel: 'stylesheet',
+          // https://www.jsdelivr.com/package/npm/prismjs
+          href: 'https://data.most-people.cn/cdn/css/prism.min.css',
+        },
+        {
+          rel: 'stylesheet',
+          // href: 'https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight.min.css',
+          href: 'https://data.most-people.cn/cdn/css/toastui-editor-plugin-code-syntax-highlight.min.css',
+        },
       ],
       // https://bytedance.feishu.cn/wiki/wikcnJZV45hM71QgI60iwkzvXob
       script: [
@@ -32,6 +42,10 @@ export default defineNuxtConfig({
         {
           // src: 'https://uicdn.toast.com/editor/latest/i18n/zh-cn.js',
           src: 'https://data.most-people.cn/cdn/js/zh-cn.js',
+        },
+        {
+          // src: 'https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js',
+          src: 'https://data.most-people.cn/cdn/css/toastui-editor-plugin-code-syntax-highlight-all.min.js',
         },
       ],
     },
@@ -60,7 +74,7 @@ export default defineNuxtConfig({
   components: [{ path: '~/components', global: true }],
   elementPlus: { importStyle: 'scss' },
   devServer: {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: 2023,
   },
 })

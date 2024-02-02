@@ -23,12 +23,12 @@
 
     <br />
 
-    <div ref="viewerElement" v-show="!md.form.showEdit" class="mp-markdown-viewer" />
+    <div ref="viewerElement" v-show="!md.form.showEdit" class="mp-markdown viewer" />
 
     <div
       ref="editorElement"
       :class="{ 'show-edit': md.form.showEdit }"
-      class="mp-markdown-editor"
+      class="mp-markdown editor"
     />
     <div class="close" @click="editEnd" v-show="md.form.showEdit">
       <mp-icon name="edit-back" />

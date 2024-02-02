@@ -93,6 +93,7 @@ export const useMarkdown = (
       return
     }
     const Editor = window.toastui.Editor
+    const { codeSyntaxHighlight } = Editor.plugin
     // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
     return new Editor({
       el: editorElement.value,
@@ -100,7 +101,7 @@ export const useMarkdown = (
       initialValue: '',
       initialEditType: 'wysiwyg',
       // 隐藏切换到 markdown
-      hideModeSwitch: false,
+      // hideModeSwitch: false,
       // 使用 google analytics
       usageStatistics: false,
       language: 'zh-CN',
@@ -110,7 +111,7 @@ export const useMarkdown = (
       linkAttributes: {
         target: '_blank',
       },
-      plugins: [mp_miPlugin],
+      plugins: [mp_miPlugin, codeSyntaxHighlight],
       customHTMLSanitizer(html: string) {
         return html
       },
@@ -125,6 +126,7 @@ export const useMarkdown = (
       return
     }
     const Editor = window.toastui.Editor
+    const { codeSyntaxHighlight } = Editor.plugin
     // https://nhn.github.io/tui.editor/latest/ToastUIEditorCore
     return Editor.factory({
       el: viewerElement.value,
@@ -134,7 +136,7 @@ export const useMarkdown = (
       linkAttributes: {
         target: '_blank',
       },
-      plugins: [mp_miPlugin],
+      plugins: [mp_miPlugin, codeSyntaxHighlight],
       customHTMLSanitizer(html: string) {
         return html
       },

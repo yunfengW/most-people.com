@@ -1,5 +1,4 @@
 // https://github.com/highlightjs/highlight.js/blob/master/src/styles/atom-one-dark.css
-@import './atom-one-dark.css';
 
 .toastui-editor-contents {
   font-size: initial;
@@ -11,12 +10,12 @@
   .task-list-item:before {
     top: 10px;
   }
+
   ul > li:before {
     margin-top: 11px;
   }
 
   // most-people custom
-
   mp-mi {
     display: flex;
     flex-direction: column;
@@ -103,11 +102,11 @@
     overflow-x: auto;
 
     // atom-one-light
-    // background: #f6f8fa;
-    // color: #1e2931;
+    background: #f6f8fa;
+    color: #1e2931;
     // atom-one-dark
-    background: #282c34;
-    color: #abb2bf;
+    // background: #282c34;
+    // color: #abb2bf;
 
     code {
       font-size: 16px;
@@ -141,6 +140,8 @@
         th {
           padding: 8px;
           font-weight: normal;
+          background: initial;
+          color: initial;
         }
       }
     }
@@ -263,11 +264,33 @@
   max-width: 94%;
   height: auto;
 }
+.mp-markdown {
+  .ProseMirror {
+    font-size: initial;
+    font-family: initial;
+  }
+  .toastui-editor-contents {
+    .toastui-editor-md-preview-highlight {
+      &:after {
+        background-color: rgba(255, 245, 131, 0.4);
+        border-radius: 8px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+      }
+      &.th,
+      &.td {
+        background-color: rgba(255, 245, 131, 0.4);
+      }
+    }
+  }
+}
 
-.mp-markdown-viewer {
+.mp-markdown.viewer {
   width: 100%;
 }
-.mp-markdown-editor {
+.mp-markdown.editor {
   position: fixed;
   top: 0;
   left: 0;
