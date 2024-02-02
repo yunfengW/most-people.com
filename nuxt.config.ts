@@ -49,7 +49,7 @@ export default defineNuxtConfig({
         },
         {
           // src: 'https://uicdn.toast.com/editor-plugin-code-syntax-highlight/latest/toastui-editor-plugin-code-syntax-highlight-all.min.js',
-          src: VITE_Data + '/cdn/css/toastui-editor-plugin-code-syntax-highlight-all.min.js',
+          src: VITE_Data + '/cdn/js/toastui-editor-plugin-code-syntax-highlight-all.min.js',
         },
       ],
     },
