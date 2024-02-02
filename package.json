@@ -12,11 +12,11 @@
     "@element-plus/nuxt": "^1.0.7",
     "@nuxtjs/device": "^3.1.1",
     "@pinia/nuxt": "^0.5.1",
-    "@types/node": "^20.11.5",
-    "axios": "^1.6.5",
-    "element-plus": "^2.5.1",
+    "@types/node": "^20.11.16",
+    "axios": "^1.6.7",
+    "element-plus": "^2.5.3",
     "ethers": "^6.10.0",
-    "nuxt": "^3.9.3",
+    "nuxt": "^3.10.0",
     "sass": "^1.70.0"
   },
   "dependencies": {
@@ -24,6 +24,6 @@
     "@types/lodash.debounce": "^4.0.9",
     "highlight.js": "^11.9.0",
     "libsodium-wrappers": "^0.7.13",
-    "pinyin-pro": "^3.19.3"
+    "pinyin-pro": "^3.19.4"
   }
 }
