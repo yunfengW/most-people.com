@@ -30,7 +30,7 @@ const setInterceptors = (api: AxiosInstance) => {
   // interceptors https://axios-http.com/zh/docs/interceptors
   api.interceptors.request.use(
     function (config) {
-      config.headers.Authorization = 'Bearer ' + sessionStorage.getItem('token') || ''
+      config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem('token') || ''
       return config
     },
     function (error) {
@@ -48,8 +48,8 @@ const setInterceptors = (api: AxiosInstance) => {
 }
 
 const api = Axios.create({
-  // baseURL:  import.meta.env.PROD ? VITE_Api : 'http://localhost:8001',
-  baseURL: VITE_Api,
+  baseURL: import.meta.env.PROD ? VITE_Api : 'http://localhost:8001',
+  // baseURL: VITE_Api,
 })
 
 setInterceptors(api)
