@@ -44,7 +44,8 @@ export const useChatPerson = () => {
       },
     })
     if (res.data.ok === true) {
-      form.messages.push(res.data.message)
+      const message = res.data.message as Message
+      form.messages.push(message)
       form.content = ''
     }
   }
@@ -72,7 +73,10 @@ export const useChatPerson = () => {
       const json = event.data as string
       try {
         const message = JSON.parse(json) as Message
-        form.messages.push(message)
+        // 自己和自己聊天
+        if (message.id !== userStore.user?.id) {
+          form.messages.push(message)
+        }
       } catch (error) {
         console.error(error)
       }
