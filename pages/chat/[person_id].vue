@@ -7,7 +7,9 @@
     <div class="send-box">
       <div class="box">
         <el-input v-model="form.message" type="textarea" :autosize="{ minRows: 2 }" resize="none" />
-        <el-button type="primary" @click="send" :disabled="!form.message">发送</el-button>
+        <el-button type="primary" @click="submit" :loading="form.loading" :disabled="!form.message"
+          >发送</el-button
+        >
       </div>
     </div>
   </div>
@@ -19,9 +21,10 @@ const userStore = useUserStore()
 const route = useRoute()
 const form = reactive({
   message: '',
+  loading: false,
 })
 
-const send = async () => {
+const sendMessage = async () => {
   const res = await api({
     method: 'put',
     url: `/chat/${route.params.person_id}`,
@@ -34,6 +37,12 @@ const send = async () => {
   }
 }
 
+const submit = async () => {
+  form.loading = true
+  await sendMessage()
+  form.loading = false
+}
+
 const init = () => {
   // 创建一个新的EventSource实例，连接到你的SSE端点
   const url = new URL(api.getUri())
@@ -43,7 +52,8 @@ const init = () => {
 
   // 监听消息
   sse.addEventListener('open', () => {
-    console.log('open')
+    const username = localStorage.getItem('username')
+    console.log(`➜ ${username} Connect`)
   })
   sse.addEventListener('message', (event) => {
     // 解析收到的数据
