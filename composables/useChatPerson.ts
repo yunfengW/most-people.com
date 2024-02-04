@@ -1,5 +1,5 @@
 import api from '~/utils/api'
-
+import { indexDB } from '~/utils/api/indexdb'
 export interface Message {
   id: number
   name: string
@@ -18,17 +18,29 @@ export const useChatPerson = () => {
   const userStore = useUserStore()
   const route = useRoute()
   const form = reactive({
+    private_key: '',
+    public_key: '',
     messages: [] as Message[],
     content: '',
     loading: false,
   })
 
   const sendMessage = async () => {
+    const { content, public_key, private_key } = form
+    if (!public_key) {
+      mp.error('查无此人')
+      return
+    }
+    if (!private_key) {
+      mp.error('请先登录')
+      return
+    }
+    const encode = mp.chatEncode(content, public_key, private_key)
     const res = await api({
       method: 'put',
       url: `/chat/${route.params.person_id}`,
       data: {
-        content: form.content,
+        content: encode,
       },
     })
     if (res.data.ok === true) {
@@ -81,9 +93,15 @@ export const useChatPerson = () => {
         pageSize: 100,
       },
     })
-    const messages = res.data?.messages as Message[] | undefined
-    if (messages) {
-      form.messages = messages
+    if (res.data?.ok === true) {
+      form.messages = res.data.messages as Message[]
+      form.public_key = res.data.public_key
+    }
+  }
+  const initPrivateKey = async () => {
+    const userDB = await indexDB.getUserDB()
+    if (userDB) {
+      form.private_key = await mp.decrypt(userDB.mp_private_key)
     }
   }
 
@@ -91,6 +109,7 @@ export const useChatPerson = () => {
     if (userStore.user) {
       initSSE()
       initMessages()
+      initPrivateKey()
     }
   }
 

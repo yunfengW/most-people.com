@@ -13,8 +13,7 @@
       >
         <span>{{ message.name }}</span>
         <span>:</span>
-        <br />
-        <span v-for="line in message.content.split('\n')">{{ line }}<br /></span>
+        <span>{{ mp.chatDecode(message.content, form.public_key, form.private_key) }}<br /></span>
       </div>
     </div>
 

@@ -93,15 +93,20 @@ export const indexDB = {
       }
     })
   },
-
-  // 获取用户 key
-  async getKey() {
+  async getUserDB() {
     const username = window.localStorage.getItem('username')
     if (username) {
-      const userDB = await indexDB.getUser(username)
+      const userDB = await this.getUser(username)
       if (userDB) {
-        return userDB.key
+        return userDB
       }
+    }
+  },
+  // 获取用户 key
+  async getKey() {
+    const userDB = await this.getUserDB()
+    if (userDB) {
+      return userDB.key
     }
   },
 }
