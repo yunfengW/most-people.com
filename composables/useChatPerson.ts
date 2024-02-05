@@ -17,6 +17,7 @@ export interface Chat {
 export const useChatPerson = () => {
   const userStore = useUserStore()
   const route = useRoute()
+  const router = useRouter()
   const form = reactive({
     private_key: '',
     public_key: '',
@@ -29,10 +30,6 @@ export const useChatPerson = () => {
     const { content, public_key, private_key } = form
     if (!public_key) {
       mp.error('查无此人')
-      return
-    }
-    if (!private_key) {
-      mp.error('请先登录')
       return
     }
     const encode = mp.chatEncode(content, public_key, private_key)
@@ -51,6 +48,11 @@ export const useChatPerson = () => {
   }
 
   const submit = async () => {
+    if (userStore.user === null) {
+      mp.info('请先登录，登录后即可使用')
+      router.push('/login')
+      return
+    }
     form.loading = true
     await sendMessage()
     form.loading = false

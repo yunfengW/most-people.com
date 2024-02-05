@@ -48,8 +48,8 @@ const setInterceptors = (api: AxiosInstance) => {
 }
 
 const api = Axios.create({
-  baseURL: import.meta.env.PROD ? VITE_Api : 'http://localhost:8001',
-  // baseURL: VITE_Api,
+  // baseURL: import.meta.env.PROD ? VITE_Api : 'http://localhost:8001',
+  baseURL: VITE_Api,
 })
 
 setInterceptors(api)
