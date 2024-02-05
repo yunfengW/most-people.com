@@ -1,5 +1,5 @@
 <template>
-  <div id="page-web3">
+  <div id="page-mp-web3">
     <mp-header title="Web3" />
     <el-input v-model="form.username" placeholder="username" />
     <br />
@@ -27,7 +27,7 @@ const submit = async () => {
 </script>
 
 <style lang="scss">
-#page-web3.page {
+#page-mp-web3.page {
   align-items: flex-start;
 }
 </style>

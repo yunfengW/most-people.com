@@ -35,7 +35,7 @@ export const useChatPerson = () => {
     const encode = mp.chatEncode(content, public_key, private_key)
     const res = await api({
       method: 'put',
-      url: `/chat/${route.params.person_id}`,
+      url: `/chat/person/${route.params.person_id}`,
       data: {
         content: encode,
       },
@@ -93,7 +93,7 @@ export const useChatPerson = () => {
   const initMessages = async () => {
     const res = await api({
       method: 'post',
-      url: `/chat/${route.params.person_id}`,
+      url: `/chat/person/${route.params.person_id}`,
       data: {
         page: 1,
         pageSize: 100,

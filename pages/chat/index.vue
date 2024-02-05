@@ -50,33 +50,24 @@ const startPerson = async () => {
   }
   router.push(`/chat/${person_id}`)
 }
-const startGroup = () => {
-  router.push(`/group/1`)
+const startGroup = async () => {
+  if (!contact.groupName) {
+    mp.info('请输入小组名称')
+    return
+  }
+  contact.groupLoading = true
+
+  const { token } = await mp.key(contact.groupName, contact.groupPassword)
+
+  const res = await api({
+    method: 'post',
+    url: '/chat/get.group.id',
+    data: { name: contact.groupName, token },
+  })
+  contact.groupLoading = false
+  if (res.data.ok) {
+    router.push(`/group/${res.data.group_id}`)
+  }
 }
-
-onMounted(async () => {
-  // 私聊
-  const A = await mp.key('A', 'most-people.com')
-  const B = await mp.key('B', 'www.most-people.com')
-
-  const A_to_B = mp.chatDecode(
-    mp.chatEncode('A: 你好吗', B.public_key, A.private_key),
-    A.public_key,
-    B.private_key,
-  )
-  console.log('🌊', A_to_B)
-  const B_to_A = mp.chatDecode(
-    mp.chatEncode('B: 我很好', A.public_key, B.private_key),
-    B.public_key,
-    A.private_key,
-  )
-  console.log('🌊', B_to_A)
-
-  // 群聊
-  const { key } = await mp.key('测试测试', '收到收到')
-  const encrypted = await mp.encrypt('歪比歪比', key)
-  const decrypted = await mp.decrypt(encrypted, key)
-  console.log('🌊', decrypted)
-})
 </script>
 <style lang="scss"></style>

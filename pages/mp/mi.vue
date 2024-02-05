@@ -1,5 +1,5 @@
 <template>
-  <div id="page-mi">
+  <div id="page-mp-mi">
     <mp-header title="加密 / 解密" />
     <el-form @submit.prevent ref="formElement" :model="form">
       <div class="api-key">
@@ -103,7 +103,7 @@ const decrypt = () => {
 </script>
 
 <style lang="scss">
-#page-mi {
+#page-mp-mi {
   .el-form {
     width: 100%;
     max-width: 445px;

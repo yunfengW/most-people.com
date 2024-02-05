@@ -1,5 +1,5 @@
 <template>
-  <div id="page-chat">
+  <div id="page-mp-chatgpt">
     <mp-header title="ChatGPT 3.5" />
     <el-form @submit.prevent ref="formElement" :model="form">
       <div class="ip-address">
@@ -155,7 +155,7 @@ const chatWithGPT3 = (apiKey: string, message: string) => {
 </script>
 
 <style lang="scss">
-#page-chat {
+#page-mp-chatgpt {
   .ip-address {
     display: flex;
     align-items: center;
