@@ -14,7 +14,6 @@ export interface Url {
 export interface User {
   id: number
   name: string
-  password_hash: string
   sign_time: string
   address: string
   public_key: string
@@ -173,10 +172,10 @@ export const useUserStore = defineStore({
             url: '/user/get.user',
             data: { name: username },
           })
-          if (res.data?.password_hash) {
+          if (res.data?.address) {
             const user = res.data as User
-            const decrypt_username = await mp.decrypt(user.password_hash, userDB.key)
-            if (username === decrypt_username) {
+            const address = mp.getAddress('Bearer ' + userDB.token)
+            if (user.address === address) {
               this.initUser(user, userDB.token)
             }
           }

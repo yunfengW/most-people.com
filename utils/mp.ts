@@ -1,4 +1,14 @@
-import { toUtf8Bytes, hexlify, toUtf8String, pbkdf2, sha256, getBytes, Wallet } from 'ethers'
+import {
+  toUtf8Bytes,
+  hexlify,
+  toUtf8String,
+  pbkdf2,
+  sha256,
+  getBytes,
+  Wallet,
+  recoverAddress,
+  hashMessage,
+} from 'ethers'
 import dayjs from 'dayjs'
 import { match } from 'pinyin-pro'
 import sodium from 'libsodium-wrappers'
@@ -51,6 +61,17 @@ const mp = {
     const token = [message, sig].join()
 
     return { key, address, token, privateKey, public_key, private_key }
+  },
+  getAddress(authorization: string) {
+    // 验签
+    if (authorization) {
+      const [message, sig] = authorization.slice(7).split(',')
+      if (message && sig) {
+        const address = recoverAddress(hashMessage(message), sig)
+        return address
+      }
+    }
+    return ''
   },
   // 共享秘钥，对称加密
   chatEncode(text: string, otherPublicKey: string, myPrivateKey: string) {

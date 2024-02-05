@@ -28,11 +28,11 @@ export const useLogin = () => {
         if (res.data) {
           const user = res.data as User
           const { key, token, private_key, public_key } = await mp.key(form.username, form.password)
-          const username = await mp.decrypt(user.password_hash, key)
-          if (username === form.username) {
+          const address = mp.getAddress('Bearer ' + token)
+          if (address === user.address) {
             // login success
             const mp_private_key = await mp.encrypt(private_key, key)
-            indexDB.setUser({ name: username, key, token, mp_private_key }).then((ok) => {
+            indexDB.setUser({ name: user.name, key, token, mp_private_key }).then((ok) => {
               if (ok) {
                 userStore.initUser(user, token)
                 // auto add public_key
