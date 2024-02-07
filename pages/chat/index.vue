@@ -14,7 +14,10 @@
     <br />
     <el-input v-model="contact.groupPassword" placeholder="输入联络密码" />
     <br />
-    <el-button type="warning" @click="startGroup">进入小组</el-button>
+    <div>
+      <el-button type="info" @click="createGroup">创建小组</el-button>
+      <el-button type="warning" @click="startGroup">进入小组</el-button>
+    </div>
   </div>
 </template>
 
@@ -56,17 +59,34 @@ const startGroup = async () => {
     return
   }
   contact.groupLoading = true
-
   const { token } = await mp.key(contact.groupName, contact.groupPassword)
-
   const res = await api({
     method: 'post',
-    url: '/chat/get.group.id',
+    url: '/chat/group.join',
     data: { name: contact.groupName, token },
   })
   contact.groupLoading = false
   if (res.data.ok) {
-    router.push(`/group/${res.data.group_id}`)
+    router.push(`/group/${res.data.id}`)
+  }
+}
+const createGroup = async () => {
+  if (!contact.groupName) {
+    mp.info('请输入小组名称')
+    return
+  }
+  contact.groupLoading = true
+  const { token } = await mp.key(contact.groupName, contact.groupPassword)
+  const password_hash = await mp.encrypt(contact.groupPassword)
+  const res = await api({
+    method: 'post',
+    url: '/chat/group.create',
+    data: { name: contact.groupName, password_hash, token },
+  })
+  contact.groupLoading = false
+  if (res.data.ok) {
+    const groupChat = res.data.groupChat as GroupChat
+    router.push(`/group/${groupChat.id}`)
   }
 }
 </script>

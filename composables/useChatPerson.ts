@@ -14,6 +14,11 @@ export interface Chat {
   messages: Message[]
 }
 
+export interface GroupChat extends Chat {
+  address: string
+  members: number[]
+}
+
 export const useChatPerson = () => {
   const userStore = useUserStore()
   const route = useRoute()
