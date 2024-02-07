@@ -25,7 +25,7 @@ export const useLogin = () => {
           url: '/user/get.user',
           data: { name: form.username },
         })
-        if (res.data) {
+        if (res.ok) {
           const user = res.data as User
           const { key, token, private_key, public_key } = await mp.key(form.username, form.password)
           const address = mp.getAddress('Bearer ' + token)

@@ -16,7 +16,7 @@
     <br />
     <div>
       <el-button type="info" @click="createGroup">创建小组</el-button>
-      <el-button type="warning" @click="startGroup">进入小组</el-button>
+      <el-button type="warning" @click="joinGroup">进入小组</el-button>
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@ const startPerson = async () => {
   }
   router.push(`/chat/${person_id}`)
 }
-const startGroup = async () => {
+const joinGroup = async () => {
   if (!contact.groupName) {
     mp.info('请输入小组名称')
     return
@@ -66,8 +66,8 @@ const startGroup = async () => {
     data: { name: contact.groupName, token },
   })
   contact.groupLoading = false
-  if (res.data.ok) {
-    router.push(`/group/${res.data.id}`)
+  if (res.ok) {
+    router.push(`/group/${res.data}`)
   }
 }
 const createGroup = async () => {
@@ -84,10 +84,16 @@ const createGroup = async () => {
     data: { name: contact.groupName, password_hash, token },
   })
   contact.groupLoading = false
-  if (res.data.ok) {
-    const groupChat = res.data.groupChat as GroupChat
+  if (res.ok) {
+    const groupChat = res.data as GroupChat
     router.push(`/group/${groupChat.id}`)
   }
 }
+
+onMounted(async () => {
+  const res = await api({ url: 'chat/list', method: 'post' })
+  console.log('🌊', res)
+})
 </script>
+
 <style lang="scss"></style>

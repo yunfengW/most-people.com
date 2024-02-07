@@ -32,14 +32,16 @@ export const useNoteStore = defineStore({
       this.initAuthorsNotes()
       const userStore = useUserStore()
       if (userStore.user && !this.inited) {
-        const res = await api({ method: 'post', url: '/db/Notes/user/' + userStore.user.id })
-        this.notes = res.data as Note[]
-        this.inited = true
+        const res = await api({ method: 'post', url: '/note/list' })
+        if (res.ok) {
+          this.notes = res.data as Note[]
+          this.inited = true
+        }
       }
     },
     async initAuthorsNotes() {
       const res = await api({ method: 'post', url: '/note/authors' })
-      if (res.data) {
+      if (res.ok) {
         this.authorsNotes = res.data
       }
     },

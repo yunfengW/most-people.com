@@ -2,6 +2,12 @@ import Axios, { type AxiosInstance, type AxiosResponse } from 'axios'
 
 const { VITE_Api } = import.meta.env
 
+declare module 'axios' {
+  interface AxiosResponse {
+    ok: boolean
+  }
+}
+
 export const apiErrorCode: { [key: string]: string } = {
   404: '请求失败，请检查网络',
   1001: '用户名已存在',
@@ -17,13 +23,12 @@ const showError = (status: number, message?: string) => {
 }
 
 const initResponse = (response: AxiosResponse) => {
-  const status = response?.data?.statusCode || response?.status || 404
-  if (status >= 200 && status < 300) {
-    return response
-  } else {
+  const status = response?.data?.errorCode || response?.status || 404
+  response.ok = status >= 200 && status < 300
+  if (!response.ok) {
     showError(status, response?.data?.message)
-    return response
   }
+  return response
 }
 
 const setInterceptors = (api: AxiosInstance) => {

@@ -166,11 +166,12 @@ const uploadLogo = async (file: File) => {
     data: formData,
     headers: { 'Content-Type': 'multipart/form-data' },
   })
-  if (res.data?.statusCode === 1004) {
+  if (res.data?.errorCode === 1004) {
     router.push('/login')
     return
   }
-  if (res.data) {
+
+  if (res.ok) {
     const url = new URL(res.data)
     url.searchParams.set('t', String(Date.now()))
     return url.href
@@ -204,11 +205,11 @@ const toolSave = async () => {
       tops: form.tagTops.map((e) => Number(e.top)),
     },
   })
-  if (res.data?.statusCode === 1004) {
+  if (res.data?.errorCode === 1004) {
     router.push('/login')
     return
   }
-  if (res.data?.id) {
+  if (res.ok) {
     toolStore.tools[res.data.id] = res.data
     toolStore.initTops()
     mp.success('保存成功')
@@ -229,11 +230,12 @@ const toolAdd = async () => {
       logo: '/favicon.ico',
     },
   })
-  if (res.data?.statusCode === 1004) {
+  if (res.data?.errorCode === 1004) {
     router.push('/login')
     return
   }
-  if (res.data?.id) {
+
+  if (res.ok) {
     form.id = res.data.id
     toolSave()
   }

@@ -57,7 +57,7 @@ const publish = async () => {
       content: md.form.content,
     },
   })
-  if (res.data?.statusCode === 1004) {
+  if (res.data?.errorCode === 1004) {
     router.push('/login')
     return
   }

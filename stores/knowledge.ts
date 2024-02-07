@@ -20,8 +20,10 @@ export const useKnowledgeStore = defineStore({
     async init() {
       if (!this.inited) {
         const res = await api({ method: 'post', url: '/db/Knowledge' })
-        this.list = res.data
-        this.inited = true
+        if (res.ok) {
+          this.list = res.data
+          this.inited = true
+        }
       }
     },
   },

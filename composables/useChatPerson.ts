@@ -45,8 +45,8 @@ export const useChatPerson = () => {
         content: encode,
       },
     })
-    if (res.data.ok === true) {
-      const message = res.data.message as Message
+    if (res.ok) {
+      const message = res.data as Message
       form.messages.push(message)
       form.content = ''
     }
@@ -104,7 +104,7 @@ export const useChatPerson = () => {
         pageSize: 100,
       },
     })
-    if (res.data?.ok === true) {
+    if (res.ok) {
       form.messages = res.data.messages as Message[]
       form.public_key = res.data.public_key
     }
