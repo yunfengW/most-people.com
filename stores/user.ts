@@ -208,33 +208,44 @@ export const useUserStore = defineStore({
             data: `/knowledge/${e.id}`,
           }
         })
-      this.sugList.push(...list)
+      return list
     },
     initTool(v: string) {
       const toolStore = useToolStore()
       const list: Sug[] = []
       for (const key in toolStore.tools) {
         const e = toolStore.tools[key]
+        let include = false
         if (mp.filter(e.title, v)) {
+          include = true
+        } else {
+          const tags = e.tags || []
+          for (const tag of tags) {
+            if (mp.filter(tag, v)) {
+              include = true
+              break
+            }
+          }
+          if (!include) {
+            try {
+              const url = new URL(e.url.startsWith('http') ? e.url : 'https://' + e.url)
+              if (mp.filter(url.hostname, v, 3)) {
+                include = true
+              }
+            } catch (error) {
+              console.error(error)
+            }
+          }
+        }
+        if (include) {
           list.unshift({
             name: e.title,
             type: 'tool',
             data: e.id,
           })
-        } else {
-          const tags = e.tags || []
-          for (const tag of tags) {
-            if (mp.filter(tag, v)) {
-              list.unshift({
-                name: e.title,
-                type: 'tool',
-                data: e.id,
-              })
-            }
-          }
         }
       }
-      this.sugList.push(...list)
+      return list
     },
     initUrl(v: string) {
       const list: Sug[] = this.urls
@@ -246,7 +257,7 @@ export const useUserStore = defineStore({
             data: e.url,
           }
         })
-      this.sugList.push(...list)
+      return list
     },
     initNote(v: string) {
       const noteStore = useNoteStore()
@@ -260,7 +271,7 @@ export const useUserStore = defineStore({
             data: `/note/${e.id}`,
           }
         })
-      this.sugList.push(...list)
+      return list
     },
     initSearch() {
       const v = this.message
@@ -276,15 +287,14 @@ export const useUserStore = defineStore({
       this.sugList = []
       this.sugIndex = -1
 
-      if (!v) {
-        return
+      if (v) {
+        this.sugList = [
+          ...this.initNote(v),
+          ...this.initUrl(v),
+          ...this.initKnowledge(v),
+          ...this.initTool(v),
+        ]
       }
-
-      this.initNote(v)
-      this.initUrl(v)
-      this.initKnowledge(v)
-      this.initTool(v)
-      // initSogou(v)
     },
   },
 })
