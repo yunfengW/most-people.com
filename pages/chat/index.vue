@@ -4,11 +4,37 @@
 
     <h4>单线联系（最安全）</h4>
 
+    <div class="groups">
+      <el-button
+        text
+        type="success"
+        class="group"
+        v-for="person in form.persons"
+        :key="person.id"
+        @click="bindPerson(person)"
+      >
+        {{ person.you_me.find((e) => e !== userStore.user?.name) || userStore.user?.name }}
+      </el-button>
+    </div>
+
     <el-input v-model="contact.person" placeholder="输入联系人" />
     <br />
     <el-button type="success" @click="startPerson" :loading="contact.personLoading">开始</el-button>
 
     <h4>联络小组（切勿泄露联络密码）</h4>
+
+    <div class="groups">
+      <el-button
+        text
+        type="warning"
+        class="group"
+        v-for="group in form.groups"
+        :key="group.id"
+        @click="bindGroup(group)"
+      >
+        {{ group.name }}
+      </el-button>
+    </div>
 
     <el-input v-model="contact.groupName" placeholder="输入小组名称" />
     <br />
@@ -25,6 +51,7 @@
 import api from '~/utils/api'
 
 const router = useRouter()
+const userStore = useUserStore()
 
 const contact = reactive({
   person: '',
@@ -46,8 +73,7 @@ const startPerson = async () => {
     data: { name: contact.person },
   })
   contact.personLoading = false
-  const person_id = res.data
-  if (!person_id) {
+  if (!res.data) {
     mp.error('联系人不存在')
     return
   }
@@ -60,10 +86,11 @@ const joinGroup = async () => {
   }
   contact.groupLoading = true
   const { token } = await mp.key(contact.groupName, contact.groupPassword)
+  const password_hash = await mp.encrypt(contact.groupPassword)
   const res = await api({
     method: 'post',
     url: '/chat/group.join',
-    data: { name: contact.groupName, token },
+    data: { name: contact.groupName, password_hash, token },
   })
   contact.groupLoading = false
   if (res.ok) {
@@ -90,18 +117,40 @@ const createGroup = async () => {
   }
 }
 
+const bindGroup = async (group: GroupChat) => {
+  const i = group.members.findIndex((e) => userStore.user?.name === e)
+  const password_hash = group.passwords[i]
+  if (password_hash) {
+    const password = await mp.decrypt(password_hash)
+    console.log('🌊', group.name, password)
+  }
+}
+const bindPerson = async (person: Chat) => {
+  const person_name = person.you_me.find((e) => e !== userStore.user?.name) || userStore.user?.name
+  router.push('/chat/' + person_name)
+}
+
 const form = reactive({
-  persons: [],
-  groups: [],
+  persons: [] as Chat[],
+  groups: [] as GroupChat[],
 })
 
 onMounted(async () => {
   const res = await api({ url: 'chat/list', method: 'post' })
-  if (res.ok) {
-    form.groups = res.data.groups
-    form.persons = res.data.persons
+  if (res.ok && res.data) {
+    form.groups = res.data.groups as GroupChat[]
+    form.persons = res.data.persons as Chat[]
   }
 })
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+#page-chat {
+  .groups {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin: 14px;
+  }
+}
+</style>
