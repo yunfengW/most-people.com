@@ -51,7 +51,7 @@ const startPerson = async () => {
     mp.error('联系人不存在')
     return
   }
-  router.push(`/chat/${person_id}`)
+  router.push(`/chat/${contact.person}`)
 }
 const joinGroup = async () => {
   if (!contact.groupName) {
@@ -90,9 +90,17 @@ const createGroup = async () => {
   }
 }
 
+const form = reactive({
+  persons: [],
+  groups: [],
+})
+
 onMounted(async () => {
   const res = await api({ url: 'chat/list', method: 'post' })
-  console.log('🌊', res)
+  if (res.ok) {
+    form.groups = res.data.groups
+    form.persons = res.data.persons
+  }
 })
 </script>
 

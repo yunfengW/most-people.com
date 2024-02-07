@@ -1,8 +1,8 @@
 <template>
   <div id="page-chat-person">
     <mp-header title="单线联系" />
-    {{ userStore.user?.id }} to
-    {{ route.params.person_id }}
+    {{ userStore.user?.name }} to
+    {{ route.params.person_name }}
 
     <div class="messages-box">
       <div

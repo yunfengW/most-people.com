@@ -10,13 +10,16 @@ export interface Message {
 
 export interface Chat {
   id: number
-  name: string
   messages: Message[]
+  you_me: string[]
 }
-
-export interface GroupChat extends Chat {
+export interface GroupChat {
+  id: number
+  messages: Message[]
+  name: string
   address: string
-  members: number[]
+  members: string[]
+  passwords: string[]
 }
 
 export const useChatPerson = () => {
@@ -40,7 +43,7 @@ export const useChatPerson = () => {
     const encode = mp.chatEncode(content, public_key, private_key)
     const res = await api({
       method: 'put',
-      url: `/chat/person/${route.params.person_id}`,
+      url: `/chat/person/${route.params.person_name}`,
       data: {
         content: encode,
       },
@@ -98,7 +101,7 @@ export const useChatPerson = () => {
   const initMessages = async () => {
     const res = await api({
       method: 'post',
-      url: `/chat/person/${route.params.person_id}`,
+      url: `/chat/person/${route.params.person_name}`,
       data: {
         page: 1,
         pageSize: 100,
