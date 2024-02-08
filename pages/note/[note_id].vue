@@ -223,7 +223,12 @@ const readonly = computed(() => {
   if (userStore.user?.id === user_id.value) {
     return false
   }
-  return !md.form.authors
+  for (const author of md.form.authors || []) {
+    if (userStore.user?.name === author.name) {
+      return false
+    }
+  }
+  return true
 })
 
 const editEnd = () => {
