@@ -118,10 +118,9 @@ const createGroup = async () => {
 }
 
 const bindGroup = async (group: GroupChat) => {
-  const i = group.members.findIndex((e) => userStore.user?.name === e)
-  const password_hash = group.passwords[i]
-  if (password_hash) {
-    const password = await mp.decrypt(password_hash)
+  const member = group.members.find((e) => userStore.user?.id === e.id)
+  if (member) {
+    const password = await mp.decrypt(member.password_hash)
     console.log('🌊', group.name, password)
   }
 }

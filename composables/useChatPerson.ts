@@ -18,8 +18,11 @@ export interface GroupChat {
   messages: Message[]
   name: string
   address: string
-  members: string[]
-  passwords: string[]
+  members: {
+    id: number
+    name: string
+    password_hash: string
+  }[]
 }
 
 export const useChatPerson = () => {
