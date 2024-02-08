@@ -43,7 +43,7 @@ export const useNoteStore = defineStore({
       }
     },
     async initAuthorsNotes() {
-      const res = await api({ method: 'post', url: '/note/authors' })
+      const res = await api({ method: 'post', url: '/note/authors.list' })
       if (res.ok) {
         this.authorsNotes = res.data
       }

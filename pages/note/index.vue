@@ -7,12 +7,13 @@
         <el-input v-model="filter" placeholder="关键字查询" clearable />
       </div>
 
-      <h4>公开笔记</h4>
+      <h4>我的笔记</h4>
       <template v-for="note in publicNotes">
         <nuxt-link :to="`/note/${note.id}`">
           <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
       </template>
+
       <br />
 
       <el-link @click="addNote" type="success">
@@ -20,7 +21,8 @@
         <span :style="{ marginLeft: '2px' }">添加</span>
       </el-link>
 
-      <h4>加密笔记</h4>
+      <hr />
+
       <template v-for="note in encryptedNotes">
         <nuxt-link :to="`/note/${note.id}`">
           <el-button link>{{ note.title }}</el-button>
@@ -28,7 +30,15 @@
       </template>
 
       <h4>多人笔记</h4>
-      <template v-for="note in authorsNotes">
+      <template v-for="note in publicAuthorsNotes">
+        <nuxt-link :to="`/note/${note.id}`">
+          <el-button link>{{ note.title }}</el-button>
+        </nuxt-link>
+      </template>
+
+      <hr />
+
+      <template v-for="note in encryptedAuthorsNotes">
         <nuxt-link :to="`/note/${note.id}`">
           <el-button link>{{ note.title }}</el-button>
         </nuxt-link>
@@ -50,15 +60,21 @@ const publicNotes = computed(() => {
     .filter((note) => !note.content.startsWith('mp://'))
     .filter((e) => mp.filter(e.title, filter.value, 0))
 })
-
 const encryptedNotes = computed(() => {
   return noteStore.notes
     .filter((note) => note.content.startsWith('mp://'))
     .filter((e) => mp.filter(e.title, filter.value, 0))
 })
 
-const authorsNotes = computed(() => {
-  return noteStore.authorsNotes.filter((e) => mp.filter(e.title, filter.value, 0))
+const encryptedAuthorsNotes = computed(() => {
+  return noteStore.authorsNotes
+    .filter((note) => note.content.startsWith('mp://'))
+    .filter((e) => mp.filter(e.title, filter.value, 0))
+})
+const publicAuthorsNotes = computed(() => {
+  return noteStore.authorsNotes
+    .filter((note) => !note.content.startsWith('mp://'))
+    .filter((e) => mp.filter(e.title, filter.value, 0))
 })
 
 const addNote = async () => {
