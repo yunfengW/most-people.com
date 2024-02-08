@@ -1,14 +1,17 @@
 import api from '~/utils/api'
 
+export interface NoteAuthor {
+  name: string
+  password_hash: string
+}
 export interface Note {
   id: number
   title: string
   content: string
   updated_time: string
   user_id: number
-  authors?: string[]
-  passwords?: string[]
-  note_password_hash?: string
+  authors?: NoteAuthor[]
+  address?: string
 }
 
 interface NoteStore {

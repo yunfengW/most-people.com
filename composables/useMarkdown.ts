@@ -9,29 +9,33 @@ export const useMarkdown = (
     content: '',
     // 状态
     isPublic: true,
-    // 多人协作
-    note_password_hash: '',
-    user_password_hash: '',
     inited: false,
     showEdit: false,
+    // 多人协作
+    authors: undefined as NoteAuthor[] | undefined,
+    address: undefined as string | undefined,
   })
 
   const backup = reactive({
     title: '',
     content: '',
     isPublic: true,
-    user_password_hash: '',
-    note_password_hash: '',
+    // 多人协作
+    authors: undefined as NoteAuthor[] | undefined,
+    address: undefined as string | undefined,
   })
 
   const needPublish = computed(() => {
-    return (
+    if (
       form.content !== backup.content ||
       form.title !== backup.title ||
-      form.user_password_hash !== backup.user_password_hash ||
-      form.note_password_hash !== backup.note_password_hash ||
+      JSON.stringify(form.authors) !== JSON.stringify(backup.authors) ||
       form.isPublic !== backup.isPublic
-    )
+    ) {
+      return true
+    }
+
+    return false
   })
 
   const toc = computed(() => {

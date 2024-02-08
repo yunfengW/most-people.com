@@ -16,7 +16,7 @@
     <input class="note-title" v-model="md.form.title" :readonly="readonly" />
     <div class="note-public">
       <el-switch
-        :value="Boolean(md.form.note_password_hash)"
+        :value="Boolean(md.form.authors)"
         inline-prompt
         active-text="多人协作"
         inactive-text="仅自己"
@@ -41,7 +41,7 @@
 
     <div class="note-authors">
       <div class="authors">
-        <span v-if="authors">{{ authors }}</span>
+        <span v-if="md.form.authors">{{ md.form.authors.map((e) => e.name).join(' ') }}</span>
         <span>{{ mp.formatTime(updated_time) }}</span>
       </div>
     </div>
@@ -72,7 +72,13 @@ const lockLoading = ref(false)
 const changeNoteLock = (): Promise<boolean> => {
   lockLoading.value = true
   return new Promise((resolve) => {
-    if (md.form.note_password_hash) {
+    const user = userStore.user
+    if (!user) {
+      lockLoading.value = false
+      return false
+    }
+
+    if (md.form.authors) {
       ElMessageBox.prompt('确认关闭多人协作？', {
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -83,8 +89,8 @@ const changeNoteLock = (): Promise<boolean> => {
         confirmButtonText: '确认',
       })
         .then(() => {
-          md.form.note_password_hash = ''
-          md.form.user_password_hash = ''
+          md.form.authors = undefined
+          md.form.address = undefined
           resolve(true)
           lockLoading.value = false
         })
@@ -93,7 +99,7 @@ const changeNoteLock = (): Promise<boolean> => {
           lockLoading.value = false
         })
     } else {
-      ElMessageBox.prompt('请输入协作密码', {
+      ElMessageBox.prompt('请设置协作密码', {
         title: '设置协作密码',
         closeOnClickModal: false,
         closeOnPressEscape: false,
@@ -104,16 +110,23 @@ const changeNoteLock = (): Promise<boolean> => {
         confirmButtonText: '确认',
         inputValidator(v: string) {
           if (!v) {
-            return '请输入协作密码'
+            return '请设置协作密码'
           }
           return true
         },
       })
         .then(async ({ value }) => {
           lockLoading.value = false
-          md.form.user_password_hash = await mp.encrypt(value)
-          const { key } = await mp.key(note_id, value)
-          md.form.note_password_hash = await mp.encrypt(value, key)
+          const password = value
+          const { address } = await mp.key('/authors/' + note_id, password)
+          const password_hash = await mp.encrypt(password)
+          md.form.authors = [
+            {
+              name: user.name,
+              password_hash,
+            },
+          ]
+          md.form.address = address
           resolve(true)
         })
         .catch(() => {
@@ -125,12 +138,14 @@ const changeNoteLock = (): Promise<boolean> => {
 }
 
 const publish = async () => {
+  const username = localStorage.getItem('username')
   let text = md.form.content
   if (md.form.isPublic == false) {
-    if (md.form.user_password_hash) {
-      const password = await mp.decrypt(md.form.user_password_hash)
+    const author = md.form.authors?.find((e) => e.name === username)
+    if (author) {
+      const password = await mp.decrypt(author.password_hash)
       if (password) {
-        const { key } = await mp.key(note_id, password)
+        const { key } = await mp.key('/authors/' + note_id, password)
         text = await mp.encrypt(text, key)
       }
     } else {
@@ -145,8 +160,8 @@ const publish = async () => {
       id: Number(note_id),
       title: md.form.title,
       content: text,
-      user_password_hash: md.form.user_password_hash,
-      note_password_hash: md.form.note_password_hash,
+      authors: md.form.authors,
+      address: md.form.address,
     },
   })
   if (res.data?.statusCode === 1004) {
@@ -159,7 +174,8 @@ const publish = async () => {
     // 发布状态
     md.backup.content = md.form.content
     md.backup.title = md.form.title
-    md.backup.note_password_hash = md.form.note_password_hash
+    md.backup.authors = md.form.authors
+    md.backup.address = md.form.address
 
     const i = noteStore.notes.findIndex((e) => String(e.id) === note_id)
     if (i !== -1) {
@@ -170,12 +186,15 @@ const publish = async () => {
 }
 
 const decryptContent = async (content: string) => {
+  const username = localStorage.getItem('username')
   let result = ''
   if (content.startsWith('mp://')) {
     try {
-      if (md.form.user_password_hash) {
-        const password = await mp.decrypt(md.form.user_password_hash)
-        const { key } = await mp.key(note_id, password)
+      const author = md.form.authors?.find((e) => e.name === username)
+      if (author) {
+        const password = await mp.decrypt(author.password_hash)
+        console.log('🌊', password)
+        const { key } = await mp.key('/authors/' + note_id, password)
         const text = await mp.decrypt(content, key)
         if (text) {
           result = text
@@ -198,26 +217,14 @@ const decryptContent = async (content: string) => {
   viewer.setMarkdown(result)
   editor.setMarkdown(result)
 }
-const authors = ref('')
 const user_id = ref(0)
 const updated_time = ref('')
 const readonly = computed(() => {
   if (userStore.user?.id === user_id.value) {
     return false
   }
-  return !md.form.user_password_hash
+  return !md.form.authors
 })
-
-const getNotePasswordHash = (note: Note) => {
-  if (note.authors && note.passwords) {
-    const username = localStorage.getItem('username') || ''
-    const i = note.authors.findIndex((e) => e === username)
-    if (i !== -1) {
-      return note.passwords[i] || ''
-    }
-  }
-  return ''
-}
 
 const editEnd = () => {
   md.form.content = editor.getMarkdown()
@@ -226,71 +233,69 @@ const editEnd = () => {
 }
 
 const init = async () => {
+  const username = localStorage.getItem('username') || ''
   const res = await api({ method: 'post', url: '/db/Notes/' + note_id })
   md.form.inited = true
   if (res.data?.id) {
     const note: Note = res.data
     // 多人协作
-    if (note.note_password_hash) {
-      const hash = getNotePasswordHash(note)
-      if (hash) {
-        md.form.user_password_hash = hash
-        md.backup.user_password_hash = hash
-      } else {
-        const username = window.localStorage.getItem('username')
-        if (username) {
-          // 加入协作
-          ElMessageBox.prompt('请输入协作密码', {
-            title: '加入笔记',
-            closeOnClickModal: false,
-            closeOnPressEscape: false,
-            showCancelButton: true,
-            showClose: false,
-            showInput: true,
-            cancelButtonText: '取消',
-            confirmButtonText: '确认',
-            async beforeClose(action, instance, done) {
-              if (action === 'confirm') {
-                const value = instance.inputValue
-                const { key } = await mp.key(note_id, value)
-                if (note.note_password_hash) {
-                  md.form.note_password_hash = note.note_password_hash
-                  const password = await mp.decrypt(note.note_password_hash, key)
-                  if (password) {
-                    const hash = await mp.encrypt(password)
-                    md.form.user_password_hash = hash
-                    // 解密内容
-                    decryptContent(note.content)
-                    done()
-                  } else {
-                    mp.error('密码不正确')
-                  }
-                }
-              } else {
+    if (note.authors) {
+      const author = note.authors.findLast((e) => e.name === username)
+      // 加入协作
+      if (!author) {
+        ElMessageBox.prompt('请输入协作密码', {
+          title: '加入笔记',
+          closeOnClickModal: false,
+          closeOnPressEscape: false,
+          showCancelButton: true,
+          showClose: false,
+          showInput: true,
+          cancelButtonText: '取消',
+          confirmButtonText: '确认',
+          async beforeClose(action, instance, done) {
+            if (action === 'confirm') {
+              const password = instance.inputValue
+              const { address } = await mp.key('/authors/' + note_id, password)
+              const password_hash = await mp.encrypt(password)
+              if (note.authors && address === note.address) {
+                // 加入笔记
+                note.authors = note.authors.concat([
+                  {
+                    name: username,
+                    password_hash,
+                  },
+                ])
+                md.form.authors = note.authors
+                // 解密内容
+                decryptContent(note.content)
                 done()
+              } else {
+                mp.error('密码不正确')
               }
-            },
-            inputValidator(v: string) {
-              if (!v) {
-                return '请输入协作密码'
-              }
-              return true
-            },
+            } else {
+              done()
+            }
+          },
+          inputValidator(v: string) {
+            if (!v) {
+              return '请输入协作密码'
+            }
+            return true
+          },
+        })
+          .then(() => {
+            lockLoading.value = false
           })
-            .then(() => {
-              lockLoading.value = false
-            })
-            .catch(() => {
-              lockLoading.value = false
-            })
-        }
+          .catch(() => {
+            lockLoading.value = false
+          })
       }
-      // 作者
-      authors.value = note.authors?.join('　') || ''
     }
     // 是否协作
-    md.form.note_password_hash = note.note_password_hash || ''
-    md.backup.note_password_hash = note.note_password_hash || ''
+    md.form.authors = note.authors
+    md.backup.authors = note.authors
+    md.form.address = note.address
+    md.backup.address = note.address
     // 解密内容
     decryptContent(note.content)
     // 标题
