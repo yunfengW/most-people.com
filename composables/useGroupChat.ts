@@ -5,45 +5,47 @@ export const useChatGroup = () => {
   const userStore = useUserStore()
   const route = useRoute()
   const router = useRouter()
-  // const form = reactive({
-  //   private_key: '',
-  //   public_key: '',
-  //   messages: [] as Message[],
-  //   content: '',
-  //   loading: false,
-  // })
+  const form = reactive({
+    private_key: '',
+    public_key: '',
+    messages: [] as Message[],
+    content: '',
+    loading: false,
+  })
 
-  // const sendMessage = async () => {
-  //   const { content, public_key, private_key } = form
-  //   if (!public_key) {
-  //     mp.error('查无此人')
-  //     return
-  //   }
-  //   const encode = mp.chatEncode(content, public_key, private_key)
-  //   const res = await api({
-  //     method: 'put',
-  //     url: `/chat/person/${route.params.person_name}`,
-  //     data: {
-  //       content: encode,
-  //     },
-  //   })
-  //   if (res.ok) {
-  //     const message = res.data as Message
-  //     form.messages.push(message)
-  //     form.content = ''
-  //   }
-  // }
+  const sendMessage = async () => {
+    console.log('🌊', route.query.p)
+    console.log('🌊', route.params.group_id)
+    // const { content, public_key, private_key } = form
+    // if (!public_key) {
+    //   mp.error('查无此人')
+    //   return
+    // }
+    // const encode = mp.chatEncode(content, public_key, private_key)
+    // const res = await api({
+    //   method: 'put',
+    //   url: `/chat/person/${route.params.person_name}`,
+    //   data: {
+    //     content: encode,
+    //   },
+    // })
+    // if (res.ok) {
+    //   const message = res.data as Message
+    //   form.messages.push(message)
+    //   form.content = ''
+    // }
+  }
 
-  // const submit = async () => {
-  //   if (userStore.user === null) {
-  //     mp.info('请先登录，登录后即可使用')
-  //     router.push('/login')
-  //     return
-  //   }
-  //   form.loading = true
-  //   await sendMessage()
-  //   form.loading = false
-  // }
+  const submit = async () => {
+    if (userStore.user === null) {
+      mp.info('请先登录，登录后即可使用')
+      router.push('/login')
+      return
+    }
+    form.loading = true
+    await sendMessage()
+    form.loading = false
+  }
 
   // const initSSE = () => {
   //   // 创建一个新的EventSource实例，连接到你的SSE端点
@@ -77,20 +79,20 @@ export const useChatGroup = () => {
   //   })
   // }
 
-  // const initMessages = async () => {
-  //   const res = await api({
-  //     method: 'post',
-  //     url: `/chat/person/${route.params.person_name}`,
-  //     data: {
-  //       page: 1,
-  //       pageSize: 100,
-  //     },
-  //   })
-  //   if (res.ok) {
-  //     form.messages = res.data.messages as Message[]
-  //     form.public_key = res.data.public_key
-  //   }
-  // }
+  const initMessages = async () => {
+    const res = await api({
+      method: 'post',
+      url: `/chat/group/${route.params.group_id}`,
+      data: {
+        page: 1,
+        pageSize: 100,
+      },
+    })
+    console.log('🌊', res.data)
+    // if (res.ok) {
+    //   form.messages = res.data.messages as Message[]
+    // }
+  }
   // const initPrivateKey = async () => {
   //   const userDB = await indexDB.getUserDB()
   //   if (userDB) {
@@ -101,16 +103,16 @@ export const useChatGroup = () => {
   const init = () => {
     if (userStore.user) {
       // initSSE()
-      // initMessages()
+      initMessages()
       // initPrivateKey()
     }
   }
 
   return {
     init,
-    // form,
+    form,
     route,
-    // submit,
+    submit,
     userStore,
   }
 }

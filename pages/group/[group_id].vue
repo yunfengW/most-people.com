@@ -3,7 +3,7 @@
     <mp-header title="联络小组" />
     {{ route.params.group_id }}
 
-    <!-- <div class="messages-box">
+    <div class="messages-box">
       <div
         class="message-box"
         :class="{ me: message.id === userStore.user?.id }"
@@ -12,28 +12,22 @@
       >
         <span>{{ message.name }}</span>
         <span>:</span>
-        <span>{{ mp.chatDecode(message.content, form.public_key, form.private_key) }}<br /></span>
+        <span>{{ message.content }}<br /></span>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="send-box">
+    <div class="send-box">
       <div class="box">
         <el-input v-model="form.content" type="textarea" :autosize="{ minRows: 2 }" resize="none" />
         <el-button type="primary" @click="submit" :loading="form.loading" :disabled="!form.content">
           发送
         </el-button>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-const {
-  init,
-  // form,
-  route,
-  // submit,
-  userStore,
-} = useChatGroup()
+const { init, form, route, submit, userStore } = useChatGroup()
 onMounted(() => {
   init()
 })
