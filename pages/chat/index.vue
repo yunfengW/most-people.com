@@ -4,16 +4,16 @@
 
     <h4>单线联系（最安全）</h4>
 
-    <div class="groups">
+    <div class="persons">
       <el-button
         text
         type="success"
-        class="group"
-        v-for="person in form.persons"
-        :key="person.id"
-        @click="bindPerson(person)"
+        class="person"
+        v-for="chat in form.chats"
+        :key="chat.id"
+        @click="bindPerson(chat)"
       >
-        {{ person.you_me.find((e) => e !== userStore.user?.name) || userStore.user?.name }}
+        {{ formatPerson(chat) }}
       </el-button>
     </div>
 
@@ -60,6 +60,16 @@ const contact = reactive({
   groupPassword: '',
   groupLoading: false,
 })
+
+const formatPerson = (chat: Chat) => {
+  const username = localStorage.getItem('username')
+  for (const name of chat.you_me) {
+    if (name !== username) {
+      return name
+    }
+  }
+  return username
+}
 
 const startPerson = async () => {
   if (!contact.person) {
@@ -130,21 +140,22 @@ const bindPerson = async (person: Chat) => {
 }
 
 const form = reactive({
-  persons: [] as Chat[],
+  chats: [] as Chat[],
   groups: [] as GroupChat[],
 })
 
 onMounted(async () => {
-  const res = await api({ url: 'chat/list', method: 'post' })
+  const res = await api({ url: '/chat/list', method: 'post' })
   if (res.ok && res.data) {
     form.groups = res.data.groups as GroupChat[]
-    form.persons = res.data.persons as Chat[]
+    form.chats = res.data.persons as Chat[]
   }
 })
 </script>
 
 <style lang="scss">
 #page-chat {
+  .persons,
   .groups {
     display: flex;
     flex-wrap: wrap;
