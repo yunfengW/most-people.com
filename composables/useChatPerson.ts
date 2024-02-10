@@ -13,16 +13,20 @@ export interface Chat {
   messages: Message[]
   you_me: string[]
 }
+
+interface GroupMember {
+  id: number
+  name: string
+  password_hash: string
+}
+
 export interface GroupChat {
   id: number
+  creator: number
   messages: Message[]
   name: string
   address: string
-  members: {
-    id: number
-    name: string
-    password_hash: string
-  }[]
+  members: GroupMember[]
 }
 
 export const useChatPerson = () => {

@@ -122,8 +122,8 @@ const createGroup = async () => {
   })
   contact.groupLoading = false
   if (res.ok) {
-    const groupChat = res.data as GroupChat
-    router.push(`/group/${groupChat.id}`)
+    const group = res.data as GroupChat
+    bindGroup(group)
   }
 }
 
@@ -131,7 +131,10 @@ const bindGroup = async (group: GroupChat) => {
   const member = group.members.find((e) => userStore.user?.id === e.id)
   if (member) {
     const password = await mp.decrypt(member.password_hash)
-    console.log('🌊', group.name, password)
+    router.push({
+      path: '/group/' + group.id,
+      query: { p: mp.enBase64(password) },
+    })
   }
 }
 const bindPerson = async (person: Chat) => {
