@@ -82,8 +82,9 @@ export const useChatGroup = () => {
   const initMessages = async () => {
     const res = await api({
       method: 'post',
-      url: `/chat/group/${route.params.group_id}`,
+      url: `/chat/group.history`,
       data: {
+        group_id: Number(route.params.group_id),
         page: 1,
         pageSize: 100,
       },
