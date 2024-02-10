@@ -1,6 +1,6 @@
 <template>
   <div id="page-join-us">
-    <mp-header title="加入我们" />
+    <mp-header title="联系我们" />
     <h4>官方电子邮件</h4>
     <a href="mailto:most-people@qq.com" target="_blank">most-people@qq.com</a>
     <h4>官方微信</h4>

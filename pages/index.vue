@@ -4,7 +4,7 @@
 
     <div class="join-us">
       <nuxt-link to="/join-us">
-        <el-button link type="info">加入我们</el-button>
+        <el-button link type="info">联系我们</el-button>
       </nuxt-link>
       <a href="https://beian.miit.gov.cn/" target="_blank">
         <el-button link type="info">粤ICP备2020105439号</el-button>
