@@ -1,28 +1,110 @@
 <template>
-  <div id="page-pan">
-    <mp-header title="Most People 网盘" />
-    <!-- <el-upload
+  <div>
+    <el-upload
       class="upload-demo"
       drag
-      action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+      action="https://jsonplaceholder.typicode.com/posts/"
       multiple
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :before-remove="beforeRemove"
+      :file-list="fileList"
+      :on-change="handleChange"
+      :limit="10"
+      :on-exceed="handleExceed"
+      :on-success="handleSuccess"
     >
-      <el-icon class="el-icon--upload">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" data-v-ea893728="">
-          <path
-            fill="currentColor"
-            d="M544 864V672h128L512 480 352 672h128v192H320v-1.6c-5.376.32-10.496 1.6-16 1.6A240 240 0 0 1 64 624c0-123.136 93.12-223.488 212.608-237.248A239.808 239.808 0 0 1 512 192a239.872 239.872 0 0 1 235.456 194.752c119.488 13.76 212.48 114.112 212.48 237.248a240 240 0 0 1-240 240c-5.376 0-10.56-1.28-16-1.6v1.6z"
-          ></path>
-        </svg>
-      </el-icon>
-      <div class="el-upload__text">Drop file here or <em>click to upload</em></div>
-      <template #tip>
-        <div class="el-upload__tip">jpg/png files with a size less than 500kb</div>
-      </template>
-    </el-upload> -->
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div class="el-upload__tip" slot="tip">
+        支持图片、文件夹、txt、excel、视频、压缩包等文件格式
+      </div>
+    </el-upload>
+    <div v-for="(file, index) in fileList" :key="index">
+      <img
+        v-if="file.category === 'image'"
+        :src="file.url"
+        alt="Image preview"
+        style="width: 100px; height: 100px"
+      />
+      <video v-else-if="file.category === 'video'" controls style="width: 200px; height: 100px">
+        <source :src="file.url" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <!-- TODO:others-->
+    </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const fileList = ref([])
+const handlePreview = (file: any) => {
+  console.log('preview', file)
+}
 
-<style lang="scss"></style>
+const handleRemove = (file: any, fileList: any) => {
+  console.log('remove', file, fileList)
+}
+
+const beforeRemove = (file: any, fileList: any) => {
+  return confirm(`确定移除 ${file.name}？`)
+}
+
+const handleChange = (file: any, fileList: any) => {
+  console.log('change', file, fileList)
+}
+
+const handleExceed = (files: any, fileList: any) => {
+  console.log('exceed', files, fileList)
+}
+
+const handleSuccess = (response: any, file: any, fileList: any) => {
+  // 根据文件类型添加分类属性
+  const categorizedFileList = fileList.map((file: any) => {
+    if (file.raw.type.startsWith('image/')) {
+      return { ...file, category: 'image' }
+    } else if (file.raw.type.startsWith('video/')) {
+      return { ...file, category: 'video' }
+    } else if (
+      [
+        'application/vnd.ms-excel',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      ].includes(file.raw.type)
+    ) {
+      return { ...file, category: 'excel' }
+    } else if (file.raw.type === 'application/zip') {
+      return { ...file, category: 'zip' }
+    } else {
+      return { ...file, category: 'other' }
+    }
+  })
+  fileList.value = categorizedFileList
+  console.log('success', fileList.value)
+}
+</script>
+
+<style scoped>
+.upload-demo {
+  border: 1px dashed #eee;
+  border-radius: 5px;
+  position: relative;
+  padding: 40px 20px;
+}
+.upload-demo i {
+  color: #20a0ff;
+  font-size: 42px;
+  margin-bottom: 16px;
+}
+.upload-demo .el-upload__text {
+  font-size: 14px;
+  color: #adb5bd;
+  line-height: 22px;
+  cursor: pointer;
+}
+.upload-demo .el-upload__tip {
+  font-size: 12px;
+  color: #adb5bd;
+  line-height: 22px;
+  margin-top: 12px;
+}
+</style>
