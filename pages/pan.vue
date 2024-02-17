@@ -20,7 +20,7 @@
         支持图片、文件夹、txt、excel、视频、压缩包等文件格式
       </div>
     </el-upload>
-    <div v-for="(file, index) in fileList" :key="index">
+    <!-- <div v-for="(file, index) in fileList" :key="index">
       <img
         v-if="file.category === 'image'"
         :src="file.url"
@@ -31,7 +31,7 @@
         <source :src="file.url" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -51,6 +51,7 @@ const beforeRemove = (file: any, fileList: any) => {
 
 const handleChange = (file: any, fileList: any) => {
   if(file){
+
     Array.from(file.target.files).forEach((file) => {
       const reader = new FileReader()
       reader.onload = (e) => {
