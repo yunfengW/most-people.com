@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div id="page-pan">
+    <mp-header title="Most People 网盘" />
     <el-upload
       class="upload-demo"
       drag
@@ -50,25 +51,26 @@ const beforeRemove = (file: any, fileList: any) => {
 }
 
 const handleChange = (file: any, fileList: any) => {
-  if(file){
+  // if (file) {
+  //   Array.from(file.target.files).forEach(
+  //     (file) => {
+  //       const reader = new FileReader()
+  //       reader.onload = (e) => {
+  //         const category = file.type.startsWith('image/')
+  //           ? 'image'
+  //           : file.type.startsWith('video/')
+  //           ? 'video'
+  //           : 'other'
+  //         fileList.value.push({ url: e.target.result, category: category })
+  //       }
 
-    Array.from(file.target.files).forEach((file) => {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const category = file.type.startsWith('image/')
-          ? 'image'
-          : file.type.startsWith('video/')
-          ? 'video'
-          : 'other'
-        fileList.value.push({ url: e.target.result, category: category })
-      }
-
-      if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-        reader.readAsDataURL(file)
-      }
-  }
-    // 这里可以添加其他文件类型的处理逻辑
-  })
+  //       if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+  //         reader.readAsDataURL(file)
+  //       }
+  //     },
+  //     // 这里可以添加其他文件类型的处理逻辑
+  //   )
+  // }
   console.log('change', file, fileList)
 }
 
@@ -101,28 +103,30 @@ const handleSuccess = (response: any, file: any, fileList: any) => {
 }
 </script>
 
-<style scoped>
-.upload-demo {
-  border: 1px dashed #eee;
-  border-radius: 5px;
-  position: relative;
-  padding: 40px 20px;
-}
-.upload-demo i {
-  color: #20a0ff;
-  font-size: 42px;
-  margin-bottom: 16px;
-}
-.upload-demo .el-upload__text {
-  font-size: 14px;
-  color: #adb5bd;
-  line-height: 22px;
-  cursor: pointer;
-}
-.upload-demo .el-upload__tip {
-  font-size: 12px;
-  color: #adb5bd;
-  line-height: 22px;
-  margin-top: 12px;
+<style lang="scss">
+#page-pan {
+  .upload-demo {
+    border: 1px dashed #eee;
+    border-radius: 5px;
+    position: relative;
+    padding: 40px 20px;
+  }
+  .upload-demo i {
+    color: #20a0ff;
+    font-size: 42px;
+    margin-bottom: 16px;
+  }
+  .upload-demo .el-upload__text {
+    font-size: 14px;
+    color: #adb5bd;
+    line-height: 22px;
+    cursor: pointer;
+  }
+  .upload-demo .el-upload__tip {
+    font-size: 12px;
+    color: #adb5bd;
+    line-height: 22px;
+    margin-top: 12px;
+  }
 }
 </style>
